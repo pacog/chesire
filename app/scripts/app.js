@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('leaptest1App', [
+angular.module('chesireApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
