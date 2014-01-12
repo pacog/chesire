@@ -1,0 +1,8 @@
+.stats {
+    display: block;
+    position: absolute;
+    top: $grid-m;
+    right: $grid-m;
+    background: rgba(255,255,255,0.95);
+    padding: $grid-m $grid-l;
+}

@@ -1,0 +1,10 @@
+<div ng-show='stats.connected'>
+    <p>Connected!</p>
+    <ul>
+        <li>Fingers: {{stats.fingers}}</li>
+        <li>Iterations: {{stats.iterations}}</li>
+    </ul>
+</div>
+<p ng-hide='stats.connected'>
+    Not connected :(
+</p>

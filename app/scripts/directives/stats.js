@@ -2,14 +2,16 @@
 
 angular.module('chesireApp')
 
-.directive('chesirecanvas', function () {
+.directive('stats', function () {
 
     return {
+        templateUrl: 'views/stats.html',
         restrict: 'E',
-        controller: 'ChesirecanvasCtrl',
         scope: {},
+        controller: 'StatsCtrl',
         link: function postLink(scope, element) {
-
+    
+            element.addClass('stats');
             scope.init(element);
         }
     };
