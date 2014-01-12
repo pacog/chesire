@@ -39,16 +39,19 @@ angular.module('chesireApp')
     var connectHandler = function() {
 
         leapInfo.connected = true;
+        $rootScope.$apply();
     };
 
     var deviceConnectedHandler = function() {
 
         leapInfo.connected = true;
+        $rootScope.$apply();
     };
 
     var deviceDisconnectedHandler = function() {
 
         leapInfo.connected = false;
+        $rootScope.$apply();
     };
 
     var getStats = function() {
