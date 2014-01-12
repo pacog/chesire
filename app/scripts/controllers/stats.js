@@ -6,7 +6,7 @@ angular.module('chesireApp')
 
     $scope.init = function() {
 
-        //Timout to make sure DOM is created for the directive
+        //Timeout to make sure DOM is created for the directive
         $timeout(function() {
 
             $scope.stats = Leapmotion.getStats();

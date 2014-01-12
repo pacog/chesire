@@ -2,11 +2,11 @@
 
 angular.module('chesireApp')
 
-.controller('ChesirecanvasCtrl', function ($scope, $timeout, Three) {
+.controller('ChesirecanvasCtrl', function ($scope, $timeout, Three, Leapmotion) {
 
     $scope.init = function(element) {
 
-        //Timout to make sure DOM is created for the directive
+        //Timeout to make sure DOM is created for the directive
         $timeout(function() {
 
             element.addClass('chesirecanvas');
@@ -16,9 +16,16 @@ angular.module('chesireApp')
             $scope.scene = new Three.Scene();
             $scope.camera = new Three.PerspectiveCamera( 75, width / height, 0.1, 1000 );
             $scope.renderer = new Three.WebGLRenderer();
-
             $scope.renderer.setSize( width, height );
             element.append($scope.renderer.domElement);
+
+            $scope.hands = Leapmotion.getHands();
+            $scope.$watch('hands.id', $scope.handsChanged);
         });
+    };
+
+    $scope.handsChanged = function() {
+
+        //TODO
     };
 });

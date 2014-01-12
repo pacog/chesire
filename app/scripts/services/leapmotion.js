@@ -5,9 +5,16 @@ angular.module('chesireApp')
 .service('Leapmotion', function Leapmotion($rootScope) {
 
     var leapInfo = {
-        finger: 0,
+        fingers: 0,
+        hands: 0,
         iterations: 0,
         connected: false
+    };
+
+    var handsInfo = {
+        hands: [],
+        interactionBox: false,
+        id: 1   //id that will be updated to make angular notice it changed
     };
 
     var init = function() {
@@ -33,7 +40,16 @@ angular.module('chesireApp')
 
         leapInfo.iterations++;
         leapInfo.fingers = frame.fingers.length;
+        leapInfo.hands = frame.hands.length;
+        updateHandsInfo(frame);
         $rootScope.$apply();
+    };
+
+    var updateHandsInfo = function(frame) {
+
+        handsInfo.id = frame.id;
+        handsInfo.hands = frame.hands;
+        handsInfo.interactionBox = frame.interactionBox;
     };
 
     var connectHandler = function() {
@@ -59,11 +75,17 @@ angular.module('chesireApp')
         return leapInfo;
     };
 
+    var getHands = function() {
+
+        return handsInfo;
+    };
+
     var leapObject = init();
 
     return {
 
         leapObject: leapObject,
-        getStats: getStats
+        getStats:   getStats,
+        getHands:   getHands
     };
 });
