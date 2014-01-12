@@ -19,12 +19,12 @@ angular.module('chesireApp')
             $scope.renderer.setSize( width, height );
             element.append($scope.renderer.domElement);
 
-            $scope.hands = Leapmotion.getHands();
-            $scope.$watch('hands.id', $scope.handsChanged);
+            $scope.frameInfo = Leapmotion.getFrameInfo();
+            $scope.$watch('frameInfo.id', $scope.frameInfoChanged);
         });
     };
 
-    $scope.handsChanged = function() {
+    $scope.frameInfoChanged = function() {
 
         //TODO
     };

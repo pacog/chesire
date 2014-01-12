@@ -11,7 +11,7 @@ angular.module('chesireApp')
         connected: false
     };
 
-    var handsInfo = {
+    var frameInfo = {
         hands: [],
         interactionBox: false,
         id: 1   //id that will be updated to make angular notice it changed
@@ -41,15 +41,8 @@ angular.module('chesireApp')
         leapInfo.iterations++;
         leapInfo.fingers = frame.fingers.length;
         leapInfo.hands = frame.hands.length;
-        updateHandsInfo(frame);
+        frameInfo = frame;
         $rootScope.$apply();
-    };
-
-    var updateHandsInfo = function(frame) {
-
-        handsInfo.id = frame.id;
-        handsInfo.hands = frame.hands;
-        handsInfo.interactionBox = frame.interactionBox;
     };
 
     var connectHandler = function() {
@@ -75,17 +68,17 @@ angular.module('chesireApp')
         return leapInfo;
     };
 
-    var getHands = function() {
+    var getFrameInfo = function() {
 
-        return handsInfo;
+        return frameInfo;
     };
 
     var leapObject = init();
 
     return {
 
-        leapObject: leapObject,
-        getStats:   getStats,
-        getHands:   getHands
+        leapObject:     leapObject,
+        getStats:       getStats,
+        getFrameInfo:   getFrameInfo
     };
 });
