@@ -12,9 +12,8 @@ angular.module('chesireApp')
     };
 
     var frameInfo = {
-        hands: [],
-        interactionBox: false,
-        id: 1   //id that will be updated to make angular notice it changed
+        id: false,
+        frame: null
     };
 
     var init = function() {
@@ -38,11 +37,13 @@ angular.module('chesireApp')
 
     var deviceFrameHandler = function(frame) {
 
-        leapInfo.iterations++;
-        leapInfo.fingers = frame.fingers.length;
-        leapInfo.hands = frame.hands.length;
-        frameInfo = frame;
-        $rootScope.$apply();
+        $rootScope.$apply(function() {
+            leapInfo.iterations++;
+            leapInfo.fingers = frame.fingers.length;
+            leapInfo.hands = frame.hands.length;
+            frameInfo.frame = frame;
+            frameInfo.id = frame.id;
+        });
     };
 
     var connectHandler = function() {
