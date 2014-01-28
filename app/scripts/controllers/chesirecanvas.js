@@ -4,8 +4,66 @@ angular.module('chesireApp')
 
 .controller('ChesirecanvasCtrl', function ($scope, $timeout, Three, Leapmotion) {
 
-    // var fingers = {};
+    var fingers = {};
     var hands = {};
+
+    var drawHands = function(handsFromFrame, scene) {
+
+        var currentHands = {};
+        for(var i=0; i<handsFromFrame.length; i++) {
+
+            var handInfo = handsFromFrame[i];
+            var hand = hands[handInfo.id]; //Get the already existiung hand if there is any
+            var pos = handInfo.palmPosition;
+            var dir = handInfo.direction;
+            var origin = new Three.Vector3(pos[0], pos[1], pos[2]);
+            var direction = new Three.Vector3(dir[0], dir[1], dir[2]);
+            if(!hand) {
+                hand = new Three.ArrowHelper(origin, direction, 40, Math.random() * 0xffffff);
+                hands[handInfo.id] = hand;
+                scene.add(hand);
+            }
+            hand.position = origin;
+            hand.setDirection(direction);
+
+            currentHands[handInfo.id] = true;
+        }
+        for (var handId in hands) {
+            if (!currentHands[handId]) {
+                scene.remove(hands[handId]);
+                delete hands[handId];
+            }
+        }
+    };
+    
+    var drawFingers = function(fingersFromFrame, scene) {
+
+        var currentFingers = {};
+        for(var i=0; i<fingersFromFrame.length; i++) {
+
+            var fingerInfo = fingersFromFrame[i];
+            var hand = fingers[fingerInfo.id]; //Get the already existiung hand if there is any
+            var pos = fingerInfo.tipPosition;
+            var dir = fingerInfo.direction;
+            var origin = new Three.Vector3(pos[0], pos[1], pos[2]);
+            var direction = new Three.Vector3(dir[0], dir[1], dir[2]);
+            if(!hand) {
+                hand = new Three.ArrowHelper(origin, direction, 40, Math.random() * 0xffffff);
+                fingers[fingerInfo.id] = hand;
+                scene.add(hand);
+            }
+            hand.position = origin;
+            hand.setDirection(direction);
+
+            currentFingers[fingerInfo.id] = true;
+        }
+        for (var fingerId in fingers) {
+            if (!currentFingers[fingerId]) {
+                scene.remove(fingers[fingerId]);
+                delete fingers[fingerId];
+            }
+        }
+    };
 
     $scope.init = function(element) {
 
@@ -38,31 +96,8 @@ angular.module('chesireApp')
         var frame = Leapmotion.getFrameInfo().frame;
         if(frame) {
 
-            var currentHands = {};
-            for(var i=0; i<frame.hands.length; i++) {
-
-                var handInfo = frame.hands[i];
-                var hand = hands[handInfo.id]; //Get the already existiung hand if there is any
-                var pos = handInfo.palmPosition;
-                var dir = handInfo.direction;
-                var origin = new Three.Vector3(pos[0], pos[1], pos[2]);
-                var direction = new Three.Vector3(dir[0], dir[1], dir[2]);
-                if(!hand) {
-                    hand = new Three.ArrowHelper(origin, direction, 40, Math.random() * 0xffffff);
-                    hands[handInfo.id] = hand;
-                    $scope.scene.add(hand);
-                }
-                hand.position = origin;
-                hand.setDirection(direction);
-
-                currentHands[handInfo.id] = true;
-            }
-            for (var handId in hands) {
-                if (!currentHands[handId]) {
-                    $scope.scene.remove(hands[handId]);
-                    delete hands[handId];
-                }
-            }
+            drawHands(frame.hands, $scope.scene);
+            drawFingers(frame.fingers, $scope.scene);
             $scope.renderer.render($scope.scene, $scope.camera);
         }
     };
