@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.factory('Sound', function () {
+.factory('Sound', function (Audiocontext) {
 
     var audioContext;
     var oscillator;
@@ -10,9 +10,7 @@ angular.module('chesireApp')
 
     var init = function() {
 
-        // Fix up for prefixing
-        window.AudioContext = window.AudioContext || window.webkitAudioContext;
-        audioContext = new window.AudioContext();
+        audioContext = new Audiocontext();
         oscillator = audioContext.createOscillator();
         oscillator.type = oscillator.SINE;
         gainController = audioContext.createGainNode();
@@ -60,12 +58,18 @@ angular.module('chesireApp')
         changeGain(0);
     };
 
+    var changeOscillatorType = function(newType) {
+
+        oscillator.type = newType;
+    };
+
     init();
 
     return {
         changeGain:             changeGain,
         startPlaying:           startPlaying,
         changePlayingFrequency: changePlayingFrequency,
-        stopPlaying:            stopPlaying
+        stopPlaying:            stopPlaying,
+        changeOscillatorType:   changeOscillatorType
     };
 });

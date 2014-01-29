@@ -2,4 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('MainCtrl', function () {});
+.controller('MainCtrl', function ($scope) {
+
+    $scope.synthoptions = {};
+});

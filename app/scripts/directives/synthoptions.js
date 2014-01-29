@@ -2,13 +2,13 @@
 
 angular.module('chesireApp')
 
-.directive('soundgenerator', function () {
+.directive('synthoptions', function () {
     return {
-        templateUrl: 'views/soundgenerator.html',
+        templateUrl: 'views/synthoptions.html',
         restrict: 'E',
         scope: {
             'synthoptions': '='
         },
-        controller: 'SoundgeneratorCtrl'
+        controller: 'SynthoptionsCtrl'
     };
 });

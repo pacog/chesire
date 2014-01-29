@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('SoundgeneratorCtrl', function ($scope, Leapmotion, Sound) {
+.controller('SoundgeneratorCtrl', function ($scope, $timeout, Leapmotion, Sound) {
 
     var sounds = {};
     var MIN_FREQUENCY = 220;
@@ -18,6 +18,16 @@ angular.module('chesireApp')
         $scope.frameInfo = Leapmotion.getFrameInfo();
         $scope.$watch('frameInfo.id', $scope.frameInfoChanged);
         $scope.resetVars();
+        $timeout(function () {
+            $scope.$watch('synthoptions.oscillator', $scope.oscillatoreTypeChanged);
+        });
+    };
+
+    $scope.oscillatoreTypeChanged = function(newType) {
+
+        if(newType) {
+            Sound.changeOscillatorType(newType);
+        }
     };
 
     $scope.frameInfoChanged = function() {
