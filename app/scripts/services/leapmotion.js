@@ -74,12 +74,35 @@ angular.module('chesireApp')
         return frameInfo;
     };
 
+    var getRelativePositions = function(frame, hands) {
+
+        var position = hands[0].stabilizedPalmPosition;
+        var result = {};
+        result.x = normalizeNumber((position[0] - (frame.interactionBox.center[0] - (frame.interactionBox.size[0]/2)))/frame.interactionBox.size[0]);
+        result.y = normalizeNumber((position[1] - (frame.interactionBox.center[1] - (frame.interactionBox.size[1]/2)))/frame.interactionBox.size[1]);
+        result.z = normalizeNumber((position[2] - (frame.interactionBox.center[2] - (frame.interactionBox.size[2]/2)))/frame.interactionBox.size[2]);
+
+        return result;
+    };
+
+    var normalizeNumber = function(number) {
+
+        if(number < 0) {
+            return 0;
+        }
+        if(number > 1) {
+            return 1;
+        }
+        return number;
+    };
+
     var leapObject = init();
 
     return {
 
-        leapObject:     leapObject,
-        getStats:       getStats,
-        getFrameInfo:   getFrameInfo
+        leapObject:             leapObject,
+        getStats:               getStats,
+        getFrameInfo:           getFrameInfo,
+        getRelativePositions:   getRelativePositions
     };
 });
