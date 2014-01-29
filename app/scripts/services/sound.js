@@ -31,10 +31,41 @@ angular.module('chesireApp')
         gainController.gain.value = gain;
     };
 
+    /**
+     * Starts playing the synth
+     * @param {Number} frequency new frequency in Hz
+     * @param {Number} gain Gain, from 0 to 1
+     */
+    var startPlaying = function(frequency, gain) {
+
+        changePlayingFrequency(frequency);
+        changeGain(gain);
+
+    };
+
+    /**
+     * Changes the frequency that the synth is playing
+     * @param {Number} frequency new frequency in Hz
+     */
+    var changePlayingFrequency = function(frequency) {
+
+        oscillator.frequency.value = frequency;
+    };
+
+    /**
+     * Stops playing the synth
+     */
+    var stopPlaying = function() {
+
+        changeGain(0);
+    };
 
     init();
 
     return {
-        
+        changeGain:             changeGain,
+        startPlaying:           startPlaying,
+        changePlayingFrequency: changePlayingFrequency,
+        stopPlaying:            stopPlaying
     };
 });
