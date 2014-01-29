@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('ChesirecanvasCtrl', function ($scope, $timeout, Three, Leapmotion) {
+.controller('ChesirecanvasCtrl', function ($scope, $timeout, Three, Leapmotion, Handthreemodeller) {
 
     var fingers = {};
     var hands = {};
@@ -13,19 +13,14 @@ angular.module('chesireApp')
         for(var i=0; i<handsFromFrame.length; i++) {
 
             var handInfo = handsFromFrame[i];
-            var hand = hands[handInfo.id]; //Get the already existiung hand if there is any
-            var pos = handInfo.palmPosition;
-            var dir = handInfo.direction;
-            var origin = new Three.Vector3(pos[0], pos[1], pos[2]);
-            var direction = new Three.Vector3(dir[0], dir[1], dir[2]);
+            var hand = hands[handInfo.id]; //Get the already existing hand if there is any
+
             if(!hand) {
-                hand = new Three.ArrowHelper(origin, direction, 40, Math.random() * 0xffffff);
+                hand = Handthreemodeller.createHand();
                 hands[handInfo.id] = hand;
                 scene.add(hand);
             }
-            hand.position = origin;
-            hand.setDirection(direction);
-
+            Handthreemodeller.updateHand(hand, handInfo);
             currentHands[handInfo.id] = true;
         }
         for (var handId in hands) {
@@ -42,18 +37,14 @@ angular.module('chesireApp')
         for(var i=0; i<fingersFromFrame.length; i++) {
 
             var fingerInfo = fingersFromFrame[i];
-            var hand = fingers[fingerInfo.id]; //Get the already existiung hand if there is any
-            var pos = fingerInfo.tipPosition;
-            var dir = fingerInfo.direction;
-            var origin = new Three.Vector3(pos[0], pos[1], pos[2]);
-            var direction = new Three.Vector3(dir[0], dir[1], dir[2]);
-            if(!hand) {
-                hand = new Three.ArrowHelper(origin, direction, 40, Math.random() * 0xffffff);
-                fingers[fingerInfo.id] = hand;
-                scene.add(hand);
+            var finger = fingers[fingerInfo.id]; //Get the already existing finger if there is any
+
+            if(!finger) {
+                finger = Handthreemodeller.createFinger();
+                fingers[fingerInfo.id] = finger;
+                scene.add(finger);
             }
-            hand.position = origin;
-            hand.setDirection(direction);
+            Handthreemodeller.updateFinger(finger, fingerInfo);
 
             currentFingers[fingerInfo.id] = true;
         }
@@ -65,28 +56,38 @@ angular.module('chesireApp')
         }
     };
 
+    var createScene = function(element) {
+
+        element.addClass('chesirecanvas');
+        var height = element[0].offsetHeight,
+            width = element[0].offsetHeight;
+
+        $scope.scene = new Three.Scene();
+        //Camera...
+        $scope.camera = new Three.PerspectiveCamera( 45, width / height, 0.1, 1000 );
+        $scope.camera.position.z = 500;
+        $scope.camera.position.y = 200;
+        $scope.camera.lookAt(new Three.Vector3(0,200,0));
+        //Lights...
+        $scope.pointLight = new Three.PointLight(0xffffff);
+        $scope.pointLight.position.set(0, 300, 200);
+        $scope.pointLight2 = new Three.PointLight(0x33fff33);
+        $scope.pointLight2.position.set(100, -200, -300);
+        $scope.scene.add($scope.pointLight);
+        $scope.scene.add($scope.pointLight2);
+        //Action!
+        $scope.renderer = new Three.WebGLRenderer();
+        $scope.renderer.setSize( width, height );
+        element.append($scope.renderer.domElement);
+    };
+
     $scope.init = function(element) {
 
         //Timeout to make sure DOM is created for the directive
         $timeout(function() {
-
-            element.addClass('chesirecanvas');
-            var height = element[0].offsetHeight,
-                width = element[0].offsetHeight;
-
-            $scope.scene = new Three.Scene();
-            $scope.camera = new Three.PerspectiveCamera( 45, width / height, 0.1, 1000 );
-            $scope.renderer = new Three.WebGLRenderer();
-            $scope.renderer.setSize( width, height );
-            element.append($scope.renderer.domElement);
-
+            createScene(element);
             $scope.frameInfo = Leapmotion.getFrameInfo();
             $scope.$watch('frameInfo.id', $scope.frameInfoChanged);
-
-            $scope.camera.position.z = 500;
-            $scope.camera.position.y = 200;
-            $scope.camera.lookAt(new Three.Vector3(0,200,0));
-
             $scope.renderer.render($scope.scene, $scope.camera);
         });
     };
