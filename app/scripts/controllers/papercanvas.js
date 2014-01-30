@@ -5,19 +5,26 @@ angular.module('chesireApp')
 
 .controller('PapercanvasCtrl', function ($scope, $timeout, Paper, $document, Leapmotion, requestanimationframe) {
 
-    var pointer;
+    var pointer = false;
+    var particles = false;
+    var PARTICLES_SIZE = 10;
+    var PARTICLES_SEPARATION = 4;
+    var POINTER_SIZE = 15;
+
+    var PARTICLES_COLOR = '#36A184';
+    var POINTER_COLOR = '#B4B03C';
+    var BACKGROUND_COLOR = '#0F242E';
 
     $scope.init = function(canvas) {
 
         //Timeout to make sure DOM is created for the directive
         $document.ready(function () {
 
-            Paper.setup(canvas);
-
+            Paper.setup(canvas[0]);
+            canvas.css('background-color', BACKGROUND_COLOR);
             $scope.$watch('chesirescale', $scope.scaleChanged);
             $scope.frameInfo = Leapmotion.getFrameInfo();
             $scope.$watch('frameInfo.id', $scope.frameInfoChanged);
-
             $scope.redraw();
 
         });
@@ -31,7 +38,94 @@ angular.module('chesireApp')
     $scope.scaleChanged = function(newScale) {
 
         if(newScale) {
-            
+
+            $scope.removeParticles();
+            $scope.createParticles(newScale);
+        }
+    };
+
+    $scope.removeParticles = function() {
+
+        if(particles) {
+            for(var i=0; i<particles.length; i++) {
+                for(var j=0; j<particles[i].length; j++) {
+                    particles[i][j].particle.remove();
+                }
+            }
+            particles = false;
+        }
+    };
+
+    $scope.createParticles = function() {
+        if(particles) {
+            $scope.removeParticles();
+        }
+        particles = [];
+        var particlesWidth = Math.floor($scope.windowWidth/(PARTICLES_SIZE + PARTICLES_SEPARATION));
+        var particlesHeight= Math.floor($scope.windowHeight/(PARTICLES_SIZE + PARTICLES_SEPARATION));
+        var x, y, particle;
+
+        for(var i=0; i<particlesWidth; i++) {
+            particles[i] = [];
+            for(var j=0; j<particlesHeight; j++) {
+                x = i*(PARTICLES_SIZE + PARTICLES_SEPARATION) + (PARTICLES_SEPARATION/2);
+                y = j*(PARTICLES_SIZE + PARTICLES_SEPARATION) + (PARTICLES_SEPARATION/2);
+                particle = $scope.createParticle(x, y);
+
+                particles[i][j] = {
+                    initialX: x,
+                    initialY: y,
+                    size: PARTICLES_SIZE,
+                    particle: particle
+                };
+            }
+        }
+    };
+
+    $scope.getPixelsPosition = function(relativePosition) {
+        return {
+            x: relativePosition.x * $scope.windowWidth,
+            y: $scope.windowHeight - (relativePosition.y * $scope.windowHeight)
+        };
+    };
+
+    $scope.updateParticles = function(position) {
+
+        var pointerPosition = new Paper.Point(position.x, position.y);
+        var particlePoint;
+        if(particles) {
+            for(var i=0; i<particles.length; i++) {
+                for(var j=0; j<particles[i].length; j++) {
+
+                    particlePoint = new Paper.Point(particles[i][j].initialX, particles[i][j].initialY);
+                    if(particlePoint.getDistance(pointerPosition)<40) {
+
+                        $scope.setParticleSize(particles[i][j], 4);
+                    } else {
+                        $scope.setParticleSize(particles[i][j], PARTICLES_SIZE);
+                    }
+                }
+            }
+        }
+    };
+
+    $scope.createParticle = function(x, y, size) {
+
+        if(!size) {
+            size = PARTICLES_SIZE;
+        }
+        var particle = new Paper.Path.Circle(new Paper.Point(x, y), size/2);
+        particle.fillColor = PARTICLES_COLOR;
+        return particle;
+    };
+
+    $scope.setParticleSize = function(particle, newSize) {
+
+        if(particle.size !== newSize) {
+
+            particle.particle.remove();
+            particle.particle = $scope.createParticle(particle.initialX, particle.initialY, newSize);
+            particle.size = newSize;
         }
     };
 
@@ -41,7 +135,9 @@ angular.module('chesireApp')
         if(frame) {
             if(frame.hands.length) {
                 var relativePositions = Leapmotion.getRelativePositions(frame, frame.hands);
-                $scope.updatePointerPosition(relativePositions);
+                var pixelPosition = $scope.getPixelsPosition(relativePositions);
+                $scope.updatePointerPosition(pixelPosition);
+                $scope.updateParticles(pixelPosition);
             } else {
                 $scope.updatePointerPosition(false);
             }
@@ -51,13 +147,12 @@ angular.module('chesireApp')
     $scope.updatePointerPosition = function(position) {
 
         if(position) {
-
-            var x = position.x * $scope.windowWidth;
-            var y = $scope.windowHeight - (position.y * $scope.windowHeight);
+            var x = position.x;
+            var y = position.y;
 
             if(!pointer) {
-                pointer = new Paper.Path.Circle(new Paper.Point(x, y), 20);
-                pointer.fillColor = 'black';
+                pointer = new Paper.Path.Circle(new Paper.Point(x, y), POINTER_SIZE);
+                pointer.fillColor = POINTER_COLOR;
             } else {
                 pointer.position = new Paper.Point(x, y);
             }
@@ -73,6 +168,5 @@ angular.module('chesireApp')
 
         $scope.windowWidth = newWidth;
         $scope.windowHeight = newHeight;
-        console.log('canvas resized');
     };
 });
