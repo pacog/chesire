@@ -1,17 +1,17 @@
 'use strict';
 
-describe('Controller: SoundgeneratorCtrl', function () {
+describe('Controller: PapercanvasCtrl', function () {
 
   // load the controller's module
   beforeEach(module('chesireApp'));
 
-  var SoundgeneratorCtrl,
+  var PapercanvasCtrl,
     scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    SoundgeneratorCtrl = $controller('SoundgeneratorCtrl', {
+    PapercanvasCtrl = $controller('PapercanvasCtrl', {
       $scope: scope
     });
   }));

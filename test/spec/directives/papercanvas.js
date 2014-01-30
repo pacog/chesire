@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: SoundGenerator', function () {
+describe('Directive: papercanvas', function () {
 
   // load the directive's module
   beforeEach(module('chesireApp'));
@@ -13,8 +13,8 @@ describe('Directive: SoundGenerator', function () {
   }));
 
   // it('should make hidden element visible', inject(function ($compile) {
-  //   element = angular.element('<-sound-generator></-sound-generator>');
+  //   element = angular.element('<papercanvas></papercanvas>');
   //   element = $compile(element)(scope);
-  //   expect(element.text()).toBe('this is the SoundGenerator directive');
+  //   expect(element.text()).toBe('this is the papercanvas directive');
   // }));
 });
