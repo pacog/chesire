@@ -3,7 +3,7 @@
 angular.module('chesireApp')
 
 
-.controller('PapercanvasCtrl', function ($scope, $timeout, Paper, $document, Leapmotion) {
+.controller('PapercanvasCtrl', function ($scope, $timeout, Paper, $document, Leapmotion, requestanimationframe) {
 
     var pointer;
 
@@ -13,13 +13,19 @@ angular.module('chesireApp')
         $document.ready(function () {
 
             Paper.setup(canvas);
-            Paper.view.draw();
 
             $scope.$watch('chesirescale', $scope.scaleChanged);
             $scope.frameInfo = Leapmotion.getFrameInfo();
             $scope.$watch('frameInfo.id', $scope.frameInfoChanged);
 
+            $scope.redraw();
+
         });
+    };
+
+    $scope.redraw = function() {
+        Paper.view.draw();
+        requestanimationframe($scope.redraw);
     };
 
     $scope.scaleChanged = function(newScale) {
@@ -55,12 +61,10 @@ angular.module('chesireApp')
             } else {
                 pointer.position = new Paper.Point(x, y);
             }
-            Paper.view.draw();
         } else {
             if(pointer) {
                 pointer.remove();
                 pointer = false;
-                Paper.view.draw();
             }
         }
     };
