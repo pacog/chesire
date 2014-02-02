@@ -3,17 +3,14 @@
 angular.module('chesireApp')
 
 
-.controller('PapercanvasCtrl', function ($scope, $timeout, Paper, $document, Leapmotion, requestanimationframe) {
+.controller('PapercanvasCtrl', function ($scope, $timeout, Paper, $document, Leapmotion, requestanimationframe, Colorpalette) {
 
     var pointer = false;
     var particles = false;
     var PARTICLES_SIZE = 10;
     var PARTICLES_SEPARATION = 4;
     var POINTER_SIZE = 15;
-
-    var PARTICLES_COLOR = '#36A184';
-    var POINTER_COLOR = '#B4B03C';
-    var BACKGROUND_COLOR = '#0F242E';
+    var POINTER_FADE_DISTANCE = 40;
 
     $scope.init = function(canvas) {
 
@@ -21,7 +18,7 @@ angular.module('chesireApp')
         $document.ready(function () {
 
             Paper.setup(canvas[0]);
-            canvas.css('background-color', BACKGROUND_COLOR);
+            canvas.css('background-color', Colorpalette.BACKGROUND);
             $scope.$watch('chesirescale', $scope.scaleChanged);
             $scope.frameInfo = Leapmotion.getFrameInfo();
             $scope.$watch('frameInfo.id', $scope.frameInfoChanged);
@@ -92,15 +89,19 @@ angular.module('chesireApp')
     $scope.updateParticles = function(position) {
 
         var pointerPosition = new Paper.Point(position.x, position.y);
-        var particlePoint;
+        var particlePoint, distance;
         if(particles) {
             for(var i=0; i<particles.length; i++) {
                 for(var j=0; j<particles[i].length; j++) {
 
-                    particlePoint = new Paper.Point(particles[i][j].initialX, particles[i][j].initialY);
-                    if(particlePoint.getDistance(pointerPosition)<40) {
-
-                        $scope.setParticleSize(particles[i][j], 4);
+                    if(position) {
+                        particlePoint = new Paper.Point(particles[i][j].initialX, particles[i][j].initialY);
+                        distance = particlePoint.getDistance(pointerPosition);
+                        if(distance<POINTER_FADE_DISTANCE) {
+                            $scope.setParticleSize(particles[i][j], (PARTICLES_SIZE*distance)/POINTER_FADE_DISTANCE);
+                        } else {
+                            $scope.setParticleSize(particles[i][j], PARTICLES_SIZE);
+                        }
                     } else {
                         $scope.setParticleSize(particles[i][j], PARTICLES_SIZE);
                     }
@@ -115,7 +116,7 @@ angular.module('chesireApp')
             size = PARTICLES_SIZE;
         }
         var particle = new Paper.Path.Circle(new Paper.Point(x, y), size/2);
-        particle.fillColor = PARTICLES_COLOR;
+        particle.fillColor = Colorpalette.PARTICLES;
         return particle;
     };
 
@@ -125,6 +126,7 @@ angular.module('chesireApp')
 
             particle.particle.remove();
             particle.particle = $scope.createParticle(particle.initialX, particle.initialY, newSize);
+            particle.particle.sendToBack();
             particle.size = newSize;
         }
     };
@@ -140,6 +142,7 @@ angular.module('chesireApp')
                 $scope.updateParticles(pixelPosition);
             } else {
                 $scope.updatePointerPosition(false);
+                $scope.updateParticles(false);
             }
         }
     };
@@ -152,7 +155,7 @@ angular.module('chesireApp')
 
             if(!pointer) {
                 pointer = new Paper.Path.Circle(new Paper.Point(x, y), POINTER_SIZE);
-                pointer.fillColor = POINTER_COLOR;
+                pointer.fillColor = Colorpalette.POINTER;
             } else {
                 pointer.position = new Paper.Point(x, y);
             }
