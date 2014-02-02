@@ -25,7 +25,7 @@ angular.module('chesireApp')
 
         var controller = new Leap.Controller();
 
-        controller.on('deviceFrame', deviceFrameHandler);
+        controller.on('animationFrame', deviceFrameHandler);
         controller.on('connect', connectHandler);
         controller.on('deviceConnected', deviceConnectedHandler);
         controller.on('deviceDisconnected', deviceDisconnectedHandler);
