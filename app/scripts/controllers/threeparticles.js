@@ -4,12 +4,18 @@ angular.module('chesireApp')
 
 .controller('ThreeparticlesCtrl', function ($scope, $timeout, Three, Leapmotion) {
 
-    var xMin = -250;
-    var xMax = 250;
+    var interactionBox = {
+        width: 221,
+        height: 221,
+        depth: 154
+    };
+
+    var xMin = -(interactionBox.width/2);
+    var xMax = (interactionBox.width/2);
     var yMin = 0;
-    var yMax = 250;
-    var zMin = 0;
-    var zMax = 250;
+    var yMax = interactionBox.height;
+    var zMin = -(interactionBox.depth/2);
+    var zMax = (interactionBox.depth/2);
 
     var triangleMesh;
 
@@ -56,7 +62,7 @@ angular.module('chesireApp')
 
         triangleGeometry.computeBoundingSphere();
         var triangleMaterial = new Three.MeshBasicMaterial({
-            color:0xFFFFFF,
+            color:0xFF0000,
             side:Three.DoubleSide
         });
 
@@ -79,16 +85,14 @@ angular.module('chesireApp')
 
         //Camera...
         $scope.camera = new Three.PerspectiveCamera( 45, width / height, 0.1, 1000 );
-        $scope.camera.position.z = 500;
-        $scope.camera.position.y = 200;
-        $scope.camera.lookAt(new Three.Vector3(0,200,0));
+        $scope.camera.position.x = 0;
+        $scope.camera.position.z = 350;
+        $scope.camera.position.y = 0;
+        $scope.camera.lookAt(new Three.Vector3(0, interactionBox.height/2,0));
         //Lights...
         $scope.pointLight = new Three.PointLight(0xffffff);
         $scope.pointLight.position.set(10, 50, 130);
-        $scope.pointLight2 = new Three.PointLight(0x33fff33);
-        $scope.pointLight2.position.set(100, -200, -300);
         $scope.scene.add($scope.pointLight);
-        $scope.scene.add($scope.pointLight2);
         //Action!
         $scope.renderer = new Three.WebGLRenderer();
         $scope.renderer.setSize( width, height );
@@ -111,10 +115,20 @@ angular.module('chesireApp')
         var frame = Leapmotion.getFrameInfo().frame;
         if(frame) {
             if(frame.hands.length) {
-                var position = frame.hands[0].stabilizedPalmPosition;
-                triangleMesh.position.set(position[0], position[1], position[2]);
+                var relativePositions = Leapmotion.getRelativePositions(frame, frame.hands);
+                var pixelPosition = $scope.getScenePosition(relativePositions);
+
+                triangleMesh.position.set(pixelPosition.x, pixelPosition.y, pixelPosition.z);
             }
             $scope.renderer.render($scope.scene, $scope.camera);
         }
+    };
+
+    $scope.getScenePosition = function(position) {
+        return {
+            x: position.x * (xMax - xMin) + xMin,
+            y: (position.y * (yMax - yMin) + yMin),
+            z: (position.z * (zMax - zMin) + zMin)
+        };
     };
 });
