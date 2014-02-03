@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('ThreeparticlesCtrl', function ($scope, $timeout, Three, Leapmotion) {
+.controller('ThreeparticlesCtrl', function ($scope, $timeout, Three, Leapmotion, Colorpalette) {
 
     var interactionBox = {
         width: 221,
@@ -24,7 +24,7 @@ angular.module('chesireApp')
         var particleCount = 1800,
             particles = new Three.Geometry(),
             pMaterial = new Three.ParticleBasicMaterial({
-              color: 0xFFFFFF,
+              color: Colorpalette.hex.PARTICLES,
               size: 20
             });
 
@@ -62,7 +62,7 @@ angular.module('chesireApp')
 
         triangleGeometry.computeBoundingSphere();
         var triangleMaterial = new Three.MeshBasicMaterial({
-            color:0xFF0000,
+            color: Colorpalette.hex.POINTER,
             side:Three.DoubleSide
         });
 
@@ -95,6 +95,7 @@ angular.module('chesireApp')
         $scope.scene.add($scope.pointLight);
         //Action!
         $scope.renderer = new Three.WebGLRenderer();
+        $scope.renderer.setClearColor( Colorpalette.hex.BACKGROUND, 1);
         $scope.renderer.setSize( width, height );
         element.append($scope.renderer.domElement);
     };
