@@ -11,6 +11,7 @@ angular.module('chesireApp')
     var PARTICLES_SEPARATION = 4;
     var POINTER_SIZE = 15;
     var POINTER_FADE_DISTANCE = 40;
+    var NOTES_WIDTH = 28;
 
     $scope.init = function(canvas) {
 
@@ -36,8 +37,9 @@ angular.module('chesireApp')
 
         if(newScale) {
 
+            $scope.createKeyRanges();
             $scope.removeParticles();
-            $scope.createParticles(newScale);
+            $scope.createParticles();
         }
     };
 
@@ -110,13 +112,40 @@ angular.module('chesireApp')
         }
     };
 
+    $scope.createKeyRanges = function() {
+
+        $scope.keyRanges = [];
+        var notes = $scope.chesirescale.notes;
+        for(var i=0; i<notes.length; i++) {
+            $scope.keyRanges.push({
+                start: ($scope.windowWidth/(notes.length+1))*(i+1) - (NOTES_WIDTH/2),
+                end: ($scope.windowWidth/(notes.length+1))*(i+1) + (NOTES_WIDTH/2)
+            });
+        }
+    };
+
+    $scope.isParticleInKey = function(x) {
+
+        for(var i=0; i<$scope.keyRanges.length; i++) {
+            if( (x >= $scope.keyRanges[i].start) && (x < $scope.keyRanges[i].end)) {
+                return true;
+            }
+        }
+        return false;
+    };
+
     $scope.createParticle = function(x, y, size) {
 
         if(!size) {
             size = PARTICLES_SIZE;
         }
+
         var particle = new Paper.Path.Circle(new Paper.Point(x, y), size/2);
-        particle.fillColor = Colorpalette.PARTICLES;
+        if($scope.isParticleInKey(x)) {
+            particle.fillColor = Colorpalette.PARTICLES_NOTE;
+        } else {
+            particle.fillColor = Colorpalette.PARTICLES;
+        }
         return particle;
     };
 
