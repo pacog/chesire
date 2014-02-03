@@ -23,14 +23,16 @@ angular.module('chesireApp')
             $scope.$watch('chesirescale', $scope.scaleChanged);
             $scope.frameInfo = Leapmotion.getFrameInfo();
             $scope.$watch('frameInfo.id', $scope.frameInfoChanged);
-            $scope.redraw();
+            Paper.install(window);
+            Paper.view.onFrame = $scope.redraw;
+            //$scope.redraw();
 
         });
     };
 
     $scope.redraw = function() {
         Paper.view.draw();
-        requestanimationframe($scope.redraw);
+        //requestanimationframe($scope.redraw);
     };
 
     $scope.scaleChanged = function(newScale) {
