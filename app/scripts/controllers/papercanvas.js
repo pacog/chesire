@@ -65,8 +65,8 @@ angular.module('chesireApp')
         for(var i=0; i<particlesWidth; i++) {
             particles[i] = [];
             for(var j=0; j<particlesHeight; j++) {
-                x = i*(PARTICLES_SIZE + PARTICLES_SEPARATION) + (PARTICLES_SEPARATION/2);
-                y = j*(PARTICLES_SIZE + PARTICLES_SEPARATION) + (PARTICLES_SEPARATION/2);
+                x = i*(PARTICLES_SIZE + PARTICLES_SEPARATION) + ((PARTICLES_SIZE + PARTICLES_SEPARATION)/2);
+                y = j*(PARTICLES_SIZE + PARTICLES_SEPARATION) + ((PARTICLES_SIZE + PARTICLES_SEPARATION)/2);
                 particle = $scope.createParticle(x, y);
 
                 particles[i][j] = {
