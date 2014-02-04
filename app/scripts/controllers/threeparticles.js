@@ -154,8 +154,8 @@ angular.module('chesireApp')
         var notes = $scope.chesirescale.notes;
         for(var i=0; i<notes.length; i++) {
             $scope.keyRanges.push({
-                start: (interactionBox.width/(notes.length+1))*(i+1) - (NOTES_WIDTH/2) + xMin,
-                end: (interactionBox.width/(notes.length+1))*(i+1) + (NOTES_WIDTH/2) + xMin
+                start: (interactionBox.width/(notes.length-1))*(i) - (NOTES_WIDTH/2) + xMin,
+                end: (interactionBox.width/(notes.length-1))*(i) + (NOTES_WIDTH/2) + xMin
             });
         }
     };

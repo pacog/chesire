@@ -6,6 +6,15 @@ angular.module('chesireApp')
 
     $scope.synthoptions = {};
     $scope.chesirescale = {
-        notes: ['A', 'B', 'C']
+        notes: [{
+            name: 'A4',
+            freq: 440
+        }, {
+            name: 'B4',
+            freq: 493.88
+        }, {
+            name: 'C4',
+            freq: 523.25
+        }]
     };
 });
