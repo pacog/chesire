@@ -7,7 +7,9 @@ angular.module('chesireApp')
     return {
         restrict: 'E',
         controller: 'ThreeparticlesCtrl',
-        scope: {},
+        scope: {
+            'chesirescale': '='
+        },
         link: function postLink(scope, element) {
 
             scope.init(element);
