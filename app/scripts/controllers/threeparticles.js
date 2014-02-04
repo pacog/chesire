@@ -22,7 +22,7 @@ angular.module('chesireApp')
     var NOTES_WIDTH = 10;
     var PARTICLE_SIZE = 9;
 
-    var triangleMesh;
+    var pointerElement;
     var particles = null;
 
     var createParticles = function() {
@@ -35,7 +35,8 @@ angular.module('chesireApp')
         });
 
         var i,j, particle, x, y, z;
-        z = (zMax - zMin)/2;
+        // z = (zMax - zMin)/2;
+        z = 0;
         var deltaX = (xMax-xMin)/particlesX;
         var deltaY = (yMax-yMin)/particlesY;
 
@@ -64,25 +65,16 @@ angular.module('chesireApp')
     };
 
     var createPointer = function() {
-         var triangleGeometry = new Three.Geometry();
-
-        triangleGeometry.vertices.push( new Three.Vector3( -10,  10, 0 ) );
-        triangleGeometry.vertices.push( new Three.Vector3( -10, -10, 0 ) );
-        triangleGeometry.vertices.push( new Three.Vector3(  10, -10, 0 ) );
-
-        triangleGeometry.faces.push( new Three.Face3( 0, 1, 2 ) );
-
-        triangleGeometry.computeBoundingSphere();
-        var triangleMaterial = new Three.MeshBasicMaterial({
+        var pointerGeometry = new Three.CircleGeometry(2, 20);
+        
+        var pointerMaterial = new Three.MeshBasicMaterial({
             color: Colorpalette.hex.POINTER,
             side:Three.DoubleSide
         });
 
-        // Create a mesh and insert the geometry and the material. Translate the whole mesh
-        // by -1.5 on the x axis and by 4 on the z axis. Finally add the mesh to the scene.
-        triangleMesh = new Three.Mesh(triangleGeometry, triangleMaterial);
-        triangleMesh.position.set(-1.5, 0.0, 4.0);
-        $scope.scene.add(triangleMesh);
+        pointerElement = new Three.Mesh(pointerGeometry, pointerMaterial);
+        pointerElement.position.set(-1.5, 0.0, 4.0);
+        $scope.scene.add(pointerElement);
     };
 
     var createScene = function(element) {
@@ -113,26 +105,26 @@ angular.module('chesireApp')
 
     var updatePointer = function(pixelPosition) {
 
-        triangleMesh.position.set(pixelPosition.x, pixelPosition.y, pixelPosition.z);
+        pointerElement.position.set(pixelPosition.x, pixelPosition.y, 1);
     };
 
-    var updateParticles = function(pixelPosition) {
+    // var updateParticles = function(pixelPosition) {
 
-        var particle;
-        var position = new Three.Vector2(pixelPosition.x, pixelPosition.y);
+    //     var particle;
+    //     var position = new Three.Vector2(pixelPosition.x, pixelPosition.y);
 
-        for(var i=0; i<particles.vertices.length; i++) {
+    //     for(var i=0; i<particles.vertices.length; i++) {
 
-            particle = particles.vertices[i];
-            if(position.distanceTo(particle)<20) {
-                particles.colors[i] = new Three.Color(Colorpalette.hex.PARTICLES);
-            } else {
-                particles.colors[i] = new Three.Color(Colorpalette.hex.PARTICLES_NOTE);
-            }
-        }
-        // particles.verticesNeedUpdate = true;
-        particles.colorsNeedUpdate = true;
-    };
+    //         particle = particles.vertices[i];
+    //         if(position.distanceTo(particle)<20) {
+    //             particles.colors[i] = new Three.Color(Colorpalette.hex.PARTICLES);
+    //         } else {
+    //             particles.colors[i] = new Three.Color(Colorpalette.hex.PARTICLES_NOTE);
+    //         }
+    //     }
+    //     // particles.verticesNeedUpdate = true;
+    //     particles.colorsNeedUpdate = true;
+    // };
 
     $scope.isParticleInKey = function(x) {
 
