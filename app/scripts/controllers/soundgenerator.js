@@ -5,8 +5,6 @@ angular.module('chesireApp')
 .controller('SoundgeneratorCtrl', function ($scope, $timeout, Leapmotion, Sound) {
 
     var sounds = {};
-    var MIN_FREQUENCY = 220;
-    var MAX_FREQUENCY = 880;
 
     $scope.resetVars = function() {
         $scope.x = '-';
@@ -47,11 +45,40 @@ angular.module('chesireApp')
         }
     };
 
+    $scope.getFrequency = function(x) {
+
+        if(!$scope.chesirescale) {
+            throw 'SoundGenerator: no scale present to find the correct frequency';
+        }
+        var notes = $scope.chesirescale.notes;
+        var positionRelativeToNotes = x*(notes.length -1);
+
+        if(positionRelativeToNotes <0) {
+            positionRelativeToNotes = 0;
+        }
+        if(positionRelativeToNotes > (notes.length -1)) {
+            positionRelativeToNotes = (notes.length -1);
+        }
+
+        if(positionRelativeToNotes === Math.round(positionRelativeToNotes)) {
+            //Exact note!!
+            return notes[positionRelativeToNotes].freq;
+        } else {
+            var firstNote = Math.floor(positionRelativeToNotes);
+            var distanceInBetween = positionRelativeToNotes - firstNote;
+
+            var freq1 = notes[firstNote].freq;
+            var freq2 = notes[firstNote + 1].freq;
+            return freq1 + (freq2-freq1)*distanceInBetween;
+        }
+        
+    };
+
     $scope.updateSound = function(hand) {
 
         var currentSounds = {};
 
-        $scope.frequency = MIN_FREQUENCY + ($scope.x*(MAX_FREQUENCY - MIN_FREQUENCY));
+        $scope.frequency = $scope.getFrequency($scope.x);
 
         var sound = sounds[hand.id]; //Get the already existing sound if there is any
 
