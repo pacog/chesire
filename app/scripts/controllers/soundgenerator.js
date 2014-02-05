@@ -68,7 +68,7 @@ angular.module('chesireApp')
         } else {
             var firstNote = Math.floor(positionRelativeToNotes);
             var distanceInBetween = positionRelativeToNotes - firstNote;
-
+            distanceInBetween = $scope.synthoptions.snap(distanceInBetween);
             var freq1 = notes[firstNote].freq;
             var freq2 = notes[firstNote + 1].freq;
             return freq1 + (freq2-freq1)*distanceInBetween;
@@ -90,7 +90,7 @@ angular.module('chesireApp')
         }
         Sound.changeGain(1-$scope.y);
         $scope.updateVibrato();
-        
+
         Sound.changePlayingFrequency($scope.frequency);
 
         currentSounds[hand.id] = true;
