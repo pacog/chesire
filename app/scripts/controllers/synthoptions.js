@@ -18,10 +18,19 @@ angular.module('chesireApp')
             initial: 0,
             min: 0,
             max: 1,
-            param: 'none',
+            param: 'z',
             inverse: true
         }
     };
+
+    $scope.synthoptions.volume = {
+        initial: 0.5,
+        min: 0,
+        max: 0.8,
+        param: 'y',
+        inverse: false
+    };
+
     $scope.synthoptions.snap = function(x) {
 
         var SNAP_DISTANCE = 0.4;

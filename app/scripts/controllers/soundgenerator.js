@@ -88,7 +88,7 @@ angular.module('chesireApp')
             
             sounds[hand.id] = true;
         }
-        Sound.changeGain(1-$scope.y);
+        $scope.updateVolume();
         $scope.updateVibrato();
 
         Sound.changePlayingFrequency($scope.frequency);
@@ -101,6 +101,11 @@ angular.module('chesireApp')
                 delete sounds[soundId];
             }
         }
+    };
+
+    $scope.updateVolume = function() {
+        var volumeInfo = $scope.synthoptions.volume;
+        Sound.changeGain($scope.getParamValue(volumeInfo));
     };
 
     $scope.updateVibrato = function() {
