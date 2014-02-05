@@ -80,8 +80,12 @@ angular.module('chesireApp')
         oscillator.type = newType;
     };
 
-    var changeVibrato = function(newVibrato) {
-        vibratoGainController.gain.value = newVibrato;
+    var changeVibratoGain = function(newGain) {
+        vibratoGainController.gain.value = newGain;
+    };
+
+    var changeVibratoFreq = function(newFreq) {
+        vibratoOscillator.frequency.value = newFreq;
     };
 
     init();
@@ -90,7 +94,8 @@ angular.module('chesireApp')
         changeGain:             changeGain,
         startPlaying:           startPlaying,
         changePlayingFrequency: changePlayingFrequency,
-        changeVibrato:          changeVibrato,
+        changeVibratoGain:      changeVibratoGain,
+        changeVibratoFreq:      changeVibratoFreq,
         stopPlaying:            stopPlaying,
         changeOscillatorType:   changeOscillatorType
     };

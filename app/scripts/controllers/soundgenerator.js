@@ -87,7 +87,8 @@ angular.module('chesireApp')
             sounds[hand.id] = true;
         }
         Sound.changeGain(1-$scope.y);
-        Sound.changeVibrato(1-$scope.z);
+        $scope.updateVibrato();
+        
         Sound.changePlayingFrequency($scope.frequency);
 
         currentSounds[hand.id] = true;
@@ -97,6 +98,30 @@ angular.module('chesireApp')
                 Sound.stopPlaying();
                 delete sounds[soundId];
             }
+        }
+    };
+
+    $scope.updateVibrato = function() {
+
+        var gainInfo = $scope.synthoptions.vibrato.gain;
+        Sound.changeVibratoGain($scope.getParamValue(gainInfo));
+
+        var freqInfo = $scope.synthoptions.vibrato.freq;
+        Sound.changeVibratoFreq($scope.getParamValue(freqInfo));
+    };
+
+    $scope.getParamValue = function(paramInfo) {
+
+        //If there is a param and a value for vibrato gain
+        if(paramInfo.param && !angular.isUndefined($scope[paramInfo.param])) {
+            
+            if(paramInfo.inverse) {
+                return paramInfo.min + (paramInfo.max - paramInfo.min)*($scope[paramInfo.param]-1);
+            } else {
+                return paramInfo.min + (paramInfo.max - paramInfo.min)*$scope[paramInfo.param];
+            }
+        } else {
+            return paramInfo.initial;
         }
     };
 
