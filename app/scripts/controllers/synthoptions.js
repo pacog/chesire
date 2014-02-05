@@ -11,8 +11,8 @@ angular.module('chesireApp')
             initial: 10,
             min: 4,
             max: 20,
-            param: 'none',
-            inverse: false
+            param: 'y',
+            inverse: true
         },
         gain: {
             initial: 0,
@@ -27,8 +27,8 @@ angular.module('chesireApp')
         initial: 0.5,
         min: 0,
         max: 0.8,
-        param: 'y',
-        inverse: false
+        param: 'handDirectionY',
+        inverse: true
     };
 
     $scope.synthoptions.snap = function(x) {
