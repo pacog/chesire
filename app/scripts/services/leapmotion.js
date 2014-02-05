@@ -76,7 +76,8 @@ angular.module('chesireApp')
 
     var getRelativePositions = function(frame, hands) {
 
-        var position = hands[0].stabilizedPalmPosition;
+        // var position = hands[0].stabilizedPalmPosition;
+        var position = hands[0].palmPosition;
         var result = {};
         result.x = normalizeNumber((position[0] - (frame.interactionBox.center[0] - (frame.interactionBox.size[0]/2)))/frame.interactionBox.size[0]);
         result.y = normalizeNumber((position[1] - (frame.interactionBox.center[1] - (frame.interactionBox.size[1]/2)))/frame.interactionBox.size[1]);

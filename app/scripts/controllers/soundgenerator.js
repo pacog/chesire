@@ -87,6 +87,7 @@ angular.module('chesireApp')
             sounds[hand.id] = true;
         }
         Sound.changeGain(1-$scope.y);
+        Sound.changeVibrato(1-$scope.z);
         Sound.changePlayingFrequency($scope.frequency);
 
         currentSounds[hand.id] = true;
