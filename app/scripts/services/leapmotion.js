@@ -16,6 +16,9 @@ angular.module('chesireApp')
         frame: null
     };
 
+    var PALM_MIN_VELOCITY = 50;
+    var PALM_MAX_VELOCITY = 500;
+
     var init = function() {
 
         /* global Leap */
@@ -79,9 +82,14 @@ angular.module('chesireApp')
         // var position = hands[0].stabilizedPalmPosition;
         var position = hands[0].palmPosition;
         var result = {};
+
         result.x = normalizeNumber((position[0] - (frame.interactionBox.center[0] - (frame.interactionBox.size[0]/2)))/frame.interactionBox.size[0]);
         result.y = normalizeNumber((position[1] - (frame.interactionBox.center[1] - (frame.interactionBox.size[1]/2)))/frame.interactionBox.size[1]);
         result.z = normalizeNumber((position[2] - (frame.interactionBox.center[2] - (frame.interactionBox.size[2]/2)))/frame.interactionBox.size[2]);
+
+        var palmVelocityInfo = hands[0].palmVelocity;
+        var palmVelocity = Math.sqrt(palmVelocityInfo[0] * palmVelocityInfo[0] + palmVelocityInfo[1] * palmVelocityInfo[1] + palmVelocityInfo[2] * palmVelocityInfo[2]);
+        result.handVelocity = normalizeNumber((palmVelocity - PALM_MIN_VELOCITY)/(PALM_MAX_VELOCITY - PALM_MIN_VELOCITY));
 
         return result;
     };

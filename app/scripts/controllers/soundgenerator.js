@@ -37,6 +37,8 @@ angular.module('chesireApp')
                 $scope.x = relativePositions.x;
                 $scope.y = relativePositions.y;
                 $scope.z = relativePositions.z;
+                $scope.sphereRadius = frame.hands[0].sphereRadius;
+                $scope.handVelocity = relativePositions.handVelocity;
                 $scope.updateSound(frame.hands[0]);
             } else {
                 $scope.resetVars();

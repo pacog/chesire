@@ -9,10 +9,10 @@ angular.module('chesireApp')
     $scope.synthoptions.vibrato = {
         freq: {
             initial: 10,
-            min: 0,
+            min: 4,
             max: 20,
-            param: 'z',
-            inverse: true
+            param: 'handVelocity',
+            inverse: false
         },
         gain: {
             initial: 1,
