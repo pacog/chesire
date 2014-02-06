@@ -9,7 +9,8 @@ angular.module('chesireApp')
         restrict: 'E',
         scope: {
             'synthoptions': '=',
-            'chesirescale': '='
+            'chesirescale': '=',
+            'currentsound': '='
         },
         controller: 'StatsCtrl',
         link: function postLink(scope, element) {

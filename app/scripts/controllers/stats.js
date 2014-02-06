@@ -4,7 +4,6 @@ angular.module('chesireApp')
 
 .controller('StatsCtrl', function ($scope, $timeout, Leapmotion, MotionParamsList) {
 
-
     $scope.motionParams = {};
 
     $scope.resetVars = function() {

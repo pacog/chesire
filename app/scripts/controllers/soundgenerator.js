@@ -73,7 +73,7 @@ angular.module('chesireApp')
 
         var currentSounds = {};
 
-        $scope.frequency = $scope.getFrequency($scope.motionParams.x);
+        $scope.currentsound.frequency = $scope.getFrequency($scope.motionParams.x);
 
         var sound = sounds[hand.id]; //Get the already existing sound if there is any
 
@@ -84,7 +84,7 @@ angular.module('chesireApp')
         $scope.updateVolume();
         $scope.updateVibrato();
 
-        Sound.changePlayingFrequency($scope.frequency);
+        Sound.changePlayingFrequency($scope.currentsound.frequency);
 
         currentSounds[hand.id] = true;
 
