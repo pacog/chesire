@@ -7,7 +7,10 @@ angular.module('chesireApp')
     return {
         templateUrl: 'views/stats.html',
         restrict: 'E',
-        scope: {},
+        scope: {
+            'synthoptions': '=',
+            'chesirescale': '='
+        },
         controller: 'StatsCtrl',
         link: function postLink(scope, element) {
     

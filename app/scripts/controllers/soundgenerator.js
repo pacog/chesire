@@ -2,15 +2,12 @@
 
 angular.module('chesireApp')
 
-.controller('SoundgeneratorCtrl', function ($scope, $timeout, Leapmotion, Sound, MotionParamsList) {
+.controller('SoundgeneratorCtrl', function ($scope, $timeout, Leapmotion, Sound) {
 
     var sounds = {};
-    $scope.motionParams = {};
 
     $scope.resetVars = function() {
-        angular.forEach(MotionParamsList, function(param) {
-            $scope.motionParams[param] = '';
-        });
+        $scope.motionParams = {};
     };
 
     $scope.init = function() {
@@ -18,11 +15,11 @@ angular.module('chesireApp')
         $scope.$watch('frameInfo.id', $scope.frameInfoChanged);
         $scope.resetVars();
         $timeout(function () {
-            $scope.$watch('synthoptions.oscillator', $scope.oscillatoreTypeChanged);
+            $scope.$watch('synthoptions.oscillator', $scope.oscillatorTypeChanged);
         });
     };
 
-    $scope.oscillatoreTypeChanged = function(newType) {
+    $scope.oscillatorTypeChanged = function(newType) {
 
         if(newType) {
             Sound.changeOscillatorType(newType);

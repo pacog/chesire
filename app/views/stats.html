@@ -4,6 +4,9 @@
         <li>Fingers: {{stats.fingers}}</li>
         <li>Hands: {{stats.hands}}</li>
         <li>Iterations: {{stats.iterations}}</li>
+        <li ng-repeat='(param, paramValue) in motionParams'>
+            {{param}}: {{paramValue | number:3}}
+        </li>
     </ul>
 </div>
 <p ng-hide='stats.connected'>
