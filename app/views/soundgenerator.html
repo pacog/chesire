@@ -1,11 +1,6 @@
-<div class='soundgenerator'>
-    <p>x: {{x | number:2}}</p>
-    <p>y: {{y | number:2}}</p>
-    <p>z: {{z | number:2}}</p>
-    <p>sphereRadius: {{sphereRadius | number:2}}</p>
-    <p>handVelocity: {{handVelocity | number:3}}</p>
-    <p>handDirectionX: {{handDirectionX | number:3}}</p>
-    <p>handDirectionY: {{handDirectionY | number:3}}</p>
-    <p>handDirectionZ: {{handDirectionZ | number:3}}</p>
-    <p>freq: {{frequency | number:2}}</p>
-</div>
+<ul class='soundgenerator'>
+    <li ng-repeat='(param, paramValue) in motionParams'>
+        {{param}}: {{paramValue | number:3}}
+    </li>
+    <li>freq: {{frequency | number:2}}</li>
+</ul>

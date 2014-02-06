@@ -2,14 +2,15 @@
 
 angular.module('chesireApp')
 
-.controller('SoundgeneratorCtrl', function ($scope, $timeout, Leapmotion, Sound) {
+.controller('SoundgeneratorCtrl', function ($scope, $timeout, Leapmotion, Sound, MotionParamsList) {
 
     var sounds = {};
+    $scope.motionParams = {};
 
     $scope.resetVars = function() {
-        $scope.x = '-';
-        $scope.y = '-';
-        $scope.z = '-';
+        angular.forEach(MotionParamsList, function(param) {
+            $scope.motionParams[param] = '';
+        });
     };
 
     $scope.init = function() {
@@ -33,15 +34,7 @@ angular.module('chesireApp')
         var frame = Leapmotion.getFrameInfo().frame;
         if(frame) {
             if(frame.hands.length) {
-                var relativePositions = Leapmotion.getRelativePositions(frame, frame.hands);
-                $scope.x = relativePositions.x;
-                $scope.y = relativePositions.y;
-                $scope.z = relativePositions.z;
-                $scope.sphereRadius = frame.hands[0].sphereRadius;
-                $scope.handVelocity = relativePositions.handVelocity;
-                $scope.handDirectionZ = relativePositions.handDirectionZ;
-                $scope.handDirectionY = relativePositions.handDirectionY;
-                $scope.handDirectionX = relativePositions.handDirectionX;
+                $scope.motionParams = Leapmotion.getRelativePositions(frame, frame.hands);
                 $scope.updateSound(frame.hands[0]);
             } else {
                 $scope.resetVars();
@@ -83,7 +76,7 @@ angular.module('chesireApp')
 
         var currentSounds = {};
 
-        $scope.frequency = $scope.getFrequency($scope.x);
+        $scope.frequency = $scope.getFrequency($scope.motionParams.x);
 
         var sound = sounds[hand.id]; //Get the already existing sound if there is any
 
@@ -123,12 +116,12 @@ angular.module('chesireApp')
     $scope.getParamValue = function(paramInfo) {
 
         //If there is a param and a value for vibrato gain
-        if(paramInfo.param && !angular.isUndefined($scope[paramInfo.param])) {
+        if(paramInfo.param && !angular.isUndefined($scope.motionParams[paramInfo.param])) {
             
             if(paramInfo.inverse) {
-                return paramInfo.min + (paramInfo.max - paramInfo.min)*($scope[paramInfo.param]-1);
+                return paramInfo.min + (paramInfo.max - paramInfo.min)*($scope.motionParams[paramInfo.param]-1);
             } else {
-                return paramInfo.min + (paramInfo.max - paramInfo.min)*$scope[paramInfo.param];
+                return paramInfo.min + (paramInfo.max - paramInfo.min)*$scope.motionParams[paramInfo.param];
             }
         } else {
             return paramInfo.initial;
