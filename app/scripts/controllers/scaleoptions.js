@@ -8,6 +8,9 @@ angular.module('chesireApp')
         $scope.chesirescale = {
             currentScale: DefaultScale
         };
+        $scope.$watch('chesirescale.currentScale.notes', function(newNotes) {
+            console.log('newNotes: ' + newNotes);
+        });
     };
     $scope.init();
  });

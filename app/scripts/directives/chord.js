@@ -7,7 +7,9 @@ angular.module('chesireApp')
         templateUrl: 'views/chord.html',
         restrict: 'E',
         scope: {
-            'chordInfo': '='
+            'chordInfo': '=',
+            'notesArray': '=',
+            'chordIndex': '='
         },
         controller: 'ChordCtrl'
     };

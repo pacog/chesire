@@ -19,6 +19,10 @@ angular.module('chesireApp')
         });
     };
 
+    $scope.notesChanged = function(newValue) {
+        newValue = false;
+    };
+
     $scope.oscillatorTypeChanged = function(newType) {
 
         if(newType) {
