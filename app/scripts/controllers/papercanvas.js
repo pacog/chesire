@@ -117,7 +117,7 @@ angular.module('chesireApp')
     $scope.createKeyRanges = function() {
 
         $scope.keyRanges = [];
-        var notes = $scope.chesirescale.notes;
+        var notes = $scope.chesirescale.currentscale.notes;
         for(var i=0; i<notes.length; i++) {
             $scope.keyRanges.push({
                 start: ($scope.windowWidth/(notes.length+1))*(i+1) - (NOTES_WIDTH/2),

@@ -42,10 +42,10 @@ angular.module('chesireApp')
 
     $scope.getFrequency = function(x) {
 
-        if(!$scope.chesirescale) {
+        if(!$scope.chesirescale || !$scope.chesirescale.currentScale) {
             throw 'SoundGenerator: no scale present to find the correct frequency';
         }
-        var notes = $scope.chesirescale.notes;
+        var notes = $scope.chesirescale.currentScale.notes;
         var positionRelativeToNotes = x*(notes.length -1);
 
         if(positionRelativeToNotes <0) {

@@ -151,7 +151,7 @@ angular.module('chesireApp')
     $scope.createKeyRanges = function() {
 
         $scope.keyRanges = [];
-        var notes = $scope.chesirescale.notes;
+        var notes = $scope.chesirescale.currentScale.notes;
         for(var i=0; i<notes.length; i++) {
             $scope.keyRanges.push({
                 start: (interactionBox.width/(notes.length-1))*(i) - (NOTES_WIDTH/2) + xMin,

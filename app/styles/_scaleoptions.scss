@@ -1,0 +1,7 @@
+.scaleoptions {
+    display: block;
+    position: absolute;
+    top: $grid-m;
+    left: $grid-m;
+    @extend .tile;
+}

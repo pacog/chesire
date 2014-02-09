@@ -1,5 +1,4 @@
 <div class='synthoptions'>
-    <select ng-model='synthoptions.oscillator'>
-        <option ng-repeat='oscillator in availableOscillators' value='{{oscillator}}'>{{oscillator}}</option>
+    <select ng-model='synthoptions.oscillator' ng-model='oscillator' ng-options="oscillator for oscillator in availableOscillators">
     </select>
 </div>
