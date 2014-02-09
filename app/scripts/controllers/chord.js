@@ -6,6 +6,7 @@ angular.module('chesireApp')
 
     $scope.notes = Scales.getAllNotes();
     $scope.$watch('chordInfo', function(newChord) {
-        $scope.notesArray[$scope.chordIndex] = newChord;
+        $scope.notesArray[$scope.chordIndex].name = newChord.name;
+        $scope.notesArray[$scope.chordIndex].freq = newChord.freq;
     });
 });
