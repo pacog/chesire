@@ -2,4 +2,7 @@
     <li ng-repeat='note in chordInfo.notes'>
         <noteselector current-note='note' note-list='chordInfo.notes' note-index='$index'></noteselector>
     </li>
+    <li>
+        <button ng-click='addNote()'>+</button>
+    </li>
 </ul>
