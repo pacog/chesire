@@ -1,1 +1,5 @@
-<select ng-model="chordInfo" ng-options="note.name for note in notes track by note.name"></select>
+<ul>
+    <li ng-repeat='note in chordInfo.notes'>
+        <noteselector current-note='note' note-list='chordInfo.notes' note-index='$index'></noteselector>
+    </li>
+</ul>

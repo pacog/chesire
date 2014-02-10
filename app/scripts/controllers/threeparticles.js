@@ -19,7 +19,7 @@ angular.module('chesireApp')
     var particlesX = interactionBox.width/2;
     var particlesY = interactionBox.height/2;
 
-    var NOTES_WIDTH = 10;
+    var CHORDS_WIDTH = 10;
     var PARTICLE_SIZE = 9;
 
     var pointerElement;
@@ -151,11 +151,11 @@ angular.module('chesireApp')
     $scope.createKeyRanges = function() {
 
         $scope.keyRanges = [];
-        var notes = $scope.chesirescale.currentScale.notes;
-        for(var i=0; i<notes.length; i++) {
+        var chords = $scope.chesirescale.currentScale.chords;
+        for(var i=0; i<chords.length; i++) {
             $scope.keyRanges.push({
-                start: (interactionBox.width/(notes.length-1))*(i) - (NOTES_WIDTH/2) + xMin,
-                end: (interactionBox.width/(notes.length-1))*(i) + (NOTES_WIDTH/2) + xMin
+                start: (interactionBox.width/(chords.length-1))*(i) - (CHORDS_WIDTH/2) + xMin,
+                end: (interactionBox.width/(chords.length-1))*(i) + (CHORDS_WIDTH/2) + xMin
             });
         }
     };

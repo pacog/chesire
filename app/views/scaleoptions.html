@@ -1,8 +1,8 @@
 <div class='scaleoptions'>
     <h3>{{chesirescale.currentScale.name}}</h3>
     <ul>
-        <li ng-repeat='note in chesirescale.currentScale.notes'>
-            <chord chord-info='note' chord-index='$index' notes-array='chesirescale.currentScale.notes'></chord>
+        <li ng-repeat='chord in chesirescale.currentScale.chords'>
+            <chord chord-info='chord' chord-index='$index' chords-array='chesirescale.currentScale.chords'></chord>
         </li>
     </ul>
 </div>

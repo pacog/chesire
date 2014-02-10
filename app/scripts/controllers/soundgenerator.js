@@ -49,7 +49,9 @@ angular.module('chesireApp')
         if(!$scope.chesirescale || !$scope.chesirescale.currentScale) {
             throw 'SoundGenerator: no scale present to find the correct frequency';
         }
-        var notes = $scope.chesirescale.currentScale.notes;
+
+        //TODO: redo for multiple notes per chord
+        var notes = $scope.chesirescale.currentScale.chords;
         var positionRelativeToNotes = x*(notes.length -1);
 
         if(positionRelativeToNotes <0) {
@@ -61,13 +63,13 @@ angular.module('chesireApp')
 
         if(positionRelativeToNotes === Math.round(positionRelativeToNotes)) {
             //Exact note!!
-            return notes[positionRelativeToNotes].freq;
+            return notes[positionRelativeToNotes].notes[0].freq;
         } else {
             var firstNote = Math.floor(positionRelativeToNotes);
             var distanceInBetween = positionRelativeToNotes - firstNote;
             distanceInBetween = $scope.synthoptions.snap(distanceInBetween);
-            var freq1 = notes[firstNote].freq;
-            var freq2 = notes[firstNote + 1].freq;
+            var freq1 = notes[firstNote].notes[0].freq;
+            var freq2 = notes[firstNote + 1].notes[0].freq;
             return freq1 + (freq2-freq1)*distanceInBetween;
         }
         
