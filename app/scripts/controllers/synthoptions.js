@@ -33,16 +33,13 @@ angular.module('chesireApp')
 
     $scope.synthoptions.snap = function(x) {
 
-        var SNAP_DISTANCE = 0.4;
+        var SNAP_DISTANCE = 0.35;
 
         if(x<SNAP_DISTANCE) {
             return 0;
         }
-        if(x>=SNAP_DISTANCE && x < 0.5) {
-            return ((x - SNAP_DISTANCE)*0.5)/(0.5 - SNAP_DISTANCE) + SNAP_DISTANCE;
-        }
-        if(x >= 0.5 && x < (1-SNAP_DISTANCE)) {
-            return ((x - SNAP_DISTANCE)*0.5)/(0.5 - SNAP_DISTANCE) + SNAP_DISTANCE;
+        if(x>=SNAP_DISTANCE && x < (1-SNAP_DISTANCE)) {
+            return (x - SNAP_DISTANCE)/(1 - (2*SNAP_DISTANCE));
         }
         return 1;
 

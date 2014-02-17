@@ -28,7 +28,7 @@ angular.module('chesireApp')
         vibratoGainController.gain.value = 0.5;
         vibratoOscillator.connect(vibratoGainController);
         vibratoGainController.connect(gainController.gain);
-         vibratoOscillator.noteOn(0);
+        vibratoOscillator.noteOn(0);
 
         changeGain(0);
         oscillator.noteOn(0);
