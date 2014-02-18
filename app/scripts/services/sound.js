@@ -48,9 +48,9 @@ angular.module('chesireApp')
     };
 
     //TODO: change name
-    var changePlayingFrequency = function(frequency) {
+    var changePlayingFrequency = function(notesInfo) {
 
-        oscillatorCollection.updateNodes(frequency);
+        oscillatorCollection.updateNodes(notesInfo);
     };
 
     /**

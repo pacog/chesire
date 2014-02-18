@@ -5,34 +5,40 @@ angular.module('chesireApp')
 .factory('MultiNotesHelper', function () {
 
     var notesInfo = null;
+    var chordsInfo = null;
 
     var silenceAllNotes = function() {
 
-        angular.forEach(notesInfo, function(chord) {
-            angular.forEach(chord, function(note) {
-                note.gain = 0;
-            });
+        angular.forEach(notesInfo, function(note) {
+            note.gain = 0;
         });
     };
 
     var changeNotes = function(newNotes) {
-        
+
         notesInfo = [];
+        chordsInfo = newNotes;
+        var longerChord = 0;
+        var longerChordIndex = false;
         angular.forEach(newNotes.chords, function(chord, chordIndex) {
-            notesInfo.push([]);
-            angular.forEach(chord.notes, function(note) {
-                notesInfo[chordIndex].push(note);
-            });
+            if(longerChord<chord.notes.length) {
+                longerChord = chord.notes.length;
+                longerChordIndex = chordIndex;
+            }
         });
+        for(var i=0; i<longerChord; i++) {
+            notesInfo.push(newNotes.chords[longerChordIndex].notes[i]);
+            notesInfo[i].gain = 0;
+        }
         silenceAllNotes();
     };
 
     var getNotesInfo = function(x, synthoptions) {
 
-        var positionRelativeToNotes = getPositionRelativeToNotes(x, notesInfo.length);
+        var positionRelativeToNotes = getPositionRelativeToNotes(x, chordsInfo.chords.length);
 
         var firstNote = Math.floor(positionRelativeToNotes);
-        if(firstNote >= (notesInfo.length - 1)) {
+        if(firstNote >= (chordsInfo.chords.length - 1)) {
             firstNote = firstNote-1;
         }
         var distanceInBetween = positionRelativeToNotes - firstNote;
@@ -40,29 +46,30 @@ angular.module('chesireApp')
         silenceAllNotes();
 
         //TODO option to make all chords sound with same volume, even if they have different number of notes
-        var firstChord = notesInfo[firstNote];
-        var secondChord = notesInfo[firstNote + 1];
-        var biggestChord = firstChord;
-        var smallerChord = secondChord;
-        var i=0;
+        var firstChord = chordsInfo.chords[firstNote].notes;
+        var secondChord = chordsInfo.chords[firstNote + 1].notes;
         var freq1, freq2;
 
-        if(secondChord.length > firstChord.length) {
-            biggestChord = secondChord;
-            smallerChord = firstChord;
-        }
+        for(var i=0; i<notesInfo.length; i++) {
 
-        for(i=0; i<smallerChord.length; i++) {
+            if(firstChord[i].freq && secondChord[i].freq) {
 
-            freq1 = firstChord[i].freq;
-            freq2 = secondChord[i].freq;
-            firstChord[i].freqToPlay = freq1 + (freq2-freq1)*distanceInBetween;
-            firstChord[i].gain = 1;
-        }
+                freq1 = firstChord[i].freq;
+                freq2 = secondChord[i].freq;
+                notesInfo[i].freqToPlay = freq1 + (freq2-freq1)*distanceInBetween;
+                notesInfo[i].gain = 1;
+            } else if(firstChord[i].freq) {
 
-        //Notes that do not have a sibling in the next chord get change in gain
-        for(i; i<firstChord.length; i++) {
-            firstChord[i].gain = 1-distanceInBetween;
+                notesInfo[i].gain = 1-distanceInBetween;
+                notesInfo[i].freqToPlay = firstChord[i].freq;
+            } else if(secondChord[i].freq) {
+
+                notesInfo[i].gain = distanceInBetween;
+                notesInfo[i].freqToPlay = secondChord[i].freq;
+            } else {
+
+                notesInfo[i].gain = 0;
+            }
         }
 
         return notesInfo;
