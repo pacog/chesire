@@ -13,6 +13,11 @@ $sharp-note-width: 8px;
     height: $note-height;
     width: $note-width;
     border: 1px solid black;
+    cursor: pointer;
+
+    &:hover {
+        background: #ccc;
+    }
 
     &.sharp-note {
         background: black;
@@ -21,9 +26,15 @@ $sharp-note-width: 8px;
         width: $sharp-note-width;
         margin-left: -$sharp-note-width;
         left: ($sharp-note-width/2);
+        &:hover {
+            background: #333;
+        }
     }
 
     &.selected {
-        background: red;
+        background: #C00;
+        &:hover {
+            background: #900;
+        }
     }
 }
