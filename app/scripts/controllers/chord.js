@@ -2,9 +2,15 @@
 
 angular.module('chesireApp')
 
-.controller('ChordCtrl', function ($scope) {
+.controller('ChordCtrl', function ($scope, Scales) {
 
-    $scope.addNote = function() {
-        $scope.chordInfo.notes.push({});
-    };
+    $scope.allNotes = angular.copy(Scales.getAllNotes());
+
+    angular.forEach($scope.chordInfo.notes, function(selectedNote) {
+        angular.forEach($scope.allNotes, function(note) {
+            if(note.name === selectedNote.name) {
+                note.selected = true;
+            }
+        });
+    });
 });

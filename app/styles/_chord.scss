@@ -1,0 +1,29 @@
+.chord {
+    margin: $grid-m $grid-s;
+}
+
+$note-height: 24px;
+$note-width: 14px;
+$sharp-note-height: 16px;
+$sharp-note-width: 8px;
+.note {
+    @include inline-block(top);
+    @include box-sizing(border-box);
+    background: white;
+    height: $note-height;
+    width: $note-width;
+    border: 1px solid black;
+
+    &.sharp-note {
+        background: black;
+        position: relative;
+        height: $sharp-note-height;
+        width: $sharp-note-width;
+        margin-left: -$sharp-note-width;
+        left: ($sharp-note-width/2);
+    }
+
+    &.selected {
+        background: red;
+    }
+}

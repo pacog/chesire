@@ -1,8 +1,7 @@
-<ul>
-    <li ng-repeat='note in chordInfo.notes'>
-        <noteselector current-note='note' note-list='chordInfo.notes' note-index='$index'></noteselector>
-    </li>
-    <li>
-        <button ng-click='addNote()'>+</button>
-    </li>
+<ul class='chord'>
+    <li class='note'
+        ng-class='{"sharp-note": (note.name.indexOf("#")!==-1)
+                    , "selected": note.selected}'
+        ng-repeat='note in allNotes'
+    ></li>
 </ul>
