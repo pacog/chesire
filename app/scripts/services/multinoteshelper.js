@@ -32,6 +32,9 @@ angular.module('chesireApp')
         var positionRelativeToNotes = getPositionRelativeToNotes(x, notesInfo.length);
 
         var firstNote = Math.floor(positionRelativeToNotes);
+        if(firstNote >= (notesInfo.length - 1)) {
+            firstNote = firstNote-1;
+        }
         var distanceInBetween = positionRelativeToNotes - firstNote;
         distanceInBetween = synthoptions.snap(distanceInBetween);
         silenceAllNotes();
@@ -43,9 +46,7 @@ angular.module('chesireApp')
         var smallerChord = secondChord;
         var i=0;
         var freq1, freq2;
-        if(!secondChord || !firstChord) {
-            debugger;
-        }
+
         if(secondChord.length > firstChord.length) {
             biggestChord = secondChord;
             smallerChord = firstChord;
@@ -74,9 +75,9 @@ angular.module('chesireApp')
         if(positionRelativeToNotes <0) {
             positionRelativeToNotes = 0;
         }
-        if(positionRelativeToNotes >= (numberOfNotes - 2)) {
+        if(positionRelativeToNotes > (numberOfNotes - 1)) {
 
-            positionRelativeToNotes = numberOfNotes - 2;
+            positionRelativeToNotes = numberOfNotes - 1;
         }
 
         return positionRelativeToNotes;

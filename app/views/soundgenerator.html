@@ -1,0 +1,11 @@
+<div class="soundgenerator">
+    <ul>
+        <li class="soundgenerator-chord" ng-repeat="chord in notesInfo">
+            <ul>
+                <li class="soundgenerator-note" ng-repeat="note in chord">
+                    {{note.name}} | {{note.gain | number:2 }} | {{ (note.freqToPlay || note.freq) | number:2}}Hz
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>

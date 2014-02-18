@@ -94,8 +94,8 @@ angular.module('chesireApp')
         if(!$scope.chesirescale || !$scope.chesirescale.currentScale) {
             throw 'SoundGenerator: no scale present to find the correct frequency';
         }
-
-        Sound.changePlayingFrequency(MultiNotesHelper.getNotesInfo(x, $scope.synthoptions));
+        $scope.notesInfo = MultiNotesHelper.getNotesInfo(x, $scope.synthoptions);
+        Sound.changePlayingFrequency($scope.notesInfo);
     };
 
     $scope.getParamValue = function(paramInfo) {
