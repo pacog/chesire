@@ -2,10 +2,10 @@
 
 angular.module('chesireApp')
 
-.factory('Sound', function (Audiocontext) {
+.factory('Sound', function (Audiocontext, OscillatorCollection) {
 
     var audioContext;
-    var oscillator;
+    var oscillatorCollection;
     var vibratoOscillator;
     var gainController;
     var vibratoGainController;
@@ -13,12 +13,10 @@ angular.module('chesireApp')
     var init = function() {
 
         audioContext = new Audiocontext();
-
-        oscillator = audioContext.createOscillator();
-        oscillator.type = oscillator.SINE;
+        oscillatorCollection = new OscillatorCollection(audioContext, null);
 
         gainController = audioContext.createGainNode();
-        oscillator.connect(gainController);
+        oscillatorCollection.connect(gainController);
         gainController.connect(audioContext.destination);
 
         vibratoOscillator = audioContext.createOscillator();
@@ -29,9 +27,12 @@ angular.module('chesireApp')
         vibratoOscillator.connect(vibratoGainController);
         vibratoGainController.connect(gainController.gain);
         vibratoOscillator.noteOn(0);
+    };
 
-        changeGain(0);
-        oscillator.noteOn(0);
+    var changeScale = function(newScale) {
+
+        oscillatorCollection.destroy();
+        oscillatorCollection.init(audioContext, newScale);
     };
 
     /**
@@ -46,25 +47,10 @@ angular.module('chesireApp')
         }
     };
 
-    /**
-     * Starts playing the synth
-     * @param {Number} frequency new frequency in Hz
-     * @param {Number} gain Gain, from 0 to 1
-     */
-    var startPlaying = function(frequency, gain) {
-
-        changePlayingFrequency(frequency);
-        changeGain(gain);
-
-    };
-
-    /**
-     * Changes the frequency that the synth is playing
-     * @param {Number} frequency new frequency in Hz
-     */
+    //TODO: change name
     var changePlayingFrequency = function(frequency) {
 
-        oscillator.frequency.value = frequency;
+        oscillatorCollection.updateNodes(frequency);
     };
 
     /**
@@ -77,7 +63,7 @@ angular.module('chesireApp')
 
     var changeOscillatorType = function(newType) {
 
-        oscillator.type = newType;
+        oscillatorCollection.changeOscillatorType(newType);
     };
 
     var changeVibratoGain = function(newGain) {
@@ -92,11 +78,11 @@ angular.module('chesireApp')
 
     return {
         changeGain:             changeGain,
-        startPlaying:           startPlaying,
         changePlayingFrequency: changePlayingFrequency,
         changeVibratoGain:      changeVibratoGain,
         changeVibratoFreq:      changeVibratoFreq,
         stopPlaying:            stopPlaying,
-        changeOscillatorType:   changeOscillatorType
+        changeOscillatorType:   changeOscillatorType,
+        changeScale:            changeScale
     };
 });
