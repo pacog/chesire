@@ -28,7 +28,6 @@ angular.module('chesireApp')
         });
         for(var i=0; i<longerChord; i++) {
             notesInfo.push(newNotes.chords[longerChordIndex].notes[i]);
-            notesInfo[i].gain = 0;
         }
         silenceAllNotes();
     };
@@ -52,17 +51,17 @@ angular.module('chesireApp')
 
         for(var i=0; i<notesInfo.length; i++) {
 
-            if(firstChord[i].freq && secondChord[i].freq) {
+            if(firstChord[i] && firstChord[i].freq && secondChord[i] && secondChord[i].freq) {
 
                 freq1 = firstChord[i].freq;
                 freq2 = secondChord[i].freq;
                 notesInfo[i].freqToPlay = freq1 + (freq2-freq1)*distanceInBetween;
                 notesInfo[i].gain = 1;
-            } else if(firstChord[i].freq) {
+            } else if(firstChord[i] && firstChord[i].freq) {
 
                 notesInfo[i].gain = 1-distanceInBetween;
                 notesInfo[i].freqToPlay = firstChord[i].freq;
-            } else if(secondChord[i].freq) {
+            } else if(secondChord[i] && secondChord[i].freq) {
 
                 notesInfo[i].gain = distanceInBetween;
                 notesInfo[i].freqToPlay = secondChord[i].freq;

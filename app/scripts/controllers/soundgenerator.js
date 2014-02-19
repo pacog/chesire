@@ -16,12 +16,12 @@ angular.module('chesireApp')
         $scope.resetVars();
         $timeout(function () {
             $scope.$watch('synthoptions.oscillator', $scope.oscillatorTypeChanged);
-            $scope.$watchCollection('chesirescale.currentScale', $scope.notesChanged);
+            $scope.$watch('chesirescale.currentScale', $scope.notesChanged);
         });
     };
 
     $scope.notesChanged = function(newValue) {
-
+console.log('yeah!!');
         if(newValue) {
             Sound.changeScale(newValue);
             MultiNotesHelper.changeNotes(newValue);

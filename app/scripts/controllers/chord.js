@@ -18,6 +18,11 @@ angular.module('chesireApp')
 
         angular.forEach($scope.allNotes, function(note) {
             if(note.name === noteName) {
+                if(note.selected) {
+                    $scope.chordInfo.notes = _.without($scope.chordInfo.notes, _.findWhere($scope.chordInfo.notes, {name: noteName}));
+                } else {
+                    $scope.chordInfo.notes.push(note);
+                }
                 note.selected = !note.selected;
             }
         });

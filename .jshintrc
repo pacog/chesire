@@ -18,6 +18,9 @@
   "strict": true,
   "trailing": true,
   "smarttabs": true,
+  "predef": [
+    "_"
+  ],
   "globals": {
     "after": false,
     "afterEach": false,
