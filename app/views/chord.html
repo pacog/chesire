@@ -3,5 +3,12 @@
         ng-class='{"sharp-note": (note.name.indexOf("#")!==-1)
                     , "selected": note.selected}'
         ng-repeat='note in allNotes'
-    ></li>
+    >
+        <div class='note-content'>
+            <button ng-click='selectNote(note.name)' class='note-button'></button>
+            <div class='note-info'>
+                {{note.name}}
+            </div>
+        </div>
+    </li>
 </ul>

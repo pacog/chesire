@@ -13,4 +13,13 @@ angular.module('chesireApp')
             }
         });
     });
+
+    $scope.selectNote = function(noteName) {
+
+        angular.forEach($scope.allNotes, function(note) {
+            if(note.name === noteName) {
+                note.selected = !note.selected;
+            }
+        });
+    };
 });
