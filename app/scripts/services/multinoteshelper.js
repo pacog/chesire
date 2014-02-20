@@ -48,6 +48,7 @@ angular.module('chesireApp')
         var firstChord = chordsInfo.chords[firstNote].notes;
         var secondChord = chordsInfo.chords[firstNote + 1].notes;
         var freq1, freq2;
+        var totalGain = 0;
 
         for(var i=0; i<notesInfo.length; i++) {
 
@@ -57,17 +58,28 @@ angular.module('chesireApp')
                 freq2 = secondChord[i].freq;
                 notesInfo[i].freqToPlay = freq1 + (freq2-freq1)*distanceInBetween;
                 notesInfo[i].gain = 1;
+                totalGain += 1;
             } else if(firstChord[i] && firstChord[i].freq) {
 
                 notesInfo[i].gain = 1-distanceInBetween;
+                totalGain += (1-distanceInBetween);
                 notesInfo[i].freqToPlay = firstChord[i].freq;
             } else if(secondChord[i] && secondChord[i].freq) {
 
                 notesInfo[i].gain = distanceInBetween;
+                totalGain += distanceInBetween;
                 notesInfo[i].freqToPlay = secondChord[i].freq;
             } else {
 
                 notesInfo[i].gain = 0;
+            }
+        }
+
+
+        //Now we normalize so the total gain is 1
+        if(totalGain>0) {
+            for(i=0; i< notesInfo.length; i++) {
+                notesInfo[i].gain = notesInfo[i].gain/totalGain;
             }
         }
 
