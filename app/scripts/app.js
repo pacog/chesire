@@ -4,7 +4,8 @@ angular.module('chesireApp', [
     'ngCookies',
     'ngResource',
     'ngSanitize',
-    'ngRoute'
+    'ngRoute',
+    'LocalStorageModule'
 ])
 .config(function ($routeProvider) {
     $routeProvider
@@ -15,4 +16,8 @@ angular.module('chesireApp', [
         .otherwise({
             redirectTo: '/'
         });
-});
+})
+.config(function(localStorageServiceProvider) {
+    localStorageServiceProvider.setPrefix('chesire');
+})
+;

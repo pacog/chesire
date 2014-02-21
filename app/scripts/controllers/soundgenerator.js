@@ -21,7 +21,7 @@ angular.module('chesireApp')
     };
 
     $scope.notesChanged = function(newValue) {
-console.log('yeah!!');
+
         if(newValue) {
             Sound.changeScale(newValue);
             MultiNotesHelper.changeNotes(newValue);

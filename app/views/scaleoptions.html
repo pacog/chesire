@@ -2,7 +2,12 @@
     <h3>{{chesirescale.currentScale.name}}</h3>
     <ul>
         <li ng-repeat='chord in chesirescale.currentScale.chords'>
-            <chord chord-info='chord' chord-index='$index' chords-array='chesirescale.currentScale.chords'></chord>
+            <chord
+                chord-info='chord'
+                chord-index='$index'
+                chords-array='chesirescale.currentScale.chords'
+                all-chords='allChords'>
+            </chord>
         </li>
     </ul>
     <button ng-click='saveScale()'>Save</button>

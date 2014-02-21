@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('ScaleoptionsCtrl', function ($scope, DefaultScale) {
+.controller('ScaleoptionsCtrl', function ($scope, DefaultScale, ChordStore) {
 
     var oldScale = null;
 
@@ -11,6 +11,10 @@ angular.module('chesireApp')
             currentScale: angular.copy(DefaultScale)
         };
         oldScale = DefaultScale;
+
+        ChordStore.getChords().then(function(allChords) {
+            $scope.allChords = allChords;
+        });
     };
 
     $scope.saveScale = function() {
