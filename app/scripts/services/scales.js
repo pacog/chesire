@@ -32,10 +32,29 @@ angular.module('chesireApp')
         return result;
     };
 
+    var isSameSetOfChords = function(set1, set2) {
+
+        var result = true;
+
+        if(set1.length === set2.length) {
+            for(var i=0; i<set1.length; i++) {
+                if(!isSameChord(set1[i], set2[i])) {
+                    result = false;
+                    break;
+                }
+            }
+        } else {
+            result = false;
+        }
+
+        return result;
+    };
+
     return {
         getAllNotes: function () {
             return notes;
         },
-        isSameChord: isSameChord
+        isSameChord: isSameChord,
+        isSameSetOfChords: isSameSetOfChords
     };
 });

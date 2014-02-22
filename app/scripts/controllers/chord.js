@@ -7,16 +7,15 @@ angular.module('chesireApp')
     $scope.init = function() {
 
         $scope.allNotes = angular.copy(Scales.getAllNotes());
-
         $scope.$watch('allChords', $scope.chordsStoreChanged, true);
         $scope.$watch('chordInfo', $scope.selectedChordChanged, true);
-
         $scope.updateSelectedNotes();
     };
 
     $scope.selectedChordChanged = function() {
 
         $scope.updateSelectedNotes();
+        $scope.updateChordInListOfChords();
     };
 
     $scope.updateSelectedNotes = function() {
@@ -45,6 +44,16 @@ angular.module('chesireApp')
                 note.selected = !note.selected;
             }
         });
+        $scope.updateChordInListOfChords();
+    };
+
+    $scope.updateChordInListOfChords = function() {
+
+        if(angular.toJson($scope.chordsArray[$scope.chordsIndex]) !== angular.toJson($scope.chordInfo)) {
+
+            $scope.chordsArray[$scope.chordIndex].name = $scope.chordInfo.name;
+            $scope.chordsArray[$scope.chordIndex].notes = angular.copy($scope.chordInfo.notes);
+        }
     };
 
     $scope.chordsStoreChanged = function(allChords) {
