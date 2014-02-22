@@ -1,3 +1,4 @@
+//Core
 @import "compass/css3";
 @import "reset";
 @import "var";
@@ -5,6 +6,7 @@
 @import "general";
 @import "tile";
 
+//Modules
 @import "chesirecanvas";
 @import "stats";
 @import "soundgenerator";

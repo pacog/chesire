@@ -12,8 +12,16 @@
         </div>
     </li>
 </ul>
-<div class='chord-name'>
-    <input ng-model='chordInfo.name' />
+<div class='chord-tools'>
+    <div ng-show='chordAlreadyExisting'>
+        <select
+            ng-model="chordInfo"
+            ng-options="c.name for c in allChords">
+        </select>
+    </div>
+    <div ng-hide='chordAlreadyExisting'>
+        <input ng-model='chordInfo.name' />
+    </div>
     <button ng-click='saveChord()'>Save chord</button>
     <button ng-click='deleteChord()'>Delete chord</button>
 </div>

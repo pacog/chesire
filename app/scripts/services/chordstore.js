@@ -6,7 +6,7 @@ angular.module('chesireApp')
         var getChords = function() {
 
             var deferred = $q.defer();
-            deferred.resolve(localStorageService.get('chords') || {});
+            deferred.resolve(localStorageService.get('chords') || []);
 
             return deferred.promise;
         };
@@ -23,19 +23,23 @@ angular.module('chesireApp')
                 if(allChords) {
                     allChords = angular.fromJson(allChords);
                 } else {
-                    localStorageService.set('chords', {});
-                    allChords = {};
+                    allChords = [];
                 }
 
-                var existingChord = allChords[chord.name];
+                var existingChord = false;
+                for(var i=0; i<allChords.length; i++) {
+                    if(allChords[i].name === chord.name) {
+                        allChords[i] = chord;
+                        existingChord = true;
+                        break;
+                    }
+                }
                 if(!existingChord) {
 
-                    allChords[chord.name] = chord;
-                    deferred.resolve(chord);
-                } else {
-
-                    deferred.reject('Error saving chord, name already exists');
+                    allChords.push(chord);
                 }
+                localStorageService.set('chords', allChords);
+                deferred.resolve(chord);
             }
             
             return deferred.promise;

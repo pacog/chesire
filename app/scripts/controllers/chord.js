@@ -12,6 +12,8 @@ angular.module('chesireApp')
 
         $scope.allNotes = angular.copy(Scales.getAllNotes());
 
+        $scope.$watch('allChords', $scope.chordsStoreChanged, true);
+
         angular.forEach($scope.chordInfo.notes, function(selectedNote) {
             angular.forEach($scope.allNotes, function(note) {
                 if(note.name === selectedNote.name) {
@@ -31,6 +33,20 @@ angular.module('chesireApp')
                     $scope.chordInfo.notes.push(note);
                 }
                 note.selected = !note.selected;
+            }
+        });
+    };
+
+    // $scope.chordSelected = function(chord) {
+    //     debugger;
+    // };
+
+    $scope.chordsStoreChanged = function(allChords) {
+
+        $scope.chordAlreadyExisting = false;
+        angular.forEach(allChords, function(chord){
+            if(Scales.isSameChord(chord, $scope.chordInfo)) {
+                $scope.chordAlreadyExisting = chord;
             }
         });
     };
