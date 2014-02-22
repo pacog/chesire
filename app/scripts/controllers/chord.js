@@ -37,16 +37,13 @@ angular.module('chesireApp')
         });
     };
 
-    // $scope.chordSelected = function(chord) {
-    //     debugger;
-    // };
-
     $scope.chordsStoreChanged = function(allChords) {
 
         $scope.chordAlreadyExisting = false;
         angular.forEach(allChords, function(chord){
             if(Scales.isSameChord(chord, $scope.chordInfo)) {
                 $scope.chordAlreadyExisting = chord;
+                $scope.chordInfo = chord;
             }
         });
     };
@@ -56,10 +53,9 @@ angular.module('chesireApp')
         $scope.loading = true;
         ChordStore.saveChord($scope.chordInfo).then(
 
-            function(savedChord) {
+            function(newAllChords) {
 
-                $scope.allChords[savedChord.name] = savedChord;
-                $window.alert('saved!');
+                $scope.allChords = newAllChords;
             }, function(error) {
 
                 $window.alert(error);

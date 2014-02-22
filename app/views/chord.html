@@ -15,8 +15,9 @@
 <div class='chord-tools'>
     <div ng-show='chordAlreadyExisting'>
         <select
-            ng-model="chordInfo"
-            ng-options="c.name for c in allChords">
+            ng-model='chordInfo'
+            ng-options='c.name for c in allChords' 
+        >
         </select>
     </div>
     <div ng-hide='chordAlreadyExisting'>

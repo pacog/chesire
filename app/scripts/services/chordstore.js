@@ -39,7 +39,7 @@ angular.module('chesireApp')
                     allChords.push(chord);
                 }
                 localStorageService.set('chords', allChords);
-                deferred.resolve(chord);
+                deferred.resolve(allChords);
             }
             
             return deferred.promise;
