@@ -4,16 +4,26 @@ angular.module('chesireApp')
 
 .controller('ChordCtrl', function ($scope, $window, Scales, ChordStore) {
 
-
-    //TODO: when chord changes, show the edit part of it,
-    //otherwise just show the select chord utility (select with search)
-
     $scope.init = function() {
 
         $scope.allNotes = angular.copy(Scales.getAllNotes());
 
         $scope.$watch('allChords', $scope.chordsStoreChanged, true);
+        $scope.$watch('chordInfo', $scope.selectedChordChanged, true);
 
+        $scope.updateSelectedNotes();
+    };
+
+    $scope.selectedChordChanged = function() {
+
+        $scope.updateSelectedNotes();
+    };
+
+    $scope.updateSelectedNotes = function() {
+
+        angular.forEach($scope.allNotes, function(note) {
+            note.selected = false;
+        });
         angular.forEach($scope.chordInfo.notes, function(selectedNote) {
             angular.forEach($scope.allNotes, function(note) {
                 if(note.name === selectedNote.name) {
