@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.service('Leapmotion', function Leapmotion($rootScope) {
+.factory('Leapmotion', function Leapmotion($rootScope) {
 
     var leapInfo = {
         fingers: 0,
