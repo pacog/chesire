@@ -2,7 +2,9 @@
 
 angular.module('chesireApp')
 
-.controller('ScaleoptionsCtrl', function ($scope, DefaultScale, ChordStore, Scales) {
+//TODO refactor all this so we get the scales from a service
+
+.controller('ScaleoptionsCtrl', function ($scope, DefaultScale, ChordStore, Scales, ScaleOptions) {
 
     var oldChords = null;
 
@@ -10,6 +12,7 @@ angular.module('chesireApp')
         $scope.chesirescale = {
             currentScale: angular.copy(DefaultScale)
         };
+        ScaleOptions.setScaleOptions($scope.chesirescale);
         oldChords = DefaultScale.chords;
 
         $scope.$watch('chesirescale.currentScale.chords', $scope.updateScaleObject, true);
@@ -24,6 +27,7 @@ angular.module('chesireApp')
         if(!Scales.isSameSetOfChords(newChords, oldChords)) {
 
             oldChords = angular.copy(newChords);
+            ScaleOptions.setScaleOptions($scope.chesirescale);
             $scope.chesirescale.currentScale = angular.copy($scope.chesirescale.currentScale);
         }
     };

@@ -1,14 +1,18 @@
 'use strict';
 
-describe('Service: Synthoptions', function() {
+describe('Service: SynthOptions', function() {
 
     // load the service's module
     beforeEach(module('chesireApp'));
 
     // instantiate service
-    var Synthoptions;
-    beforeEach(inject(function(_Synthoptions_) {
-        Synthoptions = _Synthoptions_;
+    var SynthOptions;
+    beforeEach(inject(function(_SynthOptions_) {
+        SynthOptions = _SynthOptions_;
     }));
+
+    it('should do something', function() {
+        expect( !! SynthOptions).toBe(true);
+    });
 
 });

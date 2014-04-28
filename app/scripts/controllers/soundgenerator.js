@@ -12,7 +12,8 @@ angular.module('chesireApp')
 
     $scope.init = function() {
         $scope.frameInfo = Leapmotion.getFrameInfo();
-        $scope.$watch('frameInfo.id', $scope.frameInfoChanged);
+        Leapmotion.subscribeToFrameChange($scope.frameInfoChanged);
+        // $scope.$watch('frameInfo.id', $scope.frameInfoChanged); //TODO: use subscriber instead?
         $scope.resetVars();
         $timeout(function () {
             $scope.$watch('synthoptions.oscillator', $scope.oscillatorTypeChanged);
@@ -35,13 +36,13 @@ angular.module('chesireApp')
         }
     };
 
-    $scope.frameInfoChanged = function() {
+    $scope.frameInfoChanged = function(frame) {
 
-        var frame = Leapmotion.getFrameInfo().frame;
-        if(frame) {
-            if(frame.hands.length) {
-                $scope.motionParams = Leapmotion.getRelativePositions(frame, frame.hands);
-                $scope.updateSound(frame.hands[0]);
+        var newFrame = frame.frame;
+        if(newFrame) {
+            if(newFrame.hands.length) {
+                $scope.motionParams = Leapmotion.getRelativePositions(newFrame, newFrame.hands);
+                $scope.updateSound(newFrame.hands[0]);
             } else {
                 $scope.resetVars();
                 Sound.stopPlaying();

@@ -2,10 +2,29 @@
 
 angular.module('chesireApp')
 
-.factory('MultiNotesHelper', function () {
+.factory('MultiNotesHelper', function (SynthOptions, ScaleOptions) {
 
     var notesInfo = null;
     var chordsInfo = null;
+    var synthoptions = null;
+    var scaleOptions = null;
+
+    var init = function() {
+        synthoptions = SynthOptions.getSynthOptions();
+        SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
+        scaleOptions = ScaleOptions.getScaleOptions();
+        ScaleOptions.subscribeToChangesInScaleOptions(scaleOptionsChanged);
+        changeNotes(scaleOptions.currentScale);
+    };
+
+    var synthOptionsChanged = function(newSynthOptions) {
+        synthoptions = newSynthOptions;
+    };
+
+    var scaleOptionsChanged = function(newScaleOptions) {
+        scaleOptions = newScaleOptions;
+        changeNotes(scaleOptions.currentScale);
+    };
 
     var silenceAllNotes = function() {
 
@@ -16,23 +35,25 @@ angular.module('chesireApp')
 
     var changeNotes = function(newNotes) {
 
-        notesInfo = [];
-        chordsInfo = newNotes;
-        var longerChord = 0;
-        var longerChordIndex = false;
-        angular.forEach(newNotes.chords, function(chord, chordIndex) {
-            if(longerChord<chord.notes.length) {
-                longerChord = chord.notes.length;
-                longerChordIndex = chordIndex;
+        if(newNotes) {
+            notesInfo = [];
+            chordsInfo = newNotes;
+            var longerChord = 0;
+            var longerChordIndex = false;
+            angular.forEach(newNotes.chords, function(chord, chordIndex) {
+                if(longerChord<chord.notes.length) {
+                    longerChord = chord.notes.length;
+                    longerChordIndex = chordIndex;
+                }
+            });
+            for(var i=0; i<longerChord; i++) {
+                notesInfo.push(newNotes.chords[longerChordIndex].notes[i]);
             }
-        });
-        for(var i=0; i<longerChord; i++) {
-            notesInfo.push(newNotes.chords[longerChordIndex].notes[i]);
+            silenceAllNotes();
         }
-        silenceAllNotes();
     };
 
-    var getNotesInfo = function(x, synthoptions) {
+    var getNotesInfo = function(x) {
 
         var positionRelativeToNotes = getPositionRelativeToNotes(x, chordsInfo.chords.length);
 
@@ -100,6 +121,8 @@ angular.module('chesireApp')
 
         return positionRelativeToNotes;
     };
+
+    init();
 
     return {
         changeNotes: changeNotes,

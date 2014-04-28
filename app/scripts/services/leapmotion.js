@@ -25,6 +25,8 @@ angular.module('chesireApp')
     var PALM_DIRECTION_Z_MIN = -0.5;
     var PALM_DIRECTION_Z_MAX = -1;
 
+    var subscribersToFrameChange = [];
+
     var init = function() {
 
         /* global Leap */
@@ -52,6 +54,14 @@ angular.module('chesireApp')
             leapInfo.hands = frame.hands.length;
             frameInfo.frame = frame;
             frameInfo.id = frame.id;
+            notifySubscribersToFrameChange(frameInfo);
+        });
+    };
+
+    var notifySubscribersToFrameChange = function(newFrameInfo) {
+
+        angular.forEach(subscribersToFrameChange, function(subscriberCallback) {
+            subscriberCallback(newFrameInfo);
         });
     };
 
@@ -115,6 +125,11 @@ angular.module('chesireApp')
         return number;
     };
 
+    var subscribeToFrameChange = function(callback) {
+
+        subscribersToFrameChange.push(callback);
+    };
+
     var leapObject = init();
 
     return {
@@ -122,6 +137,7 @@ angular.module('chesireApp')
         leapObject:             leapObject,
         getStats:               getStats,
         getFrameInfo:           getFrameInfo,
-        getRelativePositions:   getRelativePositions
+        getRelativePositions:   getRelativePositions,
+        subscribeToFrameChange: subscribeToFrameChange
     };
 });

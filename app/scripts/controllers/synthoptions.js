@@ -2,7 +2,10 @@
 
 angular.module('chesireApp')
 
-.controller('SynthoptionsCtrl', function ($scope) {
+.controller('SynthoptionsCtrl', function ($scope, SynthOptions) {
+
+    // $scope.$watch('synthoptions', $scope.synthOptionsChanged, true);
+
     $scope.availableOscillators = ['sawtooth', 'sine', 'square', 'triangle'];
     $scope.synthoptions.oscillator = $scope.availableOscillators[1];
 
@@ -31,6 +34,7 @@ angular.module('chesireApp')
         inverse: true
     };
 
+    //TODO: this shouldn't be in the controller
     $scope.synthoptions.snap = function(x) {
 
         var SNAP_DISTANCE = 0.35;
@@ -44,4 +48,11 @@ angular.module('chesireApp')
         return 1;
 
     };
+
+    SynthOptions.setSynthOptions($scope.synthoptions);
+
+    // $scope.synthOptionsChanged = function(newSynthOptions) {
+    //     console.log(newSynthOptions);
+    //     SynthOptions.setSynthOptions(newSynthOptions);
+    // };
 });
