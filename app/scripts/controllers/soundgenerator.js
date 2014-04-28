@@ -6,15 +6,13 @@ angular.module('chesireApp')
 
     var sounds = {};
 
-    $scope.resetVars = function() {
+    var resetVars = function() {
         $scope.motionParams = {};
     };
 
-    $scope.init = function() {
-        $scope.frameInfo = Leapmotion.getFrameInfo();
+    var init = function() {
         Leapmotion.subscribeToFrameChange($scope.frameInfoChanged);
-        // $scope.$watch('frameInfo.id', $scope.frameInfoChanged); //TODO: use subscriber instead?
-        $scope.resetVars();
+        resetVars();
         $timeout(function () {
             $scope.$watch('synthoptions.oscillator', $scope.oscillatorTypeChanged);
             $scope.$watch('chesirescale.currentScale', $scope.notesChanged);
@@ -44,7 +42,7 @@ angular.module('chesireApp')
                 $scope.motionParams = Leapmotion.getRelativePositions(newFrame, newFrame.hands);
                 $scope.updateSound(newFrame.hands[0]);
             } else {
-                $scope.resetVars();
+                resetVars();
                 Sound.stopPlaying();
             }
         }
@@ -115,5 +113,5 @@ angular.module('chesireApp')
         }
     };
 
-    $scope.init();
+    init();
  });
