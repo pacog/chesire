@@ -65,10 +65,32 @@ $sharp-note-width: 8px;
         margin-top: $grid-s;
         left: 50%;
         margin-left: -($note-info-width/2);
-        z-index: 15;
+        z-index: $zIndex-blackNotesInChord;
         text-align: center;
         padding: $grid-m;
         .note:hover & {
             display: block;
         }
     }
+
+    .chord-selector {
+        position: relative;
+    }
+        .chord-selector-list {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            background: white;
+            z-index: $zIndex-chordSelector;
+        }
+            .chord-selector-list-item {
+                display: block;
+                width: 200px;
+                color: black;
+                padding: 5px;
+                cursor: pointer;
+
+                &:hover {
+                    background: #ddd;
+                }
+            }

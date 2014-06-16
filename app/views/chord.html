@@ -13,17 +13,13 @@
     </li>
 </ul>
 <div class='chord-tools'>
-    <div ng-show='chordAlreadyExisting'>
-        <select
-            ng-model='chordInfo'
-            ng-options='c.name for c in allChords' 
-        >
-        </select>
-    </div>
-    <div ng-hide='chordAlreadyExisting'>
-        <input ng-model='chordInfo.name' />
+    <div class='chord-selector'>
+        <input ng-focus='onNameFocus()' ng-blur='onNameBlur()' ng-model='chordInfo.name' />
         <button ng-click='saveChord()'>Save chord</button>
+        <div class='chord-selector-list' ng-show='showSelectorList'>
+            <a class='chord-selector-list-item' ng-repeat='chord in allChords' ng-mousedown='selectChord(chord)'>{{chord.name}}</a>
+        </div>
     </div>
 
-    <button ng-click='deleteChord()'>Delete chord</button>
+    <button ng-click='deleteChord()' ng-show='chordAlreadyExisting'>Delete chord</button>
 </div>
