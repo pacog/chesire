@@ -66,39 +66,24 @@ angular.module('chesireApp')
                 $scope.chordInfo = chord;
             }
         });
+        if(!$scope.chordAlreadyExisting) {
+            $scope.chordInfo.name = '';
+        }
     };
 
     $scope.saveChord = function() {
 
         $scope.loading = true;
-        ChordStore.saveChord($scope.chordInfo).then(
-
-            function(newAllChords) {
-
-                $scope.allChords = newAllChords;
-            }, function(error) {
-
-                $window.alert(error);
-            })['finally'](function() {
-
-                $scope.loading = false;
-            });
+        ChordStore.saveChord($scope.chordInfo)['finally'](function() {
+            $scope.loading = false;
+        });
     };
     $scope.deleteChord = function() {
 
         $scope.loading = true;
-        ChordStore.deleteChord($scope.chordInfo).then(
-
-                function(newAllChords) {
-
-                $scope.allChords = newAllChords;
-            }, function(error) {
-
-                $window.alert(error);
-            })['finally'](function() {
-
-                $scope.loading = false;
-            });
+        ChordStore.deleteChord($scope.chordInfo)['finally'](function() {
+            $scope.loading = false;
+        });
     };
 
     $scope.init();
