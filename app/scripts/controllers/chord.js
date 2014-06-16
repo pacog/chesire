@@ -41,6 +41,7 @@ angular.module('chesireApp')
 
     $scope.selectChord = function(chord) {
         $scope.chordInfo = angular.copy(chord);
+        chordsStoreChanged($scope.allChords);
     };
 
     $scope.selectNote = function(noteName) {
