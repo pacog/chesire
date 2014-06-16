@@ -8,7 +8,6 @@ angular.module('chesireApp')
     var subscriberCallbacks = [];
 
     var setSynthOptions = function(newSynthOptions) {
-        console.log(newSynthOptions);
         synthOptions = newSynthOptions;
         notifyChangeInSynthOptions(newSynthOptions);
 

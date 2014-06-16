@@ -7,8 +7,9 @@ angular.module('chesireApp')
     $scope.init = function() {
 
         $scope.allNotes = angular.copy(Scales.getAllNotes());
-        $scope.$watch('allChords', $scope.chordsStoreChanged, true);
         $scope.$watch('chordInfo', $scope.selectedChordChanged, true);
+        ChordStore.getChords().then(chordsStoreChanged);
+        ChordStore.subscribeToChangeInAllChords(chordsStoreChanged);
         $scope.updateSelectedNotes();
     };
 
@@ -56,8 +57,8 @@ angular.module('chesireApp')
         }
     };
 
-    $scope.chordsStoreChanged = function(allChords) {
-
+    var chordsStoreChanged = function(allChords) {
+        $scope.allChords = allChords;
         $scope.chordAlreadyExisting = false;
         angular.forEach(allChords, function(chord){
             if(Scales.isSameChord(chord, $scope.chordInfo)) {
@@ -85,7 +86,19 @@ angular.module('chesireApp')
     };
     $scope.deleteChord = function() {
 
-        ChordStore.removeChord($scope.chordInfo);
+        $scope.loading = true;
+        ChordStore.deleteChord($scope.chordInfo).then(
+
+                function(newAllChords) {
+
+                $scope.allChords = newAllChords;
+            }, function(error) {
+
+                $window.alert(error);
+            })['finally'](function() {
+
+                $scope.loading = false;
+            });
     };
 
     $scope.init();

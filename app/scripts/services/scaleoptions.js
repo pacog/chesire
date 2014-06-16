@@ -8,7 +8,6 @@ angular.module('chesireApp')
     var subscriberCallbacks = [];
 
     var setScaleOptions = function(newScaleOptions) {
-        console.log(newScaleOptions);
         scaleOptions = newScaleOptions;
         notifyChangeInScaleOptions(newScaleOptions);
 

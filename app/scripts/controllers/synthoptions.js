@@ -50,9 +50,4 @@ angular.module('chesireApp')
     };
 
     SynthOptions.setSynthOptions($scope.synthoptions);
-
-    // $scope.synthOptionsChanged = function(newSynthOptions) {
-    //     console.log(newSynthOptions);
-    //     SynthOptions.setSynthOptions(newSynthOptions);
-    // };
 });

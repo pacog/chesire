@@ -14,6 +14,7 @@ angular.module('chesireApp')
         Leapmotion.subscribeToFrameChange($scope.frameInfoChanged);
         resetVars();
         $timeout(function () {
+            //TODO: use observer pattern for this
             $scope.$watch('synthoptions.oscillator', $scope.oscillatorTypeChanged);
             $scope.$watch('chesirescale.currentScale', $scope.notesChanged);
         });
