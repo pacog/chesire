@@ -9,7 +9,6 @@ angular.module('chesireApp')
         restrict: 'E',
         scope: {
             'synthoptions': '=',
-            'chesirescale': '=',
             'currentsound': '='
         },
         controller: 'StatsCtrl',

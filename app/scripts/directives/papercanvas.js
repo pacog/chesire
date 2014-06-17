@@ -7,9 +7,7 @@ angular.module('chesireApp')
         restrict: 'E',
         controller: 'PapercanvasCtrl',
         templateUrl: 'views/papercanvas.html',
-        scope: {
-            'chesirescale': '='
-        },
+        scope: {},
         link: function postLink(scope, element) {
             var canvas = element.find('canvas');
 

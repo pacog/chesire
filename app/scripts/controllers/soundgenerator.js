@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('SoundgeneratorCtrl', function ($scope, $timeout, Leapmotion, Sound, MultiNotesHelper) {
+.controller('SoundgeneratorCtrl', function ($scope, $timeout, Leapmotion, Sound, MultiNotesHelper, ScaleOptions) {
 
     var sounds = {};
 
@@ -16,11 +16,13 @@ angular.module('chesireApp')
         $timeout(function () {
             //TODO: use observer pattern for this
             $scope.$watch('synthoptions.oscillator', $scope.oscillatorTypeChanged);
-            $scope.$watch('chesirescale.currentScale', $scope.notesChanged);
         });
+        ScaleOptions.subscribeToChangesInScaleOptions(notesChanged);
+        notesChanged(ScaleOptions.getScaleOptions());
     };
 
-    $scope.notesChanged = function(newValue) {
+
+    var notesChanged = function(newValue) {
 
         if(newValue) {
             Sound.changeScale(newValue);
@@ -90,11 +92,6 @@ angular.module('chesireApp')
     };
 
     $scope.updateNoteSources = function(x) {
-
-        if(!$scope.chesirescale || !$scope.chesirescale.currentScale) {
-            throw 'SoundGenerator: no scale present to find the correct frequency';
-        }
-
         $scope.notesInfo = MultiNotesHelper.getNotesInfo(x, $scope.synthoptions);
         Sound.changePlayingFrequency($scope.notesInfo);
     };

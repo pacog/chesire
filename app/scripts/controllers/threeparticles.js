@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('ThreeparticlesCtrl', function ($scope, $timeout, Three, Leapmotion, Colorpalette) {
+.controller('ThreeparticlesCtrl', function ($scope, $timeout, Three, Leapmotion, Colorpalette, ScaleOptions) {
 
     var interactionBox = {
         width: 221,
@@ -143,15 +143,14 @@ angular.module('chesireApp')
             createScene(element);
             $scope.frameInfo = Leapmotion.getFrameInfo();
             $scope.$watch('frameInfo.id', $scope.frameInfoChanged);
-            $scope.$watch('chesirescale', $scope.scaleChanged);
             $scope.renderer.render($scope.scene, $scope.camera);
         });
+        ScaleOptions.subscribeToChangesInScaleOptions(scaleChanged);
     };
 
-    $scope.createKeyRanges = function() {
-
+    $scope.createKeyRanges = function(newScale) {
         $scope.keyRanges = [];
-        var chords = $scope.chesirescale.currentScale.chords;
+        var chords = newScale.chords;
         for(var i=0; i<chords.length; i++) {
             $scope.keyRanges.push({
                 start: (interactionBox.width/(chords.length-1))*(i) - (CHORDS_WIDTH/2) + xMin,
@@ -160,11 +159,11 @@ angular.module('chesireApp')
         }
     };
 
-    $scope.scaleChanged = function(newScale) {
+    var scaleChanged = function(newScale) {
 
         if(newScale) {
 
-            $scope.createKeyRanges();
+            $scope.createKeyRanges(newScale);
             //TODO
             // $scope.removeParticles();
             createParticles();

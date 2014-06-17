@@ -10,7 +10,6 @@ angular.module('chesireApp')
     var setScaleOptions = function(newScaleOptions) {
         scaleOptions = newScaleOptions;
         notifyChangeInScaleOptions(newScaleOptions);
-
     };
 
     var getScaleOptions = function() {

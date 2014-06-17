@@ -6,9 +6,7 @@ angular.module('chesireApp')
     return {
         templateUrl: 'views/scaleoptions.html',
         restrict: 'E',
-        scope: {
-            'chesirescale': '='
-        },
+        scope: {},
         controller: 'ScaleoptionsCtrl'
     };
 });

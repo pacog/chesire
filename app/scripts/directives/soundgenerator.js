@@ -8,7 +8,6 @@ angular.module('chesireApp')
         templateUrl: 'views/soundgenerator.html',
         scope: {
             'synthoptions': '=',
-            'chesirescale': '=',
             'currentsound': '='
         },
         controller: 'SoundgeneratorCtrl'

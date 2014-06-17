@@ -7,8 +7,7 @@ angular.module('chesireApp')
         restrict: 'E',
         templateUrl: 'views/midigenerator.html',
         scope: {
-            'synthoptions': '=',
-            'chesirescale': '='
+            'synthoptions': '='
         },
         controller: 'MidigeneratorCtrl'
     };

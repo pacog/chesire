@@ -1,11 +1,12 @@
 <div class='scaleoptions'>
-    <h3>{{chesirescale.currentScale.name}}</h3>
+    <h3>{{currentScale.name}}</h3>
     <ul>
-        <li ng-repeat='chord in chesirescale.currentScale.chords'>
+        <li ng-repeat='chord in currentScale.chords'>
             <chord
                 chord-info='chord'
                 chord-index='$index'
-                chords-array='chesirescale.currentScale.chords'>
+                chords-array='currentScale.chords',
+                on-chord-change='onChordChange'>
             </chord>
         </li>
     </ul>

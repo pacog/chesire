@@ -14,7 +14,7 @@ angular.module('chesireApp')
         SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
         scaleOptions = ScaleOptions.getScaleOptions();
         ScaleOptions.subscribeToChangesInScaleOptions(scaleOptionsChanged);
-        changeNotes(scaleOptions.currentScale);
+        changeNotes(scaleOptions);
     };
 
     var synthOptionsChanged = function(newSynthOptions) {
@@ -23,7 +23,7 @@ angular.module('chesireApp')
 
     var scaleOptionsChanged = function(newScaleOptions) {
         scaleOptions = newScaleOptions;
-        changeNotes(scaleOptions.currentScale);
+        changeNotes(scaleOptions);
     };
 
     var silenceAllNotes = function() {

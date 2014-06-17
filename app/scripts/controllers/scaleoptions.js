@@ -8,29 +8,25 @@ angular.module('chesireApp')
 
     var oldChords = null;
 
-    $scope.init = function() {
-        $scope.chesirescale = {
-            currentScale: angular.copy(DefaultScale)
-        };
-        ScaleOptions.setScaleOptions($scope.chesirescale);
-        oldChords = DefaultScale.chords;
-
-        $scope.$watch('chesirescale.currentScale.chords', $scope.updateScaleObject, true);
-
-        ChordStore.getChords().then(function(allChords) {
-            $scope.allChords = allChords;
-        });
+    var init = function() {
+        $scope.currentScale = angular.copy(DefaultScale);
+        ScaleOptions.setScaleOptions($scope.currentScale);
+        oldChords = angular.copy($scope.currentScale.chords);
     };
 
-    $scope.updateScaleObject = function(newChords) {
+    $scope.onChordChange = function(chordIndex, chord) {
+        var newChords = angular.copy(oldChords);
+        newChords[chordIndex] = angular.copy(chord);
+        updateScaleObject(newChords);
+    };
 
+    var updateScaleObject = function(newChords) {
         if(!Scales.isSameSetOfChords(newChords, oldChords)) {
-
             oldChords = angular.copy(newChords);
-            ScaleOptions.setScaleOptions($scope.chesirescale);
-            $scope.chesirescale.currentScale = angular.copy($scope.chesirescale.currentScale);
+            $scope.currentScale.chords = angular.copy(newChords);
+            ScaleOptions.setScaleOptions($scope.currentScale);
         }
     };
 
-    $scope.init();
+    init();
  });

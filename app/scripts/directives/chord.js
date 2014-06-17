@@ -9,7 +9,8 @@ angular.module('chesireApp')
         scope: {
             'chordInfo': '=',
             'chordsArray': '=',
-            'chordIndex': '='
+            'chordIndex': '=',
+            'onChordChange': '='
         },
         controller: 'ChordCtrl'
     };

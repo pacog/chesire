@@ -4,10 +4,11 @@ angular.module('chesireApp')
 
 .controller('ChordCtrl', function ($scope, $window, Scales, ChordStore) {
 
-    $scope.init = function() {
+    var init = function() {
 
         $scope.allNotes = angular.copy(Scales.getAllNotes());
-        $scope.$watch('chordInfo', $scope.selectedChordChanged, true);
+        $scope.$watch('chordInfo.name', $scope.selectedChordChanged, true);
+        // $scope.$watchCollection('chordInfo.chords', $scope.selectedChordChanged, true);
         $scope.$watch('chordAlreadyExisting', chordExistingChange, true);
         ChordStore.getChords().then(chordsStoreChanged);
         ChordStore.subscribeToChangeInAllChords(chordsStoreChanged);
@@ -16,6 +17,7 @@ angular.module('chesireApp')
 
     $scope.selectedChordChanged = function() {
         $scope.updateSelectedNotes();
+        $scope.onChordChange($scope.chordIndex, $scope.chordInfo);
     };
 
     $scope.updateSelectedNotes = function() {
@@ -56,6 +58,7 @@ angular.module('chesireApp')
             }
         });
         chordsStoreChanged($scope.allChords);
+        $scope.onChordChange($scope.chordIndex, $scope.chordInfo);
     };
 
     var chordsStoreChanged = function(allChords) {
@@ -91,5 +94,5 @@ angular.module('chesireApp')
         });
     };
 
-    $scope.init();
+    init();
 });
