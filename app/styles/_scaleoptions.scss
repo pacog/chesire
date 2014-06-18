@@ -1,8 +1,17 @@
 .scaleoptions {
-    display: block;
-    position: absolute;
     background: $dark-blue;
-    top: $grid-l;
-    left: $grid-l;
-    padding: $grid-m $grid-l;
 }
+    .scale-options-header {
+        height: $header-height;
+        padding: $grid-m $grid-l;
+    }
+        .scale-options-title {
+            display: block;
+            line-height: $header-height - 2*$grid-m;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+    .scale-options-content {
+        padding: $grid-m $grid-l;
+    }

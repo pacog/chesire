@@ -1,0 +1,19 @@
+.header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    @include display-box;
+    @include box-orient(horizontal);
+    padding: $grid-m;
+}
+    scaleoptions {
+        display: block;
+        @include box-flex(1);
+        margin-right: $grid-s;
+    }
+    .logo {
+        width: 120px;
+        height: $header-height;
+        position: relative;
+    }
