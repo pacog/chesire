@@ -1,13 +1,17 @@
 <div class='scaleoptions'>
-    <h3>{{currentScale.name}}</h3>
-    <ul>
-        <li ng-repeat='chord in currentScale.chords'>
-            <chord
-                chord-info='chord'
-                chord-index='$index'
-                chords-array='currentScale.chords',
-                on-chord-change='onChordChange'>
-            </chord>
-        </li>
-    </ul>
+    <div class='scale-options-header' ng-hide='expanded'>
+        <a  class='scale-options-title' ng-click='toggle()'>{{currentScale.name}}</a>
+    </div>
+    <div class='scale-options-content' ng-show='expanded'>
+        <ul>
+            <li ng-repeat='chord in currentScale.chords'>
+                <chord
+                    chord-info='chord'
+                    chord-index='$index'
+                    chords-array='currentScale.chords',
+                    on-chord-change='onChordChange'>
+                </chord>
+            </li>
+        </ul>
+    </div>
 </div>

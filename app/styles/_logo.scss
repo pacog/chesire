@@ -1,0 +1,19 @@
+.logo {
+    background: $dark-blue;
+    position: absolute;
+    top: $grid-l;
+    right: $grid-l;
+    width: $header-height;
+    height: 75px;
+    &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: $grid-s;
+        left: $grid-s;
+        right: $grid-s;
+        bottom: $grid-s;
+        background: url("../images/chesire_logo_white.png");
+        background-size: cover;
+    }
+}

@@ -8,6 +8,8 @@ angular.module('chesireApp')
 
     var oldChords = null;
 
+    $scope.expanded = false;
+
     var init = function() {
         $scope.currentScale = angular.copy(DefaultScale);
         ScaleOptions.setScaleOptions($scope.currentScale);
@@ -26,6 +28,10 @@ angular.module('chesireApp')
             $scope.currentScale.chords = angular.copy(newChords);
             ScaleOptions.setScaleOptions($scope.currentScale);
         }
+    };
+
+    $scope.toggle = function() {
+        $scope.expanded = !$scope.expanded;
     };
 
     init();

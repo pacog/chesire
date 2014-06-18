@@ -22,12 +22,12 @@ angular.module('chesireApp')
 
     // http://www.colourlovers.com/palette/3228090/Unnatural_%E2%99%A5
     return {
-        BACKGROUND: '#8BC28A',
+        BACKGROUND: '#1a1b1d',
         PARTICLES: '#BA8E3D',
         PARTICLES_NOTE: '#D65B27',
         POINTER: '#E32933',
         hex: {
-            BACKGROUND: 0x8BC28A,
+            BACKGROUND: 0x1a1b1d,
             PARTICLES: 0xBA8E3D,
             PARTICLES_NOTE: 0xD65B27,
             POINTER: 0xE32933,

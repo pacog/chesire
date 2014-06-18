@@ -23,7 +23,6 @@ angular.module('chesireApp')
 
 
     var notesChanged = function(newValue) {
-
         if(newValue) {
             Sound.changeScale(newValue);
             MultiNotesHelper.changeNotes(newValue);

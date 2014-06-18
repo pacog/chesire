@@ -1,7 +1,8 @@
 .scaleoptions {
     display: block;
     position: absolute;
-    top: $grid-m;
-    left: $grid-m;
-    @extend .tile;
+    background: $dark-blue;
+    top: $grid-l;
+    left: $grid-l;
+    padding: $grid-m $grid-l;
 }
