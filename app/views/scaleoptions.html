@@ -3,7 +3,7 @@
         <a  class='scale-options-title' ng-click='toggle()'>{{currentScale.name}}</a>
     </div>
     <div class='scale-options-content' ng-show='expanded'>
-        <a  class='scale-options-title' ng-click='toggle()'>{{currentScale.name}}</a>
+        <a class='scale-options-close' ng-click='toggle()'></a>
         <ul>
             <li ng-repeat='chord in currentScale.chords'>
                 <chord

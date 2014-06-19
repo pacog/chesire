@@ -12,6 +12,11 @@
         @include box-flex(1);
         margin-right: $grid-s;
     }
+    synthoptions {
+        display: block;
+        @include box-flex(1);
+        margin-right: $grid-s;
+    }
     .logo {
         width: 120px;
         height: $header-height;

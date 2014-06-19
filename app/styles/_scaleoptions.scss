@@ -13,5 +13,25 @@
             cursor: pointer;
         }
     .scale-options-content {
+        position: relative;
         padding: $grid-m $grid-l;
     }
+        .scale-options-close {
+            position: absolute;
+            top: $grid-m;
+            right: $grid-m;
+            background: lighten($dark-blue, 5);
+            cursor: pointer;
+            height: 2*$grid-l;
+            width: 2*$grid-l;
+            text-align: center;
+            &:before {
+                font-family: entypo;
+                content: '\274C';
+                font-size: 68px;
+                line-height: 2*$grid-l;
+            }
+            &:hover {
+                background: lighten($dark-blue, 15);
+            }
+        }
