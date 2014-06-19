@@ -6,9 +6,10 @@ input {
     height: $grid-l + $grid-m;
     line-height: $grid-l + $grid-m;
     vertical-align: middle;
+    outline: none;
 }
 
-button {
+.button {
     @include inline-block;
     padding: 0 $grid-m;
     margin: 0;
@@ -24,5 +25,17 @@ button {
     }
     &[disabled=disabled] {
         @include opacity(0.5);
+    }
+}
+
+.big-button {
+    padding: 0;
+    border: 0;
+    background: lighten($dark-blue, 5);
+    text-align: center;
+    cursor: pointer;
+    color: white;
+    &:hover {
+        background: lighten($dark-blue, 15);
     }
 }

@@ -1,9 +1,9 @@
 <div class='scaleoptions'>
     <div class='scale-options-header' ng-hide='expanded'>
-        <a  class='scale-options-title' ng-click='toggle()'>{{currentScale.name}}</a>
+        <button class='big-button scale-options-title' ng-click='toggle()'>{{currentScale.name}}</button>
     </div>
     <div class='scale-options-content' ng-show='expanded'>
-        <a class='scale-options-close' ng-click='toggle()'></a>
+        <button class='big-button scale-options-close' ng-click='toggle()'></button>
         <ul>
             <li ng-repeat='chord in currentScale.chords'>
                 <chord

@@ -82,16 +82,18 @@ $sharp-note-width: 8px;
     }
         .chord-selector-list {
             position: absolute;
-            top: 20px;
+            top: 29px;
             left: 0;
             background: white;
             z-index: $zIndex-chordSelector;
+            font-size: 12px;
+            border: 1px solid $background-color;
         }
             .chord-selector-list-item {
                 display: block;
-                width: 200px;
+                min-width: 100px;
                 color: black;
-                padding: 5px;
+                padding: $grid-s;
                 cursor: pointer;
 
                 &:hover {
