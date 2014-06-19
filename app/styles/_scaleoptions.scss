@@ -24,6 +24,7 @@
             right: $grid-m;
             height: 2*$grid-l;
             width: 2*$grid-l;
+            z-index: 10;
             &:after {
                 font-family: entypo;
                 content: '\274C';

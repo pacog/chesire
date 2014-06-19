@@ -9,6 +9,10 @@ input {
     outline: none;
 }
 
+button {
+    outline: none;
+}
+
 .button {
     @include inline-block;
     padding: 0 $grid-m;
