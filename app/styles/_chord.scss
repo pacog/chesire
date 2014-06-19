@@ -1,5 +1,9 @@
 .chord {
-    margin: $grid-m $grid-s;
+    margin: $grid-l 0;
+}
+
+.chord-keyboard {
+    margin: $grid-s 0;
 }
 
 $note-height: 24px;

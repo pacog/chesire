@@ -8,7 +8,6 @@ angular.module('chesireApp')
 
         $scope.allNotes = angular.copy(Scales.getAllNotes());
         $scope.$watch('chordInfo.name', $scope.selectedChordChanged, true);
-        // $scope.$watchCollection('chordInfo.chords', $scope.selectedChordChanged, true);
         $scope.$watch('chordAlreadyExisting', chordExistingChange, true);
         ChordStore.getChords().then(chordsStoreChanged);
         ChordStore.subscribeToChangeInAllChords(chordsStoreChanged);

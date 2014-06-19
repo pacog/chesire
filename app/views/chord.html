@@ -1,25 +1,26 @@
-<ul class='chord'>
-    <li class='note'
-        ng-class='{"sharp-note": (note.name.indexOf("#")!==-1)
-                    , "selected": note.selected}'
-        ng-repeat='note in allNotes'
-    >
-        <div class='note-content'>
-            <button ng-click='selectNote(note.name)' class='note-button'></button>
-            <div class='note-info'>
-                {{note.name}}
+<div class='chord'>
+    <div class='chord-tools'>
+        <div class='chord-selector'>
+            <input ng-focus='onNameFocus()' ng-blur='onNameBlur()' ng-model='chordInfo.name' />
+            <button ng-click='saveChord()' ng-disabled='!chordInfo.name'>Save chord</button>
+            <button ng-click='deleteChord()' ng-show='chordAlreadyExisting'>Delete chord</button>
+            <div class='chord-selector-list' ng-show='showSelectorList'>
+                <a class='chord-selector-list-item' ng-repeat='chord in allChords' ng-mousedown='selectChord(chord)'>{{chord.name}}</a>
             </div>
         </div>
-    </li>
-</ul>
-<div class='chord-tools'>
-    <div class='chord-selector'>
-        <input ng-focus='onNameFocus()' ng-blur='onNameBlur()' ng-model='chordInfo.name' />
-        <button ng-click='saveChord()'>Save chord</button>
-        <div class='chord-selector-list' ng-show='showSelectorList'>
-            <a class='chord-selector-list-item' ng-repeat='chord in allChords' ng-mousedown='selectChord(chord)'>{{chord.name}}</a>
-        </div>
     </div>
-
-    <button ng-click='deleteChord()' ng-show='chordAlreadyExisting'>Delete chord</button>
+    <ul class='chord-keyboard'>
+        <li class='note'
+            ng-class='{"sharp-note": (note.name.indexOf("#")!==-1)
+                        , "selected": note.selected}'
+            ng-repeat='note in allNotes'
+        >
+            <div class='note-content'>
+                <button ng-click='selectNote(note.name)' class='note-button'></button>
+                <div class='note-info'>
+                    {{note.name}}
+                </div>
+            </div>
+        </li>
+    </ul>
 </div>

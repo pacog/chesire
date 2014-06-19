@@ -1,0 +1,28 @@
+input {
+    @include inline-block;
+    border: 1px solid $background-color;
+    padding: $grid-s;
+    margin: 0;
+    height: $grid-l + $grid-m;
+    line-height: $grid-l + $grid-m;
+    vertical-align: middle;
+}
+
+button {
+    @include inline-block;
+    padding: 0 $grid-m;
+    margin: 0;
+    height: $grid-l + $grid-m;
+    line-height: $grid-l + $grid-m;
+    vertical-align: middle;
+    background: $background-color;
+    border: 1px solid lighten($dark-blue, 10);
+    color: white;
+    cursor: pointer;
+    &:hover {
+        border: 1px solid lighten($dark-blue, 30);
+    }
+    &[disabled=disabled] {
+        @include opacity(0.5);
+    }
+}
