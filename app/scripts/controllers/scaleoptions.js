@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('ScaleoptionsCtrl', function ($scope, DefaultScale, Scales, ScaleOptions, SongStore) {
+.controller('ScaleoptionsCtrl', function ($scope, DefaultScale, Scales, ScaleOptions, SongStore, LastUsedSettingsStore) {
 
     var oldChords = null;
 
@@ -10,29 +10,36 @@ angular.module('chesireApp')
     $scope.listOfSongsExpanded = false;
 
     var init = function() {
-        //TODO: use the previous saved song
-        $scope.currentScale = angular.copy(DefaultScale);
-        ScaleOptions.setScaleOptions($scope.currentScale);
-        oldChords = angular.copy($scope.currentScale.chords);
-        SongStore.getSongs().then(songsStoreChanged);
-        SongStore.subscribeToChangeInAllSongs(songsStoreChanged);
+
+        LastUsedSettingsStore.getLastUsedSong().then(function(lastUsedSong) {
+            if(!lastUsedSong) {
+                lastUsedSong = DefaultScale;
+            }
+            $scope.currentScale = angular.copy(lastUsedSong);
+            ScaleOptions.setScaleOptions($scope.currentScale);
+            oldChords = angular.copy($scope.currentScale.chords);
+            SongStore.getSongs().then(songsStoreChanged);
+            SongStore.subscribeToChangeInAllSongs(songsStoreChanged);
+            LastUsedSettingsStore.notifyLastUsedSongChanged($scope.currentScale);
+        });
     };
 
     $scope.onChordChange = function(chordIndex, chord) {
         var newChords = angular.copy(oldChords);
         newChords[chordIndex] = angular.copy(chord);
-        updateScaleObject(newChords);
+        updateSongObject(newChords);
     };
 
     var songsStoreChanged = function(newListOfSongs) {
         $scope.availableSongs = newListOfSongs;
     };
 
-    var updateScaleObject = function(newChords) {
+    var updateSongObject = function(newChords) {
         if(!Scales.isSameSetOfChords(newChords, oldChords)) {
             oldChords = angular.copy(newChords);
             $scope.currentScale.chords = angular.copy(newChords);
             ScaleOptions.setScaleOptions($scope.currentScale);
+            LastUsedSettingsStore.notifyLastUsedSongChanged($scope.currentScale);
         }
     };
 
@@ -60,19 +67,19 @@ angular.module('chesireApp')
     $scope.selectSong = function(song) {
         $scope.listOfSongsExpanded = false;
         $scope.currentScale = song;
-        updateScaleObject(song.chords);
+        updateSongObject(song.chords);
     };
 
     $scope.removeChordFromSong = function(indexOfChord) {
         if($scope.currentScale.chords.length>2) {
             $scope.currentScale.chords.splice(indexOfChord, 1);
-            updateScaleObject($scope.currentScale.chords);
+            updateSongObject($scope.currentScale.chords);
         }
     };
 
     $scope.addChord = function() {
         $scope.currentScale.chords.push(Scales.getEmptyChord());
-        updateScaleObject($scope.currentScale.chords);
+        updateSongObject($scope.currentScale.chords);
     };
 
     init();
