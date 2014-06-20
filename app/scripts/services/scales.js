@@ -50,11 +50,19 @@ angular.module('chesireApp')
         return result;
     };
 
+    var getEmptyChord = function() {
+        return {
+            name: 'No name',
+            notes: []
+        };
+    };
+
     return {
         getAllNotes: function () {
             return notes;
         },
         isSameChord: isSameChord,
-        isSameSetOfChords: isSameSetOfChords
+        isSameSetOfChords: isSameSetOfChords,
+        getEmptyChord: getEmptyChord
     };
 });

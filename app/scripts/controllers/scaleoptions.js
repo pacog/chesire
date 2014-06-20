@@ -63,5 +63,10 @@ angular.module('chesireApp')
         updateScaleObject(song.chords);
     };
 
+    $scope.addChord = function() {
+        $scope.currentScale.chords.push(Scales.getEmptyChord());
+        updateScaleObject($scope.currentScale.chords);
+    };
+
     init();
  });

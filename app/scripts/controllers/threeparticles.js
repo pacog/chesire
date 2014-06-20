@@ -24,6 +24,7 @@ angular.module('chesireApp')
 
     var pointerElement;
     var particles = null;
+    var particleSystem = null;
 
     var createParticles = function() {
 
@@ -55,8 +56,15 @@ angular.module('chesireApp')
                 
             }
         }
+
+        //Remove previous particles if any
+        if(particleSystem) {
+            $scope.scene.remove(particleSystem);
+            particleSystem = null;
+        }
+
         // create the particle system
-        var particleSystem = new Three.ParticleSystem(
+        particleSystem = new Three.ParticleSystem(
             particles,
             pMaterial);
 
