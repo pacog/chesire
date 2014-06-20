@@ -18,13 +18,16 @@
         <button class='button' ng-click='deleteSong()'>Delete song</button>
         <button class='big-button scale-options-close' ng-click='toggle()'></button>
         <ul>
-            <li ng-repeat='chord in currentScale.chords'>
+            <li class='scale-options-chord-item' ng-repeat='chord in currentScale.chords'>
                 <chord
                     chord-info='chord'
                     chord-index='$index'
                     chords-array='currentScale.chords',
                     on-chord-change='onChordChange'>
                 </chord>
+                <button class='big-button scale-options-remove-chord' ng-disabled='currentScale.chords.length<=2' ng-click='removeChordFromSong($index)'>
+                    <span class='scale-options-remove-chord-help'>Remove chord from song</span>
+                </button>
             </li>
         </ul>
         <button class='big-button scale-options-add-chord' ng-click='addChord()'>Add chord</button>

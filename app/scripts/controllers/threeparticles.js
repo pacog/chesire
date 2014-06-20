@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('ThreeparticlesCtrl', function ($scope, $timeout, Three, Leapmotion, Colorpalette, ScaleOptions) {
+.controller('ThreeparticlesCtrl', function ($scope, $timeout, $q, Three, Leapmotion, Colorpalette, ScaleOptions) {
 
     var interactionBox = {
         width: 221,
@@ -26,8 +26,10 @@ angular.module('chesireApp')
     var particles = null;
     var particleSystem = null;
 
-    var createParticles = function() {
+    var whenSceneIsReady = $q.defer();
 
+
+    var createParticles = function() {
         particles = particles = new Three.Geometry();
         var pMaterial = new Three.ParticleBasicMaterial({
           size: PARTICLE_SIZE,
@@ -145,13 +147,13 @@ angular.module('chesireApp')
     };
 
     $scope.init = function(element) {
-
         //Timeout to make sure DOM is created for the directive
         $timeout(function() {
             createScene(element);
             $scope.frameInfo = Leapmotion.getFrameInfo();
             $scope.$watch('frameInfo.id', $scope.frameInfoChanged);
             $scope.renderer.render($scope.scene, $scope.camera);
+            whenSceneIsReady.resolve(true);
         });
         ScaleOptions.subscribeToChangesInScaleOptions(scaleChanged);
     };
@@ -170,11 +172,10 @@ angular.module('chesireApp')
     var scaleChanged = function(newScale) {
 
         if(newScale) {
-
-            $scope.createKeyRanges(newScale);
-            //TODO
-            // $scope.removeParticles();
-            createParticles();
+            whenSceneIsReady.promise.then(function () {
+                $scope.createKeyRanges(newScale);
+                createParticles();
+            });
         }
     };
 

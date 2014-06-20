@@ -63,6 +63,13 @@ angular.module('chesireApp')
         updateScaleObject(song.chords);
     };
 
+    $scope.removeChordFromSong = function(indexOfChord) {
+        if($scope.currentScale.chords.length>2) {
+            $scope.currentScale.chords.splice(indexOfChord, 1);
+            updateScaleObject($scope.currentScale.chords);
+        }
+    };
+
     $scope.addChord = function() {
         $scope.currentScale.chords.push(Scales.getEmptyChord());
         updateScaleObject($scope.currentScale.chords);

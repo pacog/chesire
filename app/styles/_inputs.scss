@@ -42,4 +42,7 @@ button {
     &:hover {
         background: lighten($dark-blue, 15);
     }
+    &[disabled=disabled], &.disabled {
+        @include opacity(0.5);
+    }
 }
