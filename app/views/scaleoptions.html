@@ -1,8 +1,21 @@
 <div class='scaleoptions'>
-    <div class='scale-options-header' ng-hide='expanded'>
-        <button class='big-button scale-options-title' ng-click='toggle()'>{{currentScale.name}}</button>
+    <div class='scale-options-header' ng-class='{"all-songs-list-expanded": listOfSongsExpanded}' ng-hide='expanded'>
+        <button class='big-button scale-options-title' ng-click='toggle()'>
+            {{currentScale.name || "No name"}}
+            <span class='scale-options-title-decorator'></span>
+        </button>
+        <button class='big-button scale-options-list-toggle' ng-click='toggleListOfSongs()'></button>
+        <ul class='scale-options-list' ng-show='listOfSongsExpanded'>
+            <li class='scale-options-list-item' ng-repeat='song in availableSongs'>
+                <a class='scale-options-list-item-link' ng-click='selectSong(song)'>{{song.name}}</a>
+            </li>
+        </ul>
+        
     </div>
     <div class='scale-options-content' ng-show='expanded'>
+        <input type='text' ng-model='currentScale.name'/>
+        <button class='button' ng-click='saveSong()' ng-disabled='!currentScale.name'>Save song</button>
+        <button class='button' ng-click='deleteSong()'>Delete song</button>
         <button class='big-button scale-options-close' ng-click='toggle()'></button>
         <ul>
             <li ng-repeat='chord in currentScale.chords'>
