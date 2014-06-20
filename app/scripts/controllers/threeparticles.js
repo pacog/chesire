@@ -28,6 +28,26 @@ angular.module('chesireApp')
 
     var whenSceneIsReady = $q.defer();
 
+    $scope.init = function(element) {
+        //Timeout to make sure DOM is created for the directive
+        $timeout(function() {
+            createScene(element);
+            $scope.frameInfo = Leapmotion.getFrameInfo();
+            $scope.$watch('frameInfo.id', $scope.frameInfoChanged);
+            $scope.renderer.render($scope.scene, $scope.camera);
+            whenSceneIsReady.resolve(true);
+        });
+        ScaleOptions.subscribeToChangesInScaleOptions(scaleChanged);
+    };
+
+    var scaleChanged = function(newScale) {
+        if(newScale) {
+            whenSceneIsReady.promise.then(function () {
+                $scope.createKeyRanges(newScale);
+                createParticles();
+            });
+        }
+    };
 
     var createParticles = function() {
         particles = particles = new Three.Geometry();
@@ -146,18 +166,6 @@ angular.module('chesireApp')
         return false;
     };
 
-    $scope.init = function(element) {
-        //Timeout to make sure DOM is created for the directive
-        $timeout(function() {
-            createScene(element);
-            $scope.frameInfo = Leapmotion.getFrameInfo();
-            $scope.$watch('frameInfo.id', $scope.frameInfoChanged);
-            $scope.renderer.render($scope.scene, $scope.camera);
-            whenSceneIsReady.resolve(true);
-        });
-        ScaleOptions.subscribeToChangesInScaleOptions(scaleChanged);
-    };
-
     $scope.createKeyRanges = function(newScale) {
         $scope.keyRanges = [];
         var chords = newScale.chords;
@@ -165,16 +173,6 @@ angular.module('chesireApp')
             $scope.keyRanges.push({
                 start: (interactionBox.width/(chords.length-1))*(i) - (CHORDS_WIDTH/2) + xMin,
                 end: (interactionBox.width/(chords.length-1))*(i) + (CHORDS_WIDTH/2) + xMin
-            });
-        }
-    };
-
-    var scaleChanged = function(newScale) {
-
-        if(newScale) {
-            whenSceneIsReady.promise.then(function () {
-                $scope.createKeyRanges(newScale);
-                createParticles();
             });
         }
     };

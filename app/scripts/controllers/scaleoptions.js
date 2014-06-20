@@ -16,11 +16,10 @@ angular.module('chesireApp')
                 lastUsedSong = DefaultScale;
             }
             $scope.currentScale = angular.copy(lastUsedSong);
-            ScaleOptions.setScaleOptions($scope.currentScale);
-            oldChords = angular.copy($scope.currentScale.chords);
             SongStore.getSongs().then(songsStoreChanged);
             SongStore.subscribeToChangeInAllSongs(songsStoreChanged);
             LastUsedSettingsStore.notifyLastUsedSongChanged($scope.currentScale);
+            updateSongObject($scope.currentScale.chords);
         });
     };
 

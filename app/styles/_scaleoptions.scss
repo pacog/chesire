@@ -3,7 +3,7 @@
 }
     .scale-options-header {
         height: $header-height;
-        padding: $grid-m $grid-l;
+        padding: $grid-m $grid-m;
         @include display-box;
         @include box-orient(horizontal);
         position: relative
@@ -18,7 +18,7 @@
             vertical-align: middle;
             font-size: 24px;
             @include box-flex(1);
-            margin-right: $grid-s;
+            margin-right: $grid-m;
             @include ellipsis();
             padding: 0 $grid-m;
         }
@@ -37,13 +37,17 @@
                 }
 
                 @include opacity(0);
-                @include translateX(100%);
+                // @include translateX(100%);
                 @include transition-property(opacity, transform);
                 @include transition-duration(0.4s, 0.2s);
                 @include transition-timing-function(ease-in-out, ease-in-out);
+                // @include rotate(45deg);
+                @include transform(translateX(100%) rotate(90deg));
                 .scale-options-title:hover & {
                     @include opacity(0.4);
                     @include translateX(0);
+                    @include transform(translateX(0%) rotate(0deg));
+                    // @include rotate(0deg);
                 }
             }
         .scale-options-list-toggle {
@@ -83,7 +87,7 @@
             }
     .scale-options-content {
         position: relative;
-        padding: $grid-m $grid-l;
+        padding: $grid-m $grid-m;
         max-height: 90vh;
         overflow: auto;
     }

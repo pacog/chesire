@@ -34,6 +34,10 @@ angular.module('chesireApp')
 
     var isSameSetOfChords = function(set1, set2) {
 
+        if(!set1 || !set2) {
+            return false;
+        }
+
         var result = true;
 
         if(set1.length === set2.length) {
