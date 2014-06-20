@@ -55,8 +55,14 @@
                 font-size: 68px;
                 line-height: 2*$grid-l;
             }
-            .all-songs-list-expanded &:after {
-                content: '\25B4';
+            
+            .all-songs-list-expanded & {
+                &:hover {
+                    @include background-image(linear-gradient(lighten($dark-blue, 15), lighten($dark-blue, 5)));
+                }
+                &:after {
+                    content: '\25B4';
+                }
             }
         }
         .scale-options-list {

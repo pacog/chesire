@@ -38,6 +38,7 @@ angular.module('chesireApp')
 
     $scope.toggle = function() {
         $scope.expanded = !$scope.expanded;
+        $scope.listOfSongsExpanded = false;
     };
 
     $scope.saveSong = function() {
