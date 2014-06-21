@@ -12,9 +12,11 @@ angular.module('chesireApp')
     var init = function() {
         synthoptions = SynthOptions.getSynthOptions();
         SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
-        scaleOptions = ScaleOptions.getScaleOptions();
-        ScaleOptions.subscribeToChangesInScaleOptions(scaleOptionsChanged);
-        changeNotes(scaleOptions);
+        ScaleOptions.getScaleOptions().then(function(newScaleOptions) {
+            scaleOptions = newScaleOptions;
+            changeNotes(scaleOptions);
+            ScaleOptions.subscribeToChangesInScaleOptions(scaleOptionsChanged);
+        });
     };
 
     var synthOptionsChanged = function(newSynthOptions) {

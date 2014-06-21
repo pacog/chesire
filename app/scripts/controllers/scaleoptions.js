@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('ScaleoptionsCtrl', function ($scope, DefaultScale, Scales, ScaleOptions, SongStore, LastUsedSettingsStore) {
+.controller('ScaleoptionsCtrl', function ($scope, DefaultScale, Scales, ScaleOptions, SongStore) {
 
     var oldChords = null;
 
@@ -10,16 +10,11 @@ angular.module('chesireApp')
     $scope.listOfSongsExpanded = false;
 
     var init = function() {
-
-        LastUsedSettingsStore.getLastUsedSong().then(function(lastUsedSong) {
-            if(!lastUsedSong) {
-                lastUsedSong = DefaultScale;
-            }
-            $scope.currentScale = angular.copy(lastUsedSong);
+        ScaleOptions.getScaleOptions().then(function(scaleOptions) {
+            $scope.currentScale = angular.copy(scaleOptions);
+            updateSongObject($scope.currentScale.chords);
             SongStore.getSongs().then(songsStoreChanged);
             SongStore.subscribeToChangeInAllSongs(songsStoreChanged);
-            LastUsedSettingsStore.notifyLastUsedSongChanged($scope.currentScale);
-            updateSongObject($scope.currentScale.chords);
         });
     };
 
@@ -38,7 +33,6 @@ angular.module('chesireApp')
             oldChords = angular.copy(newChords);
             $scope.currentScale.chords = angular.copy(newChords);
             ScaleOptions.setScaleOptions($scope.currentScale);
-            LastUsedSettingsStore.notifyLastUsedSongChanged($scope.currentScale);
         }
     };
 

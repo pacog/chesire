@@ -17,8 +17,10 @@ angular.module('chesireApp')
             //TODO: use observer pattern for this
             $scope.$watch('synthoptions.oscillator', $scope.oscillatorTypeChanged);
         });
-        ScaleOptions.subscribeToChangesInScaleOptions(notesChanged);
-        notesChanged(ScaleOptions.getScaleOptions());
+        ScaleOptions.getScaleOptions().then(function(scaleOptions) {
+            notesChanged(scaleOptions);
+            ScaleOptions.subscribeToChangesInScaleOptions(notesChanged);
+        });
     };
 
 
