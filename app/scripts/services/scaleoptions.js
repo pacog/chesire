@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.factory('ScaleOptions', function ($q, LastUsedSettingsStore) {
+.factory('ScaleOptions', function ($q, LastUsedSettingsStore, DefaultScale) {
 
     var scaleOptions = null;
     var subscriberCallbacks = [];
@@ -20,6 +20,9 @@ angular.module('chesireApp')
             willReturnScaleOptions.resolve(scaleOptions);
         } else {
             LastUsedSettingsStore.getLastUsedSong().then(function(lastUsedSong) {
+                if(!lastUsedSong) {
+                    lastUsedSong = DefaultScale;
+                }
                 scaleOptions = lastUsedSong;
                 willReturnScaleOptions.resolve(lastUsedSong);
             });

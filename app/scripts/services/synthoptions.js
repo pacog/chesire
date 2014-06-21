@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.factory('SynthOptions', function () {
+.factory('SynthOptions', function ($q, LastUsedSettingsStore, DefaultSynth) {
 
     var synthOptions = null;
     var subscriberCallbacks = [];
@@ -10,11 +10,25 @@ angular.module('chesireApp')
     var setSynthOptions = function(newSynthOptions) {
         synthOptions = newSynthOptions;
         notifyChangeInSynthOptions(newSynthOptions);
-
+        LastUsedSettingsStore.notifyLastUsedSynthChanged(newSynthOptions);
     };
 
     var getSynthOptions = function() {
-        return synthOptions;
+        var willReturnSynthOptions = $q.defer();
+
+        if(synthOptions) {
+            willReturnSynthOptions.resolve(synthOptions);
+        } else {
+            LastUsedSettingsStore.getLastUsedSynth().then(function(lastUsedSynth) {
+                if(!lastUsedSynth) {
+                    lastUsedSynth = DefaultSynth;
+                }
+                synthOptions = lastUsedSynth;
+                willReturnSynthOptions.resolve(lastUsedSynth);
+            });
+        }
+
+        return willReturnSynthOptions.promise;
     };
 
     var subscribeToChangesInSynthOptions = function(subscriberCallback) {
