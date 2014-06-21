@@ -10,8 +10,11 @@ angular.module('chesireApp')
     var scaleOptions = null;
 
     var init = function() {
-        synthoptions = SynthOptions.getSynthOptions();
-        SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
+        SynthOptions.getSynthOptions().then(function(newSynthOptions) {
+            synthoptions = newSynthOptions;
+            SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
+        });
+        
         ScaleOptions.getScaleOptions().then(function(newScaleOptions) {
             scaleOptions = newScaleOptions;
             changeNotes(scaleOptions);
