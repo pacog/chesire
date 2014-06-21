@@ -134,12 +134,15 @@
                     white-space: nowrap;
                     @include opacity(0);
                     @include translateX(-50%);
-                    @include transition-property(opacity, transform);
-                    @include transition-duration(0.4s, 0.2s);
-                    @include transition-timing-function(ease-in-out, ease-in-out);
+                    visibility: hidden;
+                    transition: opacity 0.4s ease-out,
+                                transform 0.2s ease-in-out,
+                                visibility 0s 0.41s;
                     .scale-options-remove-chord:hover & {
                         @include opacity(1);
                         @include translateX(0);
+                        visibility: visible;
+                        transition-delay: 0s;
                     }
                 }
         .scale-options-add-chord {
