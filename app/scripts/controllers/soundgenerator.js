@@ -2,21 +2,25 @@
 
 angular.module('chesireApp')
 
-.controller('SoundgeneratorCtrl', function ($scope, $timeout, Leapmotion, Sound, MultiNotesHelper, ScaleOptions) {
+.controller('SoundgeneratorCtrl', function ($scope, $timeout, Leapmotion, Sound, MultiNotesHelper, ScaleOptions, SynthOptions) {
 
     var sounds = {};
+    var synthOptions;
 
     var resetVars = function() {
         $scope.motionParams = {};
     };
 
     var init = function() {
-        Leapmotion.subscribeToFrameChange($scope.frameInfoChanged);
         resetVars();
-        $timeout(function () {
-            //TODO: use observer pattern for this
-            $scope.$watch('synthoptions.oscillator', $scope.oscillatorTypeChanged);
+        Leapmotion.subscribeToFrameChange($scope.frameInfoChanged);
+
+        SynthOptions.getSynthOptions().then(function(newSynthOptions) {
+            synthOptions = newSynthOptions;
+            synthOptionsChanged(newSynthOptions);
+            SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
         });
+
         ScaleOptions.getScaleOptions().then(function(scaleOptions) {
             notesChanged(scaleOptions);
             ScaleOptions.subscribeToChangesInScaleOptions(notesChanged);
@@ -31,11 +35,9 @@ angular.module('chesireApp')
         }
     };
 
-    $scope.oscillatorTypeChanged = function(newType) {
-
-        if(newType) {
-            Sound.changeOscillatorType(newType);
-        }
+    var synthOptionsChanged = function(newOptions) {
+        synthOptions = newOptions;
+        Sound.changeOscillatorType(newOptions);
     };
 
     $scope.frameInfoChanged = function(frame) {
@@ -53,11 +55,7 @@ angular.module('chesireApp')
     };
 
     $scope.updateSound = function(hand) {
-
         var currentSounds = {};
-
-        // $scope.currentsound.frequency = $scope.getFrequency($scope.motionParams.x);
-
         var sound = sounds[hand.id]; //Get the already existing sound if there is any
 
         if(!sound) {
@@ -79,21 +77,21 @@ angular.module('chesireApp')
     };
 
     $scope.updateVolume = function() {
-        var volumeInfo = $scope.synthoptions.volume;
+        var volumeInfo = synthOptions.volume;
         Sound.changeGain($scope.getParamValue(volumeInfo));
     };
 
     $scope.updateVibrato = function() {
 
-        var gainInfo = $scope.synthoptions.vibrato.gain;
+        var gainInfo = synthOptions.vibrato.gain;
         Sound.changeVibratoGain($scope.getParamValue(gainInfo));
 
-        var freqInfo = $scope.synthoptions.vibrato.freq;
+        var freqInfo = synthOptions.vibrato.freq;
         Sound.changeVibratoFreq($scope.getParamValue(freqInfo));
     };
 
     $scope.updateNoteSources = function(x) {
-        $scope.notesInfo = MultiNotesHelper.getNotesInfo(x, $scope.synthoptions);
+        $scope.notesInfo = MultiNotesHelper.getNotesInfo(x, synthOptions);
         Sound.changePlayingFrequency($scope.notesInfo);
     };
 

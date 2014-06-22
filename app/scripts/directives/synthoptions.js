@@ -6,9 +6,7 @@ angular.module('chesireApp')
     return {
         templateUrl: 'views/synthoptions.html',
         restrict: 'E',
-        scope: {
-            'synthoptions': '='
-        },
+        scope: {},
         controller: 'SynthoptionsCtrl'
     };
 });

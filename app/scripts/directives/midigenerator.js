@@ -6,9 +6,7 @@ angular.module('chesireApp')
     return {
         restrict: 'E',
         templateUrl: 'views/midigenerator.html',
-        scope: {
-            'synthoptions': '='
-        },
+        scope: {},
         controller: 'MidigeneratorCtrl'
     };
 });

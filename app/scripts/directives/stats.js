@@ -7,10 +7,7 @@ angular.module('chesireApp')
     return {
         templateUrl: 'views/stats.html',
         restrict: 'E',
-        scope: {
-            'synthoptions': '=',
-            'currentsound': '='
-        },
+        scope: {},
         controller: 'StatsCtrl',
         link: function postLink(scope, element) {
     

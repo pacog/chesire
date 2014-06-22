@@ -6,10 +6,7 @@ angular.module('chesireApp')
     return {
         restrict: 'E',
         templateUrl: 'views/soundgenerator.html',
-        scope: {
-            'synthoptions': '=',
-            'currentsound': '='
-        },
+        scope: {},
         controller: 'SoundgeneratorCtrl'
     };
 });
