@@ -23,12 +23,7 @@ angular.module('chesireApp')
     };
 
     var notesChanged = function(newValue) {
-        if(newValue) {
-            currentSynth.scaleChanged(newValue);
-        } else {
-            //TODO: check if we need the if
-            console.log('notesChanged with no value');
-        }
+        currentSynth.scaleChanged(newValue);
     };
 
     var synthOptionsChanged = function(newOptions) {
@@ -41,16 +36,11 @@ angular.module('chesireApp')
         //TODO: refactor this so the checking for hands comes from Synth
         //At least check if there are 2 hands to send the current one
         var newFrame = frame.frame;
-        if(newFrame) {
-            if(newFrame.hands.length) {
-                var motionParams = Leapmotion.getRelativePositions(newFrame, newFrame.hands);
-                currentSynth.updateSound(newFrame.hands[0], motionParams);
-            } else {
-                currentSynth.stopPlaying();
-            }
+        if(newFrame.hands.length) {
+            var motionParams = Leapmotion.getRelativePositions(newFrame, newFrame.hands);
+            currentSynth.updateSound(newFrame.hands[0], motionParams);
         } else {
-            // TODO check if we need the check for new frame
-            console.log('frameInfoChanged, no frame info');
+            currentSynth.stopPlaying();
         }
     };
 

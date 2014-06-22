@@ -44,13 +44,11 @@ angular.module('chesireApp')
     $scope.saveSong = function() {
         //TODO add then and loading flag
         SongStore.saveSong($scope.currentScale);
-        console.log('Song saved');
     };
 
     $scope.deleteSong = function() {
         //TODO add then and loading flag
         SongStore.deleteSong($scope.currentScale);
-        console.log('Song deleted');
     };
 
     $scope.toggleListOfSongs = function() {
