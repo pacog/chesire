@@ -2,18 +2,13 @@
 
 angular.module('chesireApp')
 
-.controller('SoundgeneratorCtrl', function ($scope, $timeout, Leapmotion, Sound, MultiNotesHelper, ScaleOptions, SynthOptions) {
+.controller('SoundgeneratorCtrl', function ($scope, $timeout, Leapmotion, SynthClass, MultiNotesHelper, ScaleOptions, SynthOptions) {
 
-    var sounds = {};
-    var synthOptions;
-
-    var resetVars = function() {
-        $scope.motionParams = {};
-    };
+    var synthOptions = null;
+    var currentSynth = new SynthClass();
 
     var init = function() {
-        resetVars();
-        Leapmotion.subscribeToFrameChange($scope.frameInfoChanged);
+        Leapmotion.subscribeToFrameChange(frameInfoChanged);
 
         SynthOptions.getSynthOptions().then(function(newSynthOptions) {
             synthOptions = newSynthOptions;
@@ -27,86 +22,35 @@ angular.module('chesireApp')
         });
     };
 
-
     var notesChanged = function(newValue) {
         if(newValue) {
-            Sound.changeScale(newValue);
-            MultiNotesHelper.changeNotes(newValue);
+            currentSynth.scaleChanged(newValue);
+        } else {
+            //TODO: check if we need the if
+            console.log('notesChanged with no value');
         }
     };
 
     var synthOptionsChanged = function(newOptions) {
         synthOptions = newOptions;
-        Sound.changeOscillatorType(newOptions);
+        currentSynth.destroy();
+        currentSynth = new SynthClass(newOptions);
     };
 
-    $scope.frameInfoChanged = function(frame) {
-
+    var frameInfoChanged = function(frame) {
+        //TODO: refactor this so the checking for hands comes from Synth
+        //At least check if there are 2 hands to send the current one
         var newFrame = frame.frame;
         if(newFrame) {
             if(newFrame.hands.length) {
-                $scope.motionParams = Leapmotion.getRelativePositions(newFrame, newFrame.hands);
-                $scope.updateSound(newFrame.hands[0]);
+                var motionParams = Leapmotion.getRelativePositions(newFrame, newFrame.hands);
+                currentSynth.updateSound(newFrame.hands[0], motionParams);
             } else {
-                resetVars();
-                Sound.stopPlaying();
-            }
-        }
-    };
-
-    $scope.updateSound = function(hand) {
-        var currentSounds = {};
-        var sound = sounds[hand.id]; //Get the already existing sound if there is any
-
-        if(!sound) {
-            
-            sounds[hand.id] = true;
-        }
-        $scope.updateVolume();
-        $scope.updateVibrato();
-        $scope.updateNoteSources($scope.motionParams.x);
-
-        currentSounds[hand.id] = true;
-
-        for (var soundId in sounds) {
-            if (!currentSounds[soundId]) {
-                Sound.stopPlaying();
-                delete sounds[soundId];
-            }
-        }
-    };
-
-    $scope.updateVolume = function() {
-        var volumeInfo = synthOptions.volume;
-        Sound.changeGain($scope.getParamValue(volumeInfo));
-    };
-
-    $scope.updateVibrato = function() {
-
-        var gainInfo = synthOptions.vibrato.gain;
-        Sound.changeVibratoGain($scope.getParamValue(gainInfo));
-
-        var freqInfo = synthOptions.vibrato.freq;
-        Sound.changeVibratoFreq($scope.getParamValue(freqInfo));
-    };
-
-    $scope.updateNoteSources = function(x) {
-        $scope.notesInfo = MultiNotesHelper.getNotesInfo(x, synthOptions);
-        Sound.changePlayingFrequency($scope.notesInfo);
-    };
-
-    $scope.getParamValue = function(paramInfo) {
-
-        //If there is a param and a value for vibrato gain
-        if(paramInfo.param && !angular.isUndefined($scope.motionParams[paramInfo.param])) {
-            
-            if(paramInfo.inverse) {
-                return paramInfo.min + (paramInfo.max - paramInfo.min)*($scope.motionParams[paramInfo.param]-1);
-            } else {
-                return paramInfo.min + (paramInfo.max - paramInfo.min)*$scope.motionParams[paramInfo.param];
+                currentSynth.stopPlaying();
             }
         } else {
-            return paramInfo.initial;
+            // TODO check if we need the check for new frame
+            console.log('frameInfoChanged, no frame info');
         }
     };
 
