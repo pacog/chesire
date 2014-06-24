@@ -8,7 +8,15 @@ angular.module('chesireApp')
             name: 'Default synth',
             components: [{
                 type: 'oscillator',
-                oscillatorType: AvailableOscillators[1]
+                oscillatorType: AvailableOscillators[1],
+                controls: {
+                    'gain': {
+                        //TODO: change min and max for a function
+                        min: 0,
+                        param: 'handDirectionY',
+                        max: 1
+                    }
+                }
             }],
             oscillator: AvailableOscillators[1],
             vibrato: {
