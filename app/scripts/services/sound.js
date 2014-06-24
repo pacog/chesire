@@ -2,6 +2,7 @@
 
 angular.module('chesireApp')
 
+//TODO: this module shouldn't be needed anymore
 .factory('Sound', function (Audiocontext, OscillatorCollection) {
 
     var audioContext;

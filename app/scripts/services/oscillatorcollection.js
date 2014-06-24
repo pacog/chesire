@@ -2,9 +2,9 @@
 
 angular.module('chesireApp')
 
-.factory('OscillatorCollection', function () {
+.factory('OscillatorCollection', function (Audiocontext) {
 
-    var OscillatorCollectionClass = function(audioContext, nodesInfo) {
+    var OscillatorCollectionClass = function(nodesInfo) {
 
         var nodes = [];
 
@@ -47,7 +47,7 @@ angular.module('chesireApp')
             nodes = [];
         };
 
-        var init = function(audioContext, nodesConfig) {
+        var init = function(nodesConfig) {
 
             destroy();
 
@@ -62,9 +62,9 @@ angular.module('chesireApp')
                 });
 
                 for(var i=0; i<biggestChord; i++) {
-                    var newOscillator = audioContext.createOscillator();
+                    var newOscillator = Audiocontext.createOscillator();
                     newOscillator.type = newOscillator.SINE;
-                    var newGainController = audioContext.createGainNode();
+                    var newGainController = Audiocontext.createGainNode();
                     newGainController.gain.value = 0;
                     newOscillator.connect(newGainController);
                     newOscillator.noteOn(0);
@@ -88,7 +88,7 @@ angular.module('chesireApp')
             });
         };
 
-        init(audioContext, nodesInfo);
+        init(nodesInfo);
 
         return {
             connect:                connect,

@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('chesireApp')
-    .factory('SynthClass', function(MultiNotesHelper, Sound) {
+    //TODO: Sound shouldn't be used here but in the SynthComponents
+    .factory('SynthClass', function(Audiocontext, OscillatorClass) {
 
         var SynthClass = function(options) {
             if(options) {
@@ -15,49 +16,64 @@ angular.module('chesireApp')
 
             init: function(options) {
                 this.synthOptions = angular.copy(options);
-                //TODO: init sounds!
-                Sound.changeOscillatorType(this.synthOptions);
+                this._createComponents();
+            },
+
+            _createComponents: function() {
+                if(this._areOptionsCorrect()) {
+                    //TODO: factory of components, each one is created and connected
+                    this.oscillator = new OscillatorClass(this.synthOptions.components[0]);
+                    this.oscillator.connectTo(Audiocontext.destination);
+                    //TODO: create the rest of components and connect them
+                    // var lastComponent <- connect this one to the output
+                } else {
+                    throw 'SynthClass: error creating components, wrong options';
+                }
+            },
+
+            _areOptionsCorrect: function() {
+                if(this.synthOptions) {
+                    var thereIsAnOscillator = (!!this.synthOptions.components && !!this.synthOptions.components[0] && (this.synthOptions.components[0].type === 'oscillator'));
+                    return thereIsAnOscillator;
+                }
+                return false;
             },
 
             scaleChanged: function(newScale) {
-                //TODO: check what Sound does
-                Sound.changeScale(newScale);
-                //TODO: check what Mutinotes does
-                MultiNotesHelper.changeNotes(newScale);
+                this.oscillator.changeScale(newScale);
             },
 
             stopPlaying: function() {
-                Sound.stopPlaying();
+                // Sound.stopPlaying();
             },
 
             updateSound: function(handInfo, motionParams) {
-                this.updateVolume(motionParams);
-                this.updateVibrato(motionParams);
+                // this.updateVolume(motionParams);
+                // this.updateVibrato(motionParams);
                 this.updateNoteSources(motionParams.x);
 
                 if(this.currentHand !== handInfo.id) {
-                    //TODO: why stopPlaying? handle this another way
-                    Sound.stopPlaying();
+                    // TODO: why stopPlaying? handle this another way
+                    // Sound.stopPlaying();
                     this.currentHand = handInfo.id;
                 }
             },
 
-            updateVolume: function(motionParams) {
-                var volumeInfo = this.synthOptions.volume;
-                Sound.changeGain(this.getParamValue(volumeInfo, motionParams));
+            updateVolume: function(/*motionParams*/) {
+                // var volumeInfo = this.synthOptions.volume;
+                // Sound.changeGain(this.getParamValue(volumeInfo, motionParams));
             },
 
-            updateVibrato: function(motionParams) {
-                var gainInfo = this.synthOptions.vibrato.gain;
-                Sound.changeVibratoGain(this.getParamValue(gainInfo, motionParams));
+            updateVibrato: function(/*motionParams*/) {
+                // var gainInfo = this.synthOptions.vibrato.gain;
+                // Sound.changeVibratoGain(this.getParamValue(gainInfo, motionParams));
 
-                var freqInfo = this.synthOptions.vibrato.freq;
-                Sound.changeVibratoFreq(this.getParamValue(freqInfo, motionParams));
+                // var freqInfo = this.synthOptions.vibrato.freq;
+                // Sound.changeVibratoFreq(this.getParamValue(freqInfo, motionParams));
             },
 
             updateNoteSources: function(x) {
-                var notesInfo = MultiNotesHelper.getNotesInfo(x, this.synthOptions);
-                Sound.changePlayingFrequency(notesInfo);
+                this.oscillator.updateNotesBeingPlayed(x);
             },
 
             getParamValue: function(paramInfo, motionParams) {

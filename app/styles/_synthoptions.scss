@@ -1,7 +1,3 @@
 .synthoptions {
-    display: none;
-    position: absolute;
-    bottom: $grid-m;
-    left: $grid-m;
-    @extend .tile;
+    background: $dark-blue;
 }

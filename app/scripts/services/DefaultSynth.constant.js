@@ -6,6 +6,10 @@ angular.module('chesireApp')
 
         return {
             name: 'Default synth',
+            components: [{
+                type: 'oscillator',
+                oscillatorType: AvailableOscillators[1]
+            }],
             oscillator: AvailableOscillators[1],
             vibrato: {
                 freq: {
