@@ -1,7 +1,6 @@
 'use strict';
 
 angular.module('chesireApp')
-
   .factory('DefaultSynth', function(AvailableOscillators) {
 
         return {
@@ -11,37 +10,16 @@ angular.module('chesireApp')
                 oscillatorType: AvailableOscillators[1],
                 controls: {
                     'gain': {
-                        //TODO: change min and max for a function
-                        min: 0,
                         param: 'handDirectionY',
-                        max: 1
+                        responseFunction: {
+                            name: 'linear',
+                            min: 0.2,
+                            max: 0.9,
+                            inverse: true
+                        }
                     }
                 }
             }],
-            oscillator: AvailableOscillators[1],
-            vibrato: {
-                freq: {
-                    initial: 10,
-                    min: 4,
-                    max: 20,
-                    param: 'y',
-                    inverse: true
-                },
-                gain: {
-                    initial: 0,
-                    min: 0,
-                    max: 1,
-                    param: 'z',
-                    inverse: true
-                }
-            },
-            volume: {
-                initial: 0.5,
-                min: 0,
-                max: 0.8,
-                param: 'handDirectionY',
-                inverse: true
-            },
             snap: function(x) {
                 var SNAP_DISTANCE = 0.35;
 

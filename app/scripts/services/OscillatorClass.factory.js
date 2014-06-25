@@ -45,13 +45,17 @@ angular.module('chesireApp')
                 if(!!this.options.controls && !!this.options.controls.gain) {
                     newGainValue = MotionParamHelper.getParamValue(this.options.controls.gain, motionParams);
                 }
-                if(this.gainController.gain.value !== newGainValue) {
-                    this.gainController.gain.value = newGainValue;
-                }
+                this._setGainControllerValue(newGainValue);
             },
 
             stopPlaying: function() {
-                this.gainController.gain.value = 0;
+                this._setGainControllerValue(0);
+            },
+
+            _setGainControllerValue: function(value) {
+                if(this.gainController.gain.value !== value) {
+                    this.gainController.gain.value = value;
+                }
             },
 
             connectTo: function(destination) {
