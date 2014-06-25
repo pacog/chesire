@@ -38,7 +38,36 @@ angular.module('chesireApp')
             }
         };
 
+        var defaultStepParams = {
+            step: {
+                name: 'Step',
+                value: 0.5
+            },
+            inverse: {
+                name: 'Inverse',
+                value: false
+            }
+        };
+        var step = {
+            name: 'step',
+            params: defaultStepParams,
+            getResponse: function(input, userParams) {
+                var step = userParams.step || defaultStepParams.step.value;
+                var inverse = userParams.inverse || defaultStepParams.inverse.value;
+
+                var result = 0;
+                if(input > step) {
+                    result = 1;
+                }
+                if(inverse) {
+                    result = 1 - result;
+                }
+                return result;
+            }
+        };
+
         return {
-            linear: linear
+            linear: linear,
+            step: step
         };
     });
