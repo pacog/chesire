@@ -4,11 +4,30 @@
             {{synthoptions.name || "No name"}}
             <span class='config-menu-title-decorator'></span>
         </button>
-        <button class='big-button config-menu-list-toggle' ng-click='toggleListOfSongs()'></button>
-        <ul class='config-menu-list' ng-show='listOfSongsExpanded'>
+        <button class='big-button config-menu-list-toggle' ng-click='toggleListOfSynths()'></button>
+        <ul class='config-menu-list' ng-show='listOfSynthsExpanded'>
             <li class='config-menu-list-item' ng-repeat='synth in availableSynths'>
-                <a class='config-menu-list-item-link' ng-click='selectSong(song)'>{{synth.name}}</a>
+                <a class='config-menu-list-item-link' ng-click='selectSynth(synth)'>{{synth.name}}</a>
             </li>
         </ul>
+    </div>
+    <div class='config-menu-content synthoptions-content' ng-show='expanded'>
+        <div class='synthoptions-content-header'>
+            <button class='big-button config-menu-title' ng-click='toggle()'>
+                {{synthoptions.name || "No name"}}
+                <span class='config-menu-title-decorator'></span>
+            </button>
+        </div>
+        <div class='synthoptions-content-body'>
+            <input type='text' ng-model='synthoptions.name'/>
+            <button class='button' ng-click='saveSynth()' ng-disabled='!synthoptions.name'>Save synth</button>
+            <button class='button' ng-click='deleteSynth()'>Delete synth</button>
+            <button class='big-button config-menu-close' ng-click='toggle()'></button>
+            <ul>
+                <li ng-repeat='component in synthoptions.components'>
+                    <synthcomponent component-info='component'>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>

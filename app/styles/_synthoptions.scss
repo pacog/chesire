@@ -1,3 +1,17 @@
 .synthoptions {
     background: $dark-blue;
 }
+    .synthoptions-content-header {
+        height: $header-height - $grid-m;
+        padding-bottom: $grid-m;
+    }
+    .synthoptions-content-body {
+        position: fixed;
+        top: $header-height + 2*$grid-m;
+        left: $grid-m;
+        right: $grid-m;
+        max-height: 90vh;
+        overflow: auto;
+        background: $dark-blue;
+        padding: $grid-m;
+    }

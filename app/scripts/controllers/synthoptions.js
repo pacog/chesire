@@ -13,5 +13,29 @@ angular.module('chesireApp')
 
     };
 
+    $scope.toggle = function() {
+        $scope.expanded = !$scope.expanded;
+        $scope.listOfSynthsExpanded = false;
+    };
+
+    $scope.saveSong = function() {
+        //TODO add then and loading flag
+        // SongStore.saveSong($scope.currentScale);
+    };
+
+    $scope.deleteSong = function() {
+        //TODO add then and loading flag
+        // SongStore.deleteSong($scope.currentScale);
+    };
+
+    $scope.toggleListOfSynths = function() {
+        $scope.listOfSynthsExpanded = !$scope.listOfSynthsExpanded;
+    };
+
+    $scope.selectSynth = function(synth) {
+        $scope.listOfSynthsExpanded = false;
+        $scope.synthoptions = synth;
+    };
+
     init();
 });
