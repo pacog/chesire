@@ -15,6 +15,8 @@ angular.module('chesireApp')
 
             DEFAULT_GAIN: 1,
 
+            MIN_GAIN_CHANGE: 0.05,
+
             init: function(options) {
                 this.options = options;
                 this.oscillatorCollection = new OscillatorCollection();
@@ -53,12 +55,23 @@ angular.module('chesireApp')
             },
 
             _setGainControllerValue: function(value) {
-                if(this.gainController.gain.value !== value) {
-                    this.gainController.gain.value = value;
+                var prevValue = this.gainController.gain.value;
+                if(prevValue !== value) {
+                    //If it is 0 or 1 we always set the value:
+                    if(prevValue === 0 || prevValue === 1) {
+                        this.gainController.gain.value = value;
+                    }
+                    //Otherwise, only if change is substantial
+                    if(Math.abs(prevValue - value) > this.MIN_GAIN_CHANGE) {
+                        this.gainController.gain.value = value;
+                    }
                 }
             },
 
             connectTo: function(destination) {
+                if(destination.constructor.name !== 'AudioDestinationNode') {
+                    destination = destination.getAudioNode();
+                }
                 this.connectedTo = destination;
                 this.gainController.connect(destination);
             },

@@ -24,9 +24,10 @@ angular.module('chesireApp')
                 var min = userParams.min || defaultLinearParams.min.value;
                 var inverse = userParams.inverse || defaultLinearParams.inverse.value;
 
-                var result = input;
+                var result = min + input*(max-min);
+
                 if(inverse) {
-                    result = 1 - result;
+                    result = max - input*(max-min);
                 }
                 if(result<min) {
                     result = min;
@@ -46,6 +47,14 @@ angular.module('chesireApp')
             inverse: {
                 name: 'Inverse',
                 value: false
+            },
+            stepOn: {
+                name: 'StepOn',
+                value: 1
+            },
+            stepOff: {
+                name: 'StepOff',
+                value: 0
             }
         };
         var step = {
@@ -54,13 +63,20 @@ angular.module('chesireApp')
             getResponse: function(input, userParams) {
                 var step = userParams.step || defaultStepParams.step.value;
                 var inverse = userParams.inverse || defaultStepParams.inverse.value;
+                var stepOn = userParams.stepOn || defaultStepParams.stepOn.value;
+                var stepOff = userParams.stepOff || defaultStepParams.stepOff.value;
 
-                var result = 0;
-                if(input > step) {
-                    result = 1;
-                }
+                var result;
                 if(inverse) {
-                    result = 1 - result;
+                    result = stepOn;
+                    if(input > step) {
+                        result = stepOff;
+                    }
+                } else {
+                    result = stepOff;
+                    if(input > step) {
+                        result = stepOn;
+                    }
                 }
                 return result;
             }

@@ -8,6 +8,7 @@ angular.module('chesireApp')
             components: [{
                 type: 'oscillator',
                 oscillatorType: AvailableOscillators[1],
+                snapDistance: 0.35,
                 controls: {
                     'gain': {
                         param: 'handDirectionY',
@@ -19,17 +20,28 @@ angular.module('chesireApp')
                         }
                     }
                 }
-            }],
-            snap: function(x) {
-                var SNAP_DISTANCE = 0.35;
-
-                if(x<SNAP_DISTANCE) {
-                    return 0;
+            }/*, {
+                type: 'tremolo',
+                oscillatorType: AvailableOscillators[2],
+                controls: {
+                    'rate': {
+                        param: 'handDirectionY',
+                        responseFunction: {
+                            name: 'linear',
+                            min: 5,
+                            max: 100,
+                            inverse: true
+                        }
+                    },
+                    'depth': {
+                        param: 'handDirectionY',
+                        responseFunction: {
+                            name: 'step',
+                            stepOn: 0.2,
+                            stepOff: 0.9
+                        }
+                    }
                 }
-                if(x>=SNAP_DISTANCE && x < (1-SNAP_DISTANCE)) {
-                    return (x - SNAP_DISTANCE)/(1 - (2*SNAP_DISTANCE));
-                }
-                return 1;
-            }
+            }*/]
         };
     });

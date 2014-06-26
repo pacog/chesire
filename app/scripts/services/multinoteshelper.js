@@ -58,6 +58,16 @@ angular.module('chesireApp')
         }
     };
 
+    var snap = function(x, snapDistance) {
+        if(x<snapDistance) {
+            return 0;
+        }
+        if(x>=snapDistance && x < (1-snapDistance)) {
+            return (x - snapDistance)/(1 - (2*snapDistance));
+        }
+        return 1;
+    };
+
     var getNotesInfo = function(x) {
 
         var positionRelativeToNotes = getPositionRelativeToNotes(x, chordsInfo.chords.length);
@@ -67,7 +77,7 @@ angular.module('chesireApp')
             firstNote = firstNote-1;
         }
         var distanceInBetween = positionRelativeToNotes - firstNote;
-        distanceInBetween = synthoptions.snap(distanceInBetween);
+        distanceInBetween = snap(distanceInBetween, synthoptions.components[0].snapDistance);
         silenceAllNotes();
 
         //TODO option to make all chords sound with same volume, even if they have different number of notes
