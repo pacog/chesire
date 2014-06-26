@@ -10,12 +10,12 @@
     scaleoptions {
         display: block;
         @include box-flex(1);
-        margin-right: $grid-s;
+        margin-right: $grid-m;
     }
     synthoptions {
         display: block;
         @include box-flex(1);
-        margin-right: $grid-s;
+        margin-right: $grid-m;
     }
     .logo {
         width: 120px;

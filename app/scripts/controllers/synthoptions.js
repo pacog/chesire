@@ -8,6 +8,9 @@ angular.module('chesireApp')
         SynthOptions.getSynthOptions().then(function(synthOptions) {
             $scope.synthoptions = synthOptions;
         });
+        //TODO: listen for changes in synth options
+        //Also load the synths so we can track their values real time
+
     };
 
     init();

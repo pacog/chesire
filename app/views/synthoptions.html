@@ -1,4 +1,14 @@
 <div class='synthoptions'>
-    <select ng-model='synthoptions.oscillator' ng-model='oscillator' ng-options="oscillator for oscillator in availableOscillators">
-    </select>
+    <div class='config-menu-header' ng-class='{"all-synths-list-expanded": listOfSynthsExpanded}' ng-hide='expanded'>
+        <button class='big-button config-menu-title' ng-click='toggle()'>
+            {{synthoptions.name || "No name"}}
+            <span class='config-menu-title-decorator'></span>
+        </button>
+        <button class='big-button config-menu-list-toggle' ng-click='toggleListOfSongs()'></button>
+        <ul class='config-menu-list' ng-show='listOfSongsExpanded'>
+            <li class='config-menu-list-item' ng-repeat='synth in availableSynths'>
+                <a class='config-menu-list-item-link' ng-click='selectSong(song)'>{{synth.name}}</a>
+            </li>
+        </ul>
+    </div>
 </div>
