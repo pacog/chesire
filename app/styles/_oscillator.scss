@@ -4,6 +4,34 @@
     width: 15*$grid-l;
 }
 
+    .oscillator-snap-info {
+        position: relative;
+        height: 4*$grid-l;
+    }
+        .oscillator-snap-info-notes {
+            display: block;
+            height: 90%;
+            position: absolute;
+            bottom: 0;
+        }
+        $oscillator-snap-color-1: #0c3d66;
+        $oscillator-snap-color-2: #1f560c;
+        .oscillator-snap-info-first-note {
+            @extend .oscillator-snap-info-notes;
+            background: $oscillator-snap-color-1;
+            left: 0;
+        }
+        .oscillator-snap-info-middle {
+            @extend .oscillator-snap-info-notes;
+            // @include background-image(linear-gradient(left, $oscillator-snap-color-1, $oscillator-snap-color-2));
+            background: linear-gradient(90deg, $oscillator-snap-color-1, $oscillator-snap-color-2);
+        }
+        .oscillator-snap-info-second-note {
+            @extend .oscillator-snap-info-notes;
+            background: $oscillator-snap-color-2;
+            right: 0;
+        }
+
     .oscillator-nodes {
         height: 4*$grid-l;
         position: relative;
