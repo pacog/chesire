@@ -1,0 +1,19 @@
+.oscillator {
+    padding: $grid-m;
+    background: $background-color;
+    width: 15*$grid-l;
+}
+
+    .oscillator-nodes {
+        height: 4*$grid-l;
+        position: relative;
+    }
+        $oscillator-node-width: 4px;
+        .oscillator-node {
+            position: absolute;
+            background: red;
+            display: block;
+            width: $oscillator-node-width;
+            margin-left: -($oscillator-node-width/2);
+            bottom: 0;
+        }

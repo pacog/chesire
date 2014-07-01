@@ -2,10 +2,11 @@
 
 angular.module('chesireApp')
 
-.controller('SoundgeneratorCtrl', function ($scope, $timeout, Leapmotion, SynthClass, MultiNotesHelper, ScaleOptions, SynthOptions) {
+.controller('SoundgeneratorCtrl', function ($scope, $timeout, Leapmotion, SynthClass, MultiNotesHelper, ScaleOptions, SynthOptions, CurrentSynth) {
 
     var synthOptions = null;
     var currentSynth = new SynthClass();
+    CurrentSynth.setCurrentSynth(currentSynth);
 
     var init = function() {
         Leapmotion.subscribeToFrameChange(frameInfoChanged);
@@ -30,6 +31,7 @@ angular.module('chesireApp')
         synthOptions = newOptions;
         currentSynth.destroy();
         currentSynth = new SynthClass(newOptions);
+        CurrentSynth.setCurrentSynth(currentSynth);
     };
 
     var frameInfoChanged = function(frame) {

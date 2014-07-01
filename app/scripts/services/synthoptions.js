@@ -2,15 +2,16 @@
 
 angular.module('chesireApp')
 
-.factory('SynthOptions', function ($q, LastUsedSettingsStore, DefaultSynth) {
+.factory('SynthOptions', function ($q, LastUsedSettingsStore, DefaultSynth, IdGenerator) {
 
     var synthOptions = null;
     var subscriberCallbacks = [];
 
     var setSynthOptions = function(newSynthOptions) {
         synthOptions = newSynthOptions;
-        notifyChangeInSynthOptions(newSynthOptions);
-        LastUsedSettingsStore.notifyLastUsedSynthChanged(newSynthOptions);
+        addIdsToComponents();
+        notifyChangeInSynthOptions(synthOptions);
+        LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
     };
 
     var getSynthOptions = function() {
@@ -24,11 +25,20 @@ angular.module('chesireApp')
                     lastUsedSynth = DefaultSynth;
                 }
                 synthOptions = lastUsedSynth;
-                willReturnSynthOptions.resolve(lastUsedSynth);
+                addIdsToComponents();
+                willReturnSynthOptions.resolve(synthOptions);
             });
         }
 
         return willReturnSynthOptions.promise;
+    };
+
+    var addIdsToComponents = function() {
+        angular.forEach(synthOptions.components, function(componentInfo) {
+            if(!componentInfo.uniqueId) {
+                componentInfo.uniqueId = IdGenerator.getUniqueId();
+            }
+        });
     };
 
     var subscribeToChangesInSynthOptions = function(subscriberCallback) {

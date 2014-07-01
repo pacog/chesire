@@ -1,1 +1,11 @@
-{{componentInfo.type}}
+<div class='oscillator'>
+
+    <h3>{{componentInfo.type}}</h3>
+
+    <ul class='oscillator-nodes'>
+        <li ng-repeat='node in oscillatorNodes'
+            class='oscillator-node'
+            style='left: {{node.oscillator.frequency.value | frequencyToPercentage}}%; height: {{node.gainNode.gain.value * synthComponent.gainController.gain.value * 100}}%'>
+        </li>
+    </ul>
+</div>

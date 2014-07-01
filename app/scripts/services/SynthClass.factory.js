@@ -20,6 +20,12 @@ angular.module('chesireApp')
                 this._createComponents();
             },
 
+            getComponent: function(componentInfo) {
+                return _.find(this.synthElements, function(synthElement) {
+                    return synthElement.options.uniqueId === componentInfo.uniqueId;
+                });
+            },
+
             _createComponents: function() {
                 if(this._areOptionsCorrect()) {
                     var self = this;

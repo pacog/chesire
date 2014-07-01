@@ -88,6 +88,10 @@ angular.module('chesireApp')
             });
         };
 
+        var getNodes = function() {
+            return nodes;
+        };
+
         init(nodesInfo);
 
         return {
@@ -95,7 +99,8 @@ angular.module('chesireApp')
             updateNodes:            updateNodes,
             destroy:                destroy,
             init:                   init,
-            changeOscillatorType:   changeOscillatorType
+            changeOscillatorType:   changeOscillatorType,
+            getNodes:               getNodes
         };
     };
 
