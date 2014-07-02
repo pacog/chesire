@@ -14,7 +14,7 @@ angular.module('chesireApp')
                         param: 'handDirectionY',
                         responseFunction: {
                             name: 'linear',
-                            min: 0.2,
+                            min: 0.0,
                             max: 0.9,
                             inverse: true
                         }

@@ -25,12 +25,12 @@ angular.module('chesireApp')
         BACKGROUND: '#1a1b1d',
         PARTICLES: '#BA8E3D',
         PARTICLES_NOTE: '#D65B27',
-        POINTER: '#E32933',
+        POINTER: '#071255',
         hex: {
             BACKGROUND: 0x1a1b1d,
             PARTICLES: 0xBA8E3D,
             PARTICLES_NOTE: 0xD65B27,
-            POINTER: 0xE32933,
+            POINTER: 0x071255,
         }
     };
 });

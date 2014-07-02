@@ -17,14 +17,18 @@ angular.module('chesireApp')
     var zMin = -(interactionBox.depth/2);
     var zMax = (interactionBox.depth/2);
     var particlesX = interactionBox.width/2;
-    var particlesY = interactionBox.height/2;
+    // var particlesY = interactionBox.height/8;
+    var particlesZ = interactionBox.depth/2;
+
+
+    var POINTER_RADIUS = 50;
+    var Y_REDUCTION = 0.05;
 
     var CHORDS_WIDTH = 10;
-    var PARTICLE_SIZE = 9;
 
     var pointerElement;
-    var particles = null;
-    var particleSystem = null;
+    var currentMesh = null;
+    var meshGeometry = null;
 
     var whenSceneIsReady = $q.defer();
 
@@ -44,54 +48,66 @@ angular.module('chesireApp')
         if(newScale) {
             whenSceneIsReady.promise.then(function () {
                 $scope.createKeyRanges(newScale);
-                createParticles();
+                // createParticles();
+                createMesh();
             });
         }
     };
 
-    var createParticles = function() {
-        particles = particles = new Three.Geometry();
-        var pMaterial = new Three.ParticleBasicMaterial({
-          size: PARTICLE_SIZE,
-          sizeAttenuation: false,
-          vertexColors: true
-        });
 
-        var i,j, particle, x, y, z;
-        // z = (zMax - zMin)/2;
-        z = 0;
+    var createMesh = function() {
+        meshGeometry = new Three.Geometry();
+        meshGeometry.dynamic = true;
         var deltaX = (xMax-xMin)/particlesX;
-        var deltaY = (yMax-yMin)/particlesY;
+        // var deltaY = (yMax-yMin)/particlesY;
+        var deltaZ = (zMax-zMin)/particlesZ;
 
+        var material = new Three.MeshLambertMaterial({
+            color: Colorpalette.hex.PARTICLES,
+            // shading: Three.FlatShading,
+            vertexColors: Three.FaceColors
+        });
+        var i,j, x, y, z, xNext, zNext;
+        var verticeIndex = 0;
 
         for(i=0; i<particlesX; i++) {
-            for(j=0; j<particlesY; j++) {
+            for(j=0; j<particlesZ; j++) {
                 x = i*deltaX + xMin;
-                y = j*deltaY + yMin;
-                particle = new Three.Vector3(x,y,z);
-                particles.vertices.push(particle);
+                y = 0 + randomNoise();
+                z = j*deltaZ + zMin;
+                xNext = (i+1)*deltaX + xMin;
+                zNext = (j+1)*deltaZ + zMin;
+
+                meshGeometry.vertices.push( new Three.Vector3(x, y, z ) );
+                meshGeometry.vertices.push( new Three.Vector3( x, y, zNext ) );
+                meshGeometry.vertices.push( new Three.Vector3(  xNext, y, z ) );
+                meshGeometry.vertices.push( new Three.Vector3(  xNext, y, zNext ) );
+
+                var face1 = new Three.Face3( verticeIndex+1, verticeIndex+2, verticeIndex );
+                var face2 = new Three.Face3( verticeIndex+1, verticeIndex+3, verticeIndex+2 );
+
                 if($scope.isParticleInKey(x)) {
-                    particles.colors.push(new Three.Color(Colorpalette.hex.PARTICLES_NOTE));
+                    face1.color.setHex(Colorpalette.hex.PARTICLES_NOTE);
+                    face2.color.setHex(Colorpalette.hex.PARTICLES_NOTE);
                 } else {
-                    particles.colors.push(new Three.Color(Colorpalette.hex.PARTICLES));
+                    // face1.color.setRGB( Math.random(), Math.random(), Math.random());
+                    // face2.color.setRGB( Math.random(), Math.random(), Math.random());
+                    face1.color.setHex(Colorpalette.hex.PARTICLES);
+                    face2.color.setHex(Colorpalette.hex.PARTICLES);
                 }
-                
+
+                meshGeometry.faces.push( face1 );
+                meshGeometry.faces.push( face2 );
+                verticeIndex += 4;
             }
         }
-
-        //Remove previous particles if any
-        if(particleSystem) {
-            $scope.scene.remove(particleSystem);
-            particleSystem = null;
+        if(currentMesh) {
+            $scope.scene.remove(currentMesh);
+            currentMesh = null;
         }
-
-        // create the particle system
-        particleSystem = new Three.ParticleSystem(
-            particles,
-            pMaterial);
-
-        // add it to the scene
-        $scope.scene.add(particleSystem);
+        meshGeometry.computeFaceNormals();
+        currentMesh = new Three.Mesh(meshGeometry, material);
+        $scope.scene.add(currentMesh);
     };
 
     var createPointer = function() {
@@ -119,12 +135,12 @@ angular.module('chesireApp')
         //Camera...
         $scope.camera = new Three.PerspectiveCamera( 45, width / height, 0.1, 1000 );
         $scope.camera.position.x = 0;
-        $scope.camera.position.z = 350;
-        $scope.camera.position.y = interactionBox.height/2;
-        $scope.camera.lookAt(new Three.Vector3(0, interactionBox.height/2,0));
+        $scope.camera.position.z = 220;
+        $scope.camera.position.y = 100;
+        $scope.camera.lookAt(new Three.Vector3(0, 30,0));
         //Lights...
         $scope.pointLight = new Three.PointLight(0xffffff);
-        $scope.pointLight.position.set(10, 50, 130);
+        $scope.pointLight.position.set(10, 150, 130);
         $scope.scene.add($scope.pointLight);
         //Action!
         $scope.renderer = new Three.WebGLRenderer();
@@ -135,26 +151,33 @@ angular.module('chesireApp')
 
     var updatePointer = function(pixelPosition) {
 
-        pointerElement.position.set(pixelPosition.x, pixelPosition.y, 1);
+        
+        pointerElement.position.set(pixelPosition.x, getYToApplyFromTwoPoints(pixelPosition, pixelPosition), pixelPosition.z);
     };
 
-    // var updateParticles = function(pixelPosition) {
+    var getYToApplyFromTwoPoints = function(pointer, otherPoint) {
+        var random = randomNoise(pointer.y/interactionBox.height);
+        var distance = Math.sqrt((pointer.x - otherPoint.x)*(pointer.x - otherPoint.x) + (pointer.z - otherPoint.z)*(pointer.z - otherPoint.z));
+        if(distance<POINTER_RADIUS) {
+            var distanceFactor = (POINTER_RADIUS-distance)/20*(POINTER_RADIUS-distance)/20;
+            return distanceFactor*(pointer.y)*Y_REDUCTION + random;
+        }
+        //Use volume here
+        return random;
+        // return pointer.y * Math.random()*distance/1000; //(distance - (interactionBox.height/2));
+    };
 
-    //     var particle;
-    //     var position = new Three.Vector2(pixelPosition.x, pixelPosition.y);
+    var randomNoise = function(factor) {
+        factor = factor || 0;
+        return Math.random()*factor*0;
+    };
 
-    //     for(var i=0; i<particles.vertices.length; i++) {
-
-    //         particle = particles.vertices[i];
-    //         if(position.distanceTo(particle)<20) {
-    //             particles.colors[i] = new Three.Color(Colorpalette.hex.PARTICLES);
-    //         } else {
-    //             particles.colors[i] = new Three.Color(Colorpalette.hex.PARTICLES_NOTE);
-    //         }
-    //     }
-    //     // particles.verticesNeedUpdate = true;
-    //     particles.colorsNeedUpdate = true;
-    // };
+    var updateParticles = function(pixelPosition) {
+        for(var i = meshGeometry.vertices.length -1; i>=0; i--) {
+            meshGeometry.vertices[i].y = getYToApplyFromTwoPoints(pixelPosition, meshGeometry.vertices[i]);
+        }
+        meshGeometry.verticesNeedUpdate = true;
+    };
 
     $scope.isParticleInKey = function(x) {
 
@@ -186,7 +209,7 @@ angular.module('chesireApp')
                 var pixelPosition = $scope.getScenePosition(relativePositions);
 
                 updatePointer(pixelPosition);
-                // updateParticles(pixelPosition);
+                updateParticles(pixelPosition);
             }
             $scope.renderer.render($scope.scene, $scope.camera);
         }
