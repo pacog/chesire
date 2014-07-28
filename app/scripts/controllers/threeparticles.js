@@ -16,12 +16,13 @@ angular.module('chesireApp')
     var yMax = interactionBox.height;
     var zMin = -(interactionBox.depth/2);
     var zMax = (interactionBox.depth/2);
-    var particlesX = interactionBox.width/2;
+    var particlesX = interactionBox.width;
     // var particlesY = interactionBox.height/8;
-    var particlesZ = interactionBox.depth/2;
+    var particlesZ = interactionBox.depth;
     var currentSynth = null;
     var oscillator = null;
     var mainNote = null;
+    var mainGain = null;
     var POINTER_RADIUS = 50;
     var Y_REDUCTION = 0.05;
 
@@ -68,6 +69,7 @@ angular.module('chesireApp')
         if(currentSynth && currentSynth.synthElements) {
             oscillator = currentSynth.synthElements[0];
             mainNote = oscillator.oscillatorCollection.getNodes()[0];
+            mainGain = oscillator.gainController;
         }
     };
 
@@ -192,10 +194,19 @@ angular.module('chesireApp')
         }
         
         if(!avoidOscillator) {
-            result += Math.sin(result*mainNote.oscillator.frequency.value/55)*40*mainNote.gainNode.gain.value;
+            result += getOscillatorYForDistance(distance);
         }
 
         return result;
+    };
+
+    var getOscillatorYForDistance = function(distance) {
+        var distanceFactor = 0;
+        if(POINTER_RADIUS > distance) {
+            distanceFactor = (POINTER_RADIUS - distance)/POINTER_RADIUS;
+        }
+        var freqFactor = mainNote.oscillator.frequency.value*distance/700;
+        return distanceFactor*Math.sin(freqFactor)*10*mainGain.gain.value;
     };
 
     var randomNoise = function(factor) {
