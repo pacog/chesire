@@ -114,6 +114,9 @@ angular.module('chesireApp')
 
                 var face1 = new Three.Face3( verticeIndex+1, verticeIndex+2, verticeIndex );
                 var face2 = new Three.Face3( verticeIndex+1, verticeIndex+3, verticeIndex+2 );
+                //faces in the back
+                var face3 = new Three.Face3( verticeIndex, verticeIndex+2, verticeIndex+1 );
+                var face4 = new Three.Face3( verticeIndex+2, verticeIndex+3, verticeIndex+1 );
 
                 if($scope.isParticleInKey(x)) {
                     face1.color.setHex(Colorpalette.hex.PARTICLES_NOTE);
@@ -124,9 +127,13 @@ angular.module('chesireApp')
                     face1.color.setHex(Colorpalette.hex.PARTICLES);
                     face2.color.setHex(Colorpalette.hex.PARTICLES);
                 }
+                face3.color.setHex(Colorpalette.hex.PARTICLES_BACK);
+                face4.color.setHex(Colorpalette.hex.PARTICLES_BACK);
 
                 meshGeometry.faces.push( face1 );
                 meshGeometry.faces.push( face2 );
+                meshGeometry.faces.push( face3 );
+                meshGeometry.faces.push( face4 );
                 verticeIndex += 4;
             }
         }
