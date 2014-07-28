@@ -64,7 +64,7 @@ angular.module('chesireApp')
                 for(var i=0; i<biggestChord; i++) {
                     var newOscillator = Audiocontext.createOscillator();
                     newOscillator.type = newOscillator.SINE;
-                    var newGainController = Audiocontext.createGainNode();
+                    var newGainController = Audiocontext.createGain();
                     newGainController.gain.value = 0;
                     newOscillator.connect(newGainController);
                     newOscillator.noteOn(0);

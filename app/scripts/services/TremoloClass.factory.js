@@ -17,7 +17,7 @@ angular.module('chesireApp')
 
             init: function(options) {
                 this.options = options;
-                this.gainController = Audiocontext.createGainNode();
+                this.gainController = Audiocontext.createGain();
                 this.oscillator = Audiocontext.createOscillator();
                 this.oscillator.connect(this.gainController.gain);
                 //TODO use correct oscillator type

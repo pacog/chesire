@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('ThreeparticlesCtrl', function ($scope, $timeout, $q, Three, Leapmotion, Colorpalette, ScaleOptions) {
+.controller('ThreeparticlesCtrl', function ($scope, $timeout, $q, Three, Leapmotion, Colorpalette, ScaleOptions, CurrentSynth) {
 
     var interactionBox = {
         width: 221,
@@ -19,8 +19,9 @@ angular.module('chesireApp')
     var particlesX = interactionBox.width/2;
     // var particlesY = interactionBox.height/8;
     var particlesZ = interactionBox.depth/2;
-
-
+    var currentSynth = null;
+    var oscillator = null;
+    var mainNote = null;
     var POINTER_RADIUS = 50;
     var Y_REDUCTION = 0.05;
 
@@ -42,6 +43,32 @@ angular.module('chesireApp')
             whenSceneIsReady.resolve(true);
         });
         ScaleOptions.subscribeToChangesInScaleOptions(scaleChanged);
+
+        currentSynth = CurrentSynth.getCurrentSynth();
+
+        $scope.$watch(function() {
+            return CurrentSynth.getCurrentSynth();
+        }, synthChanged);
+
+        $scope.$watchCollection(function() {
+            if(oscillator && oscillator.oscillatorCollection) {
+                return oscillator.oscillatorCollection.getNodes();
+            }
+            return false;
+        }, synthNodesChanged);
+    };
+
+    var synthChanged = function() {
+        currentSynth = CurrentSynth.getCurrentSynth();
+        synthNodesChanged();
+    };
+
+    var synthNodesChanged = function() {
+        oscillator = false;
+        if(currentSynth && currentSynth.synthElements) {
+            oscillator = currentSynth.synthElements[0];
+            mainNote = oscillator.oscillatorCollection.getNodes()[0];
+        }
     };
 
     var scaleChanged = function(newScale) {
@@ -150,21 +177,25 @@ angular.module('chesireApp')
     };
 
     var updatePointer = function(pixelPosition) {
-
-        
-        pointerElement.position.set(pixelPosition.x, getYToApplyFromTwoPoints(pixelPosition, pixelPosition), pixelPosition.z);
+        pointerElement.position.set(pixelPosition.x, getYToApplyFromTwoPoints(pixelPosition, pixelPosition, true) + 2, pixelPosition.z);
     };
 
-    var getYToApplyFromTwoPoints = function(pointer, otherPoint) {
+    var getYToApplyFromTwoPoints = function(pointer, otherPoint, avoidOscillator) {
         var random = randomNoise(pointer.y/interactionBox.height);
         var distance = Math.sqrt((pointer.x - otherPoint.x)*(pointer.x - otherPoint.x) + (pointer.z - otherPoint.z)*(pointer.z - otherPoint.z));
+
+        var result = random;
+
         if(distance<POINTER_RADIUS) {
             var distanceFactor = (POINTER_RADIUS-distance)/20*(POINTER_RADIUS-distance)/20;
-            return distanceFactor*(pointer.y)*Y_REDUCTION + random;
+            result = distanceFactor*(pointer.y)*Y_REDUCTION + random;
         }
-        //Use volume here
-        return random;
-        // return pointer.y * Math.random()*distance/1000; //(distance - (interactionBox.height/2));
+        
+        if(!avoidOscillator) {
+            result += Math.sin(result*mainNote.oscillator.frequency.value/55)*40*mainNote.gainNode.gain.value;
+        }
+
+        return result;
     };
 
     var randomNoise = function(factor) {

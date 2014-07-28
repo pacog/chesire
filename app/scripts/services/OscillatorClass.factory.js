@@ -20,7 +20,7 @@ angular.module('chesireApp')
             init: function(options) {
                 this.options = options;
                 this.oscillatorCollection = new OscillatorCollection();
-                this.gainController = Audiocontext.createGainNode();
+                this.gainController = Audiocontext.createGain();
                 this.oscillatorCollection.connect(this.gainController);
             },
 
