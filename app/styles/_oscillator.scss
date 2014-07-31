@@ -31,6 +31,10 @@
             background: $oscillator-snap-color-2;
             right: 0;
         }
+    .oscillator-snap-range-picker {
+        display: block;
+        width: 100%;
+    }
 
     .oscillator-nodes {
         height: 4*$grid-l;
