@@ -19,7 +19,10 @@ angular.module('chesireApp')
 
             init: function(options) {
                 this.options = options;
-                this.oscillatorCollection = new OscillatorCollection();
+                if(this.oscillatorCollection) {
+                    this.oscillatorCollection.destroy();
+                }
+                this.oscillatorCollection = new OscillatorCollection(undefined, options);
                 this.gainController = Audiocontext.createGain();
                 this.oscillatorCollection.connect(this.gainController);
             },
@@ -29,7 +32,7 @@ angular.module('chesireApp')
                 if(this.oscillatorCollection) {
                     this.oscillatorCollection.destroy();
                 }
-                this.oscillatorCollection.init(newScale);
+                this.oscillatorCollection.init(newScale, this.options);
             },
 
             updateSound: function(motionParams) {

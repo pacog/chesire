@@ -51,9 +51,20 @@ angular.module('chesireApp')
         });
     };
 
+    var notifyComponentChanged = function(componentInfo) {
+        for(var i=0; i<synthOptions.components.length; i++) {
+            if(synthOptions.components[i].uniqueId === componentInfo.uniqueId) {
+                synthOptions.components[i] = componentInfo;
+            }
+        }
+        notifyChangeInSynthOptions(synthOptions);
+        LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
+    };
+
     return {
         setSynthOptions: setSynthOptions,
         getSynthOptions: getSynthOptions,
-        subscribeToChangesInSynthOptions: subscribeToChangesInSynthOptions
+        subscribeToChangesInSynthOptions: subscribeToChangesInSynthOptions,
+        notifyComponentChanged: notifyComponentChanged
     };
 });

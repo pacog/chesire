@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
     //TODO: Sound shouldn't be used here but in the SynthComponents
-    .factory('SynthClass', function(Audiocontext, SynthElementFactory) {
+    .factory('SynthClass', function(Audiocontext, SynthElementFactory, ScaleOptions) {
 
         var SynthClass = function(options) {
             if(options) {
@@ -18,6 +18,10 @@ angular.module('chesireApp')
                 this.synthOptions = angular.copy(options);
                 this.synthElements = [];
                 this._createComponents();
+                var self = this;
+                ScaleOptions.getScaleOptions().then(function(scaleOptions) {
+                    self.scaleChanged(scaleOptions);
+                });
             },
 
             getComponent: function(componentInfo) {

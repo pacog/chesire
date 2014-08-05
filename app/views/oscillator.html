@@ -2,8 +2,19 @@
 
     <h3>{{componentInfo.type}}</h3>
 
+    <div class='oscillator-type'>
+        {{componentInfo.oscillatorType}}
+        <button class='' ng-click='toggleListOfOscillatorType()'></button>
+        <ul class='oscillator-type-list' ng-show='listOfOscillatorTypeExpanded'>
+            <li class='oscillator-type-list'
+                ng-repeat='availableOscillator in AvailableOscillators | filter:"!"+componentInfo.oscillatorType'>
+                <a ng-click='changeOscillatorType(availableOscillator)'>[{{availableOscillator}}]</a>
+            </li>
+        </ul>
+    </div>
+
     <div class='oscillator-snap'>
-        <h4>Snap info</h4>
+        <h4>Snap to chords</h4>
         <div class='oscillator-snap-info'>
             <div class='oscillator-snap-info-first-note'
                  style='width: {{100*componentInfo.snapDistance}}%;'></div>

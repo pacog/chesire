@@ -4,7 +4,7 @@ angular.module('chesireApp')
 
 .factory('OscillatorCollection', function (Audiocontext) {
 
-    var OscillatorCollectionClass = function(nodesInfo) {
+    var OscillatorCollectionClass = function(nodesInfo, oscillatorOptions) {
 
         var nodes = [];
 
@@ -47,8 +47,15 @@ angular.module('chesireApp')
             nodes = [];
         };
 
-        var init = function(nodesConfig) {
+        var getOscillatorTypeFromOptions = function(options) {
+            if(!options) {
+                return 'sine';
+            } else {
+                return options.oscillatorType || 'sine';
+            }
+        };
 
+        var init = function(nodesConfig, synthConfig) {
             destroy();
 
             if(nodesConfig) {
@@ -63,7 +70,6 @@ angular.module('chesireApp')
 
                 for(var i=0; i<biggestChord; i++) {
                     var newOscillator = Audiocontext.createOscillator();
-                    newOscillator.type = newOscillator.SINE;
                     var newGainController = Audiocontext.createGain();
                     newGainController.gain.value = 0;
                     newOscillator.connect(newGainController);
@@ -79,12 +85,8 @@ angular.module('chesireApp')
                     connect(connectedTo);
                 }
             }
-        };
-
-        var changeOscillatorType = function(newType) {
-
             angular.forEach(nodes, function(node) {
-                node.oscillator.type = newType;
+                node.oscillator.type = getOscillatorTypeFromOptions(synthConfig);
             });
         };
 
@@ -92,14 +94,13 @@ angular.module('chesireApp')
             return nodes;
         };
 
-        init(nodesInfo);
+        init(nodesInfo, oscillatorOptions);
 
         return {
             connect:                connect,
             updateNodes:            updateNodes,
             destroy:                destroy,
             init:                   init,
-            changeOscillatorType:   changeOscillatorType,
             getNodes:               getNodes
         };
     };
