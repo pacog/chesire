@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('ScaleoptionsCtrl', function ($scope, DefaultScale, Scales, ScaleOptions, SongStore) {
+.controller('ScaleoptionsCtrl', function ($scope, DefaultScale, Scales, ScaleOptions, SongStore, UIService) {
 
     var oldChords = null;
 
@@ -15,7 +15,14 @@ angular.module('chesireApp')
             updateSongObject($scope.currentScale.chords);
             SongStore.getSongs().then(songsStoreChanged);
             SongStore.subscribeToChangeInAllSongs(songsStoreChanged);
+            UIService.subscribeToMenuOpening(checkIfShouldCloseMenu);
         });
+    };
+
+    var checkIfShouldCloseMenu = function(newMenuOpened) {
+        if(newMenuOpened !== 'scale') {
+            $scope.expanded = false;
+        }
     };
 
     $scope.onChordChange = function(chordIndex, chord) {
@@ -39,6 +46,9 @@ angular.module('chesireApp')
     $scope.toggle = function() {
         $scope.expanded = !$scope.expanded;
         $scope.listOfSongsExpanded = false;
+        if($scope.expanded) {
+            UIService.notifyMenuOpen('scale');
+        }
     };
 
     $scope.saveSong = function() {
@@ -72,6 +82,8 @@ angular.module('chesireApp')
         $scope.currentScale.chords.push(Scales.getEmptyChord());
         updateSongObject($scope.currentScale.chords);
     };
+
+    //TODO: on destroy: UIService.unsubscribeToMenuOpening(checkIfShouldCloseMenu);
 
     init();
  });
