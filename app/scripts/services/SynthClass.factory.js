@@ -2,11 +2,11 @@
 
 angular.module('chesireApp')
     //TODO: Sound shouldn't be used here but in the SynthComponents
-    .factory('SynthClass', function(Audiocontext, SynthElementFactory, ScaleOptions) {
+    .factory('SynthClass', function(Audiocontext, SynthElementFactory) {
 
-        var SynthClass = function(options) {
-            if(options) {
-                this.init(options);
+        var SynthClass = function(synthOptions, scaleOptions) {
+            if(synthOptions && scaleOptions) {
+                this.init(synthOptions, scaleOptions);
             }
         };
 
@@ -14,14 +14,12 @@ angular.module('chesireApp')
 
             synthElements: null,
 
-            init: function(options) {
-                this.synthOptions = angular.copy(options);
+            init: function(synthOptions, scaleOptions) {
+                this.synthOptions = angular.copy(synthOptions);
+                this.scaleOptions = angular.copy(scaleOptions);
                 this.synthElements = [];
                 this._createComponents();
-                var self = this;
-                ScaleOptions.getScaleOptions().then(function(scaleOptions) {
-                    self.scaleChanged(scaleOptions);
-                });
+                this.scaleChanged(this.scaleOptions);
             },
 
             getComponent: function(componentInfo) {
@@ -57,6 +55,7 @@ angular.module('chesireApp')
             },
 
             scaleChanged: function(newScale) {
+                this.scaleOptions = newScale;
                 angular.forEach(this.synthElements, function(synthElement) {
                     if(synthElement.changeScale) {
                         synthElement.changeScale(newScale);

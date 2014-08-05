@@ -2,25 +2,27 @@
 
 angular.module('chesireApp')
 
-.controller('SoundgeneratorCtrl', function ($scope, $timeout, Leapmotion, SynthClass, MultiNotesHelper, ScaleOptions, SynthOptions, CurrentSynth) {
+.controller('SoundgeneratorCtrl', function ($scope, $timeout, $q, Leapmotion, SynthClass, MultiNotesHelper, ScaleOptions, SynthOptions, CurrentSynth) {
 
     var synthOptions = null;
+    var scaleOptions = null;
     var currentSynth = new SynthClass();
     CurrentSynth.setCurrentSynth(currentSynth);
 
     var init = function() {
+        var willGetSynthOptionsAndScale = $q.all([SynthOptions.getSynthOptions(), ScaleOptions.getScaleOptions()]);
+        willGetSynthOptionsAndScale.then(initSynth);
+    };
+
+    var initSynth = function(promiseResults) {
+        synthOptions = promiseResults[0];
+        scaleOptions = promiseResults[1];
+        SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
+        ScaleOptions.subscribeToChangesInScaleOptions(notesChanged);
         Leapmotion.subscribeToFrameChange(frameInfoChanged);
-
-        SynthOptions.getSynthOptions().then(function(newSynthOptions) {
-            synthOptions = newSynthOptions;
-            synthOptionsChanged(newSynthOptions);
-            SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
-        });
-
-        ScaleOptions.getScaleOptions().then(function(scaleOptions) {
-            notesChanged(scaleOptions);
-            ScaleOptions.subscribeToChangesInScaleOptions(notesChanged);
-        });
+        currentSynth.destroy();
+        currentSynth = new SynthClass(synthOptions, scaleOptions);
+        CurrentSynth.setCurrentSynth(currentSynth);
     };
 
     var notesChanged = function(newValue) {
@@ -30,7 +32,7 @@ angular.module('chesireApp')
     var synthOptionsChanged = function(newOptions) {
         synthOptions = newOptions;
         currentSynth.destroy();
-        currentSynth = new SynthClass(newOptions);
+        currentSynth = new SynthClass(newOptions, scaleOptions);
         CurrentSynth.setCurrentSynth(currentSynth);
     };
 

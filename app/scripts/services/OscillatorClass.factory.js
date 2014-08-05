@@ -22,7 +22,7 @@ angular.module('chesireApp')
                 if(this.oscillatorCollection) {
                     this.oscillatorCollection.destroy();
                 }
-                this.oscillatorCollection = new OscillatorCollection(undefined, options);
+                this.oscillatorCollection = new OscillatorCollection(options);
                 this.gainController = Audiocontext.createGain();
                 this.oscillatorCollection.connect(this.gainController);
             },

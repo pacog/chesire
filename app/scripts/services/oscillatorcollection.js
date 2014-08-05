@@ -4,7 +4,7 @@ angular.module('chesireApp')
 
 .factory('OscillatorCollection', function (Audiocontext) {
 
-    var OscillatorCollectionClass = function(nodesInfo, oscillatorOptions) {
+    var OscillatorCollectionClass = function(oscillatorOptions) {
 
         var nodes = [];
 
@@ -57,7 +57,6 @@ angular.module('chesireApp')
 
         var init = function(nodesConfig, synthConfig) {
             destroy();
-
             if(nodesConfig) {
 
                 nodes = [];
@@ -88,13 +87,15 @@ angular.module('chesireApp')
             angular.forEach(nodes, function(node) {
                 node.oscillator.type = getOscillatorTypeFromOptions(synthConfig);
             });
+
         };
 
         var getNodes = function() {
             return nodes;
         };
 
-        init(nodesInfo, oscillatorOptions);
+        //TODO: this is bad, we do this because at some point we'll call init with the correct scale
+        init(undefined, oscillatorOptions);
 
         return {
             connect:                connect,

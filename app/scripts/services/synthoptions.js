@@ -54,7 +54,10 @@ angular.module('chesireApp')
     var notifyComponentChanged = function(componentInfo) {
         for(var i=0; i<synthOptions.components.length; i++) {
             if(synthOptions.components[i].uniqueId === componentInfo.uniqueId) {
+                //TODO: check if it really changed
+                //Problem, right now the object is changed in the controllers, so we don't know when it really changed
                 synthOptions.components[i] = componentInfo;
+                break;
             }
         }
         notifyChangeInSynthOptions(synthOptions);
