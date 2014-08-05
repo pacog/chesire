@@ -2,7 +2,7 @@
 
     <h3>{{componentInfo.type}}</h3>
 
-    <div class='oscillator-type'>
+    <div class='oscillator-type oscillator-section' >
         {{componentInfo.oscillatorType}}
         <button class='' ng-click='toggleListOfOscillatorType()'></button>
         <ul class='oscillator-type-list' ng-show='listOfOscillatorTypeExpanded'>
@@ -13,7 +13,7 @@
         </ul>
     </div>
 
-    <div class='oscillator-snap'>
+    <div class='oscillator-snap oscillator-section'>
         <h4>Snap to chords</h4>
         <div class='oscillator-snap-info'>
             <div class='oscillator-snap-info-first-note'
@@ -26,7 +26,12 @@
         <input class='oscillator-snap-range-picker'  id="test" type="range" min="0" max="0.5" step="0.01" ng-model="componentInfo.snapDistance"/>
     </div>
 
-    <div class='oscillator-nodes-info'>
+    <div class='oscillator-transition oscillator-section'>
+        <h4>Transition between chords</h4>
+        <switch-two-values values='transitionTypes' ng-model='componentInfo.transitionType'></switch-two-values>
+    </div>
+
+    <div class='oscillator-nodes-info oscillator-section'>
         <h4>Frequencies being played</h4>
         <ul class='oscillator-nodes'>
             <li ng-repeat='node in oscillatorNodes'

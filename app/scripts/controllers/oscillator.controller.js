@@ -8,6 +8,14 @@ angular.module('chesireApp')
 
     var init = function() {
         currentSynth = CurrentSynth.getCurrentSynth();
+
+        $scope.transitionTypes = [{
+            name: 'Glissando',
+            value: 'glissando'
+        }, {
+            name: 'Volume',
+            value: 'volume'
+        }];
         $scope.AvailableOscillators = AvailableOscillators;
         $scope.$watch(function() {
             return CurrentSynth.getCurrentSynth();
@@ -16,6 +24,8 @@ angular.module('chesireApp')
         $scope.$watchCollection(function() {
             return $scope.synthComponent.oscillatorCollection.getNodes();
         }, synthNodesChanged);
+
+        $scope.$watch('componentInfo.transitionType', transitionTypeChanged);
     };
 
     var synthChanged = function() {
@@ -25,6 +35,10 @@ angular.module('chesireApp')
 
     var synthNodesChanged = function() {
         $scope.oscillatorNodes = $scope.synthComponent.oscillatorCollection.getNodes();
+    };
+
+    var transitionTypeChanged = function() {
+        SynthOptions.notifyComponentChanged($scope.componentInfo);
     };
 
     $scope.getLeftPercentageFromNode = function(node) {
