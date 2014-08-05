@@ -25,7 +25,8 @@ angular.module('chesireApp')
             return $scope.synthComponent.oscillatorCollection.getNodes();
         }, synthNodesChanged);
 
-        $scope.$watch('componentInfo.transitionType', transitionTypeChanged);
+        $scope.$watch('componentInfo.transitionType', notifyOscillatorOptionsChanged);
+        $scope.$watch('componentInfo.snapDistance', notifyOscillatorOptionsChanged);
     };
 
     var synthChanged = function() {
@@ -37,7 +38,7 @@ angular.module('chesireApp')
         $scope.oscillatorNodes = $scope.synthComponent.oscillatorCollection.getNodes();
     };
 
-    var transitionTypeChanged = function() {
+    var notifyOscillatorOptionsChanged = function() {
         SynthOptions.notifyComponentChanged($scope.componentInfo);
     };
 
