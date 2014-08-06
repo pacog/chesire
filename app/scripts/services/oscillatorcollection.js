@@ -2,11 +2,12 @@
 
 angular.module('chesireApp')
 
-.factory('OscillatorCollection', function (Audiocontext) {
+.factory('OscillatorCollection', function (Audiocontext, MultiNotesHelper) {
 
     var OscillatorCollectionClass = function(oscillatorOptions) {
 
         var nodes = [];
+        var nodesHash = {};
 
         //Node we are connected to
         var connectedTo = null;
@@ -22,10 +23,9 @@ angular.module('chesireApp')
         };
 
         var updateNodes = function(nodesInfo) {
-
             var node, freq;
-            angular.forEach(nodesInfo, function(note, noteIndex) {
-                node = nodes[noteIndex];
+            angular.forEach(nodesInfo, function(note) {
+                node = nodes[nodesHash[note.name]];
                 freq = note.freqToPlay;
                 node.gainNode.gain.value = note.gain;
                 if(freq) {
@@ -56,25 +56,20 @@ angular.module('chesireApp')
         };
 
         var init = function(nodesConfig, synthConfig) {
-            //TODO: take into account volume/glissando option
             destroy();
             if(nodesConfig) {
-
+                var notesWeCanPlayAtOnce = MultiNotesHelper.getNotesDefinition(nodesConfig, synthConfig);
                 nodes = [];
-                var biggestChord = 0;
-                angular.forEach(nodesConfig.chords, function(chord) {
-                    if(chord.notes.length > biggestChord) {
-                        biggestChord = chord.notes.length;
-                    }
-                });
+                nodesHash = {};
 
-                for(var i=0; i<biggestChord; i++) {
+                for(var i=0; i<notesWeCanPlayAtOnce.length; i++) {
                     var newOscillator = Audiocontext.createOscillator();
                     var newGainController = Audiocontext.createGain();
                     newGainController.gain.value = 0;
                     newOscillator.connect(newGainController);
                     newOscillator.noteOn(0);
 
+                    nodesHash[notesWeCanPlayAtOnce[i].name] = i;
                     nodes.push({
                         oscillator: newOscillator,
                         gainNode: newGainController
@@ -88,7 +83,6 @@ angular.module('chesireApp')
             angular.forEach(nodes, function(node) {
                 node.oscillator.type = getOscillatorTypeFromOptions(synthConfig);
             });
-
         };
 
         var getNodes = function() {

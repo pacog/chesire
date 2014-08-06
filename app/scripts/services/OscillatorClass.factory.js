@@ -42,6 +42,7 @@ angular.module('chesireApp')
             },
 
             _updateNotesBeingPlayed: function(x) {
+
                 var notesInfo = MultiNotesHelper.getNotesInfo(x, this.options.transitionType);
                 this.oscillatorCollection.updateNodes(notesInfo);
             },

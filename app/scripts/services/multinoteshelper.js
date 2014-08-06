@@ -41,13 +41,19 @@ angular.module('chesireApp')
     };
 
     var changeNotes = function(newNotes, newSynthOptions) {
-
         if(newNotes && newSynthOptions) {
+
+            //Ugly conversion, sometimes synth options include all synth, sometimes only the oscillator
+            var oscillatorComponent = newSynthOptions;
+            if(!!newSynthOptions.components) {
+                oscillatorComponent = newSynthOptions.components[0];
+            }
+
             notesInfo = [];
             chordsInfo = newNotes;
-            if(newSynthOptions.components[0].transitionType==='glissando') {
+            if(oscillatorComponent.transitionType==='glissando') {
                 createNotesForGlissandoTransition(newNotes);
-            } else if(newSynthOptions.components[0].transitionType==='volume') {
+            } else if(oscillatorComponent.transitionType==='volume') {
                 createNotesForVolumeTransition(newNotes);
             }
             silenceAllNotes();
@@ -75,9 +81,11 @@ angular.module('chesireApp')
         //We don't allow duplicated notes (thus avoiding problems with MIDI) So we only add one note of a kind
         angular.forEach(newNotes.chords, function(chord) {
             angular.forEach(chord.notes, function(note) {
-                if(!notesVolumeHash[note.name]) {
+                
+                if(!angular.isNumber(notesVolumeHash[note.name])) {
                     notesVolumeHash[note.name] = positionInNoteArray;
                     notesInfo.push(note);
+                    positionInNoteArray++;
                 }
             });
         });
@@ -101,6 +109,13 @@ angular.module('chesireApp')
         }
     };
 
+    var getNotesDefinition = function(notes, synthConfig) {
+        if(!notesInfo) {
+            changeNotes(notes, synthConfig);
+        }
+        return notesInfo;
+    };
+
     var getNotesInfoWithVolumeTransition = function(x) {
         var chordsInfo = getChordsInvolvedFromXPosition(x);
         var notesBeingPlayed = {};
@@ -111,18 +126,17 @@ angular.module('chesireApp')
         for(var i=0; i<chordsInfo.firstChord.length; i++) {
             indexOfNote = notesVolumeHash[chordsInfo.firstChord[i].name];
             notesInfo[indexOfNote].freqToPlay = notesInfo[indexOfNote].freq;
-            notesInfo[indexOfNote].gain = chordsInfo.distanceInBetween;
+            notesInfo[indexOfNote].gain = 1 - chordsInfo.distanceInBetween;
             notesBeingPlayed[chordsInfo.firstChord[i].name] = true;
         }
         for(i=0; i<chordsInfo.secondChord.length; i++) {
             indexOfNote = notesVolumeHash[chordsInfo.secondChord[i].name];
             notesInfo[indexOfNote].freqToPlay = notesInfo[indexOfNote].freq;
             //If the same note is in two chords, it won't fade in/out
-            if(!notesBeingPlayed[chordsInfo.secondChord[i].name]) {
+            if(notesBeingPlayed[chordsInfo.secondChord[i].name]) {
                 notesInfo[indexOfNote].gain = 1;
-
             } else {
-                notesInfo[indexOfNote].gain = 1 - chordsInfo.distanceInBetween;
+                notesInfo[indexOfNote].gain = chordsInfo.distanceInBetween;
             }
         }
         normalizeTotalGainOfNotes(notesInfo);
@@ -214,6 +228,7 @@ angular.module('chesireApp')
 
     return {
         changeNotes: changeNotes,
-        getNotesInfo: getNotesInfo
+        getNotesInfo: getNotesInfo,
+        getNotesDefinition: getNotesDefinition
     };
 });
