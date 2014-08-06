@@ -56,6 +56,7 @@ angular.module('chesireApp')
         };
 
         var init = function(nodesConfig, synthConfig) {
+            //TODO: take into account volume/glissando option
             destroy();
             if(nodesConfig) {
 

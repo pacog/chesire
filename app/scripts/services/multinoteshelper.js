@@ -5,6 +5,7 @@ angular.module('chesireApp')
 .factory('MultiNotesHelper', function (SynthOptions, ScaleOptions) {
 
     var notesInfo = null;
+    var notesVolumeHash = null;
     var chordsInfo = null;
     var synthoptions = null;
     var scaleOptions = null;
@@ -24,11 +25,12 @@ angular.module('chesireApp')
 
     var synthOptionsChanged = function(newSynthOptions) {
         synthoptions = newSynthOptions;
+        changeNotes(scaleOptions, synthoptions);
     };
 
     var scaleOptionsChanged = function(newScaleOptions) {
         scaleOptions = newScaleOptions;
-        changeNotes(scaleOptions);
+        changeNotes(scaleOptions, synthoptions);
     };
 
     var silenceAllNotes = function() {
@@ -38,24 +40,47 @@ angular.module('chesireApp')
         });
     };
 
-    var changeNotes = function(newNotes) {
+    var changeNotes = function(newNotes, newSynthOptions) {
 
-        if(newNotes) {
+        if(newNotes && newSynthOptions) {
             notesInfo = [];
             chordsInfo = newNotes;
-            var longerChord = 0;
-            var longerChordIndex = false;
-            angular.forEach(newNotes.chords, function(chord, chordIndex) {
-                if(longerChord<chord.notes.length) {
-                    longerChord = chord.notes.length;
-                    longerChordIndex = chordIndex;
-                }
-            });
-            for(var i=0; i<longerChord; i++) {
-                notesInfo.push(newNotes.chords[longerChordIndex].notes[i]);
+            if(newSynthOptions.components[0].transitionType==='glissando') {
+                createNotesForGlissandoTransition(newNotes);
+            } else if(newSynthOptions.components[0].transitionType==='volume') {
+                createNotesForVolumeTransition(newNotes);
             }
             silenceAllNotes();
         }
+    };
+
+    var createNotesForGlissandoTransition = function(newNotes) {
+        //TODO: order the two chords so 
+        var longerChord = 0;
+        var longerChordIndex = false;
+        angular.forEach(newNotes.chords, function(chord, chordIndex) {
+            if(longerChord<chord.notes.length) {
+                longerChord = chord.notes.length;
+                longerChordIndex = chordIndex;
+            }
+        });
+        for(var i=0; i<longerChord; i++) {
+            notesInfo.push(newNotes.chords[longerChordIndex].notes[i]);
+        }
+    };
+
+    var createNotesForVolumeTransition = function(newNotes) {
+        notesVolumeHash = {};
+        var positionInNoteArray = 0;
+        //We don't allow duplicated notes (thus avoiding problems with MIDI) So we only add one note of a kind
+        angular.forEach(newNotes.chords, function(chord) {
+            angular.forEach(chord.notes, function(note) {
+                if(!notesVolumeHash[note.name]) {
+                    notesVolumeHash[note.name] = positionInNoteArray;
+                    notesInfo.push(note);
+                }
+            });
+        });
     };
 
     var snap = function(x, snapDistance) {
@@ -68,10 +93,45 @@ angular.module('chesireApp')
         return 1;
     };
 
-    var getNotesInfo = function(x) {
+    var getNotesInfo = function(x, transitionType) {
+        if(transitionType === 'glissando') {
+            return getNotesInfoWithGlissandoTransition(x);
+        } else if(transitionType === 'volume') {
+            return getNotesInfoWithVolumeTransition(x);
+        }
+    };
 
+    var getNotesInfoWithVolumeTransition = function(x) {
+        var chordsInfo = getChordsInvolvedFromXPosition(x);
+        var notesBeingPlayed = {};
+        var indexOfNote;
+
+        silenceAllNotes();
+
+        for(var i=0; i<chordsInfo.firstChord.length; i++) {
+            indexOfNote = notesVolumeHash[chordsInfo.firstChord[i].name];
+            notesInfo[indexOfNote].freqToPlay = notesInfo[indexOfNote].freq;
+            notesInfo[indexOfNote].gain = chordsInfo.distanceInBetween;
+            notesBeingPlayed[chordsInfo.firstChord[i].name] = true;
+        }
+        for(i=0; i<chordsInfo.secondChord.length; i++) {
+            indexOfNote = notesVolumeHash[chordsInfo.secondChord[i].name];
+            notesInfo[indexOfNote].freqToPlay = notesInfo[indexOfNote].freq;
+            //If the same note is in two chords, it won't fade in/out
+            if(!notesBeingPlayed[chordsInfo.secondChord[i].name]) {
+                notesInfo[indexOfNote].gain = 1;
+
+            } else {
+                notesInfo[indexOfNote].gain = 1 - chordsInfo.distanceInBetween;
+            }
+        }
+        normalizeTotalGainOfNotes(notesInfo);
+
+        return notesInfo;
+    };
+
+    var getChordsInvolvedFromXPosition = function(x) {
         var positionRelativeToNotes = getPositionRelativeToNotes(x, chordsInfo.chords.length);
-
         var firstNote = Math.floor(positionRelativeToNotes);
         if(firstNote >= (chordsInfo.chords.length - 1)) {
             firstNote = firstNote-1;
@@ -80,44 +140,57 @@ angular.module('chesireApp')
         distanceInBetween = snap(distanceInBetween, synthoptions.components[0].snapDistance);
         silenceAllNotes();
 
-        //TODO option to make all chords sound with same volume, even if they have different number of notes
         var firstChord = chordsInfo.chords[firstNote].notes;
         var secondChord = chordsInfo.chords[firstNote + 1].notes;
-        var freq1, freq2;
+
+        return {
+            firstChord: firstChord,
+            secondChord: secondChord,
+            distanceInBetween: distanceInBetween
+        };
+    };
+
+    var normalizeTotalGainOfNotes = function(notes) {
         var totalGain = 0;
+        for(var i=0; i< notes.length; i++) {
+            totalGain += notes[i].gain;
+        }
+        if(totalGain>0) {
+            for(i=0; i< notes.length; i++) {
+                notes[i].gain = notes[i].gain/totalGain;
+            }
+        }
+    };
+
+    var getNotesInfoWithGlissandoTransition = function(x) {
+        var chordsInfo = getChordsInvolvedFromXPosition(x);
+        var freq1, freq2;
+
+        silenceAllNotes();
 
         for(var i=0; i<notesInfo.length; i++) {
 
-            if(firstChord[i] && firstChord[i].freq && secondChord[i] && secondChord[i].freq) {
+            if(chordsInfo.firstChord[i] && chordsInfo.firstChord[i].freq && chordsInfo.secondChord[i] && chordsInfo.secondChord[i].freq) {
 
-                freq1 = firstChord[i].freq;
-                freq2 = secondChord[i].freq;
-                notesInfo[i].freqToPlay = freq1 + (freq2-freq1)*distanceInBetween;
+                freq1 = chordsInfo.firstChord[i].freq;
+                freq2 = chordsInfo.secondChord[i].freq;
+                notesInfo[i].freqToPlay = freq1 + (freq2-freq1)*chordsInfo.distanceInBetween;
                 notesInfo[i].gain = 1;
-                totalGain += 1;
-            } else if(firstChord[i] && firstChord[i].freq) {
+            } else if(chordsInfo.firstChord[i] && chordsInfo.firstChord[i].freq) {
 
-                notesInfo[i].gain = 1-distanceInBetween;
-                totalGain += (1-distanceInBetween);
-                notesInfo[i].freqToPlay = firstChord[i].freq;
-            } else if(secondChord[i] && secondChord[i].freq) {
+                notesInfo[i].gain = 1-chordsInfo.distanceInBetween;
+                notesInfo[i].freqToPlay = chordsInfo.firstChord[i].freq;
+            } else if(chordsInfo.secondChord[i] && chordsInfo.secondChord[i].freq) {
 
-                notesInfo[i].gain = distanceInBetween;
-                totalGain += distanceInBetween;
-                notesInfo[i].freqToPlay = secondChord[i].freq;
+                notesInfo[i].gain = chordsInfo.distanceInBetween;
+                notesInfo[i].freqToPlay = chordsInfo.secondChord[i].freq;
             } else {
 
                 notesInfo[i].gain = 0;
             }
         }
 
-
-        //Now we normalize so the total gain is 1
-        if(totalGain>0) {
-            for(i=0; i< notesInfo.length; i++) {
-                notesInfo[i].gain = notesInfo[i].gain/totalGain;
-            }
-        }
+        normalizeTotalGainOfNotes(notesInfo);
 
         return notesInfo;
     };
