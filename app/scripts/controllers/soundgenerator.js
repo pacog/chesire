@@ -20,9 +20,7 @@ angular.module('chesireApp')
         SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
         ScaleOptions.subscribeToChangesInScaleOptions(notesChanged);
         Leapmotion.subscribeToFrameChange(frameInfoChanged);
-        currentSynth.destroy();
-        currentSynth = new SynthClass(synthOptions, scaleOptions);
-        CurrentSynth.setCurrentSynth(currentSynth);
+        synthOptionsChanged(synthOptions);
     };
 
     var notesChanged = function(newValue) {
@@ -30,10 +28,15 @@ angular.module('chesireApp')
     };
 
     var synthOptionsChanged = function(newOptions) {
+        //TODO: this function is being called three times at the beginning
         synthOptions = newOptions;
         currentSynth.destroy();
         currentSynth = new SynthClass(newOptions, scaleOptions);
         CurrentSynth.setCurrentSynth(currentSynth);
+
+        if(synthOptions.outputMode === 'midi') {
+            currentSynth.disable();
+        }
     };
 
     var frameInfoChanged = function(frame) {

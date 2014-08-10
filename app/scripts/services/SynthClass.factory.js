@@ -79,6 +79,12 @@ angular.module('chesireApp')
                 });
             },
 
+            disable: function() {
+                //TODO: shouldn't access the gain node from here, best create a disconnect method,
+                // so we can use it in other kinds of components too
+                _.last(this.synthElements).gainController.disconnect(Audiocontext.destination);
+            },
+
             destroy: function() {
                 angular.forEach(this.synthElements, function(synthElement) {
                     synthElement.destroy();
