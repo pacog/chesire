@@ -2,18 +2,37 @@
 
 angular.module('chesireApp')
 
-.controller('MidigeneratorCtrl', function ($scope, $timeout, $window, MidiApiMediator, Leapmotion, MultiNotesHelper) {
+.controller('MidigeneratorCtrl', function ($scope, $timeout, $window, $q, MidiApiMediator, Leapmotion, MultiNotesHelper, SynthOptions, MidiMessagesHelper) {
 
-    var currentSounds = [];
-    var mnh = null;
+    var synthOptions = null;
+    var notesBeingPlayed = {};
 
     var init = function() {
 
-        MidiApiMediator.then(function(midiAccess) {
+        var willGetSynthOptions = SynthOptions.getSynthOptions();
+        $q.all([MidiApiMediator, willGetSynthOptions]).then(function(promiseResults) {
+            var midiAccess = promiseResults[0];
+            var newSynthOptions = promiseResults[1];
+
             $scope.midiOutputs = midiAccess.outputs();
             $scope.selectedMidiOutput = $scope.midiOutputs[0];
+
+            synthOptionsChanged(newSynthOptions);
+            SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
             Leapmotion.subscribeToFrameChange(updateGeneratedMidi);
         });
+    };
+
+    var synthOptionsChanged = function(newSynthOptions) {
+        if(newSynthOptions) {
+            synthOptions = newSynthOptions;
+            if(newSynthOptions.outputMode !== 'midi') {
+                //TODO: disable
+            }
+            if(newSynthOptions.outputMode === 'midi') {
+                //TODO: enable
+            }
+        }
     };
 
     var updateGeneratedMidi = function(newFrameInfo) {
@@ -26,34 +45,57 @@ angular.module('chesireApp')
         var notesInfo = [];
         if(frame && frame.hands && frame.hands.length) {
             var motionParams = Leapmotion.getRelativePositions(frame, frame.hands);
-            notesInfo = MultiNotesHelper.getNotesInfo(motionParams.x);
-
+            //TODO: getting transition type like this is ugly. call a method in synthOptions directive
+            notesInfo = MultiNotesHelper.getNotesInfo(motionParams.x, synthOptions.components[0].transitionType);
+        } else {
+            stopPlaying();
         }
         return notesInfo;
     };
 
     var updateMidiSound = function(notesInfo) {
-        stopPlayingCurrentMidiSounds();
-        startPlayingMidiSoundsFromNotes(notesInfo);
-    };
-
-    var stopPlayingCurrentMidiSounds = function() {
-
-        angular.forEach(currentSounds, function(sound) {
-            var midiCommand = mnh.noteOff(sound);
-            MidiApiMediator.send(midiCommand);
-        });
-        currentSounds = [];
-    };
-
-    var startPlayingMidiSoundsFromNotes = function(notesInfo) {
+        var notesOn = [];
+        var notesOff = [];
+        var notesUpdate = [];
 
         angular.forEach(notesInfo, function(note) {
-            var midiCommand = mnh.noteOn(note);
-            MidiApiMediator.send(midiCommand);
-            currentSounds.push(midiCommand);
+            if(note.gain) {
+                if(notesBeingPlayed[note.name]) {
+                    notesUpdate.push(note);
+                }
+                else {
+                    notesOn.push(note);
+                    notesBeingPlayed[note.name] = note;
+                }
+            } else {
+                if(notesBeingPlayed[note.name]) {
+                    notesOff.push(note);
+                    notesBeingPlayed[note.name] = false;
+                }
+            }
         });
+
+        angular.forEach(notesOff, function(note) {
+            $scope.selectedMidiOutput.send(MidiMessagesHelper.getNoteOff(note));
+        });
+        if(notesOn.length) {
+            $scope.selectedMidiOutput.send(MidiMessagesHelper.getNotesOn(notesOn));
+        }
+
+        // angular.forEach(notesUpdate, function(note) {
+        //     $scope.selectedMidiOutput.send(MidiMessagesHelper.getNoteUpdateVelocity(note));
+        // });
     };
+
+    var stopPlaying = function() {
+        angular.forEach(notesBeingPlayed, function(note) {
+            if(note) {
+                $scope.selectedMidiOutput.send(MidiMessagesHelper.getNoteOff(note));
+            }
+        });
+        notesBeingPlayed = {};
+    };
+
 
     init();
 });

@@ -28,8 +28,6 @@ angular.module('chesireApp')
             },
 
             changeScale: function(newScale) {
-                //TODO: check if we can really remove this (should be done automatically in the MultiNotesHelper):
-                // MultiNotesHelper.changeNotes(newScale);
                 if(this.oscillatorCollection) {
                     this.oscillatorCollection.destroy();
                 }

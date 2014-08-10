@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('SoundgeneratorCtrl', function ($scope, $timeout, $q, Leapmotion, SynthClass, MultiNotesHelper, ScaleOptions, SynthOptions, CurrentSynth) {
+.controller('SoundgeneratorCtrl', function ($scope, $timeout, $q, Leapmotion, SynthClass, ScaleOptions, SynthOptions, CurrentSynth) {
 
     var synthOptions = null;
     var scaleOptions = null;

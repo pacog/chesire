@@ -114,158 +114,208 @@ angular.module('chesireApp')
 // },
 {
     name: 'C3',
-    freq: 130.81
+    freq: 130.81,
+    midi: 48
 }, {
     name: 'C#3',
-    freq: 138.59
+    freq: 138.59,
+    midi: 49
 }, {
     name: 'D3',
-    freq: 146.83
+    freq: 146.83,
+    midi: 50
 }, {
     name: 'D#3',
-    freq: 155.56
+    freq: 155.56,
+    midi: 51
 }, {
     name: 'E3',
-    freq: 164.81
+    freq: 164.81,
+    midi: 52
 }, {
     name: 'F3',
-    freq: 174.61
+    freq: 174.61,
+    midi: 53
 }, {
     name: 'F#3',
-    freq: 185.00
+    freq: 185.00,
+    midi: 54
 }, {
     name: 'G3',
-    freq: 196.00
+    freq: 196.00,
+    midi: 55
 }, {
     name: 'G#3',
-    freq: 207.65
+    freq: 207.65,
+    midi: 56
 }, {
     name: 'A3',
-    freq: 220.00
+    freq: 220.00,
+    midi: 57
 }, {
     name: 'A#3',
-    freq: 233.08
+    freq: 233.08,
+    midi: 58
 }, {
     name: 'B3',
-    freq: 246.94
+    freq: 246.94,
+    midi: 59
 }, {
     name: 'C4',
-    freq: 261.63
+    freq: 261.63,
+    midi: 60
 }, {
     name: 'C#4',
-    freq: 277.18
+    freq: 277.18,
+    midi: 61
 }, {
     name: 'D4',
-    freq: 293.66
+    freq: 293.66,
+    midi: 62
 }, {
     name: 'D#4',
-    freq: 311.13
+    freq: 311.13,
+    midi: 63
 }, {
     name: 'E4',
-    freq: 329.63
+    freq: 329.63,
+    midi: 64
 }, {
     name: 'F4',
-    freq: 349.23
+    freq: 349.23,
+    midi: 65
 }, {
     name: 'F#4',
-    freq: 369.99
+    freq: 369.99,
+    midi: 66
 }, {
     name: 'G4',
-    freq: 392.00
+    freq: 392.00,
+    midi: 67
 }, {
     name: 'G#4',
-    freq: 415.30
+    freq: 415.30,
+    midi: 68
 }, {
     name: 'A4',
-    freq: 440.00
+    freq: 440.00,
+    midi: 69
 }, {
     name: 'A#4',
-    freq: 466.16
+    freq: 466.16,
+    midi: 70
 }, {
     name: 'B4',
-    freq: 493.88
+    freq: 493.88,
+    midi: 71
 }, {
     name: 'C5',
-    freq: 523.25
+    freq: 523.25,
+    midi: 72
 }, {
     name: 'C#5',
-    freq: 554.37
+    freq: 554.37,
+    midi: 73
 }, {
     name: 'D5',
-    freq: 587.33
+    freq: 587.33,
+    midi: 74
 }, {
     name: 'D#5',
-    freq: 622.25
+    freq: 622.25,
+    midi: 75
 }, {
     name: 'E5',
-    freq: 659.25
+    freq: 659.25,
+    midi: 76
 }, {
     name: 'F5',
-    freq: 698.46
+    freq: 698.46,
+    midi: 77
 }, {
     name: 'F#5',
-    freq: 739.99
+    freq: 739.99,
+    midi: 78
 }, {
     name: 'G5',
-    freq: 783.99
+    freq: 783.99,
+    midi: 79
 }, {
     name: 'G#5',
-    freq: 830.61
+    freq: 830.61,
+    midi: 80
 }, {
     name: 'A5',
-    freq: 880.00
+    freq: 880.00,
+    midi: 81
 }, {
     name: 'A#5',
-    freq: 932.33
+    freq: 932.33,
+    midi: 82
 }, {
     name: 'B5',
-    freq: 987.77
+    freq: 987.77,
+    midi: 83
 }, {
     name: 'C6',
-    freq: 1046.50
+    freq: 1046.50,
+    midi: 84
 }, {
     name: 'C#6',
-    freq: 1108.73
+    freq: 1108.73,
+    midi: 85
 }, {
     name: 'D6',
-    freq: 1174.66
+    freq: 1174.66,
+    midi: 86
 }, {
     name: 'D#6',
-    freq: 1244.51
+    freq: 1244.51,
+    midi: 87
 }, {
     name: 'E6',
-    freq: 1318.51
+    freq: 1318.51,
+    midi: 88
 }, {
     name: 'F6',
-    freq: 1396.91
+    freq: 1396.91,
+    midi: 89
 }, {
     name: 'F#6',
-    freq: 1479.98
+    freq: 1479.98,
+    midi: 90
 }, {
     name: 'G6',
-    freq: 1567.98
+    freq: 1567.98,
+    midi: 91
 }, {
     name: 'G#6',
-    freq: 1661.22
+    freq: 1661.22,
+    midi: 92
 }, {
     name: 'A6',
-    freq: 1760.00
+    freq: 1760.00,
+    midi: 93
 }, {
     name: 'A#6',
-    freq: 1864.66
+    freq: 1864.66,
+    midi: 94
 }, {
     name: 'B6',
-    freq: 1975.53
+    freq: 1975.53,
+    midi: 95
 }, {
     name: 'C7',
-    freq: 2093.00
+    freq: 2093.00,
+    midi: 96
 }, {
     name: 'C#7',
-    freq: 2217.46
-},
-{
+    freq: 2217.46,
+    midi: 97
+}, {
     name: 'D7',
-    freq: 2349.32
+    freq: 2349.32,
+    midi: 98
 }
 // ,{
 //     name: 'D#7',
