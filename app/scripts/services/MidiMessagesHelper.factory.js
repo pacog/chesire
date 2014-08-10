@@ -13,32 +13,19 @@ angular.module('chesireApp')
             return 0x80 + DEFAULT_CHANNEL;
         };
 
-        var getNotesOn = function(notesInfo) {
+        var keyPressureCode = function() {
+            return 0xA0 + DEFAULT_CHANNEL;
+        };
+
+        var getNoteOn = function(noteInfo) {
             var firstByte = noteOnCode();
-            var notesIds = getNotesIds(notesInfo);
-            var notesVelocities = getNotesVelocities(notesInfo);
-
-            return [firstByte].concat(notesIds).concat(notesVelocities);
+            return [firstByte, noteInfo.midi, parseInt(Math.floor(noteInfo.gain*128), 10)];
         };
 
-        var getNotesIds = function(notesInfo) {
-            var result = [];
+        var getKeyPressureChange = function(noteInfo) {
+            var firstByte = keyPressureCode();
 
-            for(var i=0; i<notesInfo.length; i++) {
-                result.push(notesInfo[i].midi);
-            }
-
-            return result;
-        };
-
-        var getNotesVelocities = function(notesInfo) {
-            var result = [];
-
-            for(var i=0; i<notesInfo.length; i++) {
-                result.push(Math.floor(notesInfo[i].gain*128));
-            }
-
-            return result;
+            return [firstByte, noteInfo.midi, parseInt(Math.floor(noteInfo.gain*128), 10)];
         };
 
         var getNoteOff = function(noteInfo) {
@@ -47,8 +34,14 @@ angular.module('chesireApp')
             return [firstByte, noteInfo.midi, 0];
         };
 
+        var getAllNotesOff = function() {
+            return [0x7B];
+        };
+
         return {
-            getNotesOn: getNotesOn,
-            getNoteOff: getNoteOff
+            getNoteOn: getNoteOn,
+            getNoteOff: getNoteOff,
+            getKeyPressureChange: getKeyPressureChange,
+            getAllNotesOff: getAllNotesOff
         };
     });

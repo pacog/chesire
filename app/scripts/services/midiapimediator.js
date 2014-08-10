@@ -87,7 +87,7 @@ angular.module('chesireApp')
         return MidiAccessClass;
     })
 
-    .service('MidiOutput', function() {
+    .service('MidiOutput', function(MidiMessagesHelper) {
 
         var jazzObject = null;
 
@@ -99,9 +99,38 @@ angular.module('chesireApp')
             jazzObject.MidiOutOpen(this.name);
         };
 
-        MidiOutput.prototype.send = function( data ) {
-
+        var send = function( data ) {
             jazzObject.MidiOutLong( data );
+        };
+
+        MidiOutput.prototype.notesOff = function (notesOff) {
+            angular.forEach(notesOff, function(note) {
+                if(note) {
+                    send(MidiMessagesHelper.getNoteOff(note));
+                }
+            });
+        };
+
+        MidiOutput.prototype.notesOn = function (notesOn) {
+            angular.forEach(notesOn, function(note) {
+                send(MidiMessagesHelper.getNoteOn(note));
+            });
+        };
+
+        MidiOutput.prototype.keyPressureChanges = function (notesUpdate) {
+            angular.forEach(notesUpdate, function(note) {
+                send(MidiMessagesHelper.getKeyPressureChange(note));
+            });
+        };
+
+        MidiOutput.prototype.allOff = function(notes) {
+
+            angular.forEach(notes, function(note) {
+                if(note) {
+                    send(MidiMessagesHelper.getNoteOff(note));
+                }
+            });
+            //send(MidiMessagesHelper.getAllNotesOff());
         };
 
         return MidiOutput;

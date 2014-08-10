@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('MidigeneratorCtrl', function ($scope, $timeout, $window, $q, MidiApiMediator, Leapmotion, MultiNotesHelper, SynthOptions, MidiMessagesHelper) {
+.controller('MidigeneratorCtrl', function ($scope, $timeout, $window, $q, MidiApiMediator, Leapmotion, MultiNotesHelper, SynthOptions) {
 
     var synthOptions = null;
     var notesBeingPlayed = {};
@@ -75,25 +75,17 @@ angular.module('chesireApp')
             }
         });
 
-        angular.forEach(notesOff, function(note) {
-            $scope.selectedMidiOutput.send(MidiMessagesHelper.getNoteOff(note));
-        });
-        if(notesOn.length) {
-            $scope.selectedMidiOutput.send(MidiMessagesHelper.getNotesOn(notesOn));
-        }
-
-        // angular.forEach(notesUpdate, function(note) {
-        //     $scope.selectedMidiOutput.send(MidiMessagesHelper.getNoteUpdateVelocity(note));
-        // });
+        $scope.selectedMidiOutput.notesOff(notesOff);
+        $scope.selectedMidiOutput.notesOn(notesOn);
+        
+        $scope.selectedMidiOutput.keyPressureChanges(notesUpdate);
     };
 
     var stopPlaying = function() {
-        angular.forEach(notesBeingPlayed, function(note) {
-            if(note) {
-                $scope.selectedMidiOutput.send(MidiMessagesHelper.getNoteOff(note));
-            }
-        });
-        notesBeingPlayed = {};
+        if(!_.isEmpty(notesBeingPlayed)) {
+            $scope.selectedMidiOutput.allOff(_.toArray(notesBeingPlayed));
+            notesBeingPlayed = {};
+        }
     };
 
 
