@@ -23,6 +23,7 @@
             <button class='button' ng-click='saveSynth()' ng-disabled='!synthoptions.name'>Save synth</button>
             <button class='button' ng-click='deleteSynth()'>Delete synth</button>
             <button class='big-button config-menu-close' ng-click='toggle()'></button>
+            <switch-two-values values='outputModes' ng-model='synthoptions.outputMode'></switch-two-values>
             <ul>
                 <li ng-repeat='component in synthoptions.components'>
                     <synthcomponent component-info='component'>

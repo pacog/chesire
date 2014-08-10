@@ -11,7 +11,18 @@ angular.module('chesireApp')
         UIService.subscribeToMenuOpening(checkIfShouldCloseMenu);
         //TODO: listen for changes in synth options
         //Also load the synths so we can track their values real time
-
+        $scope.outputModes = [{
+            name: 'Audio',
+            value: 'audio'
+        }, {
+            name: 'MIDI',
+            value: 'midi'
+        }];
+        $scope.$watch('synthoptions.outputMode', function(newOutputMode) {
+            if(newOutputMode) {
+                SynthOptions.setSynthOptions($scope.synthoptions);
+            }
+        });
     };
 
     var checkIfShouldCloseMenu = function(newMenuOpened) {
