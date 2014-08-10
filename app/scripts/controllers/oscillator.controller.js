@@ -25,6 +25,11 @@ angular.module('chesireApp')
             return $scope.synthComponent.oscillatorCollection.getNodes();
         }, synthNodesChanged);
 
+        SynthOptions.getSynthOptions().then(function(newSynthOptions) {
+            synthOptionsChanged(newSynthOptions);
+            SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
+        });
+
         $scope.$watch('componentInfo.transitionType', notifyOscillatorOptionsChanged);
         $scope.$watch('componentInfo.snapDistance', notifyOscillatorOptionsChanged);
     };
@@ -40,6 +45,13 @@ angular.module('chesireApp')
 
     var notifyOscillatorOptionsChanged = function() {
         SynthOptions.notifyComponentChanged($scope.componentInfo);
+    };
+
+    var synthOptionsChanged = function(newSynthOptions) {
+        $scope.synthOptions = newSynthOptions;
+        if($scope.synthOptions.outputMode === 'midi') {
+            $scope.componentInfo.transitionType = 'volume';
+        }
     };
 
     $scope.getLeftPercentageFromNode = function(node) {
