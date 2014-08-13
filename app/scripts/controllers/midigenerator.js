@@ -2,10 +2,12 @@
 
 angular.module('chesireApp')
 
-.controller('MidigeneratorCtrl', function ($scope, $timeout, $window, $q, MidiApiMediator, Leapmotion, MultiNotesHelper, SynthOptions) {
+.controller('MidigeneratorCtrl', function ($scope, $timeout, $window, $q, MidiApiMediator, Leapmotion, MultiNotesHelper, SynthOptions, MotionParamHelper) {
 
     var synthOptions = null;
     var notesBeingPlayed = {};
+
+    var DEFAULT_VOLUME = 1;
 
     var init = function() {
 
@@ -38,7 +40,7 @@ angular.module('chesireApp')
     var updateGeneratedMidi = function(newFrameInfo) {
 
         var notesInfo = getNotesInfo(newFrameInfo.frame);
-        updateMidiSound(notesInfo);
+        updateMidiSound(notesInfo, newFrameInfo.frame);
     };
 
     var getNotesInfo = function(frame) {
@@ -53,7 +55,7 @@ angular.module('chesireApp')
         return notesInfo;
     };
 
-    var updateMidiSound = function(notesInfo) {
+    var updateMidiSound = function(notesInfo, frameInfo) {
         var notesOn = [];
         var notesOff = [];
         var notesUpdate = [];
@@ -77,8 +79,21 @@ angular.module('chesireApp')
 
         $scope.selectedMidiOutput.notesOff(notesOff);
         $scope.selectedMidiOutput.notesOn(notesOn);
-        
         $scope.selectedMidiOutput.keyPressureChanges(notesUpdate);
+        updateMainVolume(frameInfo);
+    };
+
+    var updateMainVolume = function(frameInfo) {
+        if(frameInfo && !_.isEmpty(frameInfo.hands)) {
+            var motionParams = Leapmotion.getRelativePositions(frameInfo, frameInfo.hands);
+            var newGainValue = DEFAULT_VOLUME;
+            var options = synthOptions.components[0]; //TODO get the oscillator volume control in a proper way
+            if(!!options.controls && !!options.controls.gain) {
+                newGainValue = MotionParamHelper.getParamValue(options.controls.gain, motionParams);
+            }
+
+            $scope.selectedMidiOutput.updateMainVolume(newGainValue);
+        }
     };
 
     var stopPlaying = function() {

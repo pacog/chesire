@@ -133,6 +133,10 @@ angular.module('chesireApp')
             //send(MidiMessagesHelper.getAllNotesOff());
         };
 
+        MidiOutput.prototype.updateMainVolume = function(volume) {
+            send(MidiMessagesHelper.getMainVolume(volume));
+        };
+
         return MidiOutput;
     })
     ;

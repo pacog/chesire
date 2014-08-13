@@ -3,18 +3,22 @@
 angular.module('chesireApp')
     .factory('MidiMessagesHelper', function() {
 
-        var DEFAULT_CHANNEL = 0x00;
+        var DEFAULT_CHANNEL = 0;
 
         var noteOnCode = function() {
-            return 0x90 + DEFAULT_CHANNEL;
+            return 144 + DEFAULT_CHANNEL;
         };
 
         var noteOffCode = function() {
-            return 0x80 + DEFAULT_CHANNEL;
+            return 128 + DEFAULT_CHANNEL;
         };
 
         var keyPressureCode = function() {
-            return 0xA0 + DEFAULT_CHANNEL;
+            return 160 + DEFAULT_CHANNEL;
+        };
+
+        var mainVolumeCode = function() {
+            return 208 + DEFAULT_CHANNEL;
         };
 
         var getNoteOn = function(noteInfo) {
@@ -38,10 +42,17 @@ angular.module('chesireApp')
             return [0x7B];
         };
 
+        var getMainVolume = function(volume) {
+            var firstByte = mainVolumeCode();
+
+            return [firstByte, parseInt(Math.floor(volume*128), 10), 0];
+        };
+
         return {
             getNoteOn: getNoteOn,
             getNoteOff: getNoteOff,
             getKeyPressureChange: getKeyPressureChange,
-            getAllNotesOff: getAllNotesOff
+            getAllNotesOff: getAllNotesOff,
+            getMainVolume: getMainVolume
         };
     });
