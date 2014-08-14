@@ -23,13 +23,17 @@ angular.module('chesireApp')
 
         var getNoteOn = function(noteInfo) {
             var firstByte = noteOnCode();
-            return [firstByte, noteInfo.midi, parseInt(Math.floor(noteInfo.gain*128), 10)];
+            var noteOnVelocity = parseInt(Math.floor(noteInfo.gain*127), 10);
+            if(noteOnVelocity <= 0) {
+                noteOnVelocity = 1;
+            }
+            return [firstByte, noteInfo.midi, noteOnVelocity];
         };
 
         var getKeyPressureChange = function(noteInfo) {
             var firstByte = keyPressureCode();
 
-            return [firstByte, noteInfo.midi, parseInt(Math.floor(noteInfo.gain*128), 10)];
+            return [firstByte, noteInfo.midi, parseInt(Math.floor(noteInfo.gain*127), 10)];
         };
 
         var getNoteOff = function(noteInfo) {
@@ -45,7 +49,7 @@ angular.module('chesireApp')
         var getMainVolume = function(volume) {
             var firstByte = mainVolumeCode();
 
-            return [firstByte, parseInt(Math.floor(volume*128), 10), 0];
+            return [firstByte, parseInt(Math.floor(volume*127), 10), 0];
         };
 
         return {

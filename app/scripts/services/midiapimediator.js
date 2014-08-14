@@ -103,6 +103,8 @@ angular.module('chesireApp')
             jazzObject.MidiOutLong( data );
         };
 
+        MidiOutput.prototype.send = send;
+
         MidiOutput.prototype.notesOff = function (notesOff) {
             angular.forEach(notesOff, function(note) {
                 if(note) {
