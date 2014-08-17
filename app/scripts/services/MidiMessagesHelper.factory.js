@@ -23,7 +23,7 @@ angular.module('chesireApp')
 
         var getNoteOn = function(noteInfo) {
             var firstByte = noteOnCode();
-            var noteOnVelocity = parseInt(Math.floor(noteInfo.gain*127), 10);
+            var noteOnVelocity = parseInt(Math.floor(noteInfo.unnormalizedGain*127), 10);
             if(noteOnVelocity <= 0) {
                 noteOnVelocity = 1;
             }
@@ -33,7 +33,7 @@ angular.module('chesireApp')
         var getKeyPressureChange = function(noteInfo) {
             var firstByte = keyPressureCode();
 
-            return [firstByte, noteInfo.midi, parseInt(Math.floor(noteInfo.gain*127), 10)];
+            return [firstByte, noteInfo.midi, parseInt(Math.floor(noteInfo.unnormalizedGain*127), 10)];
         };
 
         var getNoteOff = function(noteInfo) {

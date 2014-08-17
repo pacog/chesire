@@ -171,6 +171,7 @@ angular.module('chesireApp')
         }
         if(totalGain>0) {
             for(i=0; i< notes.length; i++) {
+                notes[i].unnormalizedGain = notes[i].gain;
                 notes[i].gain = notes[i].gain/totalGain;
             }
         }
