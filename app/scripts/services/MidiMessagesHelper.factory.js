@@ -17,8 +17,12 @@ angular.module('chesireApp')
             return 160 + DEFAULT_CHANNEL;
         };
 
-        var mainVolumeCode = function() {
-            return 208 + DEFAULT_CHANNEL;
+        // var mainVolumeCode = function() {
+        //     return 208 + DEFAULT_CHANNEL;
+        // };
+
+        var controlCode = function() {
+            return 176 + DEFAULT_CHANNEL;
         };
 
         var getNoteOn = function(noteInfo) {
@@ -47,9 +51,23 @@ angular.module('chesireApp')
         };
 
         var getMainVolume = function(volume) {
-            var firstByte = mainVolumeCode();
+            // var firstByte = mainVolumeCode();
+            var firstByte = controlCode();
+            return [firstByte, 7, parseInt(Math.floor(volume*127), 10)];
+        };
 
-            return [firstByte, parseInt(Math.floor(volume*127), 10), 0];
+        var getNoteTune = function(note) {
+            var tt = 0;
+            var ll = 1;
+            var kk = note.midi;
+            var xx = 45;
+            var yy = 50;
+            var zz = 50;
+            return [0xF0, 0x7F, 0x00, 0x08, 0x02, tt, ll, kk, xx, yy, zz, 0xF7];
+        };
+
+        var getControl = function() {
+            return [176 + DEFAULT_CHANNEL, 7, 30];
         };
 
         return {
@@ -57,6 +75,8 @@ angular.module('chesireApp')
             getNoteOff: getNoteOff,
             getKeyPressureChange: getKeyPressureChange,
             getAllNotesOff: getAllNotesOff,
-            getMainVolume: getMainVolume
+            getMainVolume: getMainVolume,
+            getNoteTune: getNoteTune,
+            getControl: getControl
         };
     });

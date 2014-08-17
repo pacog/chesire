@@ -29,16 +29,26 @@ angular.module('chesireApp')
             $scope.start = function() {
                 var note = {
                     midi: 69,
-                    gain: 0
+                    unnormalizedGain: 0
                 };
                 var midiInfo = MidiMessagesHelper.getNoteOn(note);
                 $scope.selectedMidiOutput.send(midiInfo);
             };
 
+            $scope.start2 = function() {
+                var note = {
+                    midi: 75,
+                    unnormalizedGain: 0.2
+                };
+                var midiInfo = MidiMessagesHelper.getNoteOn(note);
+                $scope.selectedMidiOutput.send(midiInfo);
+            };
+
+
             $scope.middle = function(val) {
                 var note = {
                     midi: 69,
-                    gain: parseFloat(val)
+                    unnormalizedGain: parseFloat(val)
                 };
                 var midiInfo = MidiMessagesHelper.getKeyPressureChange(note);
                 $scope.selectedMidiOutput.send(midiInfo);
@@ -49,6 +59,27 @@ angular.module('chesireApp')
                     midi: 69
                 };
                 var midiInfo = MidiMessagesHelper.getNoteOff(note);
+                $scope.selectedMidiOutput.send(midiInfo);
+            };
+            $scope.end2 = function() {
+                var note = {
+                    midi: 75
+                };
+                var midiInfo = MidiMessagesHelper.getNoteOff(note);
+                $scope.selectedMidiOutput.send(midiInfo);
+            };
+            $scope.tune = function() {
+                var note = {
+                    midi: 69
+                };
+                var midiInfo = MidiMessagesHelper.getNoteTune(note);
+                $scope.selectedMidiOutput.send(midiInfo);
+            };
+            $scope.control = function() {
+                var note = {
+                    midi: 69
+                };
+                var midiInfo = MidiMessagesHelper.getControl(note);
                 $scope.selectedMidiOutput.send(midiInfo);
             };
         }
