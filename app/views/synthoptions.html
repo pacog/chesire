@@ -26,9 +26,16 @@
             <switch-two-values values='outputModes' ng-model='synthoptions.outputMode'></switch-two-values>
             <ul>
                 <li ng-repeat='component in synthoptions.components'>
-                    <synthcomponent component-info='component'>
+                    <synthcomponent component-info='component'></synthcomponent>
                 </li>
             </ul>
+
+            <ul class='synthoptions-midi-controls'>
+                <li ng-repeat='control in synthoptions.controls'>
+                    <control control-info='control'></control>
+                </li>
+            </ul>
+
         </div>
     </div>
 </div>

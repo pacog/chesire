@@ -42,6 +42,16 @@ angular.module('chesireApp')
                         }
                     }
                 }
-            }*/]
+            }*/],
+            controls: [{
+                number: 76,
+                param: 'y',
+                responseFunction: {
+                    name: 'linear',
+                    min: 0.0,
+                    max: 1.0,
+                    inverse: true
+                }
+            }]
         };
     });
