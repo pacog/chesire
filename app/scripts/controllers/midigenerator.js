@@ -27,6 +27,8 @@ angular.module('chesireApp')
 
     var synthOptionsChanged = function(newSynthOptions) {
         if(newSynthOptions) {
+            debugger;
+            $scope.selectedMidiOutput.resetEverything();
             synthOptions = newSynthOptions;
             if(newSynthOptions.outputMode !== 'midi') {
                 //TODO: disable
@@ -80,7 +82,7 @@ angular.module('chesireApp')
         $scope.selectedMidiOutput.notesOff(notesOff);
         $scope.selectedMidiOutput.notesOn(notesOn);
         $scope.selectedMidiOutput.keyPressureChanges(notesUpdate);
-        // updateMainVolume(frameInfo);
+        updateMainVolume(frameInfo);
         updateControls(frameInfo);
     };
 

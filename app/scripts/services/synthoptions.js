@@ -39,6 +39,11 @@ angular.module('chesireApp')
                 componentInfo.uniqueId = IdGenerator.getUniqueId();
             }
         });
+        angular.forEach(synthOptions.controls, function(controlInfo) {
+            if(!controlInfo.uniqueId) {
+                controlInfo.uniqueId = IdGenerator.getUniqueId();
+            }
+        });
     };
 
     var subscribeToChangesInSynthOptions = function(subscriberCallback) {
@@ -64,10 +69,24 @@ angular.module('chesireApp')
         LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
     };
 
+    var notifyControlChanged = function(controlInfo) {
+        for(var i=0; i<synthOptions.controls.length; i++) {
+            if(synthOptions.controls[i].uniqueId === controlInfo.uniqueId) {
+                //TODO: check if it really changed
+                //Problem, right now the object is changed in the controllers, so we don't know when it really changed
+                synthOptions.controls[i] = controlInfo;
+                break;
+            }
+        }
+        notifyChangeInSynthOptions(synthOptions);
+        LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
+    };
+
     return {
         setSynthOptions: setSynthOptions,
         getSynthOptions: getSynthOptions,
         subscribeToChangesInSynthOptions: subscribeToChangesInSynthOptions,
-        notifyComponentChanged: notifyComponentChanged
+        notifyComponentChanged: notifyComponentChanged,
+        notifyControlChanged: notifyControlChanged
     };
 });

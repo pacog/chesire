@@ -143,6 +143,12 @@ angular.module('chesireApp')
             send(MidiMessagesHelper.getControl(controlInfo, controlValue));
         };
 
+        MidiOutput.prototype.resetEverything = function() {
+            send(MidiMessagesHelper.getResetControls());
+            send(MidiMessagesHelper.getResetNotes());
+        };
+
+
         return MidiOutput;
     })
     ;

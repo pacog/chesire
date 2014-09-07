@@ -11,7 +11,7 @@ angular.module('chesireApp')
                 snapDistance: 0.35,
                 controls: {
                     'gain': {
-                        param: 'handDirectionY',
+                        param: 'y',
                         responseFunction: {
                             name: 'linear',
                             min: 0.0,
@@ -45,7 +45,7 @@ angular.module('chesireApp')
             }*/],
             controls: [{
                 number: 7,
-                param: 'y',
+                param: 'z',
                 responseFunction: {
                     name: 'linear',
                     min: 0.0,

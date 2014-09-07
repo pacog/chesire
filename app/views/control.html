@@ -1,2 +1,9 @@
 <h1>Control</h1>
 {{currentControlMessage.number}} - {{currentControlMessage.name}}
+
+<button class='big-button config-menu-list-toggle' ng-click='toggleControlList()'></button>
+<ul class='config-menu-list' ng-show='controlListExpanded'>
+    <li class='config-menu-list-item' ng-repeat='control in midiControlMessages'>
+        <a class='config-menu-list-item-link' ng-click='selectControl(control)'>{{control.name}}</a>
+    </li>
+</ul>

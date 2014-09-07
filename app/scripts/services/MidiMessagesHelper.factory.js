@@ -21,10 +21,6 @@ angular.module('chesireApp')
             return 160 + DEFAULT_CHANNEL;
         };
 
-        // var mainVolumeCode = function() {
-        //     return 208 + DEFAULT_CHANNEL;
-        // };
-
         var controlCode = function() {
             return 176 + DEFAULT_CHANNEL;
         };
@@ -55,7 +51,6 @@ angular.module('chesireApp')
         };
 
         var getMainVolume = function(volume) {
-            // var firstByte = mainVolumeCode();
             var firstByte = controlCode();
             return [firstByte, 7, get127Value(volume)];
         };
@@ -74,6 +69,16 @@ angular.module('chesireApp')
             return [controlCode(), controlInfo.number, get127Value(controlValue)];
         };
 
+        var getResetControls = function() {
+            var firstByte = controlCode();
+            return [firstByte, 121, 0];
+        };
+
+        var getResetNotes = function() {
+            var firstByte = controlCode();
+            return [firstByte, 123, 0];
+        };
+
         return {
             getNoteOn: getNoteOn,
             getNoteOff: getNoteOff,
@@ -81,6 +86,8 @@ angular.module('chesireApp')
             getAllNotesOff: getAllNotesOff,
             getMainVolume: getMainVolume,
             getNoteTune: getNoteTune,
-            getControl: getControl
+            getControl: getControl,
+            getResetControls: getResetControls,
+            getResetNotes: getResetNotes
         };
     });
