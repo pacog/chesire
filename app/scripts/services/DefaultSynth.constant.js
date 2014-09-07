@@ -44,7 +44,7 @@ angular.module('chesireApp')
                 }
             }*/],
             controls: [{
-                number: 76,
+                number: 7,
                 param: 'y',
                 responseFunction: {
                     name: 'linear',

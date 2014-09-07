@@ -5,6 +5,10 @@ angular.module('chesireApp')
 
         var DEFAULT_CHANNEL = 0;
 
+        var get127Value = function(floatValue) {
+            return parseInt(Math.floor(floatValue*127), 10);
+        };
+
         var noteOnCode = function() {
             return 144 + DEFAULT_CHANNEL;
         };
@@ -27,7 +31,7 @@ angular.module('chesireApp')
 
         var getNoteOn = function(noteInfo) {
             var firstByte = noteOnCode();
-            var noteOnVelocity = parseInt(Math.floor(noteInfo.unnormalizedGain*127), 10);
+            var noteOnVelocity = get127Value(noteInfo.unnormalizedGain);
             if(noteOnVelocity <= 0) {
                 noteOnVelocity = 1;
             }
@@ -37,7 +41,7 @@ angular.module('chesireApp')
         var getKeyPressureChange = function(noteInfo) {
             var firstByte = keyPressureCode();
 
-            return [firstByte, noteInfo.midi, parseInt(Math.floor(noteInfo.unnormalizedGain*127), 10)];
+            return [firstByte, noteInfo.midi, get127Value(noteInfo.unnormalizedGain)];
         };
 
         var getNoteOff = function(noteInfo) {
@@ -53,7 +57,7 @@ angular.module('chesireApp')
         var getMainVolume = function(volume) {
             // var firstByte = mainVolumeCode();
             var firstByte = controlCode();
-            return [firstByte, 7, parseInt(Math.floor(volume*127), 10)];
+            return [firstByte, 7, get127Value(volume)];
         };
 
         var getNoteTune = function(note) {
@@ -66,8 +70,8 @@ angular.module('chesireApp')
             return [0xF0, 0x7F, 0x00, 0x08, 0x02, tt, ll, kk, xx, yy, zz, 0xF7];
         };
 
-        var getControl = function() {
-            return [176 + DEFAULT_CHANNEL, 7, 30];
+        var getControl = function(controlInfo, controlValue) {
+            return [controlCode(), controlInfo.number, get127Value(controlValue)];
         };
 
         return {

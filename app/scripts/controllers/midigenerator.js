@@ -80,7 +80,8 @@ angular.module('chesireApp')
         $scope.selectedMidiOutput.notesOff(notesOff);
         $scope.selectedMidiOutput.notesOn(notesOn);
         $scope.selectedMidiOutput.keyPressureChanges(notesUpdate);
-        updateMainVolume(frameInfo);
+        // updateMainVolume(frameInfo);
+        updateControls(frameInfo);
     };
 
     var updateMainVolume = function(frameInfo) {
@@ -93,6 +94,16 @@ angular.module('chesireApp')
             }
 
             $scope.selectedMidiOutput.updateMainVolume(newGainValue);
+        }
+    };
+
+    var updateControls = function(frameInfo) {
+        if(frameInfo && !_.isEmpty(frameInfo.hands)) {
+            var motionParams = Leapmotion.getRelativePositions(frameInfo, frameInfo.hands);
+            angular.forEach(synthOptions.controls, function(control) {
+                var controlValue = MotionParamHelper.getParamValue(control, motionParams);
+                $scope.selectedMidiOutput.updateControl(control, controlValue);
+            });
         }
     };
 

@@ -139,6 +139,10 @@ angular.module('chesireApp')
             send(MidiMessagesHelper.getMainVolume(volume));
         };
 
+        MidiOutput.prototype.updateControl = function(controlInfo, controlValue) {
+            send(MidiMessagesHelper.getControl(controlInfo, controlValue));
+        };
+
         return MidiOutput;
     })
     ;
