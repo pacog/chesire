@@ -27,7 +27,6 @@ angular.module('chesireApp')
 
     var synthOptionsChanged = function(newSynthOptions) {
         if(newSynthOptions) {
-            debugger;
             $scope.selectedMidiOutput.resetEverything();
             synthOptions = newSynthOptions;
             if(newSynthOptions.outputMode !== 'midi') {

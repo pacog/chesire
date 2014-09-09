@@ -1,0 +1,7 @@
+<span>{{gestureObject.param}}</span>
+<button class='big-button config-menu-list-toggle' ng-click='toggleGestureList()'></button>
+<ul class='config-menu-list' ng-show='gestureListExpanded'>
+    <li class='config-menu-list-item' ng-repeat='gesture in availableGestures'>
+        <a class='config-menu-list-item-link' ng-click='selectGesture(gesture)'>{{gesture}}</a>
+    </li>
+</ul>
