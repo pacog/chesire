@@ -18,7 +18,9 @@ angular.module('chesireApp')
 
     var controlInfoGestureChanged = function(newControlInfo) {
         if(newControlInfo) {
-            console.log('cambiooo');
+            //TODO: this should be done some other way
+            $scope.controlInfo.responseFunction.min = parseFloat($scope.controlInfo.responseFunction.min);
+            $scope.controlInfo.responseFunction.max = parseFloat($scope.controlInfo.responseFunction.max);
             //TODO: first time every thing is set up we are probably calling this notify two times, not good
             SynthOptions.notifyControlChanged($scope.controlInfo);
         }
