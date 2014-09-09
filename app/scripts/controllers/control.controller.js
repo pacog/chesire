@@ -9,6 +9,7 @@ angular.module('chesireApp')
         $scope.midiControlMessages = MidiControlMessages;
         $scope.$watch('controlInfo.number', controlInfoNumberChanged);
         $scope.$watch('controlInfo.param', controlInfoGestureChanged);
+        $scope.$watch('controlInfo.responseFunction', _.throttle(controlInfoGestureChanged, 500), true);
     };
 
     var controlInfoNumberChanged = function(newNumber) {
@@ -17,6 +18,7 @@ angular.module('chesireApp')
 
     var controlInfoGestureChanged = function(newControlInfo) {
         if(newControlInfo) {
+            console.log('cambiooo');
             //TODO: first time every thing is set up we are probably calling this notify two times, not good
             SynthOptions.notifyControlChanged($scope.controlInfo);
         }
