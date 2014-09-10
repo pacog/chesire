@@ -2,9 +2,11 @@
 
 angular.module('chesireApp')
 
-.controller('OscillatorCtrl', function ($scope, CurrentSynth, AvailableOscillators, SynthOptions) {
+.controller('OscillatorCtrl', function ($scope, CurrentSynth, AvailableOscillators, SynthOptions, SynthOptionsHelper) {
 
     var currentSynth = null;
+
+    var notifyComponentChangedThrottled = _.throttle(SynthOptions.notifyComponentChanged, 500);
 
     var init = function() {
         currentSynth = CurrentSynth.getCurrentSynth();
@@ -30,6 +32,8 @@ angular.module('chesireApp')
             SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
         });
 
+        $scope.$watch('gainControllerInfo', gainControllerInfoChanged, true);
+
         $scope.$watch('componentInfo.transitionType', notifyOscillatorOptionsChanged);
         $scope.$watch('componentInfo.snapDistance', notifyOscillatorOptionsChanged);
     };
@@ -48,9 +52,19 @@ angular.module('chesireApp')
     };
 
     var synthOptionsChanged = function(newSynthOptions) {
+        if(newSynthOptions && newSynthOptions.controls) {
+            var oscillatorInfo = SynthOptionsHelper.getOscillatorFromOptions(newSynthOptions);
+            $scope.gainControllerInfo = oscillatorInfo.controls.gain;
+        }
         $scope.synthOptions = newSynthOptions;
         if($scope.synthOptions.outputMode === 'midi') {
             $scope.componentInfo.transitionType = 'volume';
+        }
+    };
+
+    var gainControllerInfoChanged = function(newOptions, oldOptions) {
+        if(!_.isEqual(newOptions, oldOptions)) {
+            notifyComponentChangedThrottled($scope.componentInfo);
         }
     };
 
