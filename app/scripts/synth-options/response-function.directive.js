@@ -4,7 +4,7 @@ angular.module('chesireApp')
 
 .directive('responseFunction', function () {
     return {
-        templateUrl: 'views/response-function.html',
+        templateUrl: 'scripts/synth-options/response-function.html',
         restrict: 'E',
         scope: {
             responseFunctionInfo: '='
