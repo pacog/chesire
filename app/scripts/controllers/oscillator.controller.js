@@ -68,6 +68,13 @@ angular.module('chesireApp')
         }
     };
 
+    $scope.isMidiOutput = function() {
+        if($scope.synthOptions) {
+            return $scope.synthOptions.outputMode === 'midi';
+        }
+        return false;
+    };
+
     $scope.getLeftPercentageFromNode = function(node) {
         return 100*Math.log2(node.oscillator.frequency.value/$scope.frequencySpectrumSize);
     };
