@@ -4,7 +4,7 @@ angular.module('chesireApp')
 
 .directive('synthoptions', function () {
     return {
-        templateUrl: 'views/synthoptions.html',
+        templateUrl: 'scripts/synth-options/synth-options.html',
         restrict: 'E',
         scope: {},
         controller: 'SynthoptionsCtrl'

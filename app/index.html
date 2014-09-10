@@ -63,30 +63,37 @@
 
         <script src="scripts/app.js"></script>
         <script src="scripts/app/main.controller.js"></script>
+        <script src="scripts/app/color-palette.service.js"></script>
 
-        <script src="scripts/third-party-services/leap-motion.factory.js"></script>
+        <script src="scripts/third-party-services/leap-motion.service.js"></script>
         <script src="scripts/third-party-services/three.service.js"></script>
+        <script src="scripts/third-party-services/audio-context.service.js"></script>
+        <script src="scripts/third-party-services/request-animation-frame.service.js"></script>
 
         <script src="scripts/scale-options/scale-options.directive.js"></script>
         <script src="scripts/scale-options/scale-options.controller.js"></script>
 
-        <script src="scripts/directives/SoundGenerator.js"></script>
-        <script src="scripts/controllers/SoundGenerator.js"></script>
-        <script src="scripts/services/AudioContext.js"></script>
-        <script src="scripts/directives/SynthOptions.js"></script>
-        <script src="scripts/controllers/SynthOptions.js"></script>
+        <script src="scripts/sound-generator/sound-generator.controller.js"></script>
+        <script src="scripts/sound-generator/sound-generator.directive.js"></script>
+        <script src="scripts/sound-generator/available-oscillators.service.js"></script>
 
-        <script src="scripts/services/requestAnimationFrame.js"></script>
-        <script src="scripts/services/colorpalette.js"></script>
-        <script src="scripts/directives/threeparticles.js"></script>
-        <script src="scripts/controllers/threeparticles.js"></script>
-        <script src="scripts/services/MotionParamsList.js"></script>
+        <script src="scripts/synth-options/synth-options.directive.js"></script>
+        <script src="scripts/synth-options/synth-options.controller.js"></script>
+        <script src="scripts/synth-options/synth-options.service.js"></script>
+        <script src="scripts/synth-options/synth-options-helper.service.js"></script>
 
-        <script src="scripts/services/DefaultScale.js"></script>
-        <script src="scripts/services/DefaultSynth.constant.js"></script>
-        <script src="scripts/services/AvailableOscillators.constant.js"></script>
-        <script src="scripts/services/Scales.js"></script>
-        <script src="scripts/services/Notes.js"></script>
+        <script src="scripts/visualization/three-particles.directive.js"></script>
+        <script src="scripts/visualization/three-particles.controller.js"></script>
+
+        <script src="scripts/motion-params/motion-params-list.service.js"></script>
+        <script src="scripts/motion-params/motion-params-helper.service.js"></script>
+
+        <script src="scripts/config/default-scale.service.js"></script>
+        <script src="scripts/config/default-synth.service.js"></script>
+
+        <script src="scripts/scales/scales-helper.service.js"></script>
+        <script src="scripts/scales/note-list.service.js"></script>
+
         <script src="scripts/controllers/chord.js"></script>
         <script src="scripts/directives/chord.js"></script>
         <script src="scripts/directives/switch-two-values.directive.js"></script>
@@ -101,11 +108,9 @@
         <script src="scripts/directives/synthcomponent.directive.js"></script>
         <script src="scripts/directives/oscillator.directive.js"></script>
         <script src="scripts/services/MidiApiMediator.js"></script>
-        <script src="scripts/services/SynthOptions.js"></script>
         <script src="scripts/services/ScaleOptions.js"></script>
         <script src="scripts/services/SynthClass.factory.js"></script>
         <script src="scripts/services/OscillatorClass.factory.js"></script>
-        <script src="scripts/services/MotionParamHelper.factory.js"></script>
         <script src="scripts/services/ResponseFunctions.factory.js"></script>
         <script src="scripts/services/SynthElementFactory.js"></script>
         <script src="scripts/services/TremoloClass.factory.js"></script>
@@ -123,7 +128,6 @@
         <script src="scripts/controllers/gesture-selector.controller.js"></script>
         <script src="scripts/directives/response-function.directive.js"></script>
         <script src="scripts/controllers/response-function.controller.js"></script>
-        <script src="scripts/services/synth-options-helper.service.js"></script>
         <script src="scripts/directives/oscillator-snap.directive.js"></script>
         <!-- endbuild -->
 </body>

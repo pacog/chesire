@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.constant('Notes', [
+.constant('NoteList', [
 // {
 //     name: 'C0',
 //     freq: 16.35

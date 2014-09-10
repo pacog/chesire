@@ -7,22 +7,14 @@ angular.module('chesireApp')
         chords: [{
             notes: [{
                 name: 'A4',
-                freq: 440
+                freq: 440,
+                midi: 69
             }]
         },{
             notes: [{
-                name: 'B4',
-                freq: 523.25
-            }]
-        },{
-            notes: [{
-                name: 'D5',
-                freq: 587.33
-            }]
-        },{
-            notes: [{
-                name: 'E5',
-                freq: 659.25
+                name: 'A4',
+                freq: 440,
+                midi: 69
             }]
         }]
     });

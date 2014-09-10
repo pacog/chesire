@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('ScaleoptionsCtrl', function ($scope, DefaultScale, Scales, ScaleOptions, SongStore, UIService) {
+.controller('ScaleoptionsCtrl', function ($scope, DefaultScale, ScalesHelper, ScaleOptions, SongStore, UIService) {
 
     var oldChords = null;
 
@@ -36,7 +36,7 @@ angular.module('chesireApp')
     };
 
     var updateSongObject = function(newChords) {
-        if(!Scales.isSameSetOfChords(newChords, oldChords)) {
+        if(!ScalesHelper.isSameSetOfChords(newChords, oldChords)) {
             oldChords = angular.copy(newChords);
             $scope.currentScale.chords = angular.copy(newChords);
             ScaleOptions.setScaleOptions($scope.currentScale);
@@ -79,7 +79,7 @@ angular.module('chesireApp')
     };
 
     $scope.addChord = function() {
-        $scope.currentScale.chords.push(Scales.getEmptyChord());
+        $scope.currentScale.chords.push(ScalesHelper.getEmptyChord());
         updateSongObject($scope.currentScale.chords);
     };
 

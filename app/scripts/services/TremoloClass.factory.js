@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chesireApp')
-    .factory('TremoloClass', function(Audiocontext, MotionParamHelper) {
+    .factory('TremoloClass', function(Audiocontext, MotionParamsHelper) {
 
         var TremoloClass = function(options) {
             if(options) {
@@ -31,14 +31,14 @@ angular.module('chesireApp')
             updateSound: function(motionParams) {
                 var newRateValue = this.DEFAULT_RATE;
                 if(!!this.options.controls && !!this.options.controls.rate) {
-                    newRateValue = MotionParamHelper.getParamValue(this.options.controls.rate, motionParams);
+                    newRateValue = MotionParamsHelper.getParamValue(this.options.controls.rate, motionParams);
                 }
                 console.log(newRateValue);
                 this._setRateValue(newRateValue);
 
                 // var newRateValue = this.DEFAULT_RATE;
                 // if(!!this.options.controls && !!this.options.controls.rate) {
-                //     newRateValue = MotionParamHelper.getParamValue(this.options.controls.rate, motionParams);
+                //     newRateValue = MotionParamsHelper.getParamValue(this.options.controls.rate, motionParams);
                 // }
                 // this._setRateValue(newRateValue);
             },

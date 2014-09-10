@@ -2,11 +2,11 @@
 
 angular.module('chesireApp')
 
-.controller('ChordCtrl', function ($scope, $window, Scales, ChordStore) {
+.controller('ChordCtrl', function ($scope, $window, ScalesHelper, ChordStore) {
 
     var init = function() {
 
-        $scope.allNotes = angular.copy(Scales.getAllNotes());
+        $scope.allNotes = angular.copy(ScalesHelper.getAllNotes());
         $scope.$watch('chordInfo.name', $scope.selectedChordChanged, true);
         $scope.$watch('chordAlreadyExisting', chordExistingChange, true);
         ChordStore.getChords().then(chordsStoreChanged);
@@ -64,7 +64,7 @@ angular.module('chesireApp')
         $scope.allChords = allChords;
         $scope.chordAlreadyExisting = false;
         angular.forEach(allChords, function(chord){
-            if(Scales.isSameChord(chord, $scope.chordInfo)) {
+            if(ScalesHelper.isSameChord(chord, $scope.chordInfo)) {
                 $scope.chordAlreadyExisting = true;
                 $scope.chordInfo = angular.copy(chord);
             }

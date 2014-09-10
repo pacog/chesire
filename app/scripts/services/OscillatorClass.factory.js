@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chesireApp')
-    .factory('OscillatorClass', function(MultiNotesHelper, OscillatorCollection, Audiocontext, MotionParamHelper) {
+    .factory('OscillatorClass', function(MultiNotesHelper, OscillatorCollection, Audiocontext, MotionParamsHelper) {
 
         var OscillatorClass = function(options) {
             if(options) {
@@ -48,7 +48,7 @@ angular.module('chesireApp')
             _updateGain: function(motionParams) {
                 var newGainValue = this.DEFAULT_GAIN;
                 if(!!this.options.controls && !!this.options.controls.gain) {
-                    newGainValue = MotionParamHelper.getParamValue(this.options.controls.gain, motionParams);
+                    newGainValue = MotionParamsHelper.getParamValue(this.options.controls.gain, motionParams);
                 }
                 this._setGainControllerValue(newGainValue);
             },

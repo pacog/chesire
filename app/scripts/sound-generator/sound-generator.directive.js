@@ -5,7 +5,7 @@ angular.module('chesireApp')
 .directive('soundgenerator', function () {
     return {
         restrict: 'E',
-        templateUrl: 'views/soundgenerator.html',
+        templateUrl: 'scripts/sound-generator/sound-generator.html',
         scope: {},
         controller: 'SoundgeneratorCtrl'
     };

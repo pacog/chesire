@@ -2,9 +2,9 @@
 
 angular.module('chesireApp')
 
-.factory('Scales', function (Notes) {
+.factory('ScalesHelper', function (NoteList) {
 
-    var notes = Notes;
+    var notes = NoteList;
 
     var isSameChord = function(chord1, chord2) {
 
