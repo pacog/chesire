@@ -4,7 +4,7 @@ angular.module('chesireApp')
 
 .directive('oscillator', function () {
     return {
-        templateUrl: 'views/oscillator.html',
+        templateUrl: 'scripts/oscillator/oscillator.html',
         restrict: 'E',
         controller: 'OscillatorCtrl'
     };
