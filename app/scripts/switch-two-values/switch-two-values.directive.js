@@ -5,7 +5,7 @@ angular.module('chesireApp')
 .directive('switchTwoValues', function () {
 
     return {
-        templateUrl: 'views/switch-two-values.html',
+        templateUrl: 'scripts/switch-two-values/switch-two-values.html',
         restrict: 'E',
         scope: {
             values: '=',

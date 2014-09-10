@@ -4,7 +4,7 @@ angular.module('chesireApp')
 
 .directive('chord', function () {
     return {
-        templateUrl: 'views/chord.html',
+        templateUrl: 'scripts/chords/chord.html',
         restrict: 'E',
         scope: {
             'chordInfo': '=',

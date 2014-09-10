@@ -76,6 +76,8 @@
         <script src="scripts/sound-generator/sound-generator.controller.js"></script>
         <script src="scripts/sound-generator/sound-generator.directive.js"></script>
         <script src="scripts/sound-generator/available-oscillators.service.js"></script>
+        <script src="scripts/sound-generator/oscillator-collection.service.js"></script>
+        <script src="scripts/sound-generator/oscillator-class.service.js"></script>
 
         <script src="scripts/synth-options/synth-options.directive.js"></script>
         <script src="scripts/synth-options/synth-options.controller.js"></script>
@@ -94,27 +96,29 @@
         <script src="scripts/scales/scales-helper.service.js"></script>
         <script src="scripts/scales/note-list.service.js"></script>
 
-        <script src="scripts/controllers/chord.js"></script>
-        <script src="scripts/directives/chord.js"></script>
-        <script src="scripts/directives/switch-two-values.directive.js"></script>
-        <script src="scripts/controllers/switch-two-values.controller.js"></script>
-        <script src="scripts/services/OscillatorCollection.js"></script>
+        <script src="scripts/chords/chord.directive.js"></script>
+        <script src="scripts/chords/chord.controller.js"></script>
+        <script src="scripts/chords/chord-store.service.js"></script>
+
+        <script src="scripts/switch-two-values/switch-two-values.directive.js"></script>
+        <script src="scripts/switch-two-values/switch-two-values.controller.js"></script>
+
+        <script src="scripts/oscillator/oscillator.controller.js"></script>
+        <script src="scripts/oscillator/oscillator.directive.js"></script>
+        <script src="scripts/oscillator/oscillator-snap.directive.js"></script>
+
         <script src="scripts/services/MultiNotesHelper.js"></script>
-        <script src="scripts/services/ChordStore.js"></script>
         <script src="scripts/services/SongStore.js"></script>
         <script src="scripts/services/LastUsedSettings.store.js"></script>
         <script src="scripts/controllers/midigenerator.js"></script>
         <script src="scripts/directives/midigenerator.js"></script>
         <script src="scripts/directives/synthcomponent.directive.js"></script>
-        <script src="scripts/directives/oscillator.directive.js"></script>
         <script src="scripts/services/MidiApiMediator.js"></script>
         <script src="scripts/services/ScaleOptions.js"></script>
         <script src="scripts/services/SynthClass.factory.js"></script>
-        <script src="scripts/services/OscillatorClass.factory.js"></script>
         <script src="scripts/services/ResponseFunctions.factory.js"></script>
         <script src="scripts/services/SynthElementFactory.js"></script>
         <script src="scripts/services/TremoloClass.factory.js"></script>
-        <script src="scripts/controllers/oscillator.controller.js"></script>
         <script src="scripts/services/CurrentSynth.factory.js"></script>
         <script src="scripts/services/IdGenerator.factory.js"></script>
         <script src="scripts/filters/Frequency.filters.js"></script>
@@ -128,7 +132,6 @@
         <script src="scripts/controllers/gesture-selector.controller.js"></script>
         <script src="scripts/directives/response-function.directive.js"></script>
         <script src="scripts/controllers/response-function.controller.js"></script>
-        <script src="scripts/directives/oscillator-snap.directive.js"></script>
         <!-- endbuild -->
 </body>
 </html>
