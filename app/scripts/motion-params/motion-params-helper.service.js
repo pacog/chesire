@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chesireApp')
-    .factory('MotionParamHelper', function(ResponseFunctions) {
+    .factory('MotionParamsHelper', function(ResponseFunctions) {
 
         var getParamValue = function(controlInfo, motionParams) {
             var responseFunction = ResponseFunctions[controlInfo.responseFunction.name];
