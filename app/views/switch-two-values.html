@@ -1,5 +1,6 @@
 <ul class='switch-two-values'>
-    <li ng-repeat='value in values'
+    <li class='switch-two-values-item'
+        ng-repeat='value in values'
         ng-class='{ "selected": (value.value === bindModel)}'
         ng-click='selectValue(value.value)'>
         {{value.name}}

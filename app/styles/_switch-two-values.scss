@@ -1,6 +1,36 @@
-.switch-two-values {
+$switch-two-values-gutter: 3px;
 
-    .selected {
-        color: red;
-    }
+.switch-two-values {
+    @include inline-block;
+    background: $tile-background;
+    padding: $switch-two-values-gutter;
+    @include border-radius($grid-s);
 }
+    .switch-two-values-item {
+        @include inline-block;
+        padding: $grid-s $grid-m;
+        cursor: pointer;
+        margin-right: $switch-two-values-gutter;
+
+        &:last-child {
+            margin-right: 0;
+        }
+
+        @include border-radius($grid-s - $switch-two-values-gutter);
+        @include opacity(0.3);
+
+        &.selected {
+            @include opacity(1);
+            background: $dark-blue;
+            &:hover {
+                background: lighten($dark-blue, 30);
+                background: $dark-blue;
+                cursor: default;
+            }
+        }
+
+        &:hover {
+            @include opacity(1);
+            background: lighten($dark-blue, 30);
+        }
+    }
