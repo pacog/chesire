@@ -10,7 +10,7 @@ angular.module('chesireApp', [
 .config(function ($routeProvider) {
     $routeProvider
         .when('/', {
-          templateUrl: 'views/main.html',
+          templateUrl: 'scripts/app/main.html',
           controller: 'MainCtrl'
         })
         .otherwise({

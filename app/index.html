@@ -60,12 +60,16 @@
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
+
         <script src="scripts/app.js"></script>
-        <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/services/leapMotion.js"></script>
-        <script src="scripts/services/Three.js"></script>
-        <script src="scripts/directives/chesirecanvas.js"></script>
-        <script src="scripts/controllers/ChesireCanvas.js"></script>
+        <script src="scripts/app/main.controller.js"></script>
+
+        <script src="scripts/third-party-services/leap-motion.factory.js"></script>
+        <script src="scripts/third-party-services/three.service.js"></script>
+
+        <script src="scripts/scale-options/scale-options.directive.js"></script>
+        <script src="scripts/scale-options/scale-options.controller.js"></script>
+
         <script src="scripts/directives/stats.js"></script>
         <script src="scripts/controllers/stats.js"></script>
         <script src="scripts/services/HandThreeModeller.js"></script>
@@ -85,8 +89,7 @@
         <script src="scripts/directives/threeparticles.js"></script>
         <script src="scripts/controllers/threeparticles.js"></script>
         <script src="scripts/services/MotionParamsList.js"></script>
-        <script src="scripts/directives/scaleoptions.js"></script>
-        <script src="scripts/controllers/scaleoptions.js"></script>
+
         <script src="scripts/services/DefaultScale.js"></script>
         <script src="scripts/services/DefaultSynth.constant.js"></script>
         <script src="scripts/services/AvailableOscillators.constant.js"></script>
