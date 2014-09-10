@@ -6,7 +6,7 @@ angular.module('chesireApp')
 
     return {
         restrict: 'E',
-        templateUrl: 'views/testmidi.html',
+        templateUrl: 'scripts/midi/testmidi.html',
         scope: {},
         controller: function($scope, $q, SynthOptions, MidiApiMediator, MidiMessagesHelper) {
             var synthOptions = null;

@@ -4,7 +4,7 @@ angular.module('chesireApp')
 
 .directive('control', function () {
     return {
-        templateUrl: 'views/control.html',
+        templateUrl: 'scripts/synth-options/control.html',
         restrict: 'E',
         scope: {
             controlInfo: '='

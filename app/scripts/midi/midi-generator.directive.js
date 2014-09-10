@@ -5,7 +5,7 @@ angular.module('chesireApp')
 .directive('midigenerator', function () {
     return {
         restrict: 'E',
-        templateUrl: 'views/midigenerator.html',
+        templateUrl: 'scripts/midi/midi-generator.html',
         scope: {},
         controller: 'MidigeneratorCtrl'
     };
