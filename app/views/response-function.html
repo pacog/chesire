@@ -1,0 +1,23 @@
+<!-- TODO: use parameters coming from the info -->
+<div>
+    <p> Min = {{responseFunctionInfo.min}}</p>
+    <input type="range" min="0" max="{{responseFunctionInfo.max - 0.01}}" step="0.01" ng-model="responseFunctionInfo.min"/>
+</div>
+<div>
+    <p> Max = {{responseFunctionInfo.max}}</p>
+    <input type="range" min="{{responseFunctionInfo.min + 0.01}}" max="1" step="0.01" ng-model="responseFunctionInfo.max"/>
+</div>
+<label>
+    <input type='checkbox' ng-model="responseFunctionInfo.inverse" />
+    Inverse
+</label>
+
+<div>
+    <span>{{responseFunctionInfo.name}}</span>
+    <button class='big-button config-menu-list-toggle' ng-click='toggleResponseFunctionList()'></button>
+    <ul class='config-menu-list' ng-show='responseFunctionListExpanded'>
+        <li class='config-menu-list-item' ng-repeat='responseFunction in availableResponseFunctions'>
+            <a class='config-menu-list-item-link' ng-click='selectResponseFunction(responseFunction)'>{{responseFunction.name}}</a>
+        </li>
+    </ul>
+</div>
