@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('MidigeneratorCtrl', function ($scope, $timeout, $window, $q, MidiApiMediator, Leapmotion, MultiNotesHelper, SynthOptions, MotionParamHelper) {
+.controller('MidigeneratorCtrl', function ($scope, $timeout, $window, $q, MidiApiMediator, Leapmotion, MultiNotesHelper, SynthOptions, MotionParamHelper, SynthOptionsHelper) {
 
     var synthOptions = null;
     var notesBeingPlayed = {};
@@ -48,8 +48,8 @@ angular.module('chesireApp')
         var notesInfo = [];
         if(frame && frame.hands && frame.hands.length) {
             var motionParams = Leapmotion.getRelativePositions(frame, frame.hands);
-            //TODO: getting transition type like this is ugly. call a method in synthOptions directive
-            notesInfo = MultiNotesHelper.getNotesInfo(motionParams.x, synthOptions.components[0].transitionType);
+            var oscillatorConfig = SynthOptionsHelper.getOscillatorFromOptions(synthOptions);
+            notesInfo = MultiNotesHelper.getNotesInfo(motionParams.x, oscillatorConfig.transitionType);
         } else {
             stopPlaying();
         }
@@ -89,7 +89,7 @@ angular.module('chesireApp')
         if(frameInfo && !_.isEmpty(frameInfo.hands)) {
             var motionParams = Leapmotion.getRelativePositions(frameInfo, frameInfo.hands);
             var newGainValue = DEFAULT_VOLUME;
-            var options = synthOptions.components[0]; //TODO get the oscillator volume control in a proper way
+            var options = SynthOptionsHelper.getOscillatorFromOptions(synthOptions);
             if(!!options.controls && !!options.controls.gain) {
                 newGainValue = MotionParamHelper.getParamValue(options.controls.gain, motionParams);
             }

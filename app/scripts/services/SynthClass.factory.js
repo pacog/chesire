@@ -1,8 +1,7 @@
 'use strict';
 
 angular.module('chesireApp')
-    //TODO: Sound shouldn't be used here but in the SynthComponents
-    .factory('SynthClass', function(Audiocontext, SynthElementFactory) {
+    .factory('SynthClass', function(Audiocontext, SynthElementFactory, SynthOptionsHelper) {
 
         var SynthClass = function(synthOptions, scaleOptions) {
             if(synthOptions && scaleOptions) {
@@ -48,7 +47,8 @@ angular.module('chesireApp')
 
             _areOptionsCorrect: function() {
                 if(this.synthOptions) {
-                    var thereIsAnOscillator = (!!this.synthOptions.components && !!this.synthOptions.components[0] && (this.synthOptions.components[0].type === 'oscillator'));
+                    var oscillatorOptions = SynthOptionsHelper.getOscillatorFromOptions(this.synthOptions);
+                    var thereIsAnOscillator = (oscillatorOptions && oscillatorOptions.type === 'oscillator');
                     return thereIsAnOscillator;
                 }
                 return false;

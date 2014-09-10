@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.factory('MultiNotesHelper', function (SynthOptions, ScaleOptions) {
+.factory('MultiNotesHelper', function (SynthOptions, ScaleOptions, SynthOptionsHelper) {
 
     var notesInfo = null;
     var notesVolumeHash = null;
@@ -46,7 +46,7 @@ angular.module('chesireApp')
             //Ugly conversion, sometimes synth options include all synth, sometimes only the oscillator
             var oscillatorComponent = newSynthOptions;
             if(!!newSynthOptions.components) {
-                oscillatorComponent = newSynthOptions.components[0];
+                oscillatorComponent = SynthOptionsHelper.getOscillatorFromOptions(newSynthOptions);
             }
 
             notesInfo = [];
@@ -151,7 +151,8 @@ angular.module('chesireApp')
             firstNote = firstNote-1;
         }
         var distanceInBetween = positionRelativeToNotes - firstNote;
-        distanceInBetween = snap(distanceInBetween, synthoptions.components[0].snapDistance);
+        var oscillatorOptions = SynthOptionsHelper.getOscillatorFromOptions(synthoptions);
+        distanceInBetween = snap(distanceInBetween, oscillatorOptions.snapDistance);
         silenceAllNotes();
 
         var firstChord = chordsInfo.chords[firstNote].notes;
