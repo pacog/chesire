@@ -1,3 +1,26 @@
-.response-function {
-    
+.response-function-details {
+    @include display-box;
+    @include box-orient(horizontal);
+    margin-top: $grid-m;
 }
+    .response-function-graph-container {
+        margin-top: $grid-m;
+        margin-right: $grid-l;
+        border: 1px solid black;
+        background: $ui-element-bg;
+    }
+    .response-function-params {
+        @include box-flex(1);
+    }
+        .response-function-graph {
+            height: 60px;
+            width: 80px;
+            position: relative;
+            @include inline-block;
+        }
+            .response-function-graph-value {
+                background: linear-gradient(0deg, $oscillator-snap-color-1, $oscillator-snap-color-2);
+                position: absolute;
+                bottom: 0;
+                min-height: 1px;
+            }

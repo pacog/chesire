@@ -13,5 +13,21 @@
 </label> -->
 
 <div class='response-function'>
-    <select-box value='responseFunctionInfo' value-list='availableResponseFunctions' attr-to-show='name'></select-box>
+    <select-box value='selectedResponseFunction' value-list='availableResponseFunctions' attr-to-show='name'></select-box>
+    <div class='response-function-details'>
+        <div class='response-function-graph-container'>
+            <ul class='response-function-graph'>
+                <li
+                    ng-repeat='responseValue in responseFunctionValues'
+                    class='response-function-graph-value'
+                    style='width: {{100*responseFunctionIncrement}}%;
+                           left:  {{100*responseValue.x}}%;
+                           height: {{100*responseValue.y}}%;'
+                ></li>
+            </ul>
+        </div>
+        <div class='response-function-params'>
+            params
+        </div>
+    </div>
 </div>
