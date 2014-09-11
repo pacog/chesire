@@ -1,16 +1,10 @@
 <div class='oscillator'>
 
-    <div
-        class='oscillator-type oscillator-section'
-        ng-hide='isMidiOutput()' >
-        {{componentInfo.oscillatorType}}
-        <button class='' ng-click='toggleListOfOscillatorType()'></button>
-        <ul class='oscillator-type-list' ng-show='listOfOscillatorTypeExpanded'>
-            <li class='oscillator-type-list'
-                ng-repeat='availableOscillator in AvailableOscillators | filter:"!"+componentInfo.oscillatorType'>
-                <a ng-click='changeOscillatorType(availableOscillator)'>[{{availableOscillator}}]</a>
-            </li>
-        </ul>
+    <div class='oscillator-section' ng-hide='isMidiOutput()'>
+        <h4 class='oscillator-section-title'>Oscillator type</h4>
+        <div class='oscillator-section-content'>
+            <select-box value='componentInfo.oscillatorType' value-list='AvailableOscillators'></select-box>
+        </div>
     </div>
 
     <div class='oscillator-transition oscillator-section' ng-hide='isMidiOutput()'>
@@ -29,6 +23,7 @@
             </li>
         </ul>
     </div> -->
+
     <div class='oscillator-section'>
         <h4 class='oscillator-section-title'>Volume control</h4>
         <div class='oscillator-section-content'>

@@ -36,6 +36,7 @@ angular.module('chesireApp')
 
         $scope.$watch('componentInfo.transitionType', notifyOscillatorOptionsChanged);
         $scope.$watch('componentInfo.snapDistance', notifyOscillatorOptionsChanged);
+        $scope.$watch('componentInfo.oscillatorType', notifyOscillatorOptionsChanged);
     };
 
     var synthChanged = function() {
@@ -79,9 +80,7 @@ angular.module('chesireApp')
         return 100*Math.log2(node.oscillator.frequency.value/$scope.frequencySpectrumSize);
     };
 
-    $scope.changeOscillatorType = function(newOscillatorType) {
-        $scope.componentInfo.oscillatorType = newOscillatorType;
-        $scope.listOfOscillatorTypeExpanded = false;
+    $scope.oscillatorTypeChanged = function() {
         SynthOptions.notifyComponentChanged($scope.componentInfo);
     };
 

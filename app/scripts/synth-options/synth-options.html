@@ -28,7 +28,12 @@
             <div class='synthoptions-content-columns'>
                 <div class='synthoptions-content-components'>
                     <h2 class='synthoptions-content-column-title'>Note generation</h2>
-                    <switch-two-values values='outputModes' ng-model='synthoptions.outputMode'></switch-two-values>
+                        <div class='oscillator-section'>
+                            <h4 class='oscillator-section-title'>Output mode</h4>
+                            <div class='oscillator-section-content'>
+                                <switch-two-values values='outputModes' ng-model='synthoptions.outputMode'></switch-two-values>
+                            </div>
+                        </div>
                     <ul>
                         <li ng-repeat='component in synthoptions.components'>
                             <synthcomponent component-info='component'></synthcomponent>
