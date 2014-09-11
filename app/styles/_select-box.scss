@@ -39,11 +39,12 @@
     }
     .select-box-list {
         position: absolute;
-        background: $ui-element-bg;
+        background: lighten($ui-element-bg, 5);
         top: 100%;
         left: 0;
         max-height: 300px;
         min-width: 100%;
+        z-index: 1;
     }
         .select-box-list-link {
             padding: $grid-s $grid-m;

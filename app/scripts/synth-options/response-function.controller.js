@@ -8,14 +8,5 @@ angular.module('chesireApp')
         $scope.availableResponseFunctions = ResponseFunctions;
     };
 
-    $scope.toggleResponseFunctionList = function() {
-        $scope.responseFunctionListExpanded = !$scope.responseFunctionListExpanded;
-    };
-
-    $scope.selectResponseFunction = function(newResponseFunction) {
-        $scope.responseFunctionListExpanded = false;
-        $scope.gestureObject.responseFunction.name = newResponseFunction.name;
-    };
-
     init();
  });

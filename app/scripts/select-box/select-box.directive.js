@@ -8,7 +8,8 @@ angular.module('chesireApp')
         restrict: 'E',
         scope: {
             value: '=',
-            valueList: '='
+            valueList: '=',
+            attrToShow: '@'
         },
         controller: 'SelectBoxCtrl'
     };
