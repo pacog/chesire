@@ -1,0 +1,57 @@
+.select-box {
+    position: relative;
+    background: $ui-element-bg;
+    padding: $grid-s;
+    @include display-box;
+    @include box-orient(horizontal);
+}
+    .select-box-value {
+        padding: 0 $grid-s;
+        margin-right: $grid-s;
+        @include box-flex(1);
+        @include ellipsis();
+        line-height: 2*$grid-l;
+        cursor: pointer;
+        &:hover {
+            background: lighten($dark-blue, 5);
+        }
+    }
+    .select-box-value-toggle {
+        height: 2*$grid-l;
+        width: 2*$grid-l;
+        outline: 0;
+        border: 0;
+        margin: 0;
+        padding: 0;
+        text-align: middle;
+        cursor: pointer;
+        background: lighten($dark-blue, 5);
+        &:hover {
+            background: lighten($dark-blue, 15);
+        }
+        &:after {
+            font-family: entypo;
+            content: '\25BE';
+            font-size: 50px;
+            line-height: 2*$grid-l;
+            color: white;
+        }
+    }
+    .select-box-list {
+        position: absolute;
+        background: $ui-element-bg;
+        top: 100%;
+        left: 0;
+        max-height: 300px;
+        min-width: 100%;
+    }
+        .select-box-list-link {
+            padding: $grid-s $grid-m;
+            cursor: pointer;
+            display: block;
+            height: 100%;
+            width: 100%;
+            &:hover {
+                background: lighten($ui-element-bg, 10);
+            }
+        }

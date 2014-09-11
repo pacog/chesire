@@ -8,14 +8,5 @@ angular.module('chesireApp')
         $scope.availableGestures = MotionParamsList;
     };
 
-    $scope.toggleGestureList = function() {
-        $scope.gestureListExpanded = !$scope.gestureListExpanded;
-    };
-
-    $scope.selectGesture = function(newGesture) {
-        $scope.gestureListExpanded = false;
-        $scope.gestureObject.param = newGesture;
-    };
-
     init();
 });

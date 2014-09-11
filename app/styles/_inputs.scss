@@ -56,7 +56,7 @@ input[type="range"] {
     margin: $grid-m 0;
     border: none;
     padding: 0;
-    background: #232528;
+    background: $ui-element-bg;
     outline: none; /* no focus outline */
 }
 
