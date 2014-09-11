@@ -1,0 +1,14 @@
+.gesture-selector-gesture {
+    @include display-box;
+    @include box-orient(horizontal);
+}
+    .gesture-selector-gesture-label {
+        padding-top: $grid-s;
+        padding-right: $grid-m;
+        line-height: 2*$grid-l;
+        vertical-align: middle;
+        min-width: $min-label-width;
+    }
+    .gesture-selector-gesture-select {
+        @include box-flex(1);
+    }
