@@ -13,13 +13,11 @@
         </ul>
     </div>
 
-    <div class='oscillator-snap oscillator-section'>
-        <oscillator-snap component-info='componentInfo'></oscillator-snap>
-    </div>
-
     <div class='oscillator-transition oscillator-section' ng-hide='isMidiOutput()'>
-        <h4>Transition between chords</h4>
-        <switch-two-values values='transitionTypes' ng-model='componentInfo.transitionType'></switch-two-values>
+        <h4 class='oscillator-section-title'>Transition between chords</h4>
+        <div class='oscillator-section-content'>
+            <switch-two-values values='transitionTypes' ng-model='componentInfo.transitionType'></switch-two-values>
+        </div>
     </div>
 
     <!-- <div class='oscillator-nodes-info oscillator-section'>
@@ -31,5 +29,17 @@
             </li>
         </ul>
     </div> -->
-    <gesture-selector gesture-object='gainControllerInfo'></gesture-selector>
+    <div class='oscillator-section'>
+        <h4 class='oscillator-section-title'>Volume control</h4>
+        <div class='oscillator-section-content'>
+            <gesture-selector gesture-object='gainControllerInfo'></gesture-selector>
+        </div>
+    </div>
+
+    <div class='oscillator-snap oscillator-section'>
+        <h4 class='oscillator-section-title'>Snap to chords</h4>
+        <div class='oscillator-section-content'>
+            <oscillator-snap component-info='componentInfo'></oscillator-snap>
+        </div>
+    </div>
 </div>
