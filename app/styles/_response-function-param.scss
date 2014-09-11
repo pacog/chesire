@@ -3,10 +3,11 @@
     @include box-orient(horizontal);
 }
     .response-function-param-name {
-        min-width: 80px;
+        min-width: 100px;
         height: $grid-l + $grid-m;
         line-height: $grid-l + $grid-m;
         vertical-align: middle;
+        padding-right: $grid-m;
     }
     .response-function-param-value {
         @include box-flex(1);

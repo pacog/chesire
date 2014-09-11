@@ -13,6 +13,9 @@ angular.module('chesireApp')
 
     var selectedValueChanged = function(newValue) {
         if($scope.paramParentObject[$scope.paramKey] !== newValue) {
+            if($scope.isNumber) {
+                newValue = parseFloat(newValue);
+            }
             $scope.paramParentObject[$scope.paramKey] = newValue;
         }
     };
