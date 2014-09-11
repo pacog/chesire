@@ -1,0 +1,13 @@
+.response-function-param {
+    @include display-box;
+    @include box-orient(horizontal);
+}
+    .response-function-param-name {
+        min-width: 80px;
+        height: $grid-l + $grid-m;
+        line-height: $grid-l + $grid-m;
+        vertical-align: middle;
+    }
+    .response-function-param-value {
+        @include box-flex(1);
+    }

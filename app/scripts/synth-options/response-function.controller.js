@@ -10,10 +10,13 @@ angular.module('chesireApp')
         $scope.availableResponseFunctions = ResponseFunctions;
         $scope.$watch('selectedResponseFunction', responseFunctionChanged);
         $scope.selectedResponseFunction = ResponseFunctions[$scope.responseFunctionInfo.name];
+        $scope.$watch('responseFunctionInfo', responseFunctionParamsChanged, true);
     };
 
-    var responseFunctionChanged = function() {
-        calculateResponseValues();
+    var responseFunctionChanged = function(newValue) {
+        if($scope.responseFunctionInfo.name !== newValue.name) {
+            $scope.responseFunctionInfo.name = newValue.name;
+        }
     };
 
     var calculateResponseValues = function() {
@@ -30,6 +33,10 @@ angular.module('chesireApp')
                 y: newValue
             });
         }
+    };
+
+    var responseFunctionParamsChanged = function() {
+        calculateResponseValues();
     };
 
     init();

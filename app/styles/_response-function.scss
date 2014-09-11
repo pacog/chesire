@@ -1,20 +1,21 @@
 .response-function-details {
     @include display-box;
     @include box-orient(horizontal);
+    @include box-align(center);
     margin-top: $grid-m;
 }
     .response-function-graph-container {
-        margin-top: $grid-m;
-        margin-right: $grid-l;
-        border: 1px solid black;
-        background: $ui-element-bg;
+        margin-right: $grid-m;
+        line-height: 100%;
     }
     .response-function-params {
         @include box-flex(1);
     }
         .response-function-graph {
-            height: 60px;
-            width: 80px;
+            border: 1px solid black;
+            background: $ui-element-bg;
+            height: 80px;
+            width: 102px;
             position: relative;
             @include inline-block;
         }

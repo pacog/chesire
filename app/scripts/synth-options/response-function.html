@@ -26,8 +26,10 @@
                 ></li>
             </ul>
         </div>
-        <div class='response-function-params'>
-            params
-        </div>
+        <ul class='response-function-params'>
+            <li ng-repeat='(key, param) in selectedResponseFunction.params'>
+                <response-function-param param-parent-object='responseFunctionInfo' param-key='key' param-info='param'></response-function-param>
+            </li>
+        </ul>
     </div>
 </div>
