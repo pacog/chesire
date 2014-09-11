@@ -1,6 +1,7 @@
 .response-function-param {
     @include display-box;
     @include box-orient(horizontal);
+    @include box-align(center);
 }
     .response-function-param-name {
         min-width: 100px;

@@ -4,6 +4,7 @@
     </div>
     <div class='response-function-param-value'>
         <input ng-show='isNumber' type="range" min="0" max="1" step="0.01" ng-model="selectedValue"/>
-        <input ng-show='isBoolean' type="checkbox" ng-model="selectedValue"/>
+        <!-- <input ng-show='isBoolean' type="checkbox" ng-model="selectedValue"/> -->
+        <custom-checkbox ng-show='isBoolean' value="selectedValue"></custom-checkbox>
     </div>
 </div>

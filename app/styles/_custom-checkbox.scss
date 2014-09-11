@@ -1,0 +1,45 @@
+.custom-checkbox {
+    width: $grid-l;
+    height: $grid-l;
+    position: relative;
+    margin: 0;
+    @include inline-block;
+
+    label {
+        width: $grid-l;
+        height: $grid-l;
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: $ui-element-bg;
+
+        &:after {
+            content: '';
+            width: 9px;
+            height: 5px;
+            position: absolute;
+            top: 7px;
+            left: 5px;
+            border: 3px solid #fcfff4;
+            border-top: none;
+            border-right: none;
+            background: transparent;
+            @include opacity( 0 );
+            @include transform( rotate(-45deg) );
+        }
+
+        &.checked:after {
+            @include opacity( 1 );
+        }
+
+        &:hover::after {
+            @include opacity( 0.3 );
+        }
+        input[type=checkbox] {
+            visibility: hidden;
+            height: 1px;
+        }
+    }
+
+}
