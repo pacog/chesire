@@ -22,7 +22,7 @@
         <switch-two-values values='transitionTypes' ng-model='componentInfo.transitionType'></switch-two-values>
     </div>
 
-    <div class='oscillator-nodes-info oscillator-section'>
+    <!-- <div class='oscillator-nodes-info oscillator-section'>
         <h4>Frequencies being played</h4>
         <ul class='oscillator-nodes'>
             <li ng-repeat='node in oscillatorNodes'
@@ -30,6 +30,6 @@
                 style='left: {{node.oscillator.frequency.value | frequencyToPercentage}}%; height: {{node.gainNode.gain.value * synthComponent.gainController.gain.value * 100}}%'>
             </li>
         </ul>
-    </div>
+    </div> -->
     <gesture-selector gesture-object='gainControllerInfo'></gesture-selector>
 </div>

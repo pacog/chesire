@@ -13,11 +13,27 @@
         max-height: 90vh;
         overflow: auto;
         background: $dark-blue;
-        padding: $grid-m;
     }
-        .synthoptions-midi-controls {
-            position: absolute;
-            right: 0;
-            top: 30px;
-            min-width: 300px;
+        .synthoptions-content-presets {
+            padding: 2*$grid-l;
+            padding-bottom: 0;
         }
+        .synthoptions-content-columns {
+            @include display-box;
+            @include box-orient(horizontal);
+        }
+            .synthoptions-content-column {
+                padding: 2*$grid-l;
+                @include box-flex(1);
+            }
+            .synthoptions-content-components {
+                @extend .synthoptions-content-column;
+            }
+            .synthoptions-content-controls {
+                @extend .synthoptions-content-column;
+            }
+                .synthoptions-content-column-title {
+                    margin-bottom: $grid-l;
+                    padding-bottom: $grid-s;
+                    border-bottom: 2px solid lighten($dark-blue, 30);
+                }

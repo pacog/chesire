@@ -19,23 +19,31 @@
             </button>
         </div>
         <div class='synthoptions-content-body'>
-            <input type='text' ng-model='synthoptions.name'/>
-            <button class='button' ng-click='saveSynth()' ng-disabled='!synthoptions.name'>Save synth</button>
-            <button class='button' ng-click='deleteSynth()'>Delete synth</button>
-            <button class='big-button config-menu-close' ng-click='toggle()'></button>
-            <switch-two-values values='outputModes' ng-model='synthoptions.outputMode'></switch-two-values>
-            <ul>
-                <li ng-repeat='component in synthoptions.components'>
-                    <synthcomponent component-info='component'></synthcomponent>
-                </li>
-            </ul>
-
-            <ul class='synthoptions-midi-controls'>
-                <li ng-repeat='control in synthoptions.controls'>
-                    <control control-info='control'></control>
-                </li>
-            </ul>
-
+            <div class='synthoptions-content-presets'>
+                <input type='text' ng-model='synthoptions.name'/>
+                <button class='button' ng-click='saveSynth()' ng-disabled='!synthoptions.name'>Save synth</button>
+                <button class='button' ng-click='deleteSynth()'>Delete synth</button>
+                <button class='big-button config-menu-close' ng-click='toggle()'></button>
+            </div>
+            <div class='synthoptions-content-columns'>
+                <div class='synthoptions-content-components'>
+                    <h2 class='synthoptions-content-column-title'>Note generation</h2>
+                    <switch-two-values values='outputModes' ng-model='synthoptions.outputMode'></switch-two-values>
+                    <ul>
+                        <li ng-repeat='component in synthoptions.components'>
+                            <synthcomponent component-info='component'></synthcomponent>
+                        </li>
+                    </ul>
+                </div>
+                <div class='synthoptions-content-controls'>
+                    <h2 class='synthoptions-content-column-title'>Additional controls</h2>
+                    <ul class='synthoptions-midi-controls'>
+                        <li ng-repeat='control in synthoptions.controls'>
+                            <control control-info='control'></control>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -47,3 +47,25 @@ button {
         @include opacity(0.5);
     }
 }
+
+input[type="range"] {
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    width: 100%;
+    height: $grid-m;
+    margin: $grid-m 0;
+    border: none;
+    padding: 0;
+    background: #232528;
+    outline: none; /* no focus outline */
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: $grid-l;
+  height: $grid-l;
+  border: none;
+  border-radius: $grid-m;
+  background: lighten($dark-blue, 15);
+  cursor: pointer;
+}

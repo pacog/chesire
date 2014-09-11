@@ -1,7 +1,4 @@
 .oscillator {
-    padding: $grid-m;
-    background: $background-color;
-    width: 15*$grid-l;
 }
 
     .oscillator-section {
@@ -18,8 +15,8 @@
             position: absolute;
             bottom: 0;
         }
-        $oscillator-snap-color-1: #0c3d66;
-        $oscillator-snap-color-2: #1f560c;
+        $oscillator-snap-color-1: darken($orange, 20);
+        $oscillator-snap-color-2: darken($orange, 40);
         .oscillator-snap-info-first-note {
             @extend .oscillator-snap-info-notes;
             background: $oscillator-snap-color-1;
