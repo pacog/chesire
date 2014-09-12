@@ -1,12 +1,13 @@
-<h1>Control</h1>
-{{currentControlMessage.number}} - {{currentControlMessage.name}}
-
-<button class='big-button config-menu-list-toggle' ng-click='toggleControlList()'></button>
-<ul class='config-menu-list' ng-show='controlListExpanded'>
-    <li class='config-menu-list-item' ng-repeat='control in midiControlMessages'>
-        <a class='config-menu-list-item-link' ng-click='selectControl(control)'>{{control.name}}</a>
-    </li>
-</ul>
-<div>
-    <gesture-selector gesture-object='controlInfo'></gesture-selector>
+<div class='control'>
+    <div class='control-title'>
+        <div class='control-title-text'>
+            Parameter:
+        </div>
+        <div class='control-title-select'>
+            <select-box value='currentControlMessage' value-list='midiControlMessages' attr-to-show='name'></select-box>
+        </div>
+    </div>
+    <div class='control-content'>
+        <gesture-selector gesture-object='controlInfo'></gesture-selector>
+    </div>
 </div>

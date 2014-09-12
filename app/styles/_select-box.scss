@@ -45,6 +45,7 @@
         max-height: 300px;
         min-width: 100%;
         z-index: 1;
+        overflow: auto;
     }
         .select-box-list-link {
             padding: $grid-s $grid-m;

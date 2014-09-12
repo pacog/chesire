@@ -1,0 +1,22 @@
+.control {
+    margin: 2*$grid-l 0;
+    border-left: 2px solid $orange;
+}
+    .control-title {
+        @include display-box;
+        @include box-orient(horizontal);
+        @include box-align(center);
+        margin-bottom: $grid-l;
+        padding: $grid-m;
+        background: lighten($dark-blue, 5);
+    }
+        .control-title-text {
+            min-width: 110px;
+        }
+        .control-title-select {
+            @include box-flex(1);
+        }
+    .control-content{
+        padding-left: $grid-l;
+        padding-right: $grid-m;
+    }
