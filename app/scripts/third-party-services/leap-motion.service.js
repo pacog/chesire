@@ -18,6 +18,8 @@ angular.module('chesireApp')
 
     var PALM_MIN_VELOCITY = 50;
     var PALM_MAX_VELOCITY = 500;
+    var FINGER_MIN_VELOCITY = 150;
+    var FINGER_MAX_VELOCITY = 1000;
     var PALM_DIRECTION_X_MIN = 0;
     var PALM_DIRECTION_X_MAX = 0.5;
     var PALM_DIRECTION_Y_MIN = -0.3;
@@ -111,7 +113,31 @@ angular.module('chesireApp')
         result.handDirectionY = normalizeNumber((hands[0].direction[1] - PALM_DIRECTION_Y_MIN)/(PALM_DIRECTION_Y_MAX - PALM_DIRECTION_Y_MIN));
         result.handDirectionZ = normalizeNumber((hands[0].direction[2] - PALM_DIRECTION_Z_MIN)/(PALM_DIRECTION_Z_MAX - PALM_DIRECTION_Z_MIN));
 
+        result.fingerVelocity = getFingersVelocity(hands[0]);
+
         return result;
+    };
+
+    var getFingersVelocity = function(handInfo) {
+
+        if(handInfo.fingers.length) {
+
+            var totalVelocity = 0;
+
+            for(var i=0; i< handInfo.fingers.length; i++) {
+                totalVelocity += getFingerVelocity(handInfo.fingers[i], handInfo);
+            }
+            return normalizeNumber((totalVelocity - FINGER_MIN_VELOCITY)/(FINGER_MAX_VELOCITY - FINGER_MIN_VELOCITY));
+        }
+        return 0;
+    };
+
+    var getFingerVelocity = function(finger, hand) {
+        var velX = finger.tipVelocity[0] - hand.palmVelocity[0];
+        var velY = finger.tipVelocity[1] - hand.palmVelocity[1];
+        var velZ = finger.tipVelocity[2] - hand.palmVelocity[2];
+
+        return Math.sqrt(velX*velX + velY*velY + velZ*velZ);
     };
 
     var normalizeNumber = function(number) {
