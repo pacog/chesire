@@ -1,0 +1,37 @@
+.controls-hud {
+    position: fixed;
+    bottom: 40px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 1;
+}
+    .single-control-hud {
+        @include inline-block;
+        background: $dark-blue;
+        width: 300px;
+        position: relative;
+        margin: 0 $grid-s;
+    }
+        .single-control-hud-content {
+            @include display-box;
+            @include box-orient(horizontal);
+        }
+            .single-control-hud-param {
+                background: $ui-element-bg;
+                @include box-flex(1);
+                padding: $grid-m;
+                @include ellipsis();
+            }
+            .single-control-hud-gesture {
+                @include box-flex(1);
+                padding: $grid-m;
+                @include ellipsis();
+            }
+        .single-control-hud-value {
+            height: 3px;
+            background: $orange;
+            position: absolute;
+            top: 100%;
+            left: 0;
+        }

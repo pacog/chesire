@@ -13,6 +13,7 @@
         max-height: 90vh;
         overflow: auto;
         background: $dark-blue;
+        z-index: 10;
     }
         .synthoptions-content-presets {
             padding: 2*$grid-l;
