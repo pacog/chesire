@@ -70,6 +70,9 @@ angular.module('chesireApp')
     };
 
     var notifyControlChanged = function(controlInfo) {
+        if(!controlInfo.uniqueId) {
+            controlInfo.uniqueId = IdGenerator.getUniqueId();
+        }
         for(var i=0; i<synthOptions.controls.length; i++) {
             if(synthOptions.controls[i].uniqueId === controlInfo.uniqueId) {
                 //TODO: check if it really changed
@@ -82,11 +85,18 @@ angular.module('chesireApp')
         LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
     };
 
+    var notifyControlRemoved = function(controlInfo) {
+        synthOptions.controls = _.without(synthOptions.controls, controlInfo);
+        notifyChangeInSynthOptions(synthOptions);
+        LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
+    };
+
     return {
         setSynthOptions: setSynthOptions,
         getSynthOptions: getSynthOptions,
         subscribeToChangesInSynthOptions: subscribeToChangesInSynthOptions,
         notifyComponentChanged: notifyComponentChanged,
-        notifyControlChanged: notifyControlChanged
+        notifyControlChanged: notifyControlChanged,
+        notifyControlRemoved: notifyControlRemoved
     };
 });

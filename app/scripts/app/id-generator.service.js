@@ -3,7 +3,7 @@
 angular.module('chesireApp')
     .factory('IdGenerator', function() {
 
-        var lastId = 42;
+        var lastId = (new Date()).getTime();
 
         var getUniqueId = function() {
             lastId = lastId + 1;

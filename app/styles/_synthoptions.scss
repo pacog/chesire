@@ -39,3 +39,10 @@
                     border-bottom: 2px solid lighten($dark-blue, 30);
                     font-size: 24px;
                 }
+                .synthoptions-content-controls-add-control {
+                    text-align: center;
+                    .big-button {
+                        height: 2*$grid-l;
+                        padding: $grid-m;
+                    }
+                }

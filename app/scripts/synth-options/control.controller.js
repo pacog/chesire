@@ -8,6 +8,7 @@ angular.module('chesireApp')
         $scope.controlListExpanded = false;
         $scope.midiControlMessages = MidiControlMessages;
         $scope.$watch('controlInfo.number', controlInfoNumberChanged);
+        $scope.$watch('currentControlMessage.number', controlMessageChanged);
         $scope.$watch('controlInfo.param', controlInfoGestureChanged);
         $scope.$watch('controlInfo.responseFunction', _.throttle(controlInfoGestureChanged, 500), true);
     };
@@ -26,6 +27,13 @@ angular.module('chesireApp')
         }
     };
 
+    var controlMessageChanged = function(newValue, oldValue) {
+        if(newValue !== oldValue) {
+            $scope.controlInfo.number = newValue;
+            SynthOptions.notifyControlChanged($scope.controlInfo);
+        }
+    };
+
     $scope.toggleControlList = function() {
         $scope.controlListExpanded = !$scope.controlListExpanded;
     };
@@ -34,6 +42,10 @@ angular.module('chesireApp')
         $scope.controlInfo.number = newControl.number;
         $scope.controlListExpanded = false;
         SynthOptions.notifyControlChanged($scope.controlInfo);
+    };
+
+    $scope.removeControl = function() {
+        SynthOptions.notifyControlRemoved($scope.controlInfo);
     };
 
     init();

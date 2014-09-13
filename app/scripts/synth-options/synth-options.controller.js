@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('SynthoptionsCtrl', function ($scope, SynthOptions, UIService) {
+.controller('SynthoptionsCtrl', function ($scope, SynthOptions, UIService, DefaultEmptyControl) {
 
     var init = function() {
         SynthOptions.getSynthOptions().then(function(synthOptions) {
@@ -56,6 +56,10 @@ angular.module('chesireApp')
     $scope.selectSynth = function(synth) {
         $scope.listOfSynthsExpanded = false;
         $scope.synthoptions = synth;
+    };
+
+    $scope.addControl = function() {
+        $scope.synthoptions.controls.push(angular.copy(DefaultEmptyControl));
     };
 
     //TODO: on destroy: UIService.unsubscribeToMenuOpening(checkIfShouldCloseMenu);
