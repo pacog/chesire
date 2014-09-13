@@ -6,6 +6,7 @@ angular.module('chesireApp')
 
     var interactionBox = {
         width: 221,
+        // height: 221,
         height: 221,
         depth: 154
     };
@@ -159,6 +160,55 @@ angular.module('chesireApp')
         $scope.scene.add(pointerElement);
     };
 
+    var createBoundaries = function() {
+        var boundariesMeshGeometry = new Three.Geometry();
+        // boundariesMeshGeometry.dynamic = true;
+        // var deltaX = (xMax-xMin)/particlesX;
+        // var deltaY = (yMax-yMin)/particlesY;
+        // var deltaZ = (zMax-zMin)/particlesZ;
+
+        var material = new Three.MeshLambertMaterial({
+            color: Colorpalette.hex.BOUNDARIES,
+            // shading: Three.FlatShading,
+            // vertexColors: Three.FaceColors,
+            transparent: true,
+            opacity: 0.25
+        });
+
+        var yMaxAlt = yMax/3;
+
+        boundariesMeshGeometry.vertices.push( new Three.Vector3(xMin, yMin, zMin ) );
+        boundariesMeshGeometry.vertices.push( new Three.Vector3(xMin, yMin, zMax ) );
+        boundariesMeshGeometry.vertices.push( new Three.Vector3(xMin, yMaxAlt, zMin ) );
+        boundariesMeshGeometry.vertices.push( new Three.Vector3(xMin, yMaxAlt, zMax ) );
+        boundariesMeshGeometry.vertices.push( new Three.Vector3(xMax, yMin, zMin ) );
+        boundariesMeshGeometry.vertices.push( new Three.Vector3(xMax, yMin, zMax ) );
+        boundariesMeshGeometry.vertices.push( new Three.Vector3(xMax, yMaxAlt, zMin ) );
+        boundariesMeshGeometry.vertices.push( new Three.Vector3(xMax, yMaxAlt, zMax ) );
+
+        var face1 = new Three.Face3( 0, 2, 1 );
+        var face2 = new Three.Face3( 1, 2, 3 );
+        var face3 = new Three.Face3( 0, 4, 2 );
+        var face4 = new Three.Face3( 2, 4, 6 );
+        var face5 = new Three.Face3( 7, 6, 4 );
+        var face6 = new Three.Face3( 7, 4, 5 );
+        var face7 = new Three.Face3( 2, 3, 6 );
+        var face8 = new Three.Face3( 3, 7, 6 );
+
+        boundariesMeshGeometry.faces.push(face1);
+        boundariesMeshGeometry.faces.push(face2);
+        boundariesMeshGeometry.faces.push(face3);
+        boundariesMeshGeometry.faces.push(face4);
+        boundariesMeshGeometry.faces.push(face5);
+        boundariesMeshGeometry.faces.push(face6);
+        boundariesMeshGeometry.faces.push(face7);
+        boundariesMeshGeometry.faces.push(face8);
+
+        boundariesMeshGeometry.computeFaceNormals();
+        var boundariesMesh = new Three.Mesh(boundariesMeshGeometry, material);
+        $scope.scene.add(boundariesMesh);
+    };
+
     var createScene = function(element) {
 
         element.addClass('chesirecanvas');
@@ -167,6 +217,7 @@ angular.module('chesireApp')
 
         $scope.scene = new Three.Scene();
         createPointer();
+        createBoundaries();
 
         //Camera...
         $scope.camera = new Three.PerspectiveCamera( 45, width / height, 0.1, 1000 );
