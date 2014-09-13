@@ -10,5 +10,6 @@ angular.module('chesireApp')
         'handDirectionX',
         'handDirectionY',
         'handDirectionZ',
-        'fingerVelocity'
+        'fingerVelocity',
+        'handAperture'
     ]);

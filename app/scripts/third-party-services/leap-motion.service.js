@@ -26,8 +26,13 @@ angular.module('chesireApp')
     var PALM_DIRECTION_Y_MAX = 0.5;
     var PALM_DIRECTION_Z_MIN = -0.5;
     var PALM_DIRECTION_Z_MAX = -1;
-
+    var HAND_APERTURE_MIN = 0.50;
+    var HAND_APERTURE_MAX = 1.30;
     var subscribersToFrameChange = [];
+
+    var SOFTENED_ARRAY_SIZE = 5;
+
+    var prevHandApertures = null;
 
     var init = function() {
 
@@ -115,7 +120,50 @@ angular.module('chesireApp')
 
         result.fingerVelocity = getFingersVelocity(hands[0]);
 
+        result.handAperture = getHandAperture(hands[0]);
+
         return result;
+    };
+
+    var getHandAperture = function(handInfo) {
+
+        var result = 0;
+        if(handInfo.fingers.length >1) {
+            var maxAngle = 0;
+            var currentDiff = 0;
+            for(var i=0; i<handInfo.fingers.length; i++) {
+                for(var j=0; j<handInfo.fingers.length; j++) {
+                    if(i!==j) {
+                        currentDiff = getAngleBetweenFingers(handInfo.fingers[i], handInfo.fingers[j]);
+                        if(currentDiff>maxAngle) {
+                            maxAngle = currentDiff;
+                        }
+                    }
+                }
+            }
+            result = normalizeNumber((maxAngle - HAND_APERTURE_MIN)/(HAND_APERTURE_MAX - HAND_APERTURE_MIN));
+        }
+        return getSoftenedResult(result);
+    };
+
+    var getSoftenedResult = function(newValue) {
+        prevHandApertures = prevHandApertures || Array.apply(null, new Array(SOFTENED_ARRAY_SIZE)).map(Number.prototype.valueOf,0);
+        prevHandApertures.pop();
+        prevHandApertures.splice(0, 0, newValue);
+        var total = 0;
+        for(var i=0; i<SOFTENED_ARRAY_SIZE; i++) {
+            total += prevHandApertures[i];
+        }
+        return total/SOFTENED_ARRAY_SIZE;
+    };
+
+    var getAngleBetweenFingers = function(finger1, finger2) {
+        var product1 = finger1.direction[0]*finger2.direction[0] + finger1.direction[1]*finger2.direction[1] +finger1.direction[2]*finger2.direction[2];
+        var denom1 = Math.sqrt(finger1.direction[0]*finger1.direction[0] + finger1.direction[1]*finger1.direction[1] + finger1.direction[2]*finger1.direction[2]);
+        var denom2 = Math.sqrt(finger2.direction[0]*finger2.direction[0] + finger2.direction[1]*finger2.direction[1] + finger2.direction[2]*finger2.direction[2]);
+        var cos = product1/(denom1*denom2);
+
+        return Math.abs(Math.acos(cos));
     };
 
     var getFingersVelocity = function(handInfo) {
