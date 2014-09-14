@@ -148,11 +148,11 @@ angular.module('chesireApp')
     };
 
     var createPointer = function() {
-        var pointerGeometry = new Three.CircleGeometry(2, 20);
-        
-        var pointerMaterial = new Three.MeshBasicMaterial({
+        var pointerGeometry = new Three.CubeGeometry(4, 4, 4);
+        var pointerMaterial = new Three.MeshLambertMaterial({
             color: Colorpalette.hex.POINTER,
-            side:Three.DoubleSide
+            transparent: true,
+            opacity: 0.75
         });
 
         pointerElement = new Three.Mesh(pointerGeometry, pointerMaterial);
@@ -162,15 +162,9 @@ angular.module('chesireApp')
 
     var createBoundaries = function() {
         var boundariesMeshGeometry = new Three.Geometry();
-        // boundariesMeshGeometry.dynamic = true;
-        // var deltaX = (xMax-xMin)/particlesX;
-        // var deltaY = (yMax-yMin)/particlesY;
-        // var deltaZ = (zMax-zMin)/particlesZ;
 
         var material = new Three.MeshLambertMaterial({
             color: Colorpalette.hex.BOUNDARIES,
-            // shading: Three.FlatShading,
-            // vertexColors: Three.FaceColors,
             transparent: true,
             opacity: 0.25
         });
