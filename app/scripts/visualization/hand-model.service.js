@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chesireApp')
-    .factory('HandModel', function(Three, Colorpalette) {
+    .factory('HandModel', function(Three, Colorpalette, SpaceConverter, Leapmotion) {
         var HAND_DEFAULT_OPACITY = 0.5;
         var FINGER_NAMES = ['pinky', 'indexFinger', 'ringFinger', 'middleFinger'];
         var VERTICES_PER_FINGER = 8;
@@ -47,14 +47,21 @@ angular.module('chesireApp')
             geometry.faces.push(new Three.Face3( verticesStart+3, verticesStart+4, verticesStart+5 ));
             geometry.faces.push(new Three.Face3( verticesStart+4, verticesStart+6, verticesStart+5 ));
             geometry.faces.push(new Three.Face3( verticesStart+5, verticesStart+6, verticesStart+7 ));
+            //Recverse sides:
+            geometry.faces.push(new Three.Face3( verticesStart+0, verticesStart+1, verticesStart+2 ));
+            geometry.faces.push(new Three.Face3( verticesStart+1, verticesStart+3, verticesStart+2 ));
+            geometry.faces.push(new Three.Face3( verticesStart+2, verticesStart+3, verticesStart+4 ));
+            geometry.faces.push(new Three.Face3( verticesStart+3, verticesStart+5, verticesStart+4 ));
+            geometry.faces.push(new Three.Face3( verticesStart+4, verticesStart+5, verticesStart+6 ));
+            geometry.faces.push(new Three.Face3( verticesStart+5, verticesStart+7, verticesStart+6 ));
         };
 
-        HandModelClass.prototype.update = function(hand) {
+        HandModelClass.prototype.update = function(hand, frame) {
+
+            this._lastFrame = frame;
             for(var i=0; i<FINGER_NAMES.length; i++) {
                 this._updateVerticesForFinger(FINGER_NAMES[i], hand[FINGER_NAMES[i]]);
             }
-            // TODO: do this?
-            // this._handGeometry.computeFaceNormals();
             this._handGeometry.verticesNeedUpdate = true;
         };
 
@@ -78,9 +85,12 @@ angular.module('chesireApp')
             if(left) {
                 xThickness = -xThickness;
             }
-            vertice.x = jointCoord[0] + xThickness;
-            vertice.y = jointCoord[1];
-            vertice.z = jointCoord[2];
+            var relativePositions = Leapmotion.getRelativePositionXYZ([jointCoord[0] + xThickness, jointCoord[1], jointCoord[2]], this._lastFrame);
+            var pixelPosition = SpaceConverter.getConvertedPosition(relativePositions);
+
+            vertice.x = pixelPosition.x;
+            vertice.y = pixelPosition.y;
+            vertice.z = pixelPosition.z;
         };
 
         return HandModelClass;

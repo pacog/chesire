@@ -19,7 +19,7 @@ angular.module('chesireApp')
                 opacity: 0.25
             });
 
-            var yMaxAlt = this._sceneDimensions.yMax/3;
+            var yMaxAlt = this._sceneDimensions.yMax;
 
             boundariesMeshGeometry.vertices.push( new Three.Vector3(this._sceneDimensions.xMin, this._sceneDimensions.yMin, this._sceneDimensions.zMin ) );
             boundariesMeshGeometry.vertices.push( new Three.Vector3(this._sceneDimensions.xMin, this._sceneDimensions.yMin, this._sceneDimensions.zMax ) );

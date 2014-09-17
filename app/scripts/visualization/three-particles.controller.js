@@ -68,7 +68,7 @@ angular.module('chesireApp')
             if(frame.hands.length) {
                 var relativePositions = Leapmotion.getRelativePositions(frame, frame.hands);
                 var pixelPosition = SpaceConverter.getConvertedPosition(relativePositions);
-                handModel.update(frame.hands[0]);
+                handModel.update(frame.hands[0], frame);
                 pointerModel.update(pixelPosition);
                 soundMeshModel.update(pixelPosition);
             } else {
