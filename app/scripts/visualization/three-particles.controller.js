@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('ThreeparticlesCtrl', function ($scope, $timeout, $q, Three, Leapmotion, Colorpalette, ScaleOptions, CurrentSynth) {
+.controller('ThreeparticlesCtrl', function ($scope, $timeout, $q, Three, Leapmotion, Colorpalette, ScaleOptions, CurrentSynth, HandModel) {
 
     var interactionBox = {
         width: 221,
@@ -34,6 +34,8 @@ angular.module('chesireApp')
     var meshGeometry = null;
 
     var whenSceneIsReady = $q.defer();
+
+    var handModel = null;
 
     $scope.init = function(element) {
         //Timeout to make sure DOM is created for the directive
@@ -211,6 +213,7 @@ angular.module('chesireApp')
 
         $scope.scene = new Three.Scene();
         createPointer();
+        handModel = new HandModel($scope.scene);
         createBoundaries();
 
         //Camera...
@@ -273,6 +276,7 @@ angular.module('chesireApp')
         meshGeometry.verticesNeedUpdate = true;
     };
 
+
     $scope.isParticleInKey = function(x) {
 
         for(var i=0; i<$scope.keyRanges.length; i++) {
@@ -301,9 +305,11 @@ angular.module('chesireApp')
             if(frame.hands.length) {
                 var relativePositions = Leapmotion.getRelativePositions(frame, frame.hands);
                 var pixelPosition = $scope.getScenePosition(relativePositions);
-
+                handModel.update(frame.hands[0]);
                 updatePointer(pixelPosition);
                 updateParticles(pixelPosition);
+            } else {
+                //TODO: remove hand and put everything at rest
             }
             $scope.renderer.render($scope.scene, $scope.camera);
         }

@@ -28,13 +28,15 @@ angular.module('chesireApp')
         POINTER: '#071255',
         PARTICLES_BACK: '#000000',
         BOUNDARIES: '#1a1b1d',
+        HAND: '#660000',
         hex: {
             BACKGROUND: 0x1a1b1d,
             PARTICLES: 0xBA8E3D,
             PARTICLES_NOTE: 0xD65B27,
             POINTER: 0x071255,
             PARTICLES_BACK: 0x000000,
-            BOUNDARIES: 0x1a1b1d
+            BOUNDARIES: 0x1a1b1d,
+            HAND: 0x660000
         }
     };
 });
