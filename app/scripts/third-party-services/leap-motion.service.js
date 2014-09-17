@@ -45,8 +45,8 @@ angular.module('chesireApp')
 
         controller.on('animationFrame', deviceFrameHandler);
         controller.on('connect', connectHandler);
-        controller.on('deviceConnected', deviceConnectedHandler);
-        controller.on('deviceDisconnected', deviceDisconnectedHandler);
+        controller.on('deviceStreaming/deviceStreaming', deviceConnectedHandler);
+        controller.on('deviceStreaming/deviceStopped', deviceDisconnectedHandler);
 
         controller.connect();
 
