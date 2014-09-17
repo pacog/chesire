@@ -26,8 +26,8 @@ angular.module('chesireApp')
     var PALM_DIRECTION_Y_MAX = 0.5;
     var PALM_DIRECTION_Z_MIN = -0.5;
     var PALM_DIRECTION_Z_MAX = -1;
-    var HAND_APERTURE_MIN = 0.50;
-    var HAND_APERTURE_MAX = 1.30;
+    var HAND_APERTURE_MIN = 0.7;
+    var HAND_APERTURE_MAX = 2.60;
     var subscribersToFrameChange = [];
 
     var SOFTENED_ARRAY_SIZE = 5;
@@ -127,22 +127,36 @@ angular.module('chesireApp')
 
     var getHandAperture = function(handInfo) {
 
+        // var result = 0;
+        // if(handInfo.fingers.length >1) {
+        //     var maxAngle = 0;
+        //     var currentDiff = 0;
+        //     for(var i=0; i<handInfo.fingers.length; i++) {
+        //         for(var j=0; j<handInfo.fingers.length; j++) {
+        //             if(i!==j) {
+        //                 currentDiff = getAngleBetweenFingers(handInfo.fingers[i], handInfo.fingers[j]);
+        //                 if(currentDiff>maxAngle) {
+        //                     maxAngle = currentDiff;
+        //                 }
+        //             }
+        //         }
+        //     }
+        //     result = normalizeNumber((maxAngle - HAND_APERTURE_MIN)/(HAND_APERTURE_MAX - HAND_APERTURE_MIN));
+        // }
+
         var result = 0;
-        if(handInfo.fingers.length >1) {
-            var maxAngle = 0;
-            var currentDiff = 0;
+        if(handInfo.fingers.length >2) {
             for(var i=0; i<handInfo.fingers.length; i++) {
                 for(var j=0; j<handInfo.fingers.length; j++) {
                     if(i!==j) {
-                        currentDiff = getAngleBetweenFingers(handInfo.fingers[i], handInfo.fingers[j]);
-                        if(currentDiff>maxAngle) {
-                            maxAngle = currentDiff;
-                        }
+                        result += getAngleBetweenFingers(handInfo.fingers[i], handInfo.fingers[j]);
                     }
                 }
             }
-            result = normalizeNumber((maxAngle - HAND_APERTURE_MIN)/(HAND_APERTURE_MAX - HAND_APERTURE_MIN));
+            result = result/handInfo.fingers.length;
+            result = normalizeNumber((result - HAND_APERTURE_MIN)/(HAND_APERTURE_MAX - HAND_APERTURE_MIN));
         }
+
         return getSoftenedResult(result);
     };
 
