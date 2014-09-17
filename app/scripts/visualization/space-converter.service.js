@@ -31,7 +31,12 @@ angular.module('chesireApp')
             };
         };
 
+        var getBoxSize = function() {
+            return BOX_SIZE;
+        };
+
         return {
+            getBoxSize: getBoxSize,
             getBoxLimits: getBoxLimits,
             getConvertedPosition: getConvertedPosition
         };
