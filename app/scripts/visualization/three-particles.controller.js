@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('ThreeparticlesCtrl', function ($scope, $timeout, $q, Three, Leapmotion, Colorpalette, ScaleOptions, SpaceConverter, HandModel, BoundariesModel, PointerModel, SoundMeshModel, VisualizationKeyHelper) {
+.controller('ThreeparticlesCtrl', function ($scope, $timeout, $q, Three, Leapmotion, Colorpalette, ScaleOptions, SpaceConverter, HandModel, BoundariesModel, PointerModel, SoundMeshModel, VisualizationKeyHelper, Camera) {
 
     var whenSceneIsReady = $q.defer();
 
@@ -10,6 +10,7 @@ angular.module('chesireApp')
     var boundariesModel = null;
     var pointerModel = null;
     var soundMeshModel = null;
+    var camera = null;
 
     $scope.init = function(element) {
         //Timeout to make sure DOM is created for the directive
@@ -17,7 +18,7 @@ angular.module('chesireApp')
             createScene(element);
             $scope.frameInfo = Leapmotion.getFrameInfo();
             $scope.$watch('frameInfo.id', $scope.frameInfoChanged); //TODO: use leap onFrame
-            $scope.renderer.render($scope.scene, $scope.camera);
+            $scope.renderer.render($scope.scene, camera.getCamera());
             whenSceneIsReady.resolve(true);
         });
         ScaleOptions.subscribeToChangesInScaleOptions(scaleChanged);
@@ -45,11 +46,11 @@ angular.module('chesireApp')
         boundariesModel = new BoundariesModel($scope.scene);
 
         //Camera...
-        $scope.camera = new Three.PerspectiveCamera( 45, width / height, 0.1, 1000 );
-        $scope.camera.position.x = 0;
-        $scope.camera.position.z = 220;
-        $scope.camera.position.y = 100;
-        $scope.camera.lookAt(new Three.Vector3(0, 30,0));
+        camera = new Camera($scope.scene, {
+            screenHeight: height,
+            screenWidth: width
+        });
+
         //Lights...
         $scope.pointLight = new Three.PointLight(0xffffff);
         $scope.pointLight.position.set(10, 150, 130);
@@ -74,7 +75,7 @@ angular.module('chesireApp')
             } else {
                 //TODO: remove hand and put everything at rest
             }
-            $scope.renderer.render($scope.scene, $scope.camera);
+            $scope.renderer.render($scope.scene, camera.getCamera());
         }
     };
 });

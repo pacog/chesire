@@ -35,9 +35,18 @@ angular.module('chesireApp')
             return BOX_SIZE;
         };
 
+        var getBoxCenter = function() {
+            return {
+                x: (BOX_LIMITS.xMax - BOX_LIMITS.xMin)/2 + BOX_LIMITS.xMin,
+                y: (BOX_LIMITS.yMax - BOX_LIMITS.yMin)/2 + BOX_LIMITS.yMin,
+                z: (BOX_LIMITS.zMax - BOX_LIMITS.zMin)/2 + BOX_LIMITS.zMin
+            };
+        };
+
         return {
             getBoxSize: getBoxSize,
             getBoxLimits: getBoxLimits,
+            getBoxCenter: getBoxCenter,
             getConvertedPosition: getConvertedPosition
         };
     });

@@ -36,8 +36,13 @@ angular.module('chesireApp')
             var face4 = new Three.Face3( 2, 4, 6 );
             var face5 = new Three.Face3( 7, 6, 4 );
             var face6 = new Three.Face3( 7, 4, 5 );
+
+            // Top (both sides)
             var face7 = new Three.Face3( 2, 3, 6 );
             var face8 = new Three.Face3( 3, 7, 6 );
+            var face9 = new Three.Face3( 2, 6, 3 );
+            var face10 = new Three.Face3( 3, 6, 7 );
+
 
             boundariesMeshGeometry.faces.push(face1);
             boundariesMeshGeometry.faces.push(face2);
@@ -47,6 +52,8 @@ angular.module('chesireApp')
             boundariesMeshGeometry.faces.push(face6);
             boundariesMeshGeometry.faces.push(face7);
             boundariesMeshGeometry.faces.push(face8);
+            boundariesMeshGeometry.faces.push(face9);
+            boundariesMeshGeometry.faces.push(face10);
 
             boundariesMeshGeometry.computeFaceNormals();
             var boundariesMesh = new Three.Mesh(boundariesMeshGeometry, material);
