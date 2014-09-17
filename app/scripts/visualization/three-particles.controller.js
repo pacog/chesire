@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('ThreeparticlesCtrl', function ($scope, $timeout, $q, Three, Leapmotion, Colorpalette, ScaleOptions, CurrentSynth, HandModel) {
+.controller('ThreeparticlesCtrl', function ($scope, $timeout, $q, Three, Leapmotion, Colorpalette, ScaleOptions, CurrentSynth, SpaceConverter, HandModel, BoundariesModel, PointerModel) {
 
     var interactionBox = {
         width: 221,
@@ -13,8 +13,6 @@ angular.module('chesireApp')
 
     var xMin = -(interactionBox.width/2);
     var xMax = (interactionBox.width/2);
-    var yMin = 0;
-    var yMax = interactionBox.height;
     var zMin = -(interactionBox.depth/2);
     var zMax = (interactionBox.depth/2);
     var particlesX = interactionBox.width;
@@ -29,20 +27,21 @@ angular.module('chesireApp')
 
     var CHORDS_WIDTH = 10;
 
-    var pointerElement;
     var currentMesh = null;
     var meshGeometry = null;
 
     var whenSceneIsReady = $q.defer();
 
     var handModel = null;
+    var boundariesModel = null;
+    var pointerModel = null;
 
     $scope.init = function(element) {
         //Timeout to make sure DOM is created for the directive
         $timeout(function() {
             createScene(element);
             $scope.frameInfo = Leapmotion.getFrameInfo();
-            $scope.$watch('frameInfo.id', $scope.frameInfoChanged);
+            $scope.$watch('frameInfo.id', $scope.frameInfoChanged); //TODO: use leap onFrame
             $scope.renderer.render($scope.scene, $scope.camera);
             whenSceneIsReady.resolve(true);
         });
@@ -149,62 +148,6 @@ angular.module('chesireApp')
         $scope.scene.add(currentMesh);
     };
 
-    var createPointer = function() {
-        var pointerGeometry = new Three.CubeGeometry(4, 4, 4);
-        var pointerMaterial = new Three.MeshLambertMaterial({
-            color: Colorpalette.hex.POINTER,
-            transparent: true,
-            opacity: 0.75
-        });
-
-        pointerElement = new Three.Mesh(pointerGeometry, pointerMaterial);
-        pointerElement.position.set(-1.5, 0.0, 4.0);
-        $scope.scene.add(pointerElement);
-    };
-
-    var createBoundaries = function() {
-        var boundariesMeshGeometry = new Three.Geometry();
-
-        var material = new Three.MeshLambertMaterial({
-            color: Colorpalette.hex.BOUNDARIES,
-            transparent: true,
-            opacity: 0.25
-        });
-
-        var yMaxAlt = yMax/3;
-
-        boundariesMeshGeometry.vertices.push( new Three.Vector3(xMin, yMin, zMin ) );
-        boundariesMeshGeometry.vertices.push( new Three.Vector3(xMin, yMin, zMax ) );
-        boundariesMeshGeometry.vertices.push( new Three.Vector3(xMin, yMaxAlt, zMin ) );
-        boundariesMeshGeometry.vertices.push( new Three.Vector3(xMin, yMaxAlt, zMax ) );
-        boundariesMeshGeometry.vertices.push( new Three.Vector3(xMax, yMin, zMin ) );
-        boundariesMeshGeometry.vertices.push( new Three.Vector3(xMax, yMin, zMax ) );
-        boundariesMeshGeometry.vertices.push( new Three.Vector3(xMax, yMaxAlt, zMin ) );
-        boundariesMeshGeometry.vertices.push( new Three.Vector3(xMax, yMaxAlt, zMax ) );
-
-        var face1 = new Three.Face3( 0, 2, 1 );
-        var face2 = new Three.Face3( 1, 2, 3 );
-        var face3 = new Three.Face3( 0, 4, 2 );
-        var face4 = new Three.Face3( 2, 4, 6 );
-        var face5 = new Three.Face3( 7, 6, 4 );
-        var face6 = new Three.Face3( 7, 4, 5 );
-        var face7 = new Three.Face3( 2, 3, 6 );
-        var face8 = new Three.Face3( 3, 7, 6 );
-
-        boundariesMeshGeometry.faces.push(face1);
-        boundariesMeshGeometry.faces.push(face2);
-        boundariesMeshGeometry.faces.push(face3);
-        boundariesMeshGeometry.faces.push(face4);
-        boundariesMeshGeometry.faces.push(face5);
-        boundariesMeshGeometry.faces.push(face6);
-        boundariesMeshGeometry.faces.push(face7);
-        boundariesMeshGeometry.faces.push(face8);
-
-        boundariesMeshGeometry.computeFaceNormals();
-        var boundariesMesh = new Three.Mesh(boundariesMeshGeometry, material);
-        $scope.scene.add(boundariesMesh);
-    };
-
     var createScene = function(element) {
 
         element.addClass('chesirecanvas');
@@ -212,9 +155,9 @@ angular.module('chesireApp')
             width = element[0].offsetWidth;
 
         $scope.scene = new Three.Scene();
-        createPointer();
+        pointerModel = new PointerModel($scope.scene);
         handModel = new HandModel($scope.scene);
-        createBoundaries();
+        boundariesModel = new BoundariesModel($scope.scene);
 
         //Camera...
         $scope.camera = new Three.PerspectiveCamera( 45, width / height, 0.1, 1000 );
@@ -231,10 +174,6 @@ angular.module('chesireApp')
         $scope.renderer.setClearColor( Colorpalette.hex.BACKGROUND, 1);
         $scope.renderer.setSize( width, height );
         element.append($scope.renderer.domElement);
-    };
-
-    var updatePointer = function(pixelPosition) {
-        pointerElement.position.set(pixelPosition.x, getYToApplyFromTwoPoints(pixelPosition, pixelPosition, true) + 2, pixelPosition.z);
     };
 
     var getYToApplyFromTwoPoints = function(pointer, otherPoint, avoidOscillator) {
@@ -304,22 +243,14 @@ angular.module('chesireApp')
         if(frame) {
             if(frame.hands.length) {
                 var relativePositions = Leapmotion.getRelativePositions(frame, frame.hands);
-                var pixelPosition = $scope.getScenePosition(relativePositions);
+                var pixelPosition = SpaceConverter.getConvertedPosition(relativePositions);
                 handModel.update(frame.hands[0]);
-                updatePointer(pixelPosition);
+                pointerModel.update(pixelPosition);
                 updateParticles(pixelPosition);
             } else {
                 //TODO: remove hand and put everything at rest
             }
             $scope.renderer.render($scope.scene, $scope.camera);
         }
-    };
-
-    $scope.getScenePosition = function(position) {
-        return {
-            x: position.x * (xMax - xMin) + xMin,
-            y: (position.y * (yMax - yMin) + yMin),
-            z: (position.z * (zMax - zMin) + zMin)
-        };
     };
 });
