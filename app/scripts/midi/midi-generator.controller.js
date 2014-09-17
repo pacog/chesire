@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('MidigeneratorCtrl', function ($scope, $timeout, $window, $q, MidiApiMediator, Leapmotion, MultiNotesHelper, SynthOptions, MotionParamsHelper, SynthOptionsHelper) {
+.controller('MidigeneratorCtrl', function ($scope, $timeout, $window, $q, MidiApiMediator, Leapmotion, MultiNotesHelper, SynthOptions, MotionParamsHelper, SynthOptionsHelper, CurrentMidiOutput) {
 
     var synthOptions = null;
     var notesBeingPlayed = {};
@@ -17,7 +17,8 @@ angular.module('chesireApp')
             var newSynthOptions = promiseResults[1];
 
             $scope.midiOutputs = midiAccess.outputs();
-            $scope.selectedMidiOutput = $scope.midiOutputs[0];
+            //TODO: allow selection of midi outputs
+            CurrentMidiOutput.setCurrentOutput($scope.midiOutputs[0]);
 
             synthOptionsChanged(newSynthOptions);
             SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
@@ -27,7 +28,7 @@ angular.module('chesireApp')
 
     var synthOptionsChanged = function(newSynthOptions) {
         if(newSynthOptions) {
-            $scope.selectedMidiOutput.resetEverything();
+            CurrentMidiOutput.getCurrentOutput().resetEverything();
             synthOptions = newSynthOptions;
             if(newSynthOptions.outputMode !== 'midi') {
                 //TODO: disable
@@ -78,9 +79,9 @@ angular.module('chesireApp')
             }
         });
 
-        $scope.selectedMidiOutput.notesOff(notesOff);
-        $scope.selectedMidiOutput.notesOn(notesOn);
-        $scope.selectedMidiOutput.keyPressureChanges(notesUpdate);
+        CurrentMidiOutput.getCurrentOutput().notesOff(notesOff);
+        CurrentMidiOutput.getCurrentOutput().notesOn(notesOn);
+        CurrentMidiOutput.getCurrentOutput().keyPressureChanges(notesUpdate);
         updateMainVolume(frameInfo);
         updateControls(frameInfo);
     };
@@ -94,7 +95,7 @@ angular.module('chesireApp')
                 newGainValue = MotionParamsHelper.getParamValue(options.controls.gain, motionParams);
             }
 
-            $scope.selectedMidiOutput.updateMainVolume(newGainValue);
+            CurrentMidiOutput.getCurrentOutput().updateMainVolume(newGainValue);
         }
     };
 
@@ -103,14 +104,14 @@ angular.module('chesireApp')
             var motionParams = Leapmotion.getRelativePositions(frameInfo, frameInfo.hands);
             angular.forEach(synthOptions.controls, function(control) {
                 var controlValue = MotionParamsHelper.getParamValue(control, motionParams);
-                $scope.selectedMidiOutput.updateControl(control, controlValue);
+                CurrentMidiOutput.getCurrentOutput().updateControl(control, controlValue);
             });
         }
     };
 
     var stopPlaying = function() {
         if(!_.isEmpty(notesBeingPlayed)) {
-            $scope.selectedMidiOutput.allOff(_.toArray(notesBeingPlayed));
+            CurrentMidiOutput.getCurrentOutput().allOff(_.toArray(notesBeingPlayed));
             notesBeingPlayed = {};
         }
     };

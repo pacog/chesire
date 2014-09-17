@@ -79,6 +79,10 @@ angular.module('chesireApp')
             return [firstByte, 123, 0];
         };
 
+        var getPingControl = function(controlNumber) {
+            return [controlCode(), controlNumber, 80]; //80 just because, any nnumber would do
+        };
+
         return {
             getNoteOn: getNoteOn,
             getNoteOff: getNoteOff,
@@ -88,6 +92,7 @@ angular.module('chesireApp')
             getNoteTune: getNoteTune,
             getControl: getControl,
             getResetControls: getResetControls,
-            getResetNotes: getResetNotes
+            getResetNotes: getResetNotes,
+            getPingControl: getPingControl
         };
     });

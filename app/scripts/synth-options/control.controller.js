@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('ControlCtrl', function ($scope, MidiControlMessages, SynthOptions) {
+.controller('ControlCtrl', function ($scope, MidiControlMessages, SynthOptions, CurrentMidiOutput) {
 
     var init = function() {
         $scope.controlListExpanded = false;
@@ -46,6 +46,10 @@ angular.module('chesireApp')
 
     $scope.removeControl = function() {
         SynthOptions.notifyControlRemoved($scope.controlInfo);
+    };
+
+    $scope.pingControl = function() {
+        CurrentMidiOutput.getCurrentOutput().pingControl($scope.controlInfo.number);
     };
 
     init();

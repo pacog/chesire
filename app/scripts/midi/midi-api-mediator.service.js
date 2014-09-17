@@ -148,6 +148,9 @@ angular.module('chesireApp')
             send(MidiMessagesHelper.getResetNotes());
         };
 
+        MidiOutput.prototype.pingControl = function(controlNumber) {
+            send(MidiMessagesHelper.getPingControl(controlNumber));
+        };
 
         return MidiOutput;
     })
