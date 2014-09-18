@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('chesireApp')
-    .service('SoundMeshModel', function(Three, Colorpalette, SpaceConverter, VisualizationKeyHelper, CurrentSynth) {
+    .service('SoundMeshModel', function(Three, Colorpalette, SpaceConverter, VisualizationKeyHelper) {
 
-        var particlesX = SpaceConverter.getBoxSize().width;
-        var particlesZ = SpaceConverter.getBoxSize().depth;
+        var particlesX = SpaceConverter.getBoxSize().width/2;
+        var particlesZ = SpaceConverter.getBoxSize().depth/2;
         var POINTER_RADIUS = 50;
         var Y_REDUCTION = 0.05;
 
@@ -12,28 +12,6 @@ angular.module('chesireApp')
             this._scene = scene;
             this._sceneDimensions = SpaceConverter.getBoxLimits();
             this._createSoundMesh();
-            this._oscillator = null;
-            this._currentSynth = CurrentSynth.getCurrentSynth();
-            var self = this;
-            CurrentSynth.subscribeToChangesInCurrentSynth(function() {
-                self._synthChanged();
-            });
-        };
-
-        SoundMesh.prototype._synthNodesChanged = function() {
-            this._oscillator = false;
-            if(this._currentSynth && this._currentSynth.synthElements) {
-                this._oscillator = this._currentSynth.synthElements[0];
-                this._mainNote = this._oscillator.oscillatorCollection.getNodes()[0];
-                this._mainGain =this._oscillator.gainController;
-            }
-
-        };
-
-        SoundMesh.prototype._synthChanged = function() {
-            this._currentSynth = CurrentSynth.getCurrentSynth();
-            this._synthNodesChanged();
-
         };
 
         //TODO: ugly long method, divide it!
@@ -131,8 +109,8 @@ angular.module('chesireApp')
             if(POINTER_RADIUS > distance) {
                 distanceFactor = (POINTER_RADIUS - distance)/POINTER_RADIUS;
             }
-            var freqFactor = this._mainNote.oscillator.frequency.value*distance/700;
-            return distanceFactor*Math.sin(freqFactor)*10*this._mainGain.gain.value;
+            var freqFactor = VisualizationKeyHelper.getCurrentFrequency()*distance/700;
+            return distanceFactor*Math.cos(freqFactor)*10*VisualizationKeyHelper.getCurrentGain();
         };
 
         return SoundMesh;

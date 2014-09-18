@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('ThreeparticlesCtrl', function ($scope, $timeout, $q, Three, Leapmotion, Colorpalette, ScaleOptions, SpaceConverter, HandModel, BoundariesModel, PointerModel, SoundMeshModel, VisualizationKeyHelper, Camera) {
+.controller('ThreeparticlesCtrl', function ($scope, $timeout, $q, Three, Leapmotion, Colorpalette, ScaleOptions, SpaceConverter, HandModel, BoundariesModel, PointerModel, SoundMeshModel, VisualizationKeyHelper, Camera, ChordsHelperModel) {
 
     var whenSceneIsReady = $q.defer();
 
@@ -10,6 +10,7 @@ angular.module('chesireApp')
     var boundariesModel = null;
     var pointerModel = null;
     var soundMeshModel = null;
+    var chordsHelperModel = null;
     var camera = null;
 
     $scope.init = function(element) {
@@ -30,6 +31,7 @@ angular.module('chesireApp')
             whenSceneIsReady.promise.then(function () {
                 VisualizationKeyHelper.createKeyRanges(newScale);
                 soundMeshModel = new SoundMeshModel($scope.scene);
+                chordsHelperModel = new ChordsHelperModel($scope.scene);
             });
         }
     };
