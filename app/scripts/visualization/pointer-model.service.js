@@ -3,13 +3,16 @@
 angular.module('chesireApp')
     .factory('PointerModel', function(Three, Colorpalette) {
 
+        var POINTER_SIZE = 6;
+        var POINTER_Y_CORRECTION = 3;
+
         var PointerModelClass = function(scene) {
             this._scene = scene;
             this._createPointer();
         };
 
         PointerModelClass.prototype._createPointer = function() {
-            var pointerGeometry = new Three.CubeGeometry(4, 4, 4);
+            var pointerGeometry = new Three.CubeGeometry(POINTER_SIZE, POINTER_SIZE, POINTER_SIZE);
             var pointerMaterial = new Three.MeshLambertMaterial({
                 color: Colorpalette.hex.POINTER,
                 transparent: true,
@@ -22,7 +25,7 @@ angular.module('chesireApp')
         };
 
         PointerModelClass.prototype.update = function(pixelPosition) {
-            this.pointerElement.position.set(pixelPosition.x, pixelPosition.y, pixelPosition.z);
+            this.pointerElement.position.set(pixelPosition.x, pixelPosition.y + POINTER_Y_CORRECTION, pixelPosition.z);
         };
 
         return PointerModelClass;
