@@ -103,6 +103,8 @@ angular.module('chesireApp')
             for(var i = this._soundMeshGeometry.vertices.length -1; i>=0; i--) {
                 this._soundMeshGeometry.vertices[i].y = this._getYToApplyFromTwoPoints(pixelPosition, this._soundMeshGeometry.vertices[i]);
             }
+            this._soundMeshGeometry.computeFaceNormals();
+            this._soundMeshGeometry.normalsNeedUpdate = true;
             this._soundMeshGeometry.verticesNeedUpdate = true;
         };
 

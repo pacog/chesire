@@ -62,6 +62,8 @@ angular.module('chesireApp')
             for(var i=0; i<FINGER_NAMES.length; i++) {
                 this._updateVerticesForFinger(FINGER_NAMES[i], hand[FINGER_NAMES[i]]);
             }
+            this._handGeometry.computeFaceNormals();
+            this._handGeometry.normalsNeedUpdate = true;
             this._handGeometry.verticesNeedUpdate = true;
         };
 
