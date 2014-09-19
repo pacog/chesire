@@ -26,7 +26,7 @@ angular.module('chesireApp')
     var PALM_DIRECTION_Y_MAX = 0.5;
     var PALM_DIRECTION_Z_MIN = -0.5;
     var PALM_DIRECTION_Z_MAX = -1;
-    var HAND_APERTURE_MIN = 0.7;
+    var HAND_APERTURE_MIN = 0.45;
     var HAND_APERTURE_MAX = 2.60;
     var subscribersToFrameChange = [];
 
@@ -133,23 +133,6 @@ angular.module('chesireApp')
 
     var getHandAperture = function(handInfo) {
 
-        // var result = 0;
-        // if(handInfo.fingers.length >1) {
-        //     var maxAngle = 0;
-        //     var currentDiff = 0;
-        //     for(var i=0; i<handInfo.fingers.length; i++) {
-        //         for(var j=0; j<handInfo.fingers.length; j++) {
-        //             if(i!==j) {
-        //                 currentDiff = getAngleBetweenFingers(handInfo.fingers[i], handInfo.fingers[j]);
-        //                 if(currentDiff>maxAngle) {
-        //                     maxAngle = currentDiff;
-        //                 }
-        //             }
-        //         }
-        //     }
-        //     result = normalizeNumber((maxAngle - HAND_APERTURE_MIN)/(HAND_APERTURE_MAX - HAND_APERTURE_MIN));
-        // }
-
         var result = 0;
         if(handInfo.fingers.length >2) {
             for(var i=0; i<handInfo.fingers.length; i++) {
@@ -178,9 +161,9 @@ angular.module('chesireApp')
     };
 
     var getAngleBetweenFingers = function(finger1, finger2) {
-        var product1 = finger1.direction[0]*finger2.direction[0] + finger1.direction[1]*finger2.direction[1] +finger1.direction[2]*finger2.direction[2];
-        var denom1 = Math.sqrt(finger1.direction[0]*finger1.direction[0] + finger1.direction[1]*finger1.direction[1] + finger1.direction[2]*finger1.direction[2]);
-        var denom2 = Math.sqrt(finger2.direction[0]*finger2.direction[0] + finger2.direction[1]*finger2.direction[1] + finger2.direction[2]*finger2.direction[2]);
+        var product1 = finger1.direction[0]*finger2.direction[0]/* + finger1.direction[1]*finger2.direction[1]*/ +finger1.direction[2]*finger2.direction[2];
+        var denom1 = Math.sqrt(finger1.direction[0]*finger1.direction[0]/* + finger1.direction[1]*finger1.direction[1]*/ + finger1.direction[2]*finger1.direction[2]);
+        var denom2 = Math.sqrt(finger2.direction[0]*finger2.direction[0]/* + finger2.direction[1]*finger2.direction[1]*/ + finger2.direction[2]*finger2.direction[2]);
         var cos = product1/(denom1*denom2);
 
         return Math.abs(Math.acos(cos));
