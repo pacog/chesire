@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chesireApp')
-    .factory('VisualizationKeyHelper', function(SpaceConverter, CurrentSynth) {
+    .factory('VisualizationKeyHelper', function(SpaceConverter, CurrentSynth, MultiNotesHelper) {
 
         var keyRanges = null;
         var CHORDS_WIDTH = 10;
@@ -58,6 +58,10 @@ angular.module('chesireApp')
             return keyRanges;
         };
 
+        var getKeyRangesVolume = function(relativeX) {
+            return MultiNotesHelper.getChordsRelevanceFromX(relativeX);
+        };
+
         init();
 
         return {
@@ -65,6 +69,7 @@ angular.module('chesireApp')
             isParticleInKey: isParticleInKey,
             getKeyRanges: getKeyRanges,
             getCurrentFrequency: getCurrentFrequency,
-            getCurrentGain: getCurrentGain
+            getCurrentGain: getCurrentGain,
+            getKeyRangesVolume: getKeyRangesVolume
         };
     });

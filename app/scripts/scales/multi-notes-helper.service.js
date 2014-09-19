@@ -226,11 +226,36 @@ angular.module('chesireApp')
         return positionRelativeToNotes;
     };
 
+    var getChordsRelevanceFromX = function(x) {
+        var positionRelativeToNotes = getPositionRelativeToNotes(x, chordsInfo.chords.length);
+        var firstNote = Math.floor(positionRelativeToNotes);
+        if(firstNote >= (chordsInfo.chords.length - 1)) {
+            firstNote = firstNote-1;
+        }
+        var distanceInBetween = positionRelativeToNotes - firstNote;
+        var oscillatorOptions = SynthOptionsHelper.getOscillatorFromOptions(synthoptions);
+        distanceInBetween = snap(distanceInBetween, oscillatorOptions.snapDistance);
+
+        var result = [];
+        for(var i=0; i<chordsInfo.chords.length; i++) {
+            var chordValue = 0;
+            if(i===firstNote) {
+                chordValue = 1-distanceInBetween;
+            } else if(i===(firstNote+1)) {
+                chordValue = distanceInBetween;
+            }
+            result.push(chordValue);
+        }
+
+        return result;
+    };
+
     init();
 
     return {
         changeNotes: changeNotes,
         getNotesInfo: getNotesInfo,
-        getNotesDefinition: getNotesDefinition
+        getNotesDefinition: getNotesDefinition,
+        getChordsRelevanceFromX: getChordsRelevanceFromX
     };
 });

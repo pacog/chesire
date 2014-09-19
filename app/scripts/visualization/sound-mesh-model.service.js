@@ -68,13 +68,17 @@ angular.module('chesireApp')
                     verticeIndex += 4;
                 }
             }
+            this.destroy();
+            this._soundMeshGeometry.computeFaceNormals();
+            this._currentMesh = new Three.Mesh(this._soundMeshGeometry, material);
+            this._scene.add(this._currentMesh);
+        };
+
+        SoundMesh.prototype.destroy = function() {
             if(this._currentMesh) {
                 this._scene.remove(this._currentMesh);
                 this._currentMesh = null;
             }
-            this._soundMeshGeometry.computeFaceNormals();
-            this._currentMesh = new Three.Mesh(this._soundMeshGeometry, material);
-            this._scene.add(this._currentMesh);
         };
 
         SoundMesh.prototype.update = function(pixelPosition) {

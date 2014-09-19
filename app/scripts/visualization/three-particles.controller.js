@@ -30,6 +30,12 @@ angular.module('chesireApp')
         if(newScale) {
             whenSceneIsReady.promise.then(function () {
                 VisualizationKeyHelper.createKeyRanges(newScale);
+                if(soundMeshModel) {
+                    soundMeshModel.destroy();
+                }
+                if(chordsHelperModel){
+                    chordsHelperModel.destroy();
+                }
                 soundMeshModel = new SoundMeshModel($scope.scene);
                 chordsHelperModel = new ChordsHelperModel($scope.scene);
             });
@@ -74,6 +80,7 @@ angular.module('chesireApp')
                 handModel.update(frame.hands[0], frame);
                 pointerModel.update(pixelPosition);
                 soundMeshModel.update(pixelPosition);
+                chordsHelperModel.update(relativePositions.x);
             } else {
                 //TODO: remove hand and put everything at rest
             }
