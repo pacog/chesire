@@ -28,6 +28,8 @@ angular.module('chesireApp')
     var PALM_DIRECTION_Z_MAX = -1;
     var HAND_APERTURE_MIN = 0.45;
     var HAND_APERTURE_MAX = 2.60;
+    var FINGER_DIRECTION_Y_MIN = -0.90;
+    var FINGER_DIRECTION_Y_MAX = 0;
     var subscribersToFrameChange = [];
 
     var SOFTENED_ARRAY_SIZE = 5;
@@ -111,12 +113,13 @@ angular.module('chesireApp')
         result.handVelocity = normalizeNumber((palmVelocity - PALM_MIN_VELOCITY)/(PALM_MAX_VELOCITY - PALM_MIN_VELOCITY));
 
         result.handDirectionX = normalizeNumber((hands[0].direction[0] - PALM_DIRECTION_X_MIN)/(PALM_DIRECTION_X_MAX - PALM_DIRECTION_X_MIN));
-        result.handDirectionY = normalizeNumber((hands[0].direction[1] - PALM_DIRECTION_Y_MIN)/(PALM_DIRECTION_Y_MAX - PALM_DIRECTION_Y_MIN));
+        result.handDirectionY = getHandDirectionY(hands[0]);
         result.handDirectionZ = normalizeNumber((hands[0].direction[2] - PALM_DIRECTION_Z_MIN)/(PALM_DIRECTION_Z_MAX - PALM_DIRECTION_Z_MIN));
 
         result.fingerVelocity = getFingersVelocity(hands[0]);
-
         result.handAperture = getHandAperture(hands[0]);
+        result.fingerDirectionY = getFingerDirectionY(hands[0]);
+
 
         return result;
     };
@@ -147,6 +150,29 @@ angular.module('chesireApp')
         }
 
         return getSoftenedResult(result);
+    };
+
+    var getFingerDirectionY = function(handInfo) {
+        if(handInfo.fingers.length) {
+            var result = 0;
+            var fingersMeasured = 0;
+            for(var i=0; i<handInfo.fingers.length; i++) {
+                if(handInfo.fingers[i].type !== 0) {    //No thumb
+                    result += handInfo.fingers[i].direction[1];
+                    fingersMeasured++;
+                }
+            }
+            if(fingersMeasured) {
+                result = result/fingersMeasured;
+                return 1 - normalizeNumber((result - FINGER_DIRECTION_Y_MIN)/(FINGER_DIRECTION_Y_MAX - FINGER_DIRECTION_Y_MIN));
+            }
+        }
+        //If there ais not enough finger info
+        return getHandDirectionY();
+    };
+
+    var getHandDirectionY = function(handInfo) {
+        return 1 - normalizeNumber((handInfo.direction[1] - PALM_DIRECTION_Y_MIN)/(PALM_DIRECTION_Y_MAX - PALM_DIRECTION_Y_MIN));
     };
 
     var getSoftenedResult = function(newValue) {
