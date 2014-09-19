@@ -4,7 +4,7 @@ angular.module('chesireApp')
     .factory('ChordsHelperModel', function(Three, Colorpalette, SpaceConverter, VisualizationKeyHelper) {
 
         var MIN_OPACITY = 0.05;
-        var MAX_OPACITY = 0.3;
+        var MAX_OPACITY = 0.30;
 
         var ChordsHelperModelClass = function(scene) {
             this._scene = scene;

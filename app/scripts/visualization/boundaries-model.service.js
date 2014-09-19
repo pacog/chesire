@@ -16,7 +16,7 @@ angular.module('chesireApp')
             var material = new Three.MeshLambertMaterial({
                 color: Colorpalette.hex.BOUNDARIES,
                 transparent: true,
-                opacity: 0.25
+                opacity: 0.15
             });
 
             var yMaxAlt = this._sceneDimensions.yMax;
@@ -42,6 +42,10 @@ angular.module('chesireApp')
             var face8 = new Three.Face3( 3, 7, 6 );
             var face9 = new Three.Face3( 2, 6, 3 );
             var face10 = new Three.Face3( 3, 6, 7 );
+            var face11 = new Three.Face3( 0, 1, 4 );
+            var face12 = new Three.Face3( 0, 4, 1 );
+            var face13 = new Three.Face3( 4, 1, 5 );
+            var face14 = new Three.Face3( 4, 5, 1 );
 
 
             boundariesMeshGeometry.faces.push(face1);
@@ -54,6 +58,10 @@ angular.module('chesireApp')
             boundariesMeshGeometry.faces.push(face8);
             boundariesMeshGeometry.faces.push(face9);
             boundariesMeshGeometry.faces.push(face10);
+            boundariesMeshGeometry.faces.push(face11);
+            boundariesMeshGeometry.faces.push(face12);
+            boundariesMeshGeometry.faces.push(face13);
+            boundariesMeshGeometry.faces.push(face14);
 
             boundariesMeshGeometry.computeFaceNormals();
             var boundariesMesh = new Three.Mesh(boundariesMeshGeometry, material);

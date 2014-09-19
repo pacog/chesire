@@ -4,7 +4,7 @@ angular.module('chesireApp')
     .factory('Camera', function(Three, SpaceConverter) {
 
         var Y_INCLINATION = 50;
-        var Z_DISTANCE = 400;
+        var Z_DISTANCE = 425;
 
         var CameraClass = function(scene, options) {
             this._scene = scene;

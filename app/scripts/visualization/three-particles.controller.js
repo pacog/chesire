@@ -36,7 +36,7 @@ angular.module('chesireApp')
                 if(chordsHelperModel){
                     chordsHelperModel.destroy();
                 }
-                soundMeshModel = new SoundMeshModel($scope.scene);
+                // soundMeshModel = new SoundMeshModel($scope.scene);
                 chordsHelperModel = new ChordsHelperModel($scope.scene);
             });
         }
@@ -79,7 +79,7 @@ angular.module('chesireApp')
                 var pixelPosition = SpaceConverter.getConvertedPosition(relativePositions);
                 handModel.update(frame.hands[0], frame);
                 pointerModel.update(pixelPosition);
-                soundMeshModel.update(pixelPosition);
+                // soundMeshModel.update(pixelPosition);
                 chordsHelperModel.update(relativePositions.x);
             } else {
                 //TODO: remove hand and put everything at rest

@@ -35,7 +35,7 @@ angular.module('chesireApp')
             PARTICLES_NOTE: 0xD65B27,
             POINTER: 0x071255,
             PARTICLES_BACK: 0x000000,
-            BOUNDARIES: 0x1a1b1d,
+            BOUNDARIES: 0x00004d,
             HAND: 0x660000
         }
     };

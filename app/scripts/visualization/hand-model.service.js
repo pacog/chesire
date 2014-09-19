@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
     .factory('HandModel', function(Three, Colorpalette, SpaceConverter, Leapmotion) {
-        var HAND_DEFAULT_OPACITY = 0.2;
+        var HAND_DEFAULT_OPACITY = 0.5;
         var FINGER_NAMES = ['pinky', 'indexFinger', 'ringFinger', 'middleFinger'];
         var VERTICES_PER_FINGER = 8;
         var VERTICES_PER_THUMB = 6;
