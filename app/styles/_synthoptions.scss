@@ -46,3 +46,8 @@
                         padding: $grid-m;
                     }
                 }
+        .synthoptions-midi-output-selector {
+            @include inline-block;
+            width: 300px;
+            margin-left: $grid-l;
+        }

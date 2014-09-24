@@ -17,7 +17,6 @@ angular.module('chesireApp')
             var newSynthOptions = promiseResults[1];
 
             $scope.midiOutputs = midiAccess.outputs();
-            //TODO: allow selection of midi outputs
             CurrentMidiOutput.setCurrentOutput($scope.midiOutputs[0]);
 
             synthOptionsChanged(newSynthOptions);

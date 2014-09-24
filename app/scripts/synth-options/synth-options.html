@@ -32,6 +32,9 @@
                             <h4 class='oscillator-section-title'>Output mode</h4>
                             <div class='oscillator-section-content'>
                                 <switch-two-values values='outputModes' ng-model='synthoptions.outputMode'></switch-two-values>
+                                <div class='synthoptions-midi-output-selector' ng-show='synthoptions.outputMode === "midi"'>
+                                    <midi-output-selector></midi-output-selector>
+                                </div>
                             </div>
                         </div>
                     <ul>
