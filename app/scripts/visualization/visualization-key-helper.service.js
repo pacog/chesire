@@ -39,15 +39,17 @@ angular.module('chesireApp')
             return currentOscillator.gainController.gain.value;
         };
 
-        var createKeyRanges = function(newScale) {
+        var createKeyRanges = function() {
+            var chordsRelativePositions = MultiNotesHelper.getChordsPosition();
             keyRanges = [];
-            var chords = newScale.chords;
             var interactionBox = SpaceConverter.getBoxSize();
             var boxLimits = SpaceConverter.getBoxLimits();
-            for(var i=0; i<chords.length; i++) {
-                var middle = (interactionBox.width/(chords.length-1))*(i) + boxLimits.xMin;
+            
+
+            for(var i=0; i<chordsRelativePositions.length; i++) {
+                var middle = interactionBox.width*chordsRelativePositions[i].middle + boxLimits.xMin;
                 keyRanges.push({
-                    start: middle - (CHORDS_WIDTH/2) ,
+                    start: middle - (CHORDS_WIDTH/2),
                     middle: middle,
                     end: middle + (CHORDS_WIDTH/2)
                 });

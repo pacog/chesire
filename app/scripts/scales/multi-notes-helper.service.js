@@ -9,6 +9,9 @@ angular.module('chesireApp')
     var chordsInfo = null;
     var synthoptions = null;
     var scaleOptions = null;
+    var FIRST_CHORD_X = 0;
+    var LAST_CHORD_X = 1;
+
 
     var init = function() {
         SynthOptions.getSynthOptions().then(function(newSynthOptions) {
@@ -250,12 +253,28 @@ angular.module('chesireApp')
         return result;
     };
 
+    var getChordsPosition = function() {
+        var result = [];
+
+        if(chordsInfo.chords.length > 1) {
+            var eachChordSize = (LAST_CHORD_X - FIRST_CHORD_X)/(chordsInfo.chords.length - 1);
+            for(var i=0; i<chordsInfo.chords.length; i++) {
+                result.push({
+                    middle: eachChordSize*i + FIRST_CHORD_X
+                });
+            }
+        }
+
+        return result;
+    };
+
     init();
 
     return {
         changeNotes: changeNotes,
         getNotesInfo: getNotesInfo,
         getNotesDefinition: getNotesDefinition,
-        getChordsRelevanceFromX: getChordsRelevanceFromX
+        getChordsRelevanceFromX: getChordsRelevanceFromX,
+        getChordsPosition: getChordsPosition
     };
 });
