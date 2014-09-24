@@ -9,8 +9,8 @@ angular.module('chesireApp')
     var chordsInfo = null;
     var synthoptions = null;
     var scaleOptions = null;
-    var FIRST_CHORD_X = 0;
-    var LAST_CHORD_X = 1;
+    var FIRST_CHORD_X = 0.05;
+    var LAST_CHORD_X = 0.95;
 
 
     var init = function() {
@@ -215,18 +215,17 @@ angular.module('chesireApp')
     };
 
     var getPositionRelativeToNotes = function(x, numberOfNotes) {
+        var result;
 
-        var positionRelativeToNotes = x*(numberOfNotes -1);
-
-        if(positionRelativeToNotes <0) {
-            positionRelativeToNotes = 0;
+        if(x <= FIRST_CHORD_X) {
+            result = 0;
+        } else if(x >= LAST_CHORD_X) {
+            result = numberOfNotes - 1;
+        } else {
+            result = (numberOfNotes - 1)*(x - FIRST_CHORD_X)/(LAST_CHORD_X - FIRST_CHORD_X);
         }
-        if(positionRelativeToNotes > (numberOfNotes - 1)) {
 
-            positionRelativeToNotes = numberOfNotes - 1;
-        }
-
-        return positionRelativeToNotes;
+        return result;
     };
 
     var getChordsRelevanceFromX = function(x) {
