@@ -14,17 +14,16 @@
         margin: 0 $grid-s;
     }
         .single-control-hud-content {
-            @include display-box;
-            @include box-orient(horizontal);
+            @include display-flex;
         }
             .single-control-hud-param {
                 background: $ui-element-bg;
-                @include box-flex(1);
+                @include flex(1);
                 padding: $grid-m;
                 @include ellipsis();
             }
             .single-control-hud-gesture {
-                @include box-flex(1);
+                @include flex(1);
                 padding: $grid-m;
                 @include ellipsis();
             }

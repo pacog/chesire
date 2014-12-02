@@ -20,12 +20,11 @@
             padding-bottom: 0;
         }
         .synthoptions-content-columns {
-            @include display-box;
-            @include box-orient(horizontal);
+            @include display-flex;
         }
             .synthoptions-content-column {
                 padding: 2*$grid-l;
-                @include box-flex(1);
+                @include flex(1);
             }
             .synthoptions-content-components {
                 @extend .synthoptions-content-column;

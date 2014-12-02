@@ -1,7 +1,6 @@
 .response-function-param {
-    @include display-box;
-    @include box-orient(horizontal);
-    @include box-align(center);
+    @include display-flex;
+    @include align-items(center);
 }
     .response-function-param-name {
         min-width: 100px;
@@ -11,5 +10,5 @@
         padding-right: $grid-m;
     }
     .response-function-param-value {
-        @include box-flex(1);
+        @include flex(1);
     }

@@ -1,6 +1,5 @@
 .gesture-selector-gesture, .gesture-selector-response {
-    @include display-box;
-    @include box-orient(horizontal);
+    @include display-flex;
 }
 .gesture-selector-gesture {
     margin-bottom: $grid-l;
@@ -13,5 +12,5 @@
         min-width: $min-label-width;
     }
     .gesture-selector-gesture-select, .gesture-selector-response-select {
-        @include box-flex(1);
+        @include flex(1);
     }

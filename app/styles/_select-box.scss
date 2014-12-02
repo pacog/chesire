@@ -2,13 +2,12 @@
     position: relative;
     background: $ui-element-bg;
     padding: $grid-s;
-    @include display-box;
-    @include box-orient(horizontal);
+    @include display-flex;
 }
     .select-box-value {
         padding: 0 $grid-s;
         margin-right: $grid-s;
-        @include box-flex(1);
+        @include flex(1);
         @include ellipsis();
         line-height: 2*$grid-l;
         cursor: pointer;

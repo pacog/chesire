@@ -1,8 +1,7 @@
     .config-menu-header {
         height: $header-height;
         padding: $grid-m $grid-m;
-        @include display-box;
-        @include box-orient(horizontal);
+        @include display-flex;
         position: relative
     }
         .config-menu-title {
@@ -14,7 +13,7 @@
             line-height: 100%;
             vertical-align: middle;
             font-size: 24px;
-            @include box-flex(1);
+            @include flex(1);
             margin-right: $grid-m;
             @include ellipsis();
             padding: 0 $grid-m;

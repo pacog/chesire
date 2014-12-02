@@ -3,18 +3,17 @@
     top: 0;
     left: 0;
     right: 0;
-    @include display-box;
-    @include box-orient(horizontal);
+    @include display-flex;
     padding: $grid-m;
 }
     scaleoptions {
         display: block;
-        @include box-flex(1);
+        @include flex(1);
         margin-right: $grid-m;
     }
     synthoptions {
         display: block;
-        @include box-flex(1);
+        @include flex(1);
         margin-right: $grid-m;
     }
     .logo {

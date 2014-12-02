@@ -1,7 +1,6 @@
 .response-function-details {
-    @include display-box;
-    @include box-orient(horizontal);
-    @include box-align(center);
+    @include display-flex;
+    @include align-items(center);
     margin-top: $grid-m;
 }
     .response-function-graph-container {
@@ -9,7 +8,7 @@
         line-height: 100%;
     }
     .response-function-params {
-        @include box-flex(1);
+        @include flex(1);
     }
         .response-function-graph {
             border: 1px solid black;
