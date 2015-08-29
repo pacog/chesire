@@ -67,7 +67,7 @@ angular.module('chesireApp')
                     var newGainController = Audiocontext.createGain();
                     newGainController.gain.value = 0;
                     newOscillator.connect(newGainController);
-                    newOscillator.noteOn(0);
+                    newOscillator.start(0);
 
                     nodesHash[notesWeCanPlayAtOnce[i].name] = i;
                     nodes.push({
