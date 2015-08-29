@@ -7,10 +7,15 @@
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
+
+
 module.exports = function (grunt) {
+
+  grunt.loadNpmTasks('grunt-gh-pages');
 
   // Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
+
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
@@ -23,6 +28,13 @@ module.exports = function (grunt) {
       // configurable paths
       app: require('./bower.json').appPath || 'app',
       dist: 'dist'
+    },
+
+    'gh-pages': {
+      options: {
+        base: '<%= yeoman.dist %>'
+      },
+      src: ['**']
     },
 
     // Watches files for changes and runs tasks based on the changed files
@@ -263,13 +275,6 @@ module.exports = function (grunt) {
       }
     },
 
-    // Replace Google CDN references
-    cdnify: {
-      dist: {
-        html: ['<%= yeoman.dist %>/*.html']
-      }
-    },
-
     // Copies remaining files to places other tasks can use
     copy: {
       dist: {
@@ -391,7 +396,6 @@ module.exports = function (grunt) {
     'concat',
     'ngmin',
     'copy:dist',
-    'cdnify',
     'cssmin',
     'uglify',
     'rev',

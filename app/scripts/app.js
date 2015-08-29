@@ -1,9 +1,6 @@
 'use strict';
 
 angular.module('chesireApp', [
-    'ngCookies',
-    'ngResource',
-    'ngSanitize',
     'ngRoute',
     'LocalStorageModule'
 ])
