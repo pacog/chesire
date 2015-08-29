@@ -75,7 +75,6 @@ angular.module('chesireApp')
                 if(destination.constructor.name !== 'AudioDestinationNode') {
                     destination = destination.getAudioNode();
                 }
-                debugger;
                 this.connectedTo = destination;
                 this.gainController.connect(destination);
             },
