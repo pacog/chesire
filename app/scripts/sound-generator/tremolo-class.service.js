@@ -60,7 +60,8 @@ angular.module('chesireApp')
 
             destroy: function() {
                 if(this.connectedTo && this.gainController) {
-                    this.gainController.disconnect(this.connectedTo);
+                    this.gainController.disconnect();
+                    this.connectedTo = null;
                 }
             }
         };

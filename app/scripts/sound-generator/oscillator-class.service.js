@@ -75,6 +75,7 @@ angular.module('chesireApp')
                 if(destination.constructor.name !== 'AudioDestinationNode') {
                     destination = destination.getAudioNode();
                 }
+                debugger;
                 this.connectedTo = destination;
                 this.gainController.connect(destination);
             },
@@ -84,7 +85,8 @@ angular.module('chesireApp')
                     this.oscillatorCollection.destroy();
                 }
                 if(this.connectedTo && this.gainController) {
-                    this.gainController.disconnect(this.connectedTo);
+                    this.gainController.disconnect();
+                    this.connectedTo = null;
                 }
             }
         };
