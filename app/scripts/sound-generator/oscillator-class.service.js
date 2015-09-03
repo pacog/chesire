@@ -35,13 +35,13 @@ angular.module('chesireApp')
             },
 
             updateSound: function(motionParams) {
-                this._updateNotesBeingPlayed(motionParams.x);
+                this._updateNotesBeingPlayed(motionParams);
                 this._updateGain(motionParams);
             },
 
-            _updateNotesBeingPlayed: function(x) {
+            _updateNotesBeingPlayed: function(motionParams) {
 
-                var notesInfo = MultiNotesHelper.getNotesInfo(x, this.options.transitionType);
+                var notesInfo = MultiNotesHelper.getNotesInfo(motionParams, this.options);
                 this.oscillatorCollection.updateNodes(notesInfo);
             },
 

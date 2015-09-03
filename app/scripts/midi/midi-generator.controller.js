@@ -52,7 +52,7 @@ angular.module('chesireApp')
         if(frame && frame.hands && frame.hands.length) {
             var motionParams = Leapmotion.getRelativePositions(frame, frame.hands);
             var oscillatorConfig = SynthOptionsHelper.getOscillatorFromOptions(synthOptions);
-            notesInfo = MultiNotesHelper.getNotesInfo(motionParams.x, oscillatorConfig.transitionType);
+            notesInfo = MultiNotesHelper.getNotesInfo(motionParams, oscillatorConfig);
         } else {
             stopPlaying();
         }

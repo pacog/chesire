@@ -18,6 +18,13 @@ angular.module('chesireApp')
             name: 'Volume',
             value: 'volume'
         }];
+        $scope.midiControlMode = [{
+            name: 'Soft',
+            value: 'soft'
+        }, {
+            name: 'Pulsate',
+            value: 'pulsate'
+        }];
         $scope.AvailableOscillators = AvailableOscillators;
         $scope.$watch(function() {
             return CurrentSynth.getCurrentSynth();
@@ -35,6 +42,7 @@ angular.module('chesireApp')
         $scope.$watch('gainControllerInfo', gainControllerInfoChanged, true);
 
         $scope.$watch('componentInfo.transitionType', notifyOscillatorOptionsChanged);
+        $scope.$watch('componentInfo.midiControlMode', notifyOscillatorOptionsChanged);
         $scope.$watch('componentInfo.snapDistance', notifyOscillatorOptionsChanged);
         $scope.$watch('componentInfo.oscillatorType', notifyOscillatorOptionsChanged);
     };

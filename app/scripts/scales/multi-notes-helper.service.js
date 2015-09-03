@@ -104,12 +104,20 @@ angular.module('chesireApp')
         return 1;
     };
 
-    var getNotesInfo = function(x, transitionType) {
+    var getNotesInfo = function(motionParams, oscillatorInfo) {
+        var transitionType = oscillatorInfo.transitionType;
+        var x = motionParams.x;
+
+        var notesInfo = null;
         if(transitionType === 'glissando') {
-            return getNotesInfoWithGlissandoTransition(x);
+            notesInfo = getNotesInfoWithGlissandoTransition(x);
         } else if(transitionType === 'volume') {
-            return getNotesInfoWithVolumeTransition(x);
+            notesInfo = getNotesInfoWithVolumeTransition(x);
         }
+        if(oscillatorInfo.midiControlMode === 'pulsate') {
+
+        }
+        return notesInfo;
     };
 
     var getNotesDefinition = function(notes, synthConfig) {

@@ -25,6 +25,13 @@
     </div> -->
 
     <div class='oscillator-section'>
+        <h4 class='oscillator-section-title'>Pulsation type</h4>
+        <div class='oscillator-section-content'>
+            <switch-two-values values='midiControlMode' ng-model='componentInfo.midiControlMode'></switch-two-values>
+        </div>
+    </div>
+
+    <div class='oscillator-section'>
         <h4 class='oscillator-section-title'>Volume control</h4>
         <div class='oscillator-section-content'>
             <gesture-selector gesture-object='gainControllerInfo'></gesture-selector>
