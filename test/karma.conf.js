@@ -26,6 +26,10 @@ module.exports = function(config) {
       'bower_components/angular/angular.js',
       'bower_components/json3/lib/json3.js',
       'bower_components/angular-route/angular-route.js',
+      'bower_components/angular-local-storage/dist/angular-local-storage.js',
+      'bower_components/underscore/underscore.js',
+      'bower_components/three.js/three.min.js',
+      'bower_components/leapjs/leap-0.6.4.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/angular-scenario/angular-scenario.js',
       // endbower

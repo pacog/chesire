@@ -5,7 +5,11 @@
     "angular": "1.4.5",
     "json3": "~3.3.2",
     "es5-shim": "~4.1.11",
-    "angular-route": "1.4.5"
+    "angular-route": "1.4.5",
+    "angular-local-storage": "~0.2.2",
+    "underscore": "~1.8.3",
+    "three.js": "~0.71.0",
+    "leapjs": "~0.6.4"
   },
   "devDependencies": {
     "angular-mocks": "1.4.5",
