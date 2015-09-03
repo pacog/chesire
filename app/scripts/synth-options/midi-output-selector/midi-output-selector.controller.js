@@ -5,19 +5,23 @@ angular.module('chesireApp')
 .controller('MidiOutputSelectorCtrl', function ($scope, MidiApiMediator, CurrentMidiOutput) {
 
     var init = function() {
+
         $scope.loading = true;
-        MidiApiMediator.then(function(midiAccess) {
-            $scope.midiOutputs = midiAccess.outputs();
-            $scope.loading = false;
+
+        CurrentMidiOutput.whenReady(function() {
+            MidiApiMediator.then(function(midiAccess) {
+                $scope.midiOutputs = midiAccess.outputs();
+                $scope.loading = false;
+            });
+
+            midiOutputChanged(CurrentMidiOutput.getCurrentOutput());
+
+            $scope.$watch(function() {
+                return CurrentMidiOutput.getCurrentOutput();
+            }, midiOutputChanged);
+
+            $scope.$watch('selectedMidiOutput.id', selectedNewMidiOutput);
         });
-
-        midiOutputChanged(CurrentMidiOutput.getCurrentOutput());
-
-        $scope.$watch(function() {
-            return CurrentMidiOutput.getCurrentOutput();
-        }, midiOutputChanged);
-
-        $scope.$watch('selectedMidiOutput.id', selectedNewMidiOutput);
     };
 
     var midiOutputChanged = function(newMidiOutput) {
