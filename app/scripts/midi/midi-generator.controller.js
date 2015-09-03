@@ -6,6 +6,7 @@ angular.module('chesireApp')
 
     var synthOptions = null;
     var notesBeingPlayed = {};
+    var enabled = false;
 
     var DEFAULT_VOLUME = 1;
 
@@ -30,18 +31,20 @@ angular.module('chesireApp')
             CurrentMidiOutput.getCurrentOutput().resetEverything();
             synthOptions = newSynthOptions;
             if(newSynthOptions.outputMode !== 'midi') {
-                //TODO: disable
+                stopPlaying();
+                enabled = false;
             }
             if(newSynthOptions.outputMode === 'midi') {
-                //TODO: enable
+                enabled = true;
             }
         }
     };
 
     var updateGeneratedMidi = function(newFrameInfo) {
-
-        var notesInfo = getNotesInfo(newFrameInfo.frame);
-        updateMidiSound(notesInfo, newFrameInfo.frame);
+        if(enabled) {
+            var notesInfo = getNotesInfo(newFrameInfo.frame);
+            updateMidiSound(notesInfo, newFrameInfo.frame);
+        }
     };
 
     var getNotesInfo = function(frame) {
