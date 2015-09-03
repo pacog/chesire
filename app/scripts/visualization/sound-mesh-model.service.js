@@ -100,7 +100,7 @@ angular.module('chesireApp')
                 var distanceFactor = (POINTER_RADIUS-distance)/20*(POINTER_RADIUS-distance)/20;
                 result = distanceFactor*(pointer.y)*Y_REDUCTION;
             }
-            
+
             if(!avoidOscillator) {
                 result += this._getOscillatorYForDistance(distance);
             }

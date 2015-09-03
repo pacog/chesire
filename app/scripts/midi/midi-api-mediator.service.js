@@ -40,9 +40,9 @@ angular.module('chesireApp')
 
             var outputs = [];
 
-            for (var output of this.nativeMidiAccess.outputs.values()) {
+            this.nativeMidiAccess.outputs.forEach(function(output) {
                 outputs.push(new MidiOutput(this, output));
-            }
+            });
 
             return outputs;
         };
@@ -115,5 +115,4 @@ angular.module('chesireApp')
         };
 
         return MidiOutput;
-    })
-    ;
+    });

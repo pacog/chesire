@@ -44,7 +44,6 @@ angular.module('chesireApp')
             keyRanges = [];
             var interactionBox = SpaceConverter.getBoxSize();
             var boxLimits = SpaceConverter.getBoxLimits();
-            
 
             for(var i=0; i<chordsRelativePositions.length; i++) {
                 var middle = interactionBox.width*chordsRelativePositions[i].middle + boxLimits.xMin;

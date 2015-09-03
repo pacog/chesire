@@ -3,7 +3,7 @@
 angular.module('chesireApp')
 
 .service('Colorpalette', function Colorpalette() {
-    
+
     // http://www.colourlovers.com/palette/580974/Adrift_in_Dreams
     // return {
     //     BACKGROUND: '#CFF09E',
