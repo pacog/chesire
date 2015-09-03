@@ -7,8 +7,8 @@ angular.module('chesireApp')
     var init = function() {
 
         $scope.loading = true;
+        CurrentMidiOutput.whenReady().then(function() {
 
-        CurrentMidiOutput.whenReady(function() {
             MidiApiMediator.then(function(midiAccess) {
                 $scope.midiOutputs = midiAccess.outputs();
                 $scope.loading = false;
