@@ -120,8 +120,29 @@ angular.module('chesireApp')
         result.handAperture = getHandAperture(hands[0]);
         result.fingerDirectionY = getFingerDirectionY(hands[0]);
 
+        result.fingersPulsationInfo = getFingersPulsationInfo(hands[0]);
 
         return result;
+    };
+
+    var getFingersPulsationInfo = function(hand) {
+        var result = {
+            pinky: getFingerPulsationInfo(hand.pinky, hand),
+            indexFinger: getFingerPulsationInfo(hand.indexFinger, hand),
+            middleFinger: getFingerPulsationInfo(hand.middleFinger, hand),
+            thumb: getFingerPulsationInfo(hand.thumb, hand),
+            ringFinger: getFingerPulsationInfo(hand.ringFinger, hand)
+        };
+
+        return result;
+    };
+
+    var getFingerPulsationInfo = function(finger) {
+        return {
+            xVelocity: finger.tipVelocity[0],
+            yVelocity: finger.tipVelocity[1],
+            zVelocity: finger.tipVelocity[2]
+        };
     };
 
     var getRelativePositionXYZ = function(position, frame) {

@@ -1,0 +1,10 @@
+<div class='helper-visuals'>
+    <ul>
+        <li ng-repeat='motion in vm.motionsTracked'>
+            <span class='helper-visuals-data'>{{motion.name}}</span>
+            <span class='helper-visuals-data'>{{motion.actualValue | number:1}}</span>
+            <span class='helper-visuals-data'>(min:{{motion.min | number:1}})</span>
+            <span class='helper-visuals-data'>(max:{{motion.max | number:1}})</span>
+        </li>
+    </ul>
+</div>

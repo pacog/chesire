@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.factory('MultiNotesHelper', function (SynthOptions, ScaleOptions, SynthOptionsHelper) {
+.factory('MultiNotesHelper', function (SynthOptions, ScaleOptions, SynthOptionsHelper, pulsateDetector) {
 
     var notesInfo = null;
     var notesVolumeHash = null;
@@ -11,7 +11,6 @@ angular.module('chesireApp')
     var scaleOptions = null;
     var FIRST_CHORD_X = 0.05;
     var LAST_CHORD_X = 0.95;
-
 
     var init = function() {
         SynthOptions.getSynthOptions().then(function(newSynthOptions) {
@@ -115,8 +114,10 @@ angular.module('chesireApp')
             notesInfo = getNotesInfoWithVolumeTransition(x);
         }
         if(oscillatorInfo.midiControlMode === 'pulsate') {
-
+            var chordToKeep = getMainChordBeingPlayed(x);
+            notesInfo = pulsateDetector.applyNotePulsation(notesInfo, chordToKeep, motionParams);
         }
+        normalizeTotalGainOfNotes(notesInfo);
         return notesInfo;
     };
 
@@ -150,7 +151,6 @@ angular.module('chesireApp')
                 notesInfo[indexOfNote].gain = chordsInfo.distanceInBetween;
             }
         }
-        normalizeTotalGainOfNotes(notesInfo);
 
         return notesInfo;
     };
@@ -164,14 +164,15 @@ angular.module('chesireApp')
         var distanceInBetween = positionRelativeToNotes - firstNote;
         var oscillatorOptions = SynthOptionsHelper.getOscillatorFromOptions(synthoptions);
         distanceInBetween = snap(distanceInBetween, oscillatorOptions.snapDistance);
-        silenceAllNotes();
 
         var firstChord = chordsInfo.chords[firstNote].notes;
         var secondChord = chordsInfo.chords[firstNote + 1].notes;
 
         return {
             firstChord: firstChord,
+            firstChordIndex: firstNote,
             secondChord: secondChord,
+            secondChordIndex: firstNote + 1,
             distanceInBetween: distanceInBetween
         };
     };
@@ -188,6 +189,22 @@ angular.module('chesireApp')
             }
         }
     };
+
+    var getMainChordBeingPlayed = function(x) {
+        var chordsInfo = getChordsInvolvedFromXPosition(x);
+        if(chordsInfo.distanceInBetween > 0.5) {
+            return {
+                chord: chordsInfo.secondChord,
+                index: chordsInfo.secondChordIndex
+            };
+        } else {
+            return {
+                chord: chordsInfo.firstChord,
+                index: chordsInfo.firstChordIndex
+            };
+        }
+    };
+
 
     var getNotesInfoWithGlissandoTransition = function(x) {
         var chordsInfo = getChordsInvolvedFromXPosition(x);
@@ -216,8 +233,6 @@ angular.module('chesireApp')
                 notesInfo[i].gain = 0;
             }
         }
-
-        normalizeTotalGainOfNotes(notesInfo);
 
         return notesInfo;
     };
