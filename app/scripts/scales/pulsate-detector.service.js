@@ -4,51 +4,43 @@
     angular.module('chesireApp')
         .factory('pulsateDetector', pulsateDetector);
 
-    function pulsateDetector() {
-        var pulsating = false;
+    function pulsateDetector(pulsateFingerDetectorFactory) {
+
         var pulsatedChord = null;
-        var PULSATION_ON_THRESHOLD = -300;
-        var PULSATION_OFF_THRESHOLD = 400;
+        var middleFingerDetector = null;
 
         var factory = {
             applyNotePulsation: applyNotePulsation
         };
+
+        init();
         return factory;
+
+        function init() {
+            middleFingerDetector = pulsateFingerDetectorFactory.getDetector('middleFinger');
+            debugger;
+        }
 
         function applyNotePulsation(notesInfo, mainChordNow, motionParams) {
             var fingerInfo = motionParams.fingersPulsationInfo.middleFinger;
+            var newStatus = middleFingerDetector.updateAndGetStatus(fingerInfo, mainChordNow);
 
-            if(!pulsating && velocityYIsPulsating(fingerInfo)) {
-                pulsating = true;
+            if(newStatus.justStartedPulsating) {
                 pulsatedChord = mainChordNow.index;
-            } else if(pulsating && fingerIsGoingOff(fingerInfo)) {
-                pulsating = false;
-                pulsatedChord = null;
+                silenceAllNotes(notesInfo);
+            } else if(!newStatus.isPulsating) {
+                silenceAllNotes(notesInfo);
+            } else {
+                if(pulsatedChord !== mainChordNow.index) {
+                    //Is pulsating but we changed chord
+                    silenceAllNotes(notesInfo);
+                    middleFingerDetector.reset();
+                }
             }
 
             notesInfo = silenceNotesNotFromChord(notesInfo, mainChordNow.chord);
 
-            if(!pulsating) {
-                notesInfo = silenceAllNotes(notesInfo);
-            } else if(pulsatedChord !== mainChordNow.index) {
-                //Still pulsating, but changed chord
-                pulsating = false;
-                pulsatedChord = null;
-                silenceAllNotes(notesInfo);
-            }
             return notesInfo;
-        }
-
-        function velocityYIsPulsating(fingerInfo) {
-            var yVelocityIsEnough = (fingerInfo.yVelocity < PULSATION_ON_THRESHOLD);
-            var otherVelocityIsNotHigh = Math.abs(fingerInfo.yVelocity) > Math.abs(fingerInfo.xVelocity) && Math.abs(fingerInfo.yVelocity) > Math.abs(fingerInfo.zVelocity);
-            return yVelocityIsEnough && otherVelocityIsNotHigh;
-        }
-
-        function fingerIsGoingOff(fingerInfo) {
-            var yVelocityIsEnough = (fingerInfo.yVelocity > PULSATION_OFF_THRESHOLD);
-            var otherVelocityIsNotHigh = Math.abs(fingerInfo.yVelocity) > Math.abs(fingerInfo.xVelocity) && Math.abs(fingerInfo.yVelocity) > Math.abs(fingerInfo.zVelocity);
-            return yVelocityIsEnough && otherVelocityIsNotHigh;
         }
 
         function silenceAllNotes(notesInfo) {
