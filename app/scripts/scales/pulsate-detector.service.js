@@ -7,7 +7,7 @@
     function pulsateDetector(pulsateFingerDetectorFactory) {
 
         var pulsatedChord = null;
-        var middleFingerDetector = null;
+        var detectors = {};
 
         var factory = {
             applyNotePulsation: applyNotePulsation
@@ -17,13 +17,16 @@
         return factory;
 
         function init() {
-            middleFingerDetector = pulsateFingerDetectorFactory.getDetector('middleFinger');
-            debugger;
+            detectors.pinky = pulsateFingerDetectorFactory.getDetector('pinky');
+            detectors.thumb = pulsateFingerDetectorFactory.getDetector('thumb');
+            detectors.indexFinger = pulsateFingerDetectorFactory.getDetector('indexFinger');
+            detectors.ringFinger = pulsateFingerDetectorFactory.getDetector('ringFinger');
+            detectors.middleFinger = pulsateFingerDetectorFactory.getDetector('middleFinger');
         }
 
         function applyNotePulsation(notesInfo, mainChordNow, motionParams) {
             var fingerInfo = motionParams.fingersPulsationInfo.middleFinger;
-            var newStatus = middleFingerDetector.updateAndGetStatus(fingerInfo, mainChordNow);
+            var newStatus = detectors.middleFinger.updateAndGetStatus(fingerInfo, mainChordNow);
 
             if(newStatus.justStartedPulsating) {
                 pulsatedChord = mainChordNow.index;
@@ -34,7 +37,7 @@
                 if(pulsatedChord !== mainChordNow.index) {
                     //Is pulsating but we changed chord
                     silenceAllNotes(notesInfo);
-                    middleFingerDetector.reset();
+                    detectors.middleFinger.reset();
                 }
             }
 
