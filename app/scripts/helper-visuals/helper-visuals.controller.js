@@ -19,9 +19,9 @@
             var frameInfo = frame.frame;
             if(frameInfo && !_.isEmpty(frameInfo.hands)) {
                 var motionParams = Leapmotion.getRelativePositions(frameInfo, frameInfo.hands);
-                storeMotion('pulsateX', motionParams.fingersPulsationInfo.middleFinger.xVelocity);
-                storeMotion('pulsateY', motionParams.fingersPulsationInfo.middleFinger.yVelocity);
-                storeMotion('pulsateZ', motionParams.fingersPulsationInfo.middleFinger.zVelocity);
+                storeMotion('pulsateX', motionParams.fingersPulsationInfo.indexFinger.xVelocity);
+                storeMotion('pulsateY', motionParams.fingersPulsationInfo.indexFinger.yVelocity);
+                storeMotion('pulsateZ', motionParams.fingersPulsationInfo.indexFinger.zVelocity);
             }
         }
 

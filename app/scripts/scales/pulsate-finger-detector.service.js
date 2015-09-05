@@ -6,28 +6,28 @@
 
     var paramsPerFinger = {
         'default': {
-            PULSATION_ON_THRESHOLD: -300,
-            PULSATION_OFF_THRESHOLD: 400
+            PULSATION_ON_THRESHOLD: -215,
+            PULSATION_OFF_THRESHOLD: 250
         },
         'middleFinger': {
-            PULSATION_ON_THRESHOLD: -300,
-            PULSATION_OFF_THRESHOLD: 400
+            PULSATION_ON_THRESHOLD: -215,
+            PULSATION_OFF_THRESHOLD: 250
         },
         'indexFinger': {
-            PULSATION_ON_THRESHOLD: -300,
-            PULSATION_OFF_THRESHOLD: 400
+            PULSATION_ON_THRESHOLD: -185,
+            PULSATION_OFF_THRESHOLD: 225
         },
         'ringFinger': {
-            PULSATION_ON_THRESHOLD: -300,
-            PULSATION_OFF_THRESHOLD: 400
+            PULSATION_ON_THRESHOLD: -185,
+            PULSATION_OFF_THRESHOLD: 225
         },
         'pinky': {
-            PULSATION_ON_THRESHOLD: -300,
-            PULSATION_OFF_THRESHOLD: 400
+            PULSATION_ON_THRESHOLD: -125,
+            PULSATION_OFF_THRESHOLD: 125
         },
         'thumb': {
-            PULSATION_ON_THRESHOLD: -300,
-            PULSATION_OFF_THRESHOLD: 400
+            PULSATION_ON_THRESHOLD: -150,
+            PULSATION_OFF_THRESHOLD: 225
         }
     };
 

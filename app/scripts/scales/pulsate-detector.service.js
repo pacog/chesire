@@ -33,9 +33,6 @@
         }
 
         function applyNotePulsation(notesInfo, mainChordNow, motionParams) {
-            //TODO something is wrong when notes are repeated between chords
-            //TODO first time hand enters in chord, it sounds whitout pulse
-            //TODO adjust thersold for each finger
             //TODO improve justStartedPulsating logic
             angular.forEach(detectors, function(detector) {
                 var newStatus = detector.updateAndGetStatus(motionParams.fingersPulsationInfo[detector.id], mainChordNow);
