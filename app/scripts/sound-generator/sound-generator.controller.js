@@ -42,6 +42,9 @@ angular.module('chesireApp')
     var frameInfoChanged = function(frame) {
         //TODO: refactor this so the checking for hands comes from Synth
         //At least check if there are 2 hands to send the current one
+        if(synthOptions.outputMode === 'midi') {
+            return;
+        }
         var newFrame = frame.frame;
         if(newFrame.hands.length) {
             var motionParams = Leapmotion.getRelativePositions(newFrame, newFrame.hands);

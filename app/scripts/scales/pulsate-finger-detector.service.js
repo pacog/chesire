@@ -7,29 +7,30 @@
     var HISTORY_SIZE = 40;
     var paramsPerFinger = {
         'default': {
-            PULSATION_ON_THRESHOLD: -115,
+            PULSATION_ON_THRESHOLD: -100,
             PULSATION_OFF_THRESHOLD: 250
-        },
-        'middleFinger': {
-            PULSATION_ON_THRESHOLD: -185,
-            PULSATION_OFF_THRESHOLD: 250
-        },
-        'indexFinger': {
-            PULSATION_ON_THRESHOLD: -85,
-            PULSATION_OFF_THRESHOLD: 225
-        },
-        'ringFinger': {
-            PULSATION_ON_THRESHOLD: -115,
-            PULSATION_OFF_THRESHOLD: 225
-        },
-        'pinky': {
-            PULSATION_ON_THRESHOLD: -75,
-            PULSATION_OFF_THRESHOLD: 125
-        },
-        'thumb': {
-            PULSATION_ON_THRESHOLD: -90,
-            PULSATION_OFF_THRESHOLD: 225
         }
+        // ,
+        // 'middleFinger': {
+        //     PULSATION_ON_THRESHOLD: -55,
+        //     PULSATION_OFF_THRESHOLD: 250
+        // },
+        // 'indexFinger': {
+        //     PULSATION_ON_THRESHOLD: -55,
+        //     PULSATION_OFF_THRESHOLD: 225
+        // },
+        // 'ringFinger': {
+        //     PULSATION_ON_THRESHOLD: -55,
+        //     PULSATION_OFF_THRESHOLD: 225
+        // },
+        // 'pinky': {
+        //     PULSATION_ON_THRESHOLD: -55,
+        //     PULSATION_OFF_THRESHOLD: 125
+        // },
+        // 'thumb': {
+        //     PULSATION_ON_THRESHOLD: -55,
+        //     PULSATION_OFF_THRESHOLD: 225
+        // }
     };
 
     function pulsateFingerDetectorFactory() {
@@ -58,8 +59,9 @@
         this.movHistory = [];
     };
 
-    PulsateFingerDetector.prototype.updateAndGetStatus = function(fingerInfo) {
+    PulsateFingerDetector.prototype.updateAndGetStatus = function(fingerInfo, chord, frame) {
         var isNewPulse = false;
+        fingerInfo.palmVelocity = frame.hands[0].palmVelocity;
         this._addInfoToHistory(fingerInfo);
         if(this._pulseStarted()) {
             isNewPulse = true;
@@ -90,10 +92,9 @@
         }
         for(var i=this.movHistory.length - 2; i>=0; i--) {
             oldMovement = this.movHistory[i];
-            yVelocityIsEnough = (oldMovement.yVelocity < this.params.PULSATION_ON_THRESHOLD);
+            yVelocityIsEnough = ((getFingerYVelocity(oldMovement)) < this.params.PULSATION_ON_THRESHOLD);
             otherVelocityIsNotHigh = Math.abs(oldMovement.yVelocity) > Math.abs(oldMovement.xVelocity) && Math.abs(oldMovement.yVelocity) > Math.abs(oldMovement.zVelocity);
             if(yVelocityIsEnough && otherVelocityIsNotHigh) {
-                console.log('PULSE!!! ' + oldMovement.yVelocity);
                 //Finger was going down at some point with enough speed (and now it stopped)
                 this._removeHistoryButLast();
                 return true;
@@ -106,6 +107,10 @@
         }
         return false;
     };
+
+    function getFingerYVelocity(fingerInfo) {
+        return fingerInfo.yVelocity - fingerInfo.palmVelocity[1];
+    }
 
     PulsateFingerDetector.prototype._removeHistoryButLast = function() {
         this.movHistory = [_.last(this.movHistory)];

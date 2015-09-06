@@ -32,10 +32,10 @@
             detectors.middleFinger = pulsateFingerDetectorFactory.getDetector('middleFinger');
         }
 
-        function applyNotePulsation(notesInfo, mainChordNow, motionParams) {
+        function applyNotePulsation(notesInfo, mainChordNow, motionParams, frameInfo) {
             //TODO improve justStartedPulsating logic
             angular.forEach(detectors, function(detector) {
-                var newStatus = detector.updateAndGetStatus(motionParams.fingersPulsationInfo[detector.id], mainChordNow);
+                var newStatus = detector.updateAndGetStatus(motionParams.fingersPulsationInfo[detector.id], mainChordNow, frameInfo);
                 var relatedNotes = getRelatedNotes(mainChordNow.chord, notesInfo, detector.id);
                 if(newStatus.justStartedPulsating) {
                     pulsatedChord = mainChordNow.index;

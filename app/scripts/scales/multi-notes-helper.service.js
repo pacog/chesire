@@ -103,7 +103,7 @@ angular.module('chesireApp')
         return 1;
     };
 
-    var getNotesInfo = function(motionParams, oscillatorInfo) {
+    var getNotesInfo = function(motionParams, oscillatorInfo, frameInfo) {
         var transitionType = oscillatorInfo.transitionType;
         var x = motionParams.x;
 
@@ -115,7 +115,7 @@ angular.module('chesireApp')
         }
         if(oscillatorInfo.midiControlMode === 'pulsate') {
             var chordToKeep = getMainChordBeingPlayed(x);
-            notesInfo = pulsateDetector.applyNotePulsation(notesInfo, chordToKeep, motionParams);
+            notesInfo = pulsateDetector.applyNotePulsation(notesInfo, chordToKeep, motionParams, frameInfo);
         }
         normalizeTotalGainOfNotes(notesInfo);
         return notesInfo;
