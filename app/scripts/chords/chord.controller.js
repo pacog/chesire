@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('ChordCtrl', function ($scope, $window, ScalesHelper, ChordStore) {
+.controller('ChordCtrl', function ($scope, $window, ScalesHelper, ChordStore, soundPlayer) {
 
     var init = function() {
 
@@ -51,6 +51,7 @@ angular.module('chesireApp')
                 if(note.selected) {
                     $scope.chordInfo.notes = _.without($scope.chordInfo.notes, _.findWhere($scope.chordInfo.notes, {name: noteName}));
                 } else {
+                    soundPlayer.playNote(note);
                     $scope.chordInfo.notes.push(note);
                 }
                 note.selected = !note.selected;

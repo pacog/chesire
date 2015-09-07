@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.factory('OscillatorCollection', function (Audiocontext, MultiNotesHelper) {
+.factory('OscillatorCollection', function ($q, $timeout, Audiocontext, MultiNotesHelper) {
 
     var OscillatorCollectionClass = function(oscillatorOptions) {
 
@@ -89,6 +89,24 @@ angular.module('chesireApp')
             return nodes;
         };
 
+        var playNote = function(note, duration) {
+            var willPlay = $q.defer();
+            if(nodes[0]) {
+                var oldFreq = nodes[0].oscillator.frequency.value;
+
+                nodes[0].oscillator.frequency.value = note.freq;
+                nodes[0].gainNode.gain.value = 0.5;
+                $timeout(function() {
+                    nodes[0].oscillator.frequency.value = oldFreq;
+                    nodes[0].gainNode.gain.value = 0;
+                    willPlay.resolve();
+                }, duration);
+            } else {
+                willPlay.resolve();
+            }
+            return willPlay.promise;
+        };
+
         //TODO: this is bad, we do this because at some point we'll call init with the correct scale
         init(undefined, oscillatorOptions);
 
@@ -97,7 +115,8 @@ angular.module('chesireApp')
             updateNodes:            updateNodes,
             destroy:                destroy,
             init:                   init,
-            getNodes:               getNodes
+            getNodes:               getNodes,
+            playNote:               playNote
         };
     };
 

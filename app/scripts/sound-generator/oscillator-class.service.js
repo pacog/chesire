@@ -57,6 +57,15 @@ angular.module('chesireApp')
                 this._setGainControllerValue(0);
             },
 
+            playNote: function(note, duration) {
+                var self = this;
+                this._setGainControllerValue(1);
+                this.oscillatorCollection.playNote(note, duration).then(function() {
+                    console.log('a');
+                    self._setGainControllerValue(0);
+                });
+            },
+
             _setGainControllerValue: function(value) {
                 var prevValue = this.gainController.gain.value;
                 if(prevValue !== value) {

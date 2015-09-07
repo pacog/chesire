@@ -27,6 +27,14 @@ angular.module('chesireApp')
                 });
             },
 
+            playNote: function(note, duration) {
+                angular.forEach(this.synthElements, function(synthElement) {
+                    if(synthElement.playNote) {
+                        synthElement.playNote(note, duration);
+                    }
+                });
+            },
+
             _createComponents: function() {
                 if(this._areOptionsCorrect()) {
                     var self = this;
