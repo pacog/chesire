@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .factory('soundPlayer', soundPlayer);
 
-    function soundPlayer(SynthOptions, CurrentSynth) {
+    function soundPlayer($timeout, SynthOptions, CurrentSynth, CurrentMidiOutput) {
         var DEFAULT_TIME_FOR_NOTE = 1000; //ms
         var factory = {
             playNote: playNote
@@ -19,7 +19,11 @@
                     var synth = CurrentSynth.getCurrentSynth();
                     synth.playNote(note, duration);
                 } else if(synthOptions.outputMode === 'midi') {
-
+                    var noteToSend = angular.extend({}, note, {unnormalizedGain: 1});
+                    CurrentMidiOutput.getCurrentOutput().notesOn([noteToSend]);
+                    $timeout(function() {
+                        CurrentMidiOutput.getCurrentOutput().notesOff([noteToSend]);
+                    }, duration);
                 }
             });
         }
