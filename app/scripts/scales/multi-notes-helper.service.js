@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.factory('MultiNotesHelper', function (SynthOptions, ScaleOptions, SynthOptionsHelper, pulsateDetector) {
+.factory('MultiNotesHelper', function (SynthOptions, ScaleOptions, SynthOptionsHelper, pulsateDetector, pulsateDetectorChord) {
 
     var notesInfo = null;
     var notesVolumeHash = null;
@@ -114,8 +114,10 @@ angular.module('chesireApp')
             notesInfo = getNotesInfoWithVolumeTransition(x);
         }
         if(oscillatorInfo.midiControlMode === 'pulsate') {
-            var chordToKeep = getMainChordBeingPlayed(x);
-            notesInfo = pulsateDetector.applyNotePulsation(notesInfo, chordToKeep, motionParams, frameInfo);
+            notesInfo = pulsateDetector.applyNotePulsation(notesInfo, getMainChordBeingPlayed(x), motionParams, frameInfo);
+        }
+        if(oscillatorInfo.midiControlMode === 'pulsate_chord') {
+            notesInfo = pulsateDetectorChord.applyNotePulsation(notesInfo, getMainChordBeingPlayed(x), motionParams, frameInfo);
         }
         normalizeTotalGainOfNotes(notesInfo);
         return notesInfo;

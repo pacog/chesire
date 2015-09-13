@@ -22,7 +22,10 @@ angular.module('chesireApp')
             name: 'Soft',
             value: 'soft'
         }, {
-            name: 'Pulsate',
+            name: 'Pulsate chord',
+            value: 'pulsate_chord'
+        }, {
+            name: 'Pulsate notes',
             value: 'pulsate'
         }];
         $scope.AvailableOscillators = AvailableOscillators;
