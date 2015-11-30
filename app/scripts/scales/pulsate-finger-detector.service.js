@@ -77,6 +77,12 @@
         };
     };
 
+    PulsateFingerDetector.prototype.updateAndDetectOff = function(fingerInfo, chord, frame) {
+        fingerInfo.palmVelocity = frame.hands[0].palmVelocity;
+        this._addInfoToHistory(fingerInfo);
+        return this._fingerIsGoingOff();
+    };
+
     PulsateFingerDetector.prototype._addInfoToHistory = function(fingerInfo) {
         this.movHistory.push(fingerInfo);
         if(this.movHistory.length >= HISTORY_SIZE) {

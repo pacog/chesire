@@ -1,13 +1,16 @@
+/* global Network */
+
 (function() {
     'use strict';
 
     angular.module('chesireApp')
         .factory('pulsateDetectorChord', pulsateDetectorChord);
 
-    function pulsateDetectorChord(pulsateFingerDetectorFactory) {
+    function pulsateDetectorChord(neuralNetworkStore, Leapmotion, pulsateFingerDetectorFactory) {
 
-        var pulsatedChord = null;
-        var detectors = {};
+        var neuralNetwork;
+        var detector;
+        var isPulsating = false;
 
         var factory = {
             applyNotePulsation: applyNotePulsation
@@ -17,31 +20,51 @@
         return factory;
 
         function init() {
-            detectors.middleFinger = pulsateFingerDetectorFactory.getDetector('middleFinger');
+            var json = neuralNetworkStore.get();
+            neuralNetwork = Network.fromJSON(json);
+            detector = pulsateFingerDetectorFactory.getDetector('middleFinger');
         }
 
         function applyNotePulsation(notesInfo, mainChordNow, motionParams, frameInfo) {
-            //TODO improve justStartedPulsating logic
-            angular.forEach(detectors, function(detector) {
-                var newStatus = detector.updateAndGetStatus(motionParams.fingersPulsationInfo[detector.id], mainChordNow, frameInfo);
-                if(newStatus.justStartedPulsating) {
-                    pulsatedChord = mainChordNow.index;
-                    silenceAllNotes(notesInfo);
-                } else if(!newStatus.isPulsating) {
-                    silenceAllNotes(notesInfo);
-                } else {
-                    if(pulsatedChord !== mainChordNow.index) {
-                        //Is pulsating but we changed chord
-                        silenceAllNotes(notesInfo);
-                        detector.reset();
-                    }
-                }
-            });
 
-            notesInfo = silenceNotesNotFromChord(notesInfo, mainChordNow.chord);
+            var newInfoLines = getInfoArrayFromFrame(frameInfo);
+            var output = neuralNetwork.activate(newInfoLines.params)[0];
+
+            if(output > 0.5) {
+                notesInfo = silenceNotesNotFromChord(notesInfo, mainChordNow.chord);
+                isPulsating = true;
+            } else {
+                var isOff = detector.updateAndDetectOff(motionParams.fingersPulsationInfo[detector.id], mainChordNow, frameInfo);
+                if(isOff || !isPulsating) {
+                    isPulsating = false;
+                    silenceAllNotes(notesInfo);
+                }
+            }
 
             return notesInfo;
         }
+
+        function getInfoArrayFromFrame(frameInfo) {
+            var time = (new Date()).getTime();
+            var motionParams = false;
+            if(frameInfo && frameInfo.hands && frameInfo.hands[0]) {
+                motionParams = Leapmotion.getRelativePositions(frameInfo, frameInfo.hands);
+            }
+            var info = {
+                time: time,
+                params: [
+                    motionParams ? motionParams.fingersPulsationInfo.middleFinger.xVelocity : 0,
+                    motionParams ? motionParams.fingersPulsationInfo.middleFinger.yVelocity : 0,
+                    motionParams ? motionParams.fingersPulsationInfo.middleFinger.zVelocity : 0,
+                    motionParams ? motionParams.fingersDirectionInfo.middleFinger.xDirection : 0,
+                    motionParams ? motionParams.fingersDirectionInfo.middleFinger.yDirection : 0,
+                    motionParams ? motionParams.fingersDirectionInfo.middleFinger.zDirection : 0
+                ]
+            };
+            
+            return info;
+        }
+
 
 
         function silenceAllNotes(notesInfo) {
