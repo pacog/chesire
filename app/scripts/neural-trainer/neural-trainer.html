@@ -1,0 +1,18 @@
+<div class='neural-trainer-switch'>
+    <button class='button' ng-click='vm.toggleShow()'>Show neural trainer</button>
+</div>
+
+<div ng-if='vm.show' class='neural-trainer' ng-class='{"translucent": vm.recording || vm.testing }'>
+    <button class="big-button config-menu-close" ng-click="vm.toggleShow()"></button>
+
+    <button class='button' ng-show='!vm.recording' ng-click='vm.startRecording()'>Start recording</button>
+    <button class='button' ng-show='vm.recording' ng-click='vm.stopRecording()'>Stop recording</button>
+
+    <button class='button' ng-show='!vm.testing && vm.neuralNetwork' ng-click='vm.startTesting()'>Start testing</button>
+    <button class='button' ng-show='vm.testing && vm.neuralNetwork' ng-click='vm.stopTesting()'>Stop testing</button>
+    
+    <div class='neural-trainer-active-container'>
+        <div class='neural-trainer-active-light' ng-style='{"height": 100*vm.output + "%"}'></div>
+    </div>
+
+</div>

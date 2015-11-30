@@ -31,6 +31,7 @@ angular.module('chesireApp')
     var FINGER_DIRECTION_Y_MIN = -0.90;
     var FINGER_DIRECTION_Y_MAX = 0;
     var subscribersToFrameChange = [];
+    var subscribersToFrameDeviceChange = [];
 
     var SOFTENED_ARRAY_SIZE = 5;
 
@@ -45,7 +46,8 @@ angular.module('chesireApp')
 
         var controller = new Leap.Controller();
 
-        controller.on('animationFrame', deviceFrameHandler);
+        controller.on('animationFrame', animationFrameHandler);
+        controller.on('deviceFrame', deviceFrameHandler);
         controller.on('connect', connectHandler);
         controller.on('deviceStreaming/deviceStreaming', deviceConnectedHandler);
         controller.on('deviceStreaming/deviceStopped', deviceDisconnectedHandler);
@@ -55,7 +57,7 @@ angular.module('chesireApp')
         return Leap;
     };
 
-    var deviceFrameHandler = function(frame) {
+    var animationFrameHandler = function(frame) {
 
         $rootScope.$apply(function() {
             leapInfo.iterations++;
@@ -67,9 +69,26 @@ angular.module('chesireApp')
         });
     };
 
+    var deviceFrameHandler = function(frame) {
+        var info = {};
+        $rootScope.$apply(function() {
+            info.fingers = frame.fingers.length;
+            info.hands = frame.hands.length;
+            info.frame = frame;
+            info.id = frame.id;
+            notifySubscribersToDeviceFrameChange(info);
+        });
+    };
+
     var notifySubscribersToFrameChange = function(newFrameInfo) {
 
         angular.forEach(subscribersToFrameChange, function(subscriberCallback) {
+            subscriberCallback(newFrameInfo);
+        });
+    };
+
+    var notifySubscribersToDeviceFrameChange = function(newFrameInfo) {
+        angular.forEach(subscribersToFrameDeviceChange, function(subscriberCallback) {
             subscriberCallback(newFrameInfo);
         });
     };
@@ -121,6 +140,7 @@ angular.module('chesireApp')
         result.fingerDirectionY = getFingerDirectionY(hands[0]);
 
         result.fingersPulsationInfo = getFingersPulsationInfo(hands[0]);
+        result.fingersDirectionInfo = getFingersDirectionInfo(hands[0]);
 
         return result;
     };
@@ -135,6 +155,27 @@ angular.module('chesireApp')
         };
 
         return result;
+    };
+
+    var getFingersDirectionInfo = function(hand) {
+        var result = {
+            pinky: getFingerDirectionInfo(hand.pinky, hand),
+            indexFinger: getFingerDirectionInfo(hand.indexFinger, hand),
+            middleFinger: getFingerDirectionInfo(hand.middleFinger, hand),
+            thumb: getFingerDirectionInfo(hand.thumb, hand),
+            ringFinger: getFingerDirectionInfo(hand.ringFinger, hand)
+        };
+
+        return result;
+
+    };
+
+    var getFingerDirectionInfo = function(finger) {
+        return {
+            xDirection: finger.direction[0],
+            yDirection: finger.direction[1],
+            zDirection: finger.direction[2]
+        };
     };
 
     var getFingerPulsationInfo = function(finger) {
@@ -250,8 +291,15 @@ angular.module('chesireApp')
     };
 
     var subscribeToFrameChange = function(callback) {
-
         subscribersToFrameChange.push(callback);
+    };
+
+    var subscribeToFrameDeviceChange = function(callback) {
+        subscribersToFrameDeviceChange.push(callback);
+    };
+
+    var unsubscribeToFrameDeviceChange = function(callback) {
+        subscribersToFrameDeviceChange = _.without(subscribersToFrameDeviceChange, callback);
     };
 
     var leapObject = init();
@@ -263,6 +311,8 @@ angular.module('chesireApp')
         getFrameInfo:           getFrameInfo,
         getRelativePositions:   getRelativePositions,
         subscribeToFrameChange: subscribeToFrameChange,
-        getRelativePositionXYZ: getRelativePositionXYZ
+        getRelativePositionXYZ: getRelativePositionXYZ,
+        subscribeToFrameDeviceChange: subscribeToFrameDeviceChange,
+        unsubscribeToFrameDeviceChange: unsubscribeToFrameDeviceChange
     };
 });
