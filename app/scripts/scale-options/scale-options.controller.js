@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('ScaleoptionsCtrl', function ($scope, DefaultScale, ScalesHelper, ScaleOptions, SongStore, UIService) {
+.controller('ScaleoptionsCtrl', function ($scope, DefaultScale, ScalesHelper, ScaleOptions, SongStore, UIService, songScaleCreator) {
 
     var oldChords = null;
 
@@ -10,6 +10,7 @@ angular.module('chesireApp')
     $scope.listOfSongsExpanded = false;
 
     var init = function() {
+        ScaleOptions.subscribeToChangesInScaleOptions(changedScale);
         ScaleOptions.getScaleOptions().then(function(scaleOptions) {
             $scope.currentScale = angular.copy(scaleOptions);
             updateSongObject($scope.currentScale.chords);
@@ -18,6 +19,11 @@ angular.module('chesireApp')
             UIService.subscribeToMenuOpening(checkIfShouldCloseMenu);
         });
     };
+
+    function changedScale(newSong) {
+        //TODO: this is called too many times
+        $scope.currentScale = angular.copy(newSong);
+    }
 
     var checkIfShouldCloseMenu = function(newMenuOpened) {
         if(newMenuOpened !== 'scale') {
@@ -30,6 +36,14 @@ angular.module('chesireApp')
         newChords[chordIndex] = angular.copy(chord);
         updateSongObject(newChords);
     };
+
+    $scope.showSongScaleCreator = function() {
+        songScaleCreator.show().then(songCreatedFromScale);
+    };
+
+    function songCreatedFromScale() {
+
+    }
 
     var songsStoreChanged = function(newListOfSongs) {
         $scope.availableSongs = newListOfSongs;

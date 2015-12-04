@@ -1,0 +1,17 @@
+<div class='song-scale-creator' ng-if='vm.songScaleCreator.isShown()'>
+
+    <div class='song-scale-creator-backdrop' ng-click='vm.close()'></div>
+
+    <div class='song-scale-creator-content'>
+        <h1>Song scale creator</h1>
+
+        <h3>Scale key</h3>
+            <switch-two-values values='vm.startingNotes' ng-model='vm.startingNote'></switch-two-values>
+        <h3>Scale mood</h3>
+            <switch-two-values values='vm.scales' ng-model='vm.scale'></switch-two-values>
+        <h3>Start/end</h3>
+
+        <button class='button' ng-click='vm.save()'>Save</button>
+        <button class='button' ng-click='vm.close()'>Cancel</button>
+    </div>
+</div>
