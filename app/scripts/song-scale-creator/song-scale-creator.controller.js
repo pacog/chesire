@@ -43,6 +43,7 @@
         }
 
         function getSongfromParams() {
+            //TODO this should be in a service, not controller
             var song = {
                 name: 'from scale',
                 chords: []
@@ -52,8 +53,15 @@
                 return note.freq === vm.startingNote.freq;
             });
             var currentStepInInterval = 0;
-            //TODO: don't use 7, use interval notes
-            for(var i=startingNote; (i<NoteList.length) && (song.chords.length < (vm.repetitions*7)); i++) {
+
+            var notesPerRepetition = 0;
+            for(var j=0; j<vm.scale.intervals.length; j++) {
+                if(vm.scale.intervals[j]) {
+                    notesPerRepetition++;
+                }
+            }
+
+            for(var i=startingNote; (i<NoteList.length) && (song.chords.length < (vm.repetitions*notesPerRepetition)); i++) {
                 if(vm.scale.intervals[currentStepInInterval]) {
                     song.chords.push({
                         name: '',

@@ -9,7 +9,9 @@
             <switch-two-values values='vm.startingNotes' ng-model='vm.startingNote'></switch-two-values>
         <h3>Scale mood</h3>
             <switch-two-values values='vm.scales' ng-model='vm.scale'></switch-two-values>
-        <h3>Start/end</h3>
+        <h3>Repetitions</h3>
+            <input type="range" min="1" max="4" step="1" ng-model="vm.repetitions"/>
+            <div>{{vm.repetitions}}</div>
 
         <button class='button' ng-click='vm.save()'>Save</button>
         <button class='button' ng-click='vm.close()'>Cancel</button>
