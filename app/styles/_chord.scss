@@ -36,9 +36,9 @@ $sharp-note-width: 8px;
     }
 
     &.selected {
-        background: #C00;
+        background: $orange;
         &:hover {
-            background: #900;
+            background: darken($orange, 10);
         }
     }
 }
