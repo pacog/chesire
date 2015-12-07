@@ -1,0 +1,40 @@
+<div class='chord-selector generic-modal' ng-if='vm.chordSelector.isOpen()'>
+    <div class='generic-modal-backdrop' ng-click='vm.close()'></div>
+    <div class='generic-modal-content'>
+        <h1 class='generic-main-title'>Choose a chord</h1>
+
+        <div class='generic-section'>
+            <h3 class='generic-section-title'>
+                Chord key
+            </h3>
+            <div class='generic-section-content'>
+                <switch-two-values values='vm.startingNotes' ng-model='vm.startingNote'></switch-two-values>
+            </div>
+        </div>
+
+        <div class='generic-section'>
+            <h3 class='generic-section-title'>
+                Chord moods
+            </h3>
+            <div class='generic-section-content'>
+                <switch-two-values values='vm.moods' ng-model='vm.mood'></switch-two-values>
+            </div>
+        </div>
+
+        <div class='generic-section'>
+            <h3 class='generic-section-title'>
+                Number of notes
+            </h3>
+            <div class='generic-section-content'>
+                <input type='range' ng-model='vm.numberOfNotes' min='1' max='18'>
+                {{vm.numberOfNotes}}
+            </div>
+        </div>
+
+        <div class='align-center'>
+            <button class='button generic-cancel-button' ng-click='vm.close()'>Cancel</button>
+            <button class='button generic-save-button' ng-click='vm.save()'>Get chord</button>
+        </div>
+
+    </div>
+</div>

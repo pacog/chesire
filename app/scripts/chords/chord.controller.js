@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('ChordCtrl', function ($scope, $window, ScalesHelper, ChordStore, soundPlayer) {
+.controller('ChordCtrl', function ($scope, $window, ScalesHelper, ChordStore, soundPlayer, chordSelector) {
 
     var init = function() {
 
@@ -13,6 +13,14 @@ angular.module('chesireApp')
         ChordStore.subscribeToChangeInAllChords(chordsStoreChanged);
         $scope.updateSelectedNotes();
     };
+
+    $scope.openChordPicker = function() {
+        chordSelector.showSelector().then(chordChosen);
+    };
+
+    function chordChosen(newChord) {
+        $scope.chordInfo = newChord;
+    }
 
     $scope.selectedChordChanged = function() {
         $scope.updateSelectedNotes();

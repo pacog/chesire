@@ -34,3 +34,31 @@
     .align-center {
         text-align: center;
     }
+
+.generic-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+}
+    .generic-modal-backdrop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.3);
+        z-index: 10;
+        cursor: pointer;
+    }
+    .generic-modal-content {
+        position: absolute;
+        top: $grid-l;
+        left: $grid-l;
+        right: $grid-l;
+        z-index: 20;
+        background: $background-color;
+        padding: $grid-l;
+    }

@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('SongScaleCreatorController', SongScaleCreatorController);
 
-    function SongScaleCreatorController(songScaleCreator, NoteList, defaultScales, ScaleOptions) {
+    function SongScaleCreatorController(songScaleCreator, NoteList, defaultScales, ScaleOptions, startingNotes) {
         var vm = this;
 
         vm.songScaleCreator = songScaleCreator;
@@ -15,7 +15,7 @@
         init();
 
         function init() {
-            vm.startingNotes = getStartingNotes();
+            vm.startingNotes = startingNotes.get();
             vm.startingNote = vm.startingNotes[0].value;
             vm.scales = defaultScales;
             vm.scale = defaultScales[0].value;
@@ -39,20 +39,6 @@
             var song = getSongfromParams();
             ScaleOptions.setScaleOptions(song);
             vm.close();
-        }
-
-        function getStartingNotes() {
-            var a220Index = _.findIndex(NoteList, function(note) {
-                return note.freq === 220;
-            });
-            var notes = NoteList.slice(a220Index, a220Index + 12);
-            return _.map(notes, function(note) {
-                return {
-                    'name': note.name.substring(0, note.name.length - 1), //Removing the last character, is the number of octave
-                    'value': note
-                };
-            });
-
         }
 
         function getSongfromParams() {

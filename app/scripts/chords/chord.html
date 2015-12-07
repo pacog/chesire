@@ -4,6 +4,7 @@
             <input ng-focus='onNameFocus()' ng-blur='onNameBlur()' ng-model='chordInfo.name' />
             <button class='button' ng-click='saveChord()' ng-disabled='!chordInfo.name'>Save chord</button>
             <button class='button' ng-click='deleteChord()' ng-show='chordAlreadyExisting'>Delete chord</button>
+            <button class='button' ng-click='openChordPicker()'>Pick chord</button>
             <div class='chord-selector-list' ng-show='showSelectorList'>
                 <a class='chord-selector-list-item' ng-repeat='chord in allChords' ng-mousedown='selectChord(chord)'>{{chord.name}}</a>
             </div>
