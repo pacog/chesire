@@ -20,6 +20,19 @@
             vm.scales = defaultScales;
             vm.scale = defaultScales[0].value;
             vm.repetitions = 1;
+            vm.repetitionsValues = [{
+                            'name': '1',
+                            'value': 1
+                        },{
+                            'name': '2',
+                            'value': 2
+                        },{
+                            'name': '3',
+                            'value': 3
+                        },{
+                            'name': '4',
+                            'value': 4
+                        }];
         }
 
         function save() {
@@ -35,7 +48,7 @@
             var notes = NoteList.slice(a220Index, a220Index + 12);
             return _.map(notes, function(note) {
                 return {
-                    'name': note.name,
+                    'name': note.name.substring(0, note.name.length - 1), //Removing the last character, is the number of octave
                     'value': note
                 };
             });
@@ -45,7 +58,7 @@
         function getSongfromParams() {
             //TODO this should be in a service, not controller
             var song = {
-                name: 'from scale',
+                name: vm.startingNote.name.substring(0, vm.startingNote.name.length - 1) + ' ' + vm.scale.name + ' (x' + vm.repetitions + ')' ,
                 chords: []
             };
 

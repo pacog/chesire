@@ -5,25 +5,25 @@
         .constant('defaultScales', [{
             name: 'Major',
             value: {
-                name: 'major',
+                name: 'Major',
                 intervals: [true, false, true, false, true, true, false, true, false, true, false, true]
             }
         },{
             name: 'Minor',
             value: {
-                name: 'minor',
+                name: 'Minor',
                 intervals: [true, false, true, false, true, false, true, true, false, true, false, true]
             }
         },{
             name: 'Minor pentatonic',
             value: {
-                name: 'minor_pentatonic',
+                name: 'Minor pentatonic',
                 intervals: [true, false, false, true, false, true, false, true, false, false, true, false]
             }
         },{
             name: 'Hungarian minor',
             value: {
-                name: 'hungarion_minor',
+                name: 'Hungarian minor',
                 intervals: [true, false, true, false, false, true, true, true, false, true, false, true]
             }
         }]);

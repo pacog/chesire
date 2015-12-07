@@ -3,17 +3,38 @@
     <div class='song-scale-creator-backdrop' ng-click='vm.close()'></div>
 
     <div class='song-scale-creator-content'>
-        <h1>Song scale creator</h1>
+        <h1 class='generic-main-title'>Song scale creator</h1>
 
-        <h3>Scale key</h3>
-            <switch-two-values values='vm.startingNotes' ng-model='vm.startingNote'></switch-two-values>
-        <h3>Scale mood</h3>
-            <switch-two-values values='vm.scales' ng-model='vm.scale'></switch-two-values>
-        <h3>Repetitions</h3>
-            <input type="range" min="1" max="4" step="1" ng-model="vm.repetitions"/>
-            <div>{{vm.repetitions}}</div>
+        <div class='generic-section'>
+            <h3 class='generic-section-title'>
+                Scale key
+            </h3>
+            <div class='generic-section-content'>
+                <switch-two-values values='vm.startingNotes' ng-model='vm.startingNote'></switch-two-values>
+            </div>
+        </div>
 
-        <button class='button' ng-click='vm.save()'>Save</button>
-        <button class='button' ng-click='vm.close()'>Cancel</button>
+        <div class='generic-section'>
+            <h3 class='generic-section-title'>
+                Scale mood
+            </h3>
+            <div class='generic-section-content'>
+                <switch-two-values values='vm.scales' ng-model='vm.scale'></switch-two-values>
+            </div>
+        </div>
+
+        <div class='generic-section'>
+            <h3 class='generic-section-title'>
+                Repetitions
+            </h3>
+            <div class='generic-section-content'>
+                <switch-two-values values='vm.repetitionsValues' ng-model='vm.repetitions'></switch-two-values>
+            </div>
+        </div>
+
+        <div class='align-center'>
+            <button class='button generic-cancel-button' ng-click='vm.close()'>Cancel</button>
+            <button class='button generic-save-button' ng-click='vm.save()'>Save</button>
+        </div>
     </div>
 </div>

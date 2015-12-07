@@ -1,0 +1,36 @@
+.generic-main-title {
+        margin-bottom: $grid-l;
+        padding-bottom: $grid-s;
+        border-bottom: 2px solid lighten($dark-blue, 30);
+        font-size: 24px;
+    }
+
+    .generic-section {
+        margin: 2*$grid-l 0;
+        border-left: 2px solid $orange;
+    }
+        .generic-section-title {
+            margin-bottom: $grid-l;
+            padding: $grid-m;
+            background: lighten($dark-blue, 5);
+        }
+        .generic-section-content {
+            padding-left: $grid-l;
+        }
+
+    .generic-save-button, .generic-cancel-button {
+        height: 2*$grid-l;
+        line-height: 2*$grid-l;
+        padding: 0 $grid-m;
+    }
+    .generic-save-button {
+        background: lighten($dark-blue, 5);
+        color: white;
+        &:hover {
+            background: lighten($dark-blue, 15);
+        }
+        padding: 0 2*$grid-l;
+    }
+    .align-center {
+        text-align: center;
+    }
