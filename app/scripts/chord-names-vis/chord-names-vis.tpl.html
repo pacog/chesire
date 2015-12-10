@@ -1,0 +1,11 @@
+<div class='chord-names-vis'>
+
+    <div 
+        ng-repeat='chord in vm.chords'
+        class='chord-names-vis-chord'
+        ng-style='{
+            "opacity": vm.getChordOpacity(chord)
+        }'>
+        {{vm.getChordName(chord)}}
+    </div>
+</div>

@@ -1,0 +1,17 @@
+$chord-names-vis-width: 60%;
+.chord-names-vis {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    width: $chord-names-vis-width;
+    margin-left: -$chord-names-vis-width/2;
+    pointer-events: none;
+    display: flex;
+    justify-content: space-between;
+}
+
+    .chord-names-vis-chord {
+        padding: $grid-m $grid-l;
+        background: $ui-element-bg;
+        text-align: center;
+    }
