@@ -8,9 +8,13 @@
         var vm = this;
 
         vm.MIN_OPACITY = 0.3;
+        vm.CHORDS_TWO_COLUMNS_LIMIT = 5;
+        vm.SECOND_CHORD_BOTTOM = 40;
 
         vm.getChordName = getChordName;
         vm.getChordOpacity = getChordOpacity;
+        vm.getChordLeft = getChordLeft;
+        vm.getChordBottom = getChordBottom;
 
         init();
 
@@ -71,6 +75,21 @@
                     vm.chords[i].volume = 0;
                 }
             }
+        }
+
+        function getChordLeft(index, total) {
+            if(total > 1) {
+                return Math.round(10000*((index/100)/(total - 1))) + '%';
+            }
+            return '50%';
+            
+        }
+
+        function getChordBottom(index, total) {
+            if((total > vm.CHORDS_TWO_COLUMNS_LIMIT) && (index%2 === 1) ) {
+                return vm.SECOND_CHORD_BOTTOM + 'px';
+            }
+            return '0px';
         }
 
     }

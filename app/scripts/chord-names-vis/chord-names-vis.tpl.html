@@ -4,7 +4,9 @@
         ng-repeat='chord in vm.chords'
         class='chord-names-vis-chord'
         ng-style='{
-            "opacity": vm.getChordOpacity(chord)
+            "opacity": vm.getChordOpacity(chord),
+            "left": vm.getChordLeft($index, vm.chords.length),
+            "bottom": vm.getChordBottom($index, vm.chords.length)
         }'>
         {{vm.getChordName(chord)}}
     </div>
