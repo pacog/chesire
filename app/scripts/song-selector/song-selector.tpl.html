@@ -5,15 +5,12 @@
     </div>
 
     <div class='config-menu-header' ng-if='!vm.loadingFirstSong'>
-        <button class='big-button config-menu-title'>
+        <button class='big-button config-menu-title' ng-click='vm.toggleSongList()'>
             {{vm.currentSong.name || 'No name'}}
             <span class='config-menu-title-decorator'></span>
         </button>
-        <!-- <ul class='config-menu-list' ng-show='listOfSongsExpanded'>
-            <li class='config-menu-list-item' ng-repeat='song in availableSongs'>
-                <a class='config-menu-list-item-link' ng-click='selectSong(song)'>{{song.name}}</a>
-            </li>
-        </ul> -->
+
+        <song-list ng-show='vm.showSongList' ng-click='vm.toggleSongList()'></song-list>
     </div>
     <div class='config-menu-content' ng-show='expanded'  ng-if='!vm.loadingFirstSong'>
         

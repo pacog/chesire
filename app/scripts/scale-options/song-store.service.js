@@ -3,12 +3,15 @@
 angular.module('chesireApp')
     .factory('SongStore', function($q, localStorageService) {
 
+        var allSongsCache = null;
         var changeInAllSongsSubscribers = [];
 
         var getSongs = function() {
             var deferred = $q.defer();
 
-            deferred.resolve(localStorageService.get('songs') || []);
+            allSongsCache = localStorageService.get('songs') || [];
+            deferred.resolve(allSongsCache);
+            onChangeInAllSongs(allSongsCache);
 
             return deferred.promise;
         };
@@ -32,6 +35,7 @@ angular.module('chesireApp')
                     allSongs.push(song);
                 }
                 localStorageService.set('songs', allSongs);
+                allSongsCache = allSongs;
                 deferred.promise.then(onChangeInAllSongs);
                 deferred.resolve(allSongs);
             }
@@ -46,6 +50,7 @@ angular.module('chesireApp')
             var existingSong = findSongInList(songToDelete, allSongs);
 
             allSongs = _.without(allSongs, existingSong);
+            allSongsCache = allSongs;
             localStorageService.set('songs', allSongs);
             deferred.promise.then(onChangeInAllSongs);
             deferred.resolve(allSongs);
@@ -64,6 +69,7 @@ angular.module('chesireApp')
 
         var subscribeToChangeInAllSongs = function(callback) {
             changeInAllSongsSubscribers.push(callback);
+            callback(allSongsCache);
         };
 
         var unsubscribeToChangeInAllSongs = function(callback) {
