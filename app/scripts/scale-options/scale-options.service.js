@@ -12,7 +12,8 @@
             init: init,
             setScaleOptions: setScaleOptions,
             getScaleOptions: getScaleOptions,
-            subscribeToChangesInScaleOptions: subscribeToChangesInScaleOptions
+            subscribeToChangesInScaleOptions: subscribeToChangesInScaleOptions,
+            unsubscribeToChangesInScaleOptions: unsubscribeToChangesInScaleOptions
         };
         return factory;
 
@@ -46,6 +47,11 @@
 
         function subscribeToChangesInScaleOptions(subscriberCallback) {
             subscriberCallbacks.push(subscriberCallback);
+            subscriberCallback(scaleOptions);
+        }
+
+        function unsubscribeToChangesInScaleOptions(subscriberCallback) {
+            subscriberCallbacks = _.without(subscriberCallbacks, subscriberCallback);
         }
 
         function notifyChangeInScaleOptions(newScaleOptions) {
