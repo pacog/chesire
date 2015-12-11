@@ -2,4 +2,6 @@
 
 angular.module('chesireApp')
 
-.controller('MainCtrl', function () {});
+    .controller('MainCtrl', function (ScaleOptions) {
+        ScaleOptions.init();
+    });

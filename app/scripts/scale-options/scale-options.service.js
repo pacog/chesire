@@ -1,50 +1,60 @@
-'use strict';
+(function() {
+    'use strict';
+    angular.module('chesireApp')
+        .factory('ScaleOptions', ScaleOptions);
 
-angular.module('chesireApp')
+    function ScaleOptions($q, LastUsedSettingsStore, DefaultScale) {
 
-.factory('ScaleOptions', function ($q, LastUsedSettingsStore, DefaultScale) {
+        var scaleOptions = null;
+        var subscriberCallbacks = [];
 
-    var scaleOptions = null;
-    var subscriberCallbacks = [];
+        var factory = {
+            init: init,
+            setScaleOptions: setScaleOptions,
+            getScaleOptions: getScaleOptions,
+            subscribeToChangesInScaleOptions: subscribeToChangesInScaleOptions
+        };
+        return factory;
 
-    var setScaleOptions = function(newScaleOptions) {
-        scaleOptions = newScaleOptions;
-        notifyChangeInScaleOptions(newScaleOptions);
-        LastUsedSettingsStore.notifyLastUsedSongChanged(newScaleOptions);
-    };
+        function init() {
+            getScaleOptions().then(setScaleOptions);
+        }
 
-    var getScaleOptions = function() {
-        var willReturnScaleOptions = $q.defer();
+        function setScaleOptions(newScaleOptions) {
+            scaleOptions = newScaleOptions;
+            notifyChangeInScaleOptions(newScaleOptions);
+            LastUsedSettingsStore.notifyLastUsedSongChanged(newScaleOptions);
+        }
 
-        if(scaleOptions) {
-            willReturnScaleOptions.resolve(scaleOptions);
-        } else {
-            LastUsedSettingsStore.getLastUsedSong().then(function(lastUsedSong) {
-                if(!lastUsedSong) {
-                    lastUsedSong = DefaultScale;
-                }
-                scaleOptions = lastUsedSong;
-                willReturnScaleOptions.resolve(lastUsedSong);
+        function getScaleOptions() {
+            var willReturnScaleOptions = $q.defer();
+
+            if(scaleOptions) {
+                willReturnScaleOptions.resolve(scaleOptions);
+            } else {
+                LastUsedSettingsStore.getLastUsedSong().then(function(lastUsedSong) {
+                    if(!lastUsedSong) {
+                        lastUsedSong = DefaultScale;
+                    }
+                    scaleOptions = lastUsedSong;
+                    willReturnScaleOptions.resolve(lastUsedSong);
+                });
+            }
+
+            return willReturnScaleOptions.promise;
+        }
+
+        function subscribeToChangesInScaleOptions(subscriberCallback) {
+            subscriberCallbacks.push(subscriberCallback);
+        }
+
+        function notifyChangeInScaleOptions(newScaleOptions) {
+            angular.forEach(subscriberCallbacks, function(subscriberCallback) {
+                subscriberCallback(newScaleOptions);
             });
         }
 
-        return willReturnScaleOptions.promise;
-    };
+    }
+})();
 
-    var subscribeToChangesInScaleOptions = function(subscriberCallback) {
-        subscriberCallbacks.push(subscriberCallback);
-    };
-
-    var notifyChangeInScaleOptions = function(newScaleOptions) {
-        angular.forEach(subscriberCallbacks, function(subscriberCallback) {
-            subscriberCallback(newScaleOptions);
-        });
-    };
-
-    return {
-        setScaleOptions: setScaleOptions,
-        getScaleOptions: getScaleOptions,
-        subscribeToChangesInScaleOptions: subscribeToChangesInScaleOptions
-    };
-});
 
