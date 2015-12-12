@@ -8,9 +8,12 @@
         return {
             restrict: 'E',
             templateUrl: 'scripts/song-selector/song-list/song-list.tpl.html',
-            scope: {},
+            scope: {
+                songs: '='
+            },
             controller: 'SongListController',
-            controllerAs: 'vm'
+            controllerAs: 'vm',
+            bindToController: true
         };
     }
 

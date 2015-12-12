@@ -25,9 +25,8 @@
                 top: 0;
                 right: $grid-m;
                 z-index: 1;
+                @include icon-after($icon-cog);
                 &:after {
-                    font-family: entypo;
-                    content: '\2699';
                     font-size: 68px;
                     line-height: $header-height - 2*$grid-m;
                 }
@@ -49,9 +48,9 @@
         .config-menu-list-toggle {
             height: 100%;
             width: 55px;
+            @include icon-after($icon-arrow-down);
+
             &:after {
-                font-family: entypo;
-                content: '\25BE';
                 font-size: 68px;
                 line-height: 2*$grid-l;
             }
@@ -64,6 +63,26 @@
                     content: '\25B4';
                 }
             }
+        }
+        .config-menu-button {
+            height: 100%;
+            width: 55px;
+            margin-right: $grid-m;
+
+            &:after {
+                font-size: 68px;
+                line-height: 2*$grid-l;
+            }
+        }
+        .config-menu-next {
+            @include icon-after($icon-arrow-right);
+        }
+        .config-menu-prev {
+            @include icon-after($icon-arrow-left);
+        }
+        .config-menu-config {
+            @include icon-after($icon-cog);
+            margin-right: 0;
         }
         .config-menu-list {
             display: block;

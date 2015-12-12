@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('SongSelectorController', SongSelectorController);
 
-    function SongSelectorController($scope, ScaleOptions) {
+    function SongSelectorController($scope, ScaleOptions, SongStore) {
         var vm = this;
 
         vm.toggleSongList = toggleSongList;
@@ -14,6 +14,7 @@
         function init() {
             vm.loadingFirstSong = true;
             ScaleOptions.subscribeToChangesInScaleOptions(onSongChange);
+            SongStore.subscribeToChangeInAllSongs(songsStoreChanged);
             $scope.$on('$destroy', onDestroy);
         }
 
@@ -28,8 +29,13 @@
             vm.showSongList = !vm.showSongList;
         }
 
+        function songsStoreChanged(newSongs) {
+            vm.songs = newSongs;
+        }
+
         function onDestroy() {
             ScaleOptions.unsubscribeToChangesInScaleOptions(onSongChange);
+            SongStore.unsubscribeToChangeInAllSongs(songsStoreChanged);
         }
     }
 

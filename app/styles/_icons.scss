@@ -1,0 +1,23 @@
+$font-icon: 'entypo';
+
+$icon-cog: '\2699';
+$icon-arrow-down: '\25BE';
+$icon-arrow-right: '\25B8';
+$icon-arrow-left: '\25C2';
+
+@mixin icon-content($icon) {
+    content: $icon;
+    font-family: $font-icon;
+}
+
+@mixin icon-before($icon) {
+    &:before {
+        @include icon-content($icon);
+    }
+}
+
+@mixin icon-after($icon) {
+    &:after {
+        @include icon-content($icon);
+    }
+}
