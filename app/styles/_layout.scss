@@ -6,7 +6,7 @@
     @include display-flex;
     padding: $grid-m;
 }
-    scaleoptions {
+    song-selector {
         display: block;
         @include flex(1);
         margin-right: $grid-m;

@@ -6,16 +6,22 @@
 
     <div class='config-menu-header' ng-if='!vm.loadingFirstSong'>
 
-        <button class='big-button config-menu-button config-menu-prev'></button>
+        <button
+            class='big-button config-menu-button config-menu-prev'
+            ng-click='vm.goToPrevSong()'
+            ng-disabled='!vm.songs || (vm.indexOfSelectedSong <= 0)'></button>
 
         <button class='big-button config-menu-title' ng-click='vm.toggleSongList()'>
             {{vm.currentSong.name || 'No name'}}
         </button>
 
-        <button class='big-button config-menu-button config-menu-next'></button>
+        <button 
+                class='big-button config-menu-button config-menu-next'
+                ng-click='vm.goToNextSong()'
+                ng-disabled='!vm.songs || (vm.indexOfSelectedSong >= (vm.songs.length - 1)) '></button>
         <button class='big-button config-menu-button config-menu-config'></button>
 
-        <song-list ng-show='vm.showSongList' ng-click='vm.toggleSongList()' songs='vm.songs'></song-list>
+        <song-list ng-show='vm.showSongList' ng-click='vm.toggleSongList()' songs='vm.songs' selected-song='vm.currentSong'></song-list>
     </div>
     <div class='config-menu-content' ng-show='expanded'  ng-if='!vm.loadingFirstSong'>
         

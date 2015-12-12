@@ -9,7 +9,8 @@
             restrict: 'E',
             templateUrl: 'scripts/song-selector/song-list/song-list.tpl.html',
             scope: {
-                songs: '='
+                songs: '=',
+                selectedSong: '='
             },
             controller: 'SongListController',
             controllerAs: 'vm',
