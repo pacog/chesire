@@ -8,6 +8,7 @@
         var vm = this;
 
         vm.toggleSongList = toggleSongList;
+        vm.toggleSongEditor = toggleSongEditor;
         vm.goToNextSong = goToNextSong;
         vm.goToPrevSong = goToPrevSong;
 
@@ -30,6 +31,10 @@
 
         function toggleSongList() {
             vm.showSongList = !vm.showSongList;
+        }
+
+        function toggleSongEditor() {
+            vm.songEditorShown = !vm.songEditorShown;
         }
 
         function goToNextSong() {

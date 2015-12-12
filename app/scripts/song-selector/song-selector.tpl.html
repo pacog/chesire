@@ -19,13 +19,12 @@
                 class='big-button config-menu-button config-menu-next'
                 ng-click='vm.goToNextSong()'
                 ng-disabled='!vm.songs || (vm.indexOfSelectedSong >= (vm.songs.length - 1)) '></button>
-        <button class='big-button config-menu-button config-menu-config'></button>
+        
+        <button class='big-button config-menu-button config-menu-config' ng-click='vm.toggleSongEditor()'></button>
 
         <song-list ng-show='vm.showSongList' ng-click='vm.toggleSongList()' songs='vm.songs' selected-song='vm.currentSong'></song-list>
     </div>
-    <div class='config-menu-content' ng-show='expanded'  ng-if='!vm.loadingFirstSong'>
-        
-    </div>
+    <song-editor song='vm.currentSong' ng-show='vm.songEditorShown'></song-editor>
 
 
 </div>
