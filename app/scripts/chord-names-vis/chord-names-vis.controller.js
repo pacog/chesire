@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('ChordNamesVisController', ChordNamesVisController);
 
-    function ChordNamesVisController(ScaleOptions, VisualizationKeyHelper, Leapmotion) {
+    function ChordNamesVisController(ScaleOptions, VisualizationKeyHelper, Leapmotion, chordNames) {
         var vm = this;
 
         vm.MIN_OPACITY = 0.3;
@@ -32,15 +32,7 @@
         }
 
         function getChordName(chord) {
-            if(chord.name) {
-                return chord.name;
-            }
-
-            if(chord.notes && chord.notes.length) {
-                return '(' + chord.notes[0].name + ')';
-            }
-
-            return '-';
+            return chordNames.getChordName(chord);
         }
 
         function getChordOpacity(chord) {

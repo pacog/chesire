@@ -33,8 +33,9 @@
             <div class='generic-section-content'>
                 <div class='song-editor-chords'>
                     <div class='song-editor-chord' ng-repeat='chord in vm.song.chords'>
-                        <div class='song-editor-chord-name'>
-                            {{chord.name || '-'}}
+                        <div class='song-editor-chord-name'
+                             ng-class='{"is-chord-in-second-row": vm.isChordInSecondRow($index)}'>
+                            {{vm.getChordName(chord)}}
                         </div>
                         <div class='song-editor-chord-tools'>
                             <button class='big-button song-editor-pick-chord' ng-click='vm.pickChord($index, vm.song.chords)'>Pick chord</button>

@@ -71,8 +71,12 @@
                 background: $ui-element-bg;
                 padding: $grid-m;
                 position: relative;
-                width: 4*$grid-m;
+                // width: 4*$grid-m;
                 text-align: center;
+
+                &.is-chord-in-second-row {
+                    margin-bottom: 40px;
+                }
             }
             $song-editor-chord-tools-width: 200px;
             $song-editor-decorator-size: 10px;
