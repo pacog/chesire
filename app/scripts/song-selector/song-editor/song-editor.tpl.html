@@ -32,17 +32,24 @@
             </h3>
             <div class='generic-section-content'>
                 <div class='song-editor-chords'>
-                    <div class='song-editor-chord' ng-repeat='chord in vm.song.chords'>
-                        <div class='song-editor-chord-name'
-                             ng-class='{"is-chord-in-second-row": vm.isChordInSecondRow($index)}'>
-                            {{vm.getChordName(chord)}}
-                        </div>
-                        <div class='song-editor-chord-tools'>
-                            <button class='big-button song-editor-pick-chord' ng-click='vm.pickChord($index, vm.song.chords)'>Pick chord</button>
-                            <button class='big-button song-editor-edit-chord' ng-click='vm.editChord($index, vm.song.chords)'>Edit chord</button>
-                            <button class='big-button song-editor-remove-chord' ng-click='vm.removeChord($index, vm.song.chords)'>Remove chord</button>
+                    <div class='song-editor-chord-container' ng-repeat='chord in vm.song.chords'>
+
+                        <button class='song-editor-add-chord' ng-click='vm.addChordBefore($index)'>+</button>
+
+                        <div class='song-editor-chord'>
+                            <div class='song-editor-chord-name'
+                                 ng-class='{"is-chord-in-second-row": vm.isChordInSecondRow($index)}'>
+                                {{vm.getChordName(chord)}}
+                            </div>
+                            <div class='song-editor-chord-tools'>
+                                <button class='big-button song-editor-pick-chord' ng-click='vm.pickChord($index, vm.song.chords)'>Pick chord</button>
+                                <button class='big-button song-editor-edit-chord' ng-click='vm.editChord($index, vm.song.chords)'>Edit chord</button>
+                                <button class='big-button song-editor-remove-chord' ng-click='vm.removeChord($index, vm.song.chords)'>Remove chord</button>
+                            </div>
                         </div>
                     </div>
+
+                    <button class='song-editor-add-chord song-editor-add-chord-last' ng-click='vm.addChordLast()'>+</button>
                 </div>
             </div>
         </div>

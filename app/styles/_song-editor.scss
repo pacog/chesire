@@ -20,7 +20,7 @@
         }
     }
     .song-editor-content {
-        width: 400px;
+        width: 700px;
         max-width: 100%;
         margin: 0 auto;
     }
@@ -33,11 +33,14 @@
         margin: $grid-l 0;
         background: $background-color;
         padding: $grid-m;
+        position: relative;
     }
-        .song-editor-chord {
-            flex: 1;
-            height: 8*$grid-l;
+        .song-editor-chord-container {
             position: relative;
+            flex: 1;
+        }
+        .song-editor-chord {
+            height: 8*$grid-l;
             cursor: pointer;
             opacity: 1;
             transition: opacity 0.3s ease-in-out;
@@ -123,3 +126,21 @@
                     }
                 }
             }
+    $song-editor-add-chord-size: 3*$grid-m;
+    .song-editor-add-chord {
+        @extend .big-button;
+        position: absolute;
+        top: 100%;
+        left: -$song-editor-add-chord-size/2;
+        height: $song-editor-add-chord-size;
+        line-height: $song-editor-add-chord-size;
+        width: $song-editor-add-chord-size;
+        text-align: center;
+        font-size: 18px;
+    }
+    .song-editor-add-chord-last {
+        left: auto;
+        right: -$song-editor-add-chord-size/2;
+        margin-top: -$grid-m;
+        margin-right: $grid-m;
+    }
