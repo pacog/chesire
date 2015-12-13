@@ -1,7 +1,5 @@
 <div class='song-editor'>
-    <div class='song-editor-title'>
-        <input type='text' ng-model='vm.song.name'>
-    </div>
+
     <div class='song-editor-tools'>
         <button
             class='big-button'
@@ -16,4 +14,38 @@
             Delete song
         </button>
     </div>
+
+    <div class='song-editor-content'>
+
+        <div class='generic-section'>
+            <h3 class='generic-section-title'>
+                Song name
+            </h3>
+            <div class='generic-section-content'>
+                <input type='text' ng-model='vm.song.name'>
+            </div>
+        </div>
+
+        <div class='generic-section'>
+            <h3 class='generic-section-title'>
+                Chords
+            </h3>
+            <div class='generic-section-content'>
+                <div class='song-editor-chords'>
+                    <div class='song-editor-chord' ng-repeat='chord in vm.song.chords'>
+                        <div class='song-editor-chord-name'>
+                            {{chord.name || '-'}}
+                        </div>
+                        <div class='song-editor-chord-tools'>
+                            <button class='big-button song-editor-pick-chord' ng-click='vm.pickChord($index, vm.song.chords)'>Pick chord</button>
+                            <button class='big-button song-editor-edit-chord' ng-click='vm.editChord($index, vm.song.chords)'>Edit chord</button>
+                            <button class='big-button song-editor-remove-chord' ng-click='vm.removeChord($index, vm.song.chords)'>Remove chord</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 </div>

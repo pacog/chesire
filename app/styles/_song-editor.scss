@@ -1,3 +1,121 @@
 .song-editor {
-    
+    position: fixed;
+    top: $header-height + 2*$grid-m;
+    left: $grid-m;
+    right: $grid-m;
+    max-height: 90vh;
+    min-height: 400px;
+    overflow: auto;
+    background: $dark-blue;
+    z-index: 10;
+    padding: $grid-l;
 }
+    .song-editor-tools {
+        position: absolute;
+        top: $grid-l;
+        right: $grid-l;
+
+        .big-button {
+            padding: $grid-m;
+        }
+    }
+    .song-editor-content {
+        width: 400px;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+    .song-editor-chords-title {
+        margin-top: 2*$grid-l;
+    }
+
+    .song-editor-chords {
+        display: flex;
+        margin: $grid-l 0;
+        background: $background-color;
+        padding: $grid-m;
+    }
+        .song-editor-chord {
+            flex: 1;
+            height: 8*$grid-l;
+            position: relative;
+            cursor: pointer;
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding: $grid-m;
+
+            .song-editor-chords:hover & {
+                opacity: 0.3;
+            }
+
+            .song-editor-chords:hover &:hover {
+                opacity: 1;
+            }
+
+            &:before {
+                display: block;
+                content: '';
+                position: absolute;
+                background-color: $orange;
+                width: $grid-m;
+                left: 50%;
+                top: 0;
+                bottom: 0;
+                margin-left: -$grid-s;
+            }
+        }
+            .song-editor-chord-name {
+                background: $ui-element-bg;
+                padding: $grid-m;
+                position: relative;
+                width: 4*$grid-m;
+                text-align: center;
+            }
+            $song-editor-chord-tools-width: 200px;
+            $song-editor-decorator-size: 10px;
+            .song-editor-chord-tools {
+                opacity: 0;
+                transition: opacity 0.3s ease-in-out;
+                z-index: 1;
+                position: absolute;
+                left: 50%;
+                bottom: 95%;
+                margin-left: -$song-editor-chord-tools-width/2;
+                width: $song-editor-chord-tools-width;
+                padding: $grid-m;
+                background: $ui-element-bg;
+
+                &:before {
+                    content: '';
+                    display: block;
+                    width: 0;
+                    height: 0;
+                    position: absolute;
+                    left: 50%;
+                    bottom: 0;
+                    margin-bottom: -$song-editor-decorator-size;
+                    margin-left: -$song-editor-decorator-size;
+                    border-style: solid;
+                    border-width: $song-editor-decorator-size $song-editor-decorator-size 0 $song-editor-decorator-size;
+                    border-color: $ui-element-bg transparent transparent transparent;
+                }
+
+                .song-editor-chord:hover & {
+                    opacity: 1;
+                    z-index: 2;
+                }
+
+                .big-button {
+                    display:block;
+                    padding: $grid-m;
+                    margin-bottom: $grid-m;
+                    width: 100%;
+
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+            }

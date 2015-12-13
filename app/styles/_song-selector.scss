@@ -1,4 +1,18 @@
 .song-selector {
     background: $dark-blue;
     margin-right: $grid-m;
+    position: relative;
+
+    &.is-song-editor-open {
+        &:before {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 100%;
+            height: $grid-l;
+            background: $dark-blue;
+        }
+    }
 }

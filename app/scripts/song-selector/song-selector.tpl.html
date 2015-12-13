@@ -1,5 +1,5 @@
-<div class='song-selector'>
-    
+<div class='song-selector' ng-class='{"is-song-editor-open": vm.songEditorShown}'>
+
     <div class='config-menu-header' ng-if='vm.loadingFirstSong'>
         <button class='big-button config-menu-title'>Loading...</button>
     </div>
