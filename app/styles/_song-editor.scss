@@ -10,6 +10,10 @@
     z-index: 10;
     padding: $grid-l;
 }
+    .song-editor-song-name {
+        width: 100%;
+    }
+
     .song-editor-tools {
         position: absolute;
         top: $grid-l;
@@ -81,11 +85,12 @@
                     margin-bottom: 40px;
                 }
             }
-            $song-editor-chord-tools-width: 200px;
+            $song-editor-chord-tools-width: 150px;
             $song-editor-decorator-size: 10px;
             .song-editor-chord-tools {
                 opacity: 0;
-                transition: opacity 0.3s ease-in-out;
+                transition: visibility 0s linear 0.3s, opacity 0.3s ease-in-out;
+                visibility: hidden;
                 z-index: 1;
                 position: absolute;
                 left: 50%;
@@ -111,7 +116,9 @@
                 }
 
                 .song-editor-chord:hover & {
+                    visibility: visible;
                     opacity: 1;
+                    transition-delay: 0s;
                     z-index: 2;
                 }
 
@@ -120,12 +127,32 @@
                     padding: $grid-m;
                     margin-bottom: $grid-m;
                     width: 100%;
+                    text-align: left;
 
                     &:last-child {
                         margin-bottom: 0;
                     }
+
+                    &:before {
+                        display: inline-block;
+                        vertical-align: middle;
+                        margin-right: $grid-m;
+                        font-size: 24px;
+                    }
                 }
             }
+            .song-editor-pick-chord {
+                @include icon-before($icon-search);
+            }
+
+            .song-editor-edit-chord {
+                @include icon-before($icon-pencil);
+            }
+
+            .song-editor-remove-chord {
+                @include icon-before($icon-cross);
+            }
+
     $song-editor-add-chord-size: 3*$grid-m;
     .song-editor-add-chord {
         @extend .big-button;
@@ -138,6 +165,45 @@
         text-align: center;
         font-size: 18px;
     }
+        $song-editor-add-chord-popup-decorator-size: 10px;
+        $song-editor-add-chord-popup-width: 100px;
+        .song-editor-add-chord-popover {
+            opacity: 0;
+            transition: visibility 0s linear 0.3s, opacity 0.3s ease-in-out;
+            visibility: hidden;
+            z-index: 1;
+            position: absolute;
+            left: 50%;
+            bottom: 100%;
+            margin-left: -$song-editor-add-chord-popup-width/2;
+            width: $song-editor-add-chord-popup-width;
+            padding: $grid-s;
+            background: $ui-element-bg;
+            font-size: 12px;
+
+            &:before {
+                content: '';
+                display: block;
+                width: 0;
+                height: 0;
+                position: absolute;
+                left: 50%;
+                bottom: 0;
+                margin-bottom: -$song-editor-add-chord-popup-decorator-size;
+                margin-left: -$song-editor-add-chord-popup-decorator-size;
+                border-style: solid;
+                border-width: $song-editor-add-chord-popup-decorator-size $song-editor-add-chord-popup-decorator-size 0 $song-editor-add-chord-popup-decorator-size;
+                border-color: $ui-element-bg transparent transparent transparent;
+            }
+
+            .song-editor-add-chord:hover & {
+                visibility: visible;
+                opacity: 1;
+                transition-delay: 0s;
+                z-index: 2;
+            }
+        }
+
     .song-editor-add-chord-last {
         left: auto;
         right: -$song-editor-add-chord-size/2;

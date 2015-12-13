@@ -22,7 +22,7 @@
                 Song name
             </h3>
             <div class='generic-section-content'>
-                <input type='text' ng-model='vm.song.name'>
+                <input type='text' class='song-editor-song-name' ng-model='vm.song.name'>
             </div>
         </div>
 
@@ -34,7 +34,9 @@
                 <div class='song-editor-chords'>
                     <div class='song-editor-chord-container' ng-repeat='chord in vm.song.chords'>
 
-                        <button class='song-editor-add-chord' ng-click='vm.addChordBefore($index)'>+</button>
+                        <button class='song-editor-add-chord' ng-click='vm.addChordBefore($index)'>+
+                            <span class='song-editor-add-chord-popover'>Add chord</span>
+                        </button>
 
                         <div class='song-editor-chord'>
                             <div class='song-editor-chord-name'
@@ -49,7 +51,10 @@
                         </div>
                     </div>
 
-                    <button class='song-editor-add-chord song-editor-add-chord-last' ng-click='vm.addChordLast()'>+</button>
+                    <button class='song-editor-add-chord song-editor-add-chord-last' ng-click='vm.addChordLast()'>
+                        +
+                        <span class='song-editor-add-chord-popover'>Add chord</span>
+                    </button>
                 </div>
             </div>
         </div>
