@@ -4,8 +4,10 @@
     angular.module('chesireApp')
         .controller('SongSelectorController', SongSelectorController);
 
-    function SongSelectorController($scope, ScaleOptions, SongStore) {
+    function SongSelectorController($scope, ScaleOptions, SongStore, UIService) {
         var vm = this;
+
+        var UI_SERVICE_MENU_ID = 'song-selector';
 
         vm.toggleSongList = toggleSongList;
         vm.toggleSongEditor = toggleSongEditor;
@@ -18,6 +20,7 @@
             vm.loadingFirstSong = true;
             ScaleOptions.subscribeToChangesInScaleOptions(onSongChange);
             SongStore.subscribeToChangeInAllSongs(songsStoreChanged);
+            UIService.subscribeToMenuOpening(checkIfShouldCloseMenu);
             $scope.$on('$destroy', onDestroy);
         }
 
@@ -31,10 +34,25 @@
 
         function toggleSongList() {
             vm.showSongList = !vm.showSongList;
+            if(vm.showSongList) {
+                vm.songEditorShown = false;
+                UIService.notifyMenuOpen(UI_SERVICE_MENU_ID);
+            }
         }
 
         function toggleSongEditor() {
             vm.songEditorShown = !vm.songEditorShown;
+            if(vm.songEditorShown) {
+                vm.showSongList = false;
+                UIService.notifyMenuOpen(UI_SERVICE_MENU_ID);
+            }
+        }
+
+        function checkIfShouldCloseMenu(newMenuOpened) {
+            if(newMenuOpened !== UI_SERVICE_MENU_ID) {
+                vm.songEditorShown = false;
+                vm.showSongList = false;
+            }
         }
 
         function goToNextSong() {

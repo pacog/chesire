@@ -1,3 +1,19 @@
-<div>
-    song-editor.tpl.html
+<div class='song-editor'>
+    <div class='song-editor-title'>
+        <input type='text' ng-model='vm.song.name'>
+    </div>
+    <div class='song-editor-tools'>
+        <button
+            class='big-button'
+            ng-click='vm.saveSong()'
+            ng-disabled=''>
+            Save
+        </button>
+        <button
+            class='big-button'
+            ng-click='vm.deleteSong()'
+            ng-disabled=''>
+            Delete song
+        </button>
+    </div>
 </div>
