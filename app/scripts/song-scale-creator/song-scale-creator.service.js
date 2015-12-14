@@ -6,16 +6,18 @@
 
     function songScaleCreator($q) {
         var _isShown = false;
+        var willGetSongFromScale;
 
         var factory = {
             show: show,
             hide: hide,
-            isShown: isShown
+            isShown: isShown,
+            notifySongHasBeenCreated: notifySongHasBeenCreated
         };
         return factory;
 
         function show() {
-            var willGetSongFromScale = $q.defer();
+            willGetSongFromScale = $q.defer();
             _isShown = true;
             return willGetSongFromScale.promise;
         }
@@ -26,6 +28,12 @@
 
         function hide() {
             _isShown = false;
+        }
+
+        function notifySongHasBeenCreated() {
+            if(willGetSongFromScale) {
+                willGetSongFromScale.resolve();
+            }
         }
 
     }

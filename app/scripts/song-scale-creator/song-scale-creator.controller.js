@@ -38,6 +38,7 @@
         function save() {
             var song = getSongfromParams();
             ScaleOptions.setScaleOptions(song);
+            songScaleCreator.notifySongHasBeenCreated();
             vm.close();
         }
 
