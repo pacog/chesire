@@ -15,14 +15,26 @@
     }
 
     .song-editor-tools {
-        position: absolute;
-        top: $grid-l;
-        right: $grid-l;
+        display: flex;
+        justify-content: flex-end;
 
         .big-button {
+            margin-left: $grid-m;
             padding: $grid-m;
+            &:before {
+                font-size: 28px;
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: $grid-s;
+            }
         }
     }
+        .song-editor-save {
+            @include icon-before($icon-save);
+        }
+        .song-editor-delete {
+            @include icon-before($icon-cross);
+        }
     .song-editor-content {
         width: 700px;
         max-width: 100%;
@@ -89,12 +101,12 @@
             $song-editor-decorator-size: 10px;
             .song-editor-chord-tools {
                 opacity: 0;
-                transition: visibility 0s linear 0.3s, opacity 0.3s ease-in-out;
+                transition: visibility 0s linear 0.6s, opacity 0.3s ease-in-out 0.3s;
                 visibility: hidden;
                 z-index: 1;
                 position: absolute;
                 left: 50%;
-                bottom: 95%;
+                bottom: 60%;
                 margin-left: -$song-editor-chord-tools-width/2;
                 width: $song-editor-chord-tools-width;
                 padding: $grid-m;
@@ -118,7 +130,7 @@
                 .song-editor-chord:hover & {
                     visibility: visible;
                     opacity: 1;
-                    transition-delay: 0s;
+                    transition-delay: 0s, 0.3s;
                     z-index: 2;
                 }
 

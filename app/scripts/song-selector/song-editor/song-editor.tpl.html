@@ -1,21 +1,22 @@
 <div class='song-editor'>
 
-    <div class='song-editor-tools'>
-        <button
-            class='big-button'
-            ng-click='vm.saveSong()'
-            ng-disabled='!vm.songHasBeenModified'>
-            Save
-        </button>
-        <button
-            class='big-button'
-            ng-click='vm.deleteSong()'
-            ng-disabled=''>
-            Delete song
-        </button>
-    </div>
-
     <div class='song-editor-content'>
+
+        <div class='song-editor-tools'>
+            <button
+                class='big-button song-editor-save'
+                ng-click='vm.saveSong()'
+                ng-disabled='!vm.songHasBeenModified'>
+                Save
+            </button>
+            <button
+                class='big-button song-editor-delete'
+                ng-click='vm.deleteSong()'
+                ng-disabled=''>
+                Delete song
+            </button>
+        </div>
+
 
         <div class='generic-section'>
             <h3 class='generic-section-title'>
