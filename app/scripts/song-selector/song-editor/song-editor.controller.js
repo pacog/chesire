@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('SongEditorController', SongEditorController);
 
-    function SongEditorController(chordNames, chordSelector) {
+    function SongEditorController($scope, chordNames, chordSelector, songEditor) {
         var vm = this;
 
         var CHORDS_TWO_ROWS_LIMIT = 5;
@@ -15,6 +15,20 @@
         vm.removeChord = removeChord;
         vm.addChordBefore = addChordBefore;
         vm.addChordLast = addChordLast;
+
+        vm.songEditor = songEditor;
+        vm.songHasBeenModified = false;
+
+        init();
+
+        function init() {
+            songEditor.subscribeToSongChanged(songModified);
+            $scope.$on('$destroy', onDestroy);
+        }
+
+        function songModified(isSongModified) {
+            vm.songHasBeenModified = isSongModified;
+        }
 
         function getChordName(chord) {
             return chordNames.getChordName(chord);
@@ -27,6 +41,7 @@
         function pickChord(index, chords) {
             chordSelector.showSelector().then(function(chordChosen) {
                 chords[index] = chordChosen;
+                songEditor.notifySongHasChanged(true);
             });
         }
 
@@ -37,14 +52,17 @@
                 chords[index].notes = [];
                 chords[index].name = undefined;
             }
+            songEditor.notifySongHasChanged(true);
         }
 
         function addChordBefore(index) {
             vm.song.chords.splice(index, 0, getEmptyChord());
+            songEditor.notifySongHasChanged(true);
         }
 
         function addChordLast() {
             vm.song.chords.push(getEmptyChord());
+            songEditor.notifySongHasChanged(true);
         }
 
         function getEmptyChord() {
@@ -52,6 +70,10 @@
                 name: undefined,
                 notes: []
             };
+        }
+
+        function onDestroy() {
+            songEditor.unsubscribeToSongChanged(songModified);
         }
 
     }
