@@ -12,6 +12,18 @@
             </div>
         </div>
 
+        <div class='generic-section'>
+            <h3 class='generic-section-title'>
+                Notes
+            </h3>
+            <div class='generic-section-content'>
+                <notes-keyboard
+                    notes='vm.chordEditor.chord.notes'
+                    ng-if='vm.chordEditor.chord.notes'
+                ></notes-keyboard>
+            </div>
+        </div>
+
         <div class='align-center'>
             <button class='button generic-cancel-button' ng-click='vm.close()'>Cancel</button>
             <button class='button generic-save-button' ng-click='vm.save()'>Save chord</button>

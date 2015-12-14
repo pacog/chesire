@@ -1,0 +1,15 @@
+<ul class='notes-keyboard'>
+    <li class='notes-keyboard-note'
+        ng-repeat='note in vm.allNotes'
+        ng-click='vm.selectNote(note)'
+        ng-class='{"sharp-note": (note.name.indexOf("#")!==-1)
+                    , "selected": vm.isNoteSelected($index)
+                    , "possible": vm.isNotePossible($index)}'
+    >
+        <div class='notes-keyboard-note-content'>
+            <button class='notes-keyboard-note-button'></button>
+            <div class='notes-keyboard-note-info' ng-bind='::note.name'></div>
+        </div>
+    </li>
+
+</ul>

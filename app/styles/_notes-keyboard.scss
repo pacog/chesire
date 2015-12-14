@@ -1,0 +1,92 @@
+$note-height: 38px;
+$note-width: 22px;
+$sharp-note-height: 24px;
+$sharp-note-width: 14px;
+
+.notes-keyboard {
+    text-align: center;
+}
+    .notes-keyboard-note {
+        @include inline-block(top);
+        @include box-sizing(border-box);
+        background: white;
+        height: $note-height;
+        width: $note-width;
+        border: 1px solid black;
+        cursor: pointer;
+
+        &:hover {
+            background: #ccc;
+        }
+
+        &.sharp-note {
+            background: black;
+            position: relative;
+            height: $sharp-note-height;
+            width: $sharp-note-width;
+            margin-left: -$sharp-note-width;
+            left: ($sharp-note-width/2);
+            &:hover {
+                background: #333;
+            }
+        }
+
+        &.selected {
+            background: $orange;
+            &:hover {
+                background: darken($orange, 10);
+            }
+        }
+    }
+
+    $possible-note-decorator-size: 6px;
+    .notes-keyboard-note-content {
+        position: relative;
+        display: block;
+        height: 100%;
+        width: 100%;
+
+        .notes-keyboard-note.possible & {
+            pointer-events: none;
+            &:before {
+                content: '';
+                display: block;
+                position: absolute;
+                bottom: 2px;
+                left: 50%;
+                background: $orange;
+                width: $possible-note-decorator-size;
+                height: $possible-note-decorator-size;
+                margin-left: -$possible-note-decorator-size/2;
+                border-radius: 50%;
+            }
+        }
+    }
+
+    .notes-keyboard-note-button {
+        background: transparent;
+        border: 0;
+        margin: 0;
+        padding: 0;
+        display: block;
+        height: 100%;
+        width: 100%;
+        cursor: pointer;
+    }
+    $note-info-width: 50px;
+    .notes-keyboard-note-info {
+        display: none;
+        position: absolute;
+        width: $note-info-width;
+        background: rgba(0,0,0, 0.8);
+        top: 100%;
+        margin-top: $grid-s;
+        left: 50%;
+        margin-left: -($note-info-width/2);
+        z-index: $zIndex-blackNotesInChord;
+        text-align: center;
+        padding: $grid-m;
+        .notes-keyboard-note:hover & {
+            display: block;
+        }
+    }
