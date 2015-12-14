@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('SongEditorController', SongEditorController);
 
-    function SongEditorController($scope, chordNames, chordSelector, songEditor) {
+    function SongEditorController($scope, chordNames, chordSelector, songEditor, SongStore) {
         var vm = this;
 
         var CHORDS_TWO_ROWS_LIMIT = 5;
@@ -15,6 +15,10 @@
         vm.removeChord = removeChord;
         vm.addChordBefore = addChordBefore;
         vm.addChordLast = addChordLast;
+        vm.saveSong = saveSong;
+        vm.deleteSong = deleteSong;
+        vm.askConfirmationDeleteSong = askConfirmationDeleteSong;
+        vm.cancelDeleteSong = cancelDeleteSong;
 
         vm.songEditor = songEditor;
         vm.songHasBeenModified = false;
@@ -24,6 +28,14 @@
         function init() {
             songEditor.subscribeToSongChanged(songModified);
             $scope.$on('$destroy', onDestroy);
+        }
+
+        function askConfirmationDeleteSong() {
+            vm.confirmingDeleteSong = true;
+        }
+
+        function cancelDeleteSong() {
+            vm.confirmingDeleteSong = false;
         }
 
         function songModified(isSongModified) {
@@ -53,6 +65,15 @@
                 chords[index].name = undefined;
             }
             songEditor.notifySongHasChanged(true);
+        }
+
+        function saveSong() {
+            SongStore.saveSong(vm.song);
+        }
+
+        function deleteSong() {
+            SongStore.deleteSong(vm.song);
+            vm.confirmingDeleteSong = false;
         }
 
         function addChordBefore(index) {

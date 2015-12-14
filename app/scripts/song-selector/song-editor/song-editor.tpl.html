@@ -11,10 +11,16 @@
             </button>
             <button
                 class='big-button song-editor-delete'
-                ng-click='vm.deleteSong()'
-                ng-disabled=''>
+                ng-click='vm.askConfirmationDeleteSong()'
+                ng-show='!vm.confirmingDeleteSong'
+                >
                 Delete song
             </button>
+            <div class='song-editor-delete-confirm' ng-show='vm.confirmingDeleteSong'>
+                Are you sure you want to delete this song?
+                <button class='big button' ng-click='vm.deleteSong()'>Delete!</button>
+                <button class='big button' ng-click='vm.cancelDeleteSong()'>Cancel</button>
+            </div>
         </div>
 
 

@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('SongSelectorController', SongSelectorController);
 
-    function SongSelectorController($scope, ScaleOptions, SongStore, UIService, songEditor) {
+    function SongSelectorController($scope, ScaleOptions, SongStore, UIService, songEditor, DefaultScale) {
         var vm = this;
 
         var UI_SERVICE_MENU_ID = 'song-selector';
@@ -34,6 +34,16 @@
                 updateSelectedSongIndex();
                 songEditor.notifySongHasChanged(false);
             }
+        }
+
+        function onDeletedSong() {
+            if(vm.songs.length === 0) {
+                vm.songs[0] = angular.copy(DefaultScale);
+            }
+            if(vm.indexOfSelectedSong >= vm.songs.length) {
+                vm.indexOfSelectedSong = vm.songs.length - 1;
+            }
+            ScaleOptions.setScaleOptions(vm.songs[vm.indexOfSelectedSong]);
         }
 
         function songModified(isSongModified) {
@@ -80,9 +90,13 @@
             }
         }
 
-        function songsStoreChanged(newSongs) {
+        function songsStoreChanged(newSongs, deletedSong) {
             vm.songs = newSongs;
-            updateSelectedSongIndex();
+            if(deletedSong) {
+                onDeletedSong();
+            } else {
+                updateSelectedSongIndex();
+            }
         }
 
         function updateSelectedSongIndex() {
@@ -97,6 +111,7 @@
             ScaleOptions.unsubscribeToChangesInScaleOptions(onSongChange);
             SongStore.unsubscribeToChangeInAllSongs(songsStoreChanged);
             songEditor.unsubscribeToSongChanged(songModified);
+            songEditor.unsubscribeToSongDeleted(onDeletedSong);
         }
     }
 

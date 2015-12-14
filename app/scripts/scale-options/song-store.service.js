@@ -52,7 +52,9 @@ angular.module('chesireApp')
             allSongs = _.without(allSongs, existingSong);
             allSongsCache = allSongs;
             localStorageService.set('songs', allSongs);
-            deferred.promise.then(onChangeInAllSongs);
+            deferred.promise.then(function(newAllSongs) {
+                onChangeInAllSongs(newAllSongs, true);
+            });
             deferred.resolve(allSongs);
 
             return deferred.promise;
@@ -76,9 +78,9 @@ angular.module('chesireApp')
             changeInAllSongsSubscribers = _.without(changeInAllSongsSubscribers, callback);
         };
 
-        var onChangeInAllSongs = function(newAllSongs) {
+        var onChangeInAllSongs = function(newAllSongs, deletedSong) {
             angular.forEach(changeInAllSongsSubscribers, function(callback) {
-                callback(newAllSongs);
+                callback(newAllSongs, deletedSong);
             });
         };
 

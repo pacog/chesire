@@ -35,6 +35,13 @@
         .song-editor-delete {
             @include icon-before($icon-cross);
         }
+
+        .song-editor-delete-confirm {
+            line-height: 30px;
+            font-size: 14px;
+            padding: $grid-m;
+            margin-left: $grid-l;
+        }
     .song-editor-content {
         width: 700px;
         max-width: 100%;

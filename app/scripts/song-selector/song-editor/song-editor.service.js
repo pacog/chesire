@@ -29,6 +29,7 @@
         function unsubscribeToSongChanged(callback) {
             songChangedSubscribers = _.without(songChangedSubscribers, callback);
         }
+
     }
 
 })();
