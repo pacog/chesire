@@ -45,15 +45,16 @@
                             <span class='song-editor-add-chord-popover'>Add chord</span>
                         </button>
 
-                        <div class='song-editor-chord'>
+                        <div class='song-editor-chord' ng-click='vm.editChord($index, vm.song.chords)'>
                             <div class='song-editor-chord-name'
-                                 ng-class='{"is-chord-in-second-row": vm.isChordInSecondRow($index)}'>
+                                 ng-class='{"is-chord-in-second-row": vm.isChordInSecondRow($index)}'
+                                 >
                                 {{vm.getChordName(chord)}}
                             </div>
                             <div class='song-editor-chord-tools'>
-                                <button class='big-button song-editor-pick-chord' ng-click='vm.pickChord($index, vm.song.chords)'>Pick chord</button>
-                                <button class='big-button song-editor-edit-chord' ng-click='vm.editChord($index, vm.song.chords)'>Edit chord</button>
-                                <button class='big-button song-editor-remove-chord' ng-click='vm.removeChord($index, vm.song.chords)'>Remove chord</button>
+                                <button class='big-button song-editor-pick-chord' ng-click='vm.pickChord($index, vm.song.chords); $event.stopPropagation();'>Pick chord</button>
+                                <button class='big-button song-editor-edit-chord' ng-click='vm.editChord($index, vm.song.chords); $event.stopPropagation();'>Edit chord</button>
+                                <button class='big-button song-editor-remove-chord' ng-click='vm.removeChord($index, vm.song.chords); $event.stopPropagation();'>Remove chord</button>
                             </div>
                         </div>
                     </div>
