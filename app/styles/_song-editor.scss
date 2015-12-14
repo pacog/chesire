@@ -170,6 +170,12 @@
 
             .song-editor-remove-chord {
                 @include icon-before($icon-cross);
+                visibility: hidden;
+                transition: visibility 0s linear 1s;
+                .song-editor-chord:hover & {
+                    visibility: visible;
+                    // transition-delay: 0s;
+                }
             }
 
     $song-editor-add-chord-size: 3*$grid-m;
