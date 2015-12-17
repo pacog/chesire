@@ -8,7 +8,8 @@ angular.module('chesireApp', [
     $routeProvider
         .when('/', {
           templateUrl: 'scripts/app/main.html',
-          controller: 'MainCtrl'
+          controller: 'MainController',
+          controllerAs: 'vm'
         })
         .otherwise({
             redirectTo: '/'

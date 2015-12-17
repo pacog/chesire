@@ -1,8 +1,25 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('chesireApp')
+    angular.module('chesireApp')
+        .controller('MainController', MainController);
 
-    .controller('MainCtrl', function (ScaleOptions, SongStore) {
-        ScaleOptions.init();
-        SongStore.getSongs();
-    });
+    function MainController(ScaleOptions, SongStore, UIService) {
+        var vm = this;
+
+        vm.closeAllPopopovers = closeAllPopopovers;
+
+        init();
+
+        function init() {
+            ScaleOptions.init();
+            SongStore.getSongs();
+        }
+
+        function closeAllPopopovers() {
+            UIService.notifyMenuOpen('no-menu');
+        }
+    }
+
+})();
+

@@ -1,25 +1,27 @@
 <div class='header'>
-    <!-- <scaleoptions></scaleoptions> -->
+        <!-- <scaleoptions></scaleoptions> -->
     <song-selector></song-selector>
     <synthoptions></synthoptions>
     <div class='logo'></div>
 </div>
+<div class='main-container' ng-click='vm.closeAllPopopovers()'>
+    <!-- Background visualization -->
+    <threeparticles></threeparticles>
 
-<!-- Background visualization -->
-<threeparticles></threeparticles>
+    <chord-names-vis></chord-names-vis>
 
-<chord-names-vis></chord-names-vis>
+    <soundgenerator></soundgenerator>
 
-<soundgenerator></soundgenerator>
+    <midigenerator ng-show='false'></midigenerator>
 
-<midigenerator ng-show='false'></midigenerator>
+    <controls-hud></controls-hud>
 
-<controls-hud></controls-hud>
+    <!-- <neural-trainer></neural-trainer> -->
 
-<!-- <neural-trainer></neural-trainer> -->
+    <song-scale-creator></song-scale-creator>
+    <!-- <helper-visuals></helper-visuals> -->
 
-<song-scale-creator></song-scale-creator>
-<!-- <helper-visuals></helper-visuals> -->
+    <!-- <testmidi></testmidi> -->
+    <!-- Stats -->
+</div>
 
-<!-- <testmidi></testmidi> -->
-<!-- Stats -->

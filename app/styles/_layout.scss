@@ -5,6 +5,7 @@
     right: 0;
     @include display-flex;
     padding: $grid-m;
+    z-index: 10;
 }
     song-selector {
         display: block;

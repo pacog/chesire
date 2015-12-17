@@ -17,10 +17,23 @@
             }
 
             if(chord.notes && chord.notes.length) {
-                return '(' + chord.notes[0].name + ')';
+
+                return '(' + getLowerNote(chord.notes).name + ')';
             }
 
             return '-';
+        }
+
+        function getLowerNote(notes) {
+            var lowerNote = notes[0];
+
+            for(var i=1; i<notes.length; i++) {
+                if(notes[i].freq < lowerNote.freq) {
+                    lowerNote = notes[i];
+                }
+            }
+
+            return lowerNote;
         }
 
     }
