@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('SongSelectorController', SongSelectorController);
 
-    function SongSelectorController($scope, ScaleOptions, SongStore, UIService, songEditor, DefaultScale) {
+    function SongSelectorController($scope, ScaleOptions, SongStore, UIService, songEditor, DefaultScale, hotKeys) {
         var vm = this;
 
         var UI_SERVICE_MENU_ID = 'song-selector';
@@ -24,6 +24,8 @@
             SongStore.subscribeToChangeInAllSongs(songsStoreChanged);
             UIService.subscribeToMenuOpening(checkIfShouldCloseMenu);
             songEditor.subscribeToSongChanged(songModified);
+            hotKeys.on('NEXT_SONG', goToNextSong);
+            hotKeys.on('PREV_SONG', goToPrevSong);
             $scope.$on('$destroy', onDestroy);
         }
 
@@ -112,6 +114,8 @@
             SongStore.unsubscribeToChangeInAllSongs(songsStoreChanged);
             songEditor.unsubscribeToSongChanged(songModified);
             songEditor.unsubscribeToSongDeleted(onDeletedSong);
+            hotKeys.off('NEXT_SONG', goToNextSong);
+            hotKeys.off('PREV_SONG', goToPrevSong);
         }
     }
 

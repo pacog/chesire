@@ -28,7 +28,6 @@
         function changeInBoundaries(newBoundaries) {
             if(newBoundaries) {
                 vm.width = Math.round(newBoundaries.max.x - newBoundaries.min.x);
-                console.log('vm.width ' + vm.width);
             }
         }
 
