@@ -1,0 +1,22 @@
+<div class='midi-bank-selector'>
+    <div class='midi-bank-selector-line'>
+        <div class='midi-bank-selector-line-title'>
+            Bank
+        </div>
+        <div class='midi-bank-selector-line-value'>
+            <button ng-click='vm.prevBank()'>-</button>
+            <input ng-value='vm.bank'/>
+            <button ng-click='vm.nextBank()'>+</button>
+        </div>
+    </div>
+    <div class='midi-bank-selector-line'>
+        <div class='midi-bank-selector-line-title'>
+            Program
+        </div>
+        <div class='midi-bank-selector-line-value'>
+            <button ng-click='vm.prevProgram()'>-</button>
+            <input ng-value='vm.program'/>
+            <button ng-click='vm.nextProgram()'>+</button>
+        </div>
+    </div>
+</div>

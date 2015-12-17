@@ -69,6 +69,14 @@ angular.module('chesireApp')
             return [controlCode(), controlInfo.number, get127Value(controlValue)];
         };
 
+        var getSetBank = function(bankNumber) {
+            return [controlCode(), get127Value(bankNumber)];
+        };
+
+        var getSetProgram = function(programNumber) {
+            return [controlCode(), get127Value(programNumber), 0];
+        };
+
         var getResetControls = function() {
             var firstByte = controlCode();
             return [firstByte, 121, 0];
@@ -80,7 +88,7 @@ angular.module('chesireApp')
         };
 
         var getPingControl = function(controlNumber) {
-            return [controlCode(), controlNumber, 80]; //80 just because, any nnumber would do
+            return [controlCode(), controlNumber, 80]; //80 just because, any number would do
         };
 
         return {
@@ -93,6 +101,8 @@ angular.module('chesireApp')
             getControl: getControl,
             getResetControls: getResetControls,
             getResetNotes: getResetNotes,
-            getPingControl: getPingControl
+            getPingControl: getPingControl,
+            getSetBank: getSetBank,
+            getSetProgram: getSetProgram
         };
     });

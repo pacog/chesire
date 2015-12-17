@@ -114,5 +114,14 @@ angular.module('chesireApp')
             send(MidiMessagesHelper.getPingControl(controlNumber));
         };
 
+        MidiOutput.prototype.setBank = function(bankNumber) {
+            send(MidiMessagesHelper.getSetBank(bankNumber));
+        };
+
+        MidiOutput.prototype.setProgram = function(programNumber) {
+            send(MidiMessagesHelper.getSetProgram(programNumber));
+        };
+
+
         return MidiOutput;
     });

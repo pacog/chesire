@@ -1,0 +1,7 @@
+.midi-bank-selector {
+    display: block;
+    position: absolute;
+    bottom: 200px;
+    right: $grid-m;
+    @extend .tile;
+}
