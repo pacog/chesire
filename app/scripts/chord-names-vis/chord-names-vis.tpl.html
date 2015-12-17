@@ -1,4 +1,7 @@
-<div class='chord-names-vis'>
+<div class='chord-names-vis'
+     ng-if='vm.width'
+     ng-style='{"width": vm.width + "px",
+                "margin-left": (-vm.width/2) + "px" }'>
 
     <div 
         ng-repeat='chord in vm.chords'

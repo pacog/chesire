@@ -1,12 +1,9 @@
-$chord-names-vis-width: 60%;
 $each-chord-width: 100%;
 
 .chord-names-vis {
     position: absolute;
     bottom: 100px;
     left: 50%;
-    width: $chord-names-vis-width;
-    margin-left: -$chord-names-vis-width/2;
     pointer-events: none;
 }
 
@@ -17,4 +14,5 @@ $each-chord-width: 100%;
         position: absolute;
         bottom: 0;
         left: 0;
+        margin-left: -40px;
     }

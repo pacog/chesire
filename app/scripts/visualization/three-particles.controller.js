@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('ThreeparticlesCtrl', function ($scope, $timeout, $q, Three, Leapmotion, Colorpalette, ScaleOptions, SpaceConverter, HandModel, BoundariesModel, PointerModel, SoundMeshModel, VisualizationKeyHelper, Camera, ChordsHelperModel) {
+.controller('ThreeparticlesCtrl', function ($scope, $timeout, $q, Three, Leapmotion, Colorpalette, ScaleOptions, SpaceConverter, HandModel, BoundariesModel, PointerModel, SoundMeshModel, VisualizationKeyHelper, Camera, ChordsHelperModel, playerBoundaries) {
 
     var whenSceneIsReady = $q.defer();
 
@@ -68,6 +68,8 @@ angular.module('chesireApp')
         $scope.renderer.setClearColor( Colorpalette.hex.BACKGROUND, 1);
         $scope.renderer.setSize( width, height );
         element.append($scope.renderer.domElement);
+        playerBoundaries.setCamera(camera.getCamera());
+        playerBoundaries.setRenderer($scope.renderer);
     };
 
     $scope.frameInfoChanged = function() {

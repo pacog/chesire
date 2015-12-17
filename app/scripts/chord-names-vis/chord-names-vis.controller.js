@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('ChordNamesVisController', ChordNamesVisController);
 
-    function ChordNamesVisController(ScaleOptions, VisualizationKeyHelper, Leapmotion, chordNames) {
+    function ChordNamesVisController(ScaleOptions, VisualizationKeyHelper, Leapmotion, chordNames, playerBoundaries) {
         var vm = this;
 
         vm.MIN_OPACITY = 0.3;
@@ -22,6 +22,14 @@
             ScaleOptions.getScaleOptions().then(scaleChanged);
             ScaleOptions.subscribeToChangesInScaleOptions(scaleChanged);
             Leapmotion.subscribeToFrameChange(frameChange);
+            playerBoundaries.subscribeToChange(changeInBoundaries);
+        }
+
+        function changeInBoundaries(newBoundaries) {
+            if(newBoundaries) {
+                vm.width = Math.round(newBoundaries.max.x - newBoundaries.min.x);
+                console.log('vm.width ' + vm.width);
+            }
         }
 
         function scaleChanged(newScale) {

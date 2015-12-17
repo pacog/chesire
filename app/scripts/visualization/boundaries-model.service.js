@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chesireApp')
-    .factory('BoundariesModel', function(Three, Colorpalette, SpaceConverter) {
+    .factory('BoundariesModel', function(Three, Colorpalette, SpaceConverter, playerBoundaries) {
 
         var BoundariesModelClass = function(scene) {
             this._scene = scene;
@@ -66,6 +66,7 @@ angular.module('chesireApp')
             boundariesMeshGeometry.computeFaceNormals();
             var boundariesMesh = new Three.Mesh(boundariesMeshGeometry, material);
             this._scene.add(boundariesMesh);
+            playerBoundaries.setBoundariesObject(boundariesMesh);
         };
 
         return BoundariesModelClass;
