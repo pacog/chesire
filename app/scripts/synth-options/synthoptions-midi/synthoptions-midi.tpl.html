@@ -5,14 +5,11 @@
                 <div class='oscillator-section'>
                     <h4 class='oscillator-section-title'>Output mode</h4>
                     <div class='oscillator-section-content'>
-
-                        <div class='synthoptions-midi-output-selector' ng-show='vm.synthoptions.outputMode === "midi"'>
-                            <midi-output-selector></midi-output-selector>
-                        </div>
+                        <midi-output-selector></midi-output-selector>
                     </div>
                 </div>
             <ul>
-                <li ng-repeat='component in vm.synthoptions.components'>
+                <li ng-repeat='component in vm.synthoptions.getActiveComponents()'>
                     <synthcomponent component-info='component'></synthcomponent>
                 </li>
             </ul>
@@ -20,7 +17,7 @@
         <div class='synthoptions-content-controls'>
             <h2 class='synthoptions-content-column-title'>Additional controls</h2>
             <ul class='synthoptions-midi-controls'>
-                <li ng-repeat='control in vm.synthoptions.controls' trackBy>
+                <li ng-repeat='control in vm.synthoptions.getActiveControls()' trackBy>
                     <control control-info='control'></control>
                 </li>
             </ul>

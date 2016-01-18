@@ -20,7 +20,6 @@ angular.module('chesireApp')
         SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
         ScaleOptions.subscribeToChangesInScaleOptions(notesChanged);
         Leapmotion.subscribeToFrameChange(frameInfoChanged);
-        synthOptionsChanged(synthOptions);
     };
 
     var notesChanged = function(newValue) {
@@ -34,7 +33,7 @@ angular.module('chesireApp')
         currentSynth = new SynthClass(newOptions, scaleOptions);
         CurrentSynth.setCurrentSynth(currentSynth);
 
-        if(synthOptions.outputMode === 'midi') {
+        if(synthOptions.isMidiOutput()) {
             currentSynth.disable();
         }
     };
@@ -42,7 +41,7 @@ angular.module('chesireApp')
     var frameInfoChanged = function(frame) {
         //TODO: refactor this so the checking for hands comes from Synth
         //At least check if there are 2 hands to send the current one
-        if(synthOptions.outputMode === 'midi') {
+        if(synthOptions.isMidiOutput()) {
             return;
         }
         var newFrame = frame.frame;

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chesireApp')
-    .factory('SynthClass', function(Audiocontext, SynthElementFactory, SynthOptionsHelper) {
+    .factory('SynthClass', function(Audiocontext, SynthElementFactory) {
 
         var SynthClass = function(synthOptions, scaleOptions) {
             if(synthOptions && scaleOptions) {
@@ -38,7 +38,7 @@ angular.module('chesireApp')
             _createComponents: function() {
                 if(this._areOptionsCorrect()) {
                     var self = this;
-                    angular.forEach(this.synthOptions.components, function(synthElementOptions) {
+                    angular.forEach(this.synthOptions.getActiveComponents(), function(synthElementOptions) {
                         self.synthElements.push(SynthElementFactory.createSynthElement(synthElementOptions));
                     });
 
@@ -55,7 +55,7 @@ angular.module('chesireApp')
 
             _areOptionsCorrect: function() {
                 if(this.synthOptions) {
-                    var oscillatorOptions = SynthOptionsHelper.getOscillatorFromOptions(this.synthOptions);
+                    var oscillatorOptions = this.synthOptions.getOscillatorComponent();
                     var thereIsAnOscillator = (oscillatorOptions && oscillatorOptions.type === 'oscillator');
                     return thereIsAnOscillator;
                 }

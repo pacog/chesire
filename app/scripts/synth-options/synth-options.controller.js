@@ -59,7 +59,7 @@ angular.module('chesireApp')
     };
 
     $scope.addControl = function() {
-        $scope.synthoptions.controls.push(angular.copy(DefaultEmptyControl));
+        $scope.synthoptions.getActiveControls().push(angular.copy(DefaultEmptyControl));
     };
 
     //TODO: on destroy: UIService.unsubscribeToMenuOpening(checkIfShouldCloseMenu);

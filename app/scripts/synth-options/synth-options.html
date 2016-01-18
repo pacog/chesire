@@ -27,9 +27,9 @@
                 </div>
             </div>
 
-            <synthoptions-midi synthoptions='synthoptions' ng-show='synthoptions.outputMode === "midi"' ></synthoptions-midi>
+            <synthoptions-midi synthoptions='synthoptions' ng-if='synthoptions.isMidiOutput()' ></synthoptions-midi>
             
-            <synthoptions-audio synthoptions='synthoptions' ng-show='synthoptions.outputMode === "audio"' ></synthoptions-audio>
+            <synthoptions-audio synthoptions='synthoptions' ng-if='synthoptions.isAudioOutput()' ></synthoptions-audio>
         </div>
     </div>
 </div>

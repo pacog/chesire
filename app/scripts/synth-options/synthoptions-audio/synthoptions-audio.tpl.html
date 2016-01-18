@@ -4,7 +4,7 @@
         <h2 class='synthoptions-content-column-title'>Note generation</h2>
 
         <ul>
-            <li ng-repeat='component in vm.synthoptions.components'>
+            <li ng-repeat='component in vm.synthoptions.getActiveComponents()'>
                 <synthcomponent component-info='component'></synthcomponent>
             </li>
         </ul>
@@ -12,7 +12,7 @@
         <div class='synthoptions-content-controls'>
             <h2 class='synthoptions-content-column-title'>Additional controls</h2>
             <ul class='synthoptions-midi-controls'>
-                <li ng-repeat='control in vm.synthoptions.controls' trackBy>
+                <li ng-repeat='control in vm.synthoptions.getActiveControls()' trackBy>
                     <control control-info='control'></control>
                 </li>
             </ul>

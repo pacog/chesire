@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('MidigeneratorCtrl', function ($scope, $timeout, $window, $q, MidiApiMediator, Leapmotion, MultiNotesHelper, SynthOptions, MotionParamsHelper, SynthOptionsHelper, CurrentMidiOutput) {
+.controller('MidigeneratorCtrl', function ($scope, $timeout, $window, $q, MidiApiMediator, Leapmotion, MultiNotesHelper, SynthOptions, MotionParamsHelper, CurrentMidiOutput) {
 
     var synthOptions = null;
     var notesBeingPlayed = {};
@@ -30,12 +30,11 @@ angular.module('chesireApp')
         if(newSynthOptions) {
             CurrentMidiOutput.getCurrentOutput().resetEverything();
             synthOptions = newSynthOptions;
-            if(newSynthOptions.outputMode !== 'midi') {
+            if(synthOptions.isMidiOutput()) {
+                enabled = true;
+            } else {
                 stopPlaying();
                 enabled = false;
-            }
-            if(newSynthOptions.outputMode === 'midi') {
-                enabled = true;
             }
         }
     };
@@ -51,7 +50,7 @@ angular.module('chesireApp')
         var notesInfo = [];
         if(frame && frame.hands && frame.hands.length) {
             var motionParams = Leapmotion.getRelativePositions(frame, frame.hands);
-            var oscillatorConfig = SynthOptionsHelper.getOscillatorFromOptions(synthOptions);
+            var oscillatorConfig = synthOptions.getOscillatorComponent();
             notesInfo = MultiNotesHelper.getNotesInfo(motionParams, oscillatorConfig, frame);
         } else {
             stopPlaying();
@@ -92,7 +91,7 @@ angular.module('chesireApp')
         if(frameInfo && !_.isEmpty(frameInfo.hands)) {
             var motionParams = Leapmotion.getRelativePositions(frameInfo, frameInfo.hands);
             var newGainValue = DEFAULT_VOLUME;
-            var options = SynthOptionsHelper.getOscillatorFromOptions(synthOptions);
+            var options = synthOptions.getOscillatorComponent();
             if(!!options.controls && !!options.controls.gain) {
                 newGainValue = MotionParamsHelper.getParamValue(options.controls.gain, motionParams);
             }
@@ -104,7 +103,7 @@ angular.module('chesireApp')
     var updateControls = function(frameInfo) {
         if(frameInfo && !_.isEmpty(frameInfo.hands)) {
             var motionParams = Leapmotion.getRelativePositions(frameInfo, frameInfo.hands);
-            angular.forEach(synthOptions.controls, function(control) {
+            angular.forEach(synthOptions.getActiveControls(), function(control) {
                 var controlValue = MotionParamsHelper.getParamValue(control, motionParams);
                 CurrentMidiOutput.getCurrentOutput().updateControl(control, controlValue);
             });

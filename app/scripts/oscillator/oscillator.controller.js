@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('OscillatorCtrl', function ($scope, CurrentSynth, AvailableOscillators, SynthOptions, SynthOptionsHelper) {
+.controller('OscillatorCtrl', function ($scope, CurrentSynth, AvailableOscillators, SynthOptions) {
 
     var currentSynth = null;
 
@@ -10,6 +10,7 @@ angular.module('chesireApp')
 
     var init = function() {
         currentSynth = CurrentSynth.getCurrentSynth();
+        synthChanged(currentSynth);
 
         $scope.transitionTypes = [{
             name: 'Glissando',
@@ -40,8 +41,13 @@ angular.module('chesireApp')
         SynthOptions.getSynthOptions().then(function(newSynthOptions) {
             synthOptionsChanged(newSynthOptions);
             SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
+            startWatchingForChanges();
         });
 
+        
+    };
+
+    var startWatchingForChanges = function() {
         $scope.$watch('gainControllerInfo', gainControllerInfoChanged, true);
 
         $scope.$watch('componentInfo.transitionType', notifyOscillatorOptionsChanged);
@@ -64,12 +70,13 @@ angular.module('chesireApp')
     };
 
     var synthOptionsChanged = function(newSynthOptions) {
-        if(newSynthOptions && newSynthOptions.controls) {
-            var oscillatorInfo = SynthOptionsHelper.getOscillatorFromOptions(newSynthOptions);
+        if(newSynthOptions && newSynthOptions.getActiveComponents()) {
+            $scope.synthoptionsReady = true;
+            var oscillatorInfo = newSynthOptions.getOscillatorComponent();
             $scope.gainControllerInfo = oscillatorInfo.controls.gain;
         }
         $scope.synthOptions = newSynthOptions;
-        if($scope.synthOptions.outputMode === 'midi') {
+        if($scope.synthOptions.isMidiOutput()) {
             $scope.componentInfo.transitionType = 'volume';
         }
     };
@@ -80,19 +87,8 @@ angular.module('chesireApp')
         }
     };
 
-    $scope.isMidiOutput = function() {
-        if($scope.synthOptions) {
-            return $scope.synthOptions.outputMode === 'midi';
-        }
-        return false;
-    };
-
     $scope.getLeftPercentageFromNode = function(node) {
         return 100*Math.log2(node.oscillator.frequency.value/$scope.frequencySpectrumSize);
-    };
-
-    $scope.oscillatorTypeChanged = function() {
-        SynthOptions.notifyComponentChanged($scope.componentInfo);
     };
 
     $scope.toggleListOfOscillatorType = function() {

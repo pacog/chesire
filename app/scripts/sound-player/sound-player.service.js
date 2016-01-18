@@ -15,10 +15,10 @@
             duration = duration || DEFAULT_TIME_FOR_NOTE;
             
             SynthOptions.getSynthOptions().then(function(synthOptions) {
-                if(synthOptions.outputMode === 'audio') {
+                if(synthOptions.isAudioOutput()) {
                     var synth = CurrentSynth.getCurrentSynth();
                     synth.playNote(note, duration);
-                } else if(synthOptions.outputMode === 'midi') {
+                } else if(synthOptions.isMidiOutput()) {
                     var noteToSend = angular.extend({}, note, {unnormalizedGain: 1});
                     CurrentMidiOutput.getCurrentOutput().notesOn([noteToSend]);
                     $timeout(function() {

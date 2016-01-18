@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('ControlsHudCtrl', function ($scope, SynthOptions, SynthOptionsHelper, MidiControlMessages) {
+.controller('ControlsHudCtrl', function ($scope, SynthOptions, MidiControlMessages) {
 
     var oldSynthOptions = null;
 
@@ -16,8 +16,8 @@ angular.module('chesireApp')
     var synthOptionsChanged = function(newSynthOptions) {
         if(!_.isEqual(newSynthOptions, oldSynthOptions)) {
             oldSynthOptions = newSynthOptions;
-            $scope.controls = newSynthOptions.controls;
-            $scope.oscillator = SynthOptionsHelper.getOscillatorFromOptions(newSynthOptions);
+            $scope.controls = newSynthOptions.getActiveControls();
+            $scope.oscillator = newSynthOptions.getOscillatorComponent();
         }
     };
 

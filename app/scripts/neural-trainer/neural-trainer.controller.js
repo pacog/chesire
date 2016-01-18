@@ -130,8 +130,6 @@
             });
             console.log('Finished Training!');
             vm.stringNetwork = vm.neuralNetwork.toJSON();
-            console.log(vm.stringNetwork);
-            debugger;
             localStorageService.set('lastNeuralNetwork', vm.stringNetwork);
         }
 
