@@ -19,19 +19,24 @@
             </button>
         </div>
         <div class='synthoptions-content-body'>
-            <div class='synthoptions-content-presets'>
-                <input type='text' ng-model='synthoptions.name'/>
-                <button class='button' ng-click='saveSynth()' ng-disabled='!synthoptions.name'>Save synth</button>
-                <button class='button' ng-click='deleteSynth()'>Delete synth</button>
-                <button class='big-button config-menu-close' ng-click='toggle()'></button>
+
+            <div class='oscillator-section'>
+                <h4 class='oscillator-section-title'>Output mode</h4>
+                <div class='oscillator-section-content'>
+                    <switch-two-values values='outputModes' ng-model='synthoptions.outputMode'></switch-two-values>
+                </div>
             </div>
+
+            <synthoptions-midi ng-show='synthoptions.outputMode === "midi"' ></synthoptions-midi>
+            <synthoptions-audio ng-show='synthoptions.outputMode === "audio"' ></synthoptions-audio>
+
             <div class='synthoptions-content-columns'>
                 <div class='synthoptions-content-components'>
                     <h2 class='synthoptions-content-column-title'>Note generation</h2>
                         <div class='oscillator-section'>
                             <h4 class='oscillator-section-title'>Output mode</h4>
                             <div class='oscillator-section-content'>
-                                <switch-two-values values='outputModes' ng-model='synthoptions.outputMode'></switch-two-values>
+
                                 <div class='synthoptions-midi-output-selector' ng-show='synthoptions.outputMode === "midi"'>
                                     <midi-output-selector></midi-output-selector>
                                 </div>
