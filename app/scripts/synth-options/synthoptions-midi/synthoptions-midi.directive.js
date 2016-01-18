@@ -10,7 +10,10 @@
             controller: 'SynthoptionsMidiController',
             controllerAs: 'vm',
             bindToController: true,
-            templateUrl: 'scripts/synth-options/synthoptions-midi/synthoptions-midi.tpl.html'
+            templateUrl: 'scripts/synth-options/synthoptions-midi/synthoptions-midi.tpl.html',
+            scope: {
+                'synthoptions': '='
+            }
         };
     }
 

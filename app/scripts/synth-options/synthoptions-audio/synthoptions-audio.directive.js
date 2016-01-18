@@ -10,7 +10,10 @@
             controller: 'SynthoptionsAudioController',
             controllerAs: 'vm',
             bindToController: true,
-            templateUrl: 'scripts/synth-options/synthoptions-audio/synthoptions-audio.tpl.html'
+            templateUrl: 'scripts/synth-options/synthoptions-audio/synthoptions-audio.tpl.html',
+            scope: {
+                'synthoptions': '='
+            }
         };
     }
 })();

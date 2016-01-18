@@ -1,1 +1,24 @@
-<div>synthoptions-audio.tpl.html</div>
+<div>
+    <div class='synthoptions-content-components'>
+
+        <h2 class='synthoptions-content-column-title'>Note generation</h2>
+
+        <ul>
+            <li ng-repeat='component in vm.synthoptions.components'>
+                <synthcomponent component-info='component'></synthcomponent>
+            </li>
+        </ul>
+
+        <div class='synthoptions-content-controls'>
+            <h2 class='synthoptions-content-column-title'>Additional controls</h2>
+            <ul class='synthoptions-midi-controls'>
+                <li ng-repeat='control in vm.synthoptions.controls' trackBy>
+                    <control control-info='control'></control>
+                </li>
+            </ul>
+            <div class='synthoptions-content-controls-add-control'>
+                <button class='big-button' ng-click='addControl()'>Add control</button>
+            </div>
+        </div>
+    </div>
+</div>
