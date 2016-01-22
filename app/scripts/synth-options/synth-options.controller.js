@@ -1,68 +1,56 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('chesireApp')
+    angular.module('chesireApp')
+        .controller('SynthOptionsController', SynthOptionsController);
 
-.controller('SynthoptionsCtrl', function ($scope, SynthOptions, UIService, DefaultEmptyControl) {
+    function SynthOptionsController($scope, UIService, outputModes, SynthOptions) {
+        var vm = this;
 
-    var init = function() {
-        SynthOptions.getSynthOptions().then(function(synthOptions) {
-            $scope.synthoptions = synthOptions;
-        });
-        UIService.subscribeToMenuOpening(checkIfShouldCloseMenu);
-        //TODO: listen for changes in synth options
-        //Also load the synths so we can track their values real time
-        $scope.outputModes = [{
-            name: 'Audio',
-            value: 'audio'
-        }, {
-            name: 'MIDI',
-            value: 'midi'
-        }];
-        $scope.$watch('synthoptions.outputMode', function(newOutputMode) {
-            if(newOutputMode) {
-                SynthOptions.setSynthOptions($scope.synthoptions);
+        vm.outputModes = outputModes;
+
+        vm.toggle = toggle;
+
+        init();
+
+        function init() {
+
+            SynthOptions.getSynthOptions().then(function() { //This get is just to wait for them to be ready
+                SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
+            });
+            UIService.subscribeToMenuOpening(checkIfShouldCloseMenu);
+
+            //TODO: use on-change for selector
+            $scope.$watch('vm.synthOptions.outputMode', function(newOutputMode) {
+                if(newOutputMode) {
+                    SynthOptions.setSynthOptions(vm.synthOptions);
+                }
+            });
+
+            $scope.$on('$destroy', onDestroy);
+        }
+
+        function synthOptionsChanged(newSynthOptions) {
+            vm.synthOptions = newSynthOptions;
+        }
+
+        function checkIfShouldCloseMenu(newMenuOpened) {
+            if(newMenuOpened !== 'synth-options') {
+                vm.expanded = false;
             }
-        });
-    };
-
-    var checkIfShouldCloseMenu = function(newMenuOpened) {
-        if(newMenuOpened !== 'synth-options') {
-            $scope.expanded = false;
         }
-    };
 
-    $scope.toggle = function() {
-        $scope.expanded = !$scope.expanded;
-        $scope.listOfSynthsExpanded = false;
-        if($scope.expanded) {
-            UIService.notifyMenuOpen('synth-options');
+        function toggle() {
+            vm.expanded = !$scope.expanded;
+            if(vm.expanded) {
+                UIService.notifyMenuOpen('synth-options');
+            }
         }
-    };
 
-    $scope.saveSong = function() {
-        //TODO add then and loading flag
-        // SongStore.saveSong($scope.currentScale);
-    };
+        function onDestroy() {
+            UIService.unsubscribeToMenuOpening(checkIfShouldCloseMenu);
+            SynthOptions.unsubscribeToChangesInSynthOptions(synthOptionsChanged);
+        }
 
-    $scope.deleteSong = function() {
-        //TODO add then and loading flag
-        // SongStore.deleteSong($scope.currentScale);
-    };
-
-    $scope.toggleListOfSynths = function() {
-        $scope.listOfSynthsExpanded = !$scope.listOfSynthsExpanded;
-    };
-
-    $scope.selectSynth = function(synth) {
-        $scope.listOfSynthsExpanded = false;
-        $scope.synthoptions = synth;
-    };
-
-    $scope.addControl = function() {
-        $scope.synthoptions.getActiveControls().push(angular.copy(DefaultEmptyControl));
-    };
-
-    //TODO: on destroy: UIService.unsubscribeToMenuOpening(checkIfShouldCloseMenu);
-
-    init();
-});
+    }
+})();

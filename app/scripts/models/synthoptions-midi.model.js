@@ -27,7 +27,8 @@
                         }
                     }
                 }
-            }]
+            }],
+            controls: []
         };
 
         function SynthoptionsMidiClass(options) {

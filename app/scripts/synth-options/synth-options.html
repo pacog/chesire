@@ -1,20 +1,14 @@
 <div class='synthoptions'>
-    <div class='config-menu-header' ng-class='{"all-synths-list-expanded": listOfSynthsExpanded}' ng-hide='expanded'>
-        <button class='big-button config-menu-title' ng-click='toggle()'>
-            {{synthoptions.name || "No name"}}
+    <div class='config-menu-header' ng-hide='vm.expanded'>
+        <button class='big-button config-menu-title' ng-click='vm.toggle()'>
+            {{vm.synthOptions.name || "No name"}}
             <span class='config-menu-title-decorator'></span>
         </button>
-        <button class='big-button config-menu-list-toggle' ng-click='toggleListOfSynths()'></button>
-        <ul class='config-menu-list' ng-show='listOfSynthsExpanded'>
-            <li class='config-menu-list-item' ng-repeat='synth in availableSynths'>
-                <a class='config-menu-list-item-link' ng-click='selectSynth(synth)'>{{synth.name}}</a>
-            </li>
-        </ul>
     </div>
-    <div class='config-menu-content synthoptions-content' ng-show='expanded'>
+    <div class='config-menu-content synthoptions-content' ng-show='vm.expanded'>
         <div class='synthoptions-content-header'>
-            <button class='big-button config-menu-title' ng-click='toggle()'>
-                {{synthoptions.name || "No name"}}
+            <button class='big-button config-menu-title' ng-click='vm.toggle()'>
+                {{vm.synthOptions.name || "No name"}}
                 <span class='config-menu-title-decorator'></span>
             </button>
         </div>
@@ -23,13 +17,13 @@
             <div class='oscillator-section'>
                 <h4 class='oscillator-section-title'>Output mode</h4>
                 <div class='oscillator-section-content'>
-                    <switch-two-values values='outputModes' ng-model='synthoptions.outputMode'></switch-two-values>
+                    <switch-two-values values='vm.outputModes' ng-model='vm.synthOptions.outputMode'></switch-two-values>
                 </div>
             </div>
 
-            <synthoptions-midi synthoptions='synthoptions' ng-if='synthoptions.isMidiOutput()' ></synthoptions-midi>
+            <synthoptions-midi synthoptions='vm.synthOptions' ng-if='vm.synthOptions.isMidiOutput()' ></synthoptions-midi>
             
-            <synthoptions-audio synthoptions='synthoptions' ng-if='synthoptions.isAudioOutput()' ></synthoptions-audio>
+            <synthoptions-audio synthoptions='vm.synthOptions' ng-if='vm.synthOptions.isAudioOutput()' ></synthoptions-audio>
         </div>
     </div>
 </div>

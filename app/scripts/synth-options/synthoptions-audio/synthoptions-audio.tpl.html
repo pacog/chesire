@@ -9,16 +9,5 @@
             </li>
         </ul>
 
-        <div class='synthoptions-content-controls'>
-            <h2 class='synthoptions-content-column-title'>Additional controls</h2>
-            <ul class='synthoptions-midi-controls'>
-                <li ng-repeat='control in vm.synthoptions.getActiveControls()' trackBy>
-                    <control control-info='control'></control>
-                </li>
-            </ul>
-            <div class='synthoptions-content-controls-add-control'>
-                <button class='big-button' ng-click='addControl()'>Add control</button>
-            </div>
-        </div>
     </div>
 </div>

@@ -7,6 +7,7 @@ angular.module('chesireApp')
         templateUrl: 'scripts/synth-options/synth-options.html',
         restrict: 'E',
         scope: {},
-        controller: 'SynthoptionsCtrl'
+        controller: 'SynthOptionsController',
+        controllerAs: 'vm'
     };
 });
