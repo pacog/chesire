@@ -1,12 +1,15 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('chesireApp')
+    angular.module('chesireApp')
+        .directive('oscillator', oscillator);
 
-.directive('oscillator', function () {
-    return {
-        templateUrl: 'scripts/oscillator/oscillator.html',
-        restrict: 'E',
-        controller: 'OscillatorController',
-        controllerAs: 'vm'
-    };
-});
+    function oscillator() {
+        return {
+            templateUrl: 'scripts/oscillator/oscillator.html',
+            restrict: 'E',
+            controller: 'OscillatorController',
+            controllerAs: 'vm'
+        };
+    }
+})();
