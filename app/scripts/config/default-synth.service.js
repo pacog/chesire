@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('chesireApp')
-  .factory('DefaultSynth', function(AvailableOscillators) {
+  .factory('DefaultSynth', function(availableOscillators) {
 
         return {
             name: 'Default synth',
             components: [{
                 type: 'oscillator',
-                oscillatorType: AvailableOscillators[1],
+                oscillatorType: availableOscillators[1],
                 snapDistance: 0.35,
                 controls: {
                     'gain': {
@@ -22,7 +22,7 @@ angular.module('chesireApp')
                 }
             }/*, {
                 type: 'tremolo',
-                oscillatorType: AvailableOscillators[2],
+                oscillatorType: availableOscillators[2],
                 controls: {
                     'rate': {
                         param: 'handDirectionY',

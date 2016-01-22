@@ -1,5 +1,7 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('chesireApp')
+    angular.module('chesireApp')
+        .constant('availableOscillators', ['sawtooth', 'sine', 'square', 'triangle']);
+})();
 
-  .constant('AvailableOscillators', ['sawtooth', 'sine', 'square', 'triangle']);

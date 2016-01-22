@@ -54,7 +54,6 @@ angular.module('chesireApp')
     };
 
     var notifyChangeInSynthOptions = function(newSynthOptions) {
-        debugger;
         angular.forEach(subscriberCallbacks, function(subscriberCallback) {
             subscriberCallback(newSynthOptions);
         });

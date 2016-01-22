@@ -6,6 +6,7 @@ angular.module('chesireApp')
     return {
         templateUrl: 'scripts/oscillator/oscillator.html',
         restrict: 'E',
-        controller: 'OscillatorCtrl'
+        controller: 'OscillatorController',
+        controllerAs: 'vm'
     };
 });

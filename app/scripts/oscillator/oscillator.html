@@ -1,47 +1,37 @@
 <div class='oscillator'>
-    <div ng-if='synthoptionsReady'>
-        <div class='oscillator-section' ng-hide='synthOptions.isMidiOutput()'>
+    <div ng-if='!!vm.synthOptions'>
+        <div class='oscillator-section' ng-hide='vm.synthOptions.isMidiOutput()'>
             <h4 class='oscillator-section-title'>Oscillator type</h4>
             <div class='oscillator-section-content'>
-                <select-box value='componentInfo.oscillatorType' value-list='AvailableOscillators'></select-box>
+                <select-box value='vm.componentInfo.oscillatorType' value-list='vm.availableOscillators'></select-box>
             </div>
         </div>
 
-        <div class='oscillator-transition oscillator-section' ng-hide='synthOptions.isMidiOutput()'>
+        <div class='oscillator-transition oscillator-section' ng-hide='vm.synthOptions.isMidiOutput()'>
             <h4 class='oscillator-section-title'>Transition between chords</h4>
             <div class='oscillator-section-content'>
-                <switch-two-values values='transitionTypes' ng-model='componentInfo.transitionType'></switch-two-values>
+                <switch-two-values values='vm.transitionTypes' ng-model='vm.componentInfo.transitionType'></switch-two-values>
             </div>
         </div>
 
-        <!-- <div class='oscillator-nodes-info oscillator-section'>
-            <h4>Frequencies being played</h4>
-            <ul class='oscillator-nodes'>
-                <li ng-repeat='node in oscillatorNodes'
-                    class='oscillator-node'
-                    style='left: {{node.oscillator.frequency.value | frequencyToPercentage}}%; height: {{node.gainNode.gain.value * synthComponent.gainController.gain.value * 100}}%'>
-                </li>
-            </ul>
-        </div> -->
-
-        <div class='oscillator-section' ng-if='synthOptions.isMidiOutput()'>
+        <div class='oscillator-section' ng-if='vm.synthOptions.isMidiOutput()'>
             <h4 class='oscillator-section-title'>Pulsation type</h4>
             <div class='oscillator-section-content'>
-                <switch-two-values values='midiControlMode' ng-model='componentInfo.midiControlMode'></switch-two-values>
+                <switch-two-values values='vm.midiControlModes' ng-model='vm.componentInfo.midiControlMode'></switch-two-values>
             </div>
         </div>
 
         <div class='oscillator-section'>
             <h4 class='oscillator-section-title'>Volume control</h4>
             <div class='oscillator-section-content'>
-                <gesture-selector gesture-object='gainControllerInfo'></gesture-selector>
+                <gesture-selector gesture-object='vm.gainControllerInfo'></gesture-selector>
             </div>
         </div>
 
         <div class='oscillator-snap oscillator-section'>
             <h4 class='oscillator-section-title'>Snap to chords</h4>
             <div class='oscillator-section-content'>
-                <oscillator-snap component-info='componentInfo'></oscillator-snap>
+                <oscillator-snap component-info='vm.componentInfo'></oscillator-snap>
             </div>
         </div>
     </div>
