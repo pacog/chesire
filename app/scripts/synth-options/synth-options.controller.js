@@ -10,6 +10,7 @@
         vm.outputModes = outputModes;
 
         vm.toggle = toggle;
+        vm.outputModeChanged = outputModeChanged;
 
         init();
 
@@ -20,18 +21,18 @@
             });
             UIService.subscribeToMenuOpening(checkIfShouldCloseMenu);
 
-            //TODO: use on-change for selector
-            $scope.$watch('vm.synthOptions.outputMode', function(newOutputMode) {
-                if(newOutputMode) {
-                    SynthOptions.setSynthOptions(vm.synthOptions);
-                }
-            });
-
             $scope.$on('$destroy', onDestroy);
         }
 
+        function outputModeChanged() {
+            //TODO: maybe better to notify change in a more subtle way
+            SynthOptions.setSynthOptions(vm.synthOptions);
+        }
+
         function synthOptionsChanged(newSynthOptions) {
-            vm.synthOptions = newSynthOptions;
+            if(newSynthOptions !== vm.synthOptions) {
+                vm.synthOptions = newSynthOptions;
+            }
         }
 
         function checkIfShouldCloseMenu(newMenuOpened) {
@@ -41,7 +42,7 @@
         }
 
         function toggle() {
-            vm.expanded = !$scope.expanded;
+            vm.expanded = !vm.expanded;
             if(vm.expanded) {
                 UIService.notifyMenuOpen('synth-options');
             }

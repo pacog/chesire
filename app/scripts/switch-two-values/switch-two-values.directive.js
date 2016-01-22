@@ -1,16 +1,21 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('chesireApp')
+    angular.module('chesireApp')
+        .directive('switchTwoValues', switchTwoValues);
 
-.directive('switchTwoValues', function () {
-
-    return {
-        templateUrl: 'scripts/switch-two-values/switch-two-values.html',
-        restrict: 'E',
-        scope: {
-            values: '=',
-            bindModel:'=ngModel'
-        },
-        controller: 'SwitchTwoValuesCtrl'
-    };
-});
+    function switchTwoValues() {
+        return {
+            templateUrl: 'scripts/switch-two-values/switch-two-values.html',
+            restrict: 'E',
+            scope: {
+                values: '=',
+                bindModel:'=ngModel',
+                changeCallback: '&'
+            },
+            controller: 'SwitchTwoValuesController',
+            controllerAs: 'vm',
+            bindToController: true
+        };
+    }
+})();

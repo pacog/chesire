@@ -17,7 +17,10 @@
             <div class='oscillator-section'>
                 <h4 class='oscillator-section-title'>Output mode</h4>
                 <div class='oscillator-section-content'>
-                    <switch-two-values values='vm.outputModes' ng-model='vm.synthOptions.outputMode'></switch-two-values>
+                    <switch-two-values
+                        values='vm.outputModes'
+                        ng-model='vm.synthOptions.outputMode'
+                        change-callback='vm.outputModeChanged()'></switch-two-values>
                 </div>
             </div>
 

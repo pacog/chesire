@@ -1,18 +1,33 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('chesireApp')
+    angular.module('chesireApp')
+        .controller('SwitchTwoValuesController', SwitchTwoValuesController);
 
-.controller('SwitchTwoValuesCtrl', function ($scope) {
+    function SwitchTwoValuesController() {
+        var vm = this;
 
-    var init = function() {
-        if(!$scope.bindModel) {
-            $scope.bindModel = $scope.values[0].value;
+        vm.selectValue = selectValue;
+
+        init();
+
+        function init() {
+            if(!vm.bindModel) {
+                vm.bindModel = vm.values[0].value;
+            }
         }
-    };
 
-    $scope.selectValue = function(newValue) {
-        $scope.bindModel = newValue;
-    };
+        function selectValue(newValue) {
+            if(vm.bindModel !== newValue) {
+                // var oldValue = vm.bindModel;
 
-    init();
-});
+                vm.bindModel = newValue;
+
+                if(angular.isFunction(vm.changeCallback)) {
+                    vm.changeCallback();
+                }
+            }
+        }
+    }
+
+})();

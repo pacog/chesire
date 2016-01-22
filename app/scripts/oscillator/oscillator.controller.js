@@ -10,6 +10,8 @@
         var notifyComponentChangedThrottled = _.throttle(SynthOptions.notifyComponentChanged, 500);
         var notifyOscillatorOptionsChangedThrottled = _.throttle(notifyOscillatorOptionsChanged, 500);
 
+        vm.oscillatorOptionsChanged = oscillatorOptionsChanged;
+
         init();
 
         function init() {
@@ -42,10 +44,9 @@
         }
 
         function startWatchingForChanges() {
+            //TODO: all this should be done with ng-change in each of the components
             $scope.$watch('vm.gainControllerInfo', gainControllerInfoChanged, true);
 
-            $scope.$watch('vm.componentInfo.transitionType', notifyOscillatorOptionsChangedThrottled);
-            $scope.$watch('vm.componentInfo.midiControlMode', notifyOscillatorOptionsChangedThrottled);
             $scope.$watch('vm.componentInfo.snapDistance', notifyOscillatorOptionsChangedThrottled);
             $scope.$watch('vm.componentInfo.oscillatorType', notifyOscillatorOptionsChangedThrottled);
         }
@@ -59,6 +60,10 @@
         function notifyOscillatorOptionsChanged() {
             //TODO: this is called 4 times at the beginning, find a better way to watch (ng-change?)
             SynthOptions.notifyComponentChanged(vm.componentInfo);
+        }
+
+        function oscillatorOptionsChanged() {
+            notifyOscillatorOptionsChangedThrottled();
         }
     }
 

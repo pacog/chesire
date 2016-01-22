@@ -10,16 +10,12 @@
         <div class='oscillator-transition oscillator-section' ng-hide='vm.synthOptions.isMidiOutput()'>
             <h4 class='oscillator-section-title'>Transition between chords</h4>
             <div class='oscillator-section-content'>
-                <switch-two-values values='vm.transitionTypes' ng-model='vm.componentInfo.transitionType'></switch-two-values>
+                <switch-two-values
+                    values='vm.transitionTypes'
+                    ng-model='vm.componentInfo.transitionType'
+                    change-callback=''></switch-two-values>
             </div>
         </div>
-
-        <!-- <div class='oscillator-section' ng-if='vm.synthOptions.isMidiOutput()'>
-            <h4 class='oscillator-section-title'>Pulsation type</h4>
-            <div class='oscillator-section-content'>
-                <switch-two-values values='vm.midiControlModes' ng-model='vm.componentInfo.midiControlMode'></switch-two-values>
-            </div>
-        </div> -->
 
         <div class='oscillator-section'>
             <h4 class='oscillator-section-title'>Volume control</h4>

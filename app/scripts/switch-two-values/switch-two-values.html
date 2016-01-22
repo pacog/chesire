@@ -1,8 +1,8 @@
 <ul class='switch-two-values'>
     <li class='switch-two-values-item'
-        ng-repeat='value in values'
-        ng-class='{ "selected": (value.value === bindModel)}'
-        ng-click='selectValue(value.value)'>
+        ng-repeat='value in vm.values'
+        ng-class='{ "selected": (value.value === vm.bindModel)}'
+        ng-click='vm.selectValue(value.value)'>
         {{value.name}}
     </li>
 </ul>
