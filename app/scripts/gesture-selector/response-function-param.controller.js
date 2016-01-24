@@ -19,17 +19,17 @@
         }
 
         function selectedValueChanged() {
-            var newValue = vm.selectedValue;
-            if(vm.paramParentObject[vm.paramKey] !== newValue) {
+            $timeout(function() {
+                var newValue = vm.selectedValue;
                 if(vm.isNumber) {
                     newValue = parseFloat(newValue);
                 }
                 vm.paramParentObject[vm.paramKey] = newValue;
-                console.log('selectedValueChanged');
                 if(angular.isFunction(vm.changeCallback)) {
-                    $timeout(vm.changeCallback);
+                    vm.changeCallback();
                 }
-            }
+            });
+            
         }
 
     }

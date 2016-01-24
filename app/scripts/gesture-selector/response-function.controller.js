@@ -59,7 +59,6 @@
 
         function responseFunctionParamsChanged() {
             calculateResponseValues();
-            console.log('responseFunctionParamsChanged');
             changeCallback();
         }
 

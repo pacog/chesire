@@ -33,7 +33,6 @@
         }
 
         function notifyOptionsChanged() {
-            console.log('notifyOptionsChanged');
             SynthOptions.notifyComponentChanged(vm.componentInfo);
         }
 

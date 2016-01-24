@@ -12,6 +12,7 @@
 
         vm.oscillatorOptionsChanged = oscillatorOptionsChanged;
         vm.notifyOscillatorOptionsChangedThrottled = notifyOscillatorOptionsChangedThrottled;
+        vm.gainControllerInfoChanged = gainControllerInfoChanged;
 
         init();
 
@@ -47,15 +48,11 @@
 
         function startWatchingForChanges() {
             //TODO: all this should be done with ng-change in each of the components
-            $scope.$watch('vm.gainControllerInfo', gainControllerInfoChanged, true);
-
             $scope.$watch('vm.componentInfo.snapDistance', notifyOscillatorOptionsChangedThrottled);
         }
 
-        function gainControllerInfoChanged(newOptions, oldOptions) {
-            if(!_.isEqual(newOptions, oldOptions)) {
-                notifyComponentChangedThrottled(vm.componentInfo);
-            }
+        function gainControllerInfoChanged() {
+            notifyComponentChangedThrottled(vm.componentInfo);
         }
 
         function notifyOscillatorOptionsChanged() {

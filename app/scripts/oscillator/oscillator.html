@@ -26,7 +26,9 @@
         <div class='oscillator-section'>
             <h4 class='oscillator-section-title'>Volume control</h4>
             <div class='oscillator-section-content'>
-                <gesture-selector gesture-object='vm.gainControllerInfo'></gesture-selector>
+                <gesture-selector
+                    gesture-object='vm.gainControllerInfo'
+                    change-callback='vm.gainControllerInfoChanged()'></gesture-selector>
             </div>
         </div>
 
