@@ -31,22 +31,35 @@
             }, {
                 type: 'tremolo',
                 oscillatorType: availableOscillators[1],
+                enabled: true,
+
+                DEFAULT_MIN_RATE: 1,
+                DEFAULT_MAX_RATE: 10,
+                minRate: 1,
+                maxRate: 10,
+                fixedRate: 5,
+                rate: 3,
+
+                depth: 0.2,
+
                 controls: {
                     'rate': {
+                        enabled: true,
                         param: 'z',
                         responseFunction: {
                             name: 'linear',
-                            min: 1,
-                            max: 10,
+                            min: 0,
+                            max: 1,
                             inverse: true
                         }
                     },
                     'depth': {
+                        enabled: true,
                         param: 'handDirectionY',
                         responseFunction: {
                             name: 'linear',
-                            stepOn: 0.2,
-                            stepOff: 0.9
+                            min: 0.1,
+                            max: 0.9
                         }
                     }
                 }

@@ -21,6 +21,7 @@ angular.module('chesireApp')
             willReturnSynthOptions.resolve(synthOptions);
         } else {
             synthOptions = SynthoptionsModel.create();
+            addIdsToComponents();
             willReturnSynthOptions.resolve(synthOptions);
             // // LastUsedSettingsStore.getLastUsedSynth().then(function(lastUsedSynth) {
             //     if(!lastUsedSynth) {

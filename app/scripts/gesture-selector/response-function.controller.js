@@ -27,12 +27,25 @@ angular.module('chesireApp')
         $scope.responseFunctionIncrement = increment;
         for(var i=0; i<RESPONSE_VALUES_NUMBER; i++) {
             x = i*increment;
-            newValue = $scope.selectedResponseFunction.getResponse(x, $scope.responseFunctionInfo);
+            newValue = getYValue(x, $scope.responseFunctionInfo);
             $scope.responseFunctionValues.push({
                 x: x,
                 y: newValue
             });
         }
+    };
+
+    var getYValue = function(x, responseFunctionInfo) {
+        var totalMin = 0;
+        var totalMax = 1;
+        if(!angular.isUndefined(responseFunctionInfo.TOTAL_MIN)) {
+            totalMin = responseFunctionInfo.TOTAL_MIN;
+        }
+        if(!angular.isUndefined(responseFunctionInfo.TOTAL_MAX)) {
+            totalMax = responseFunctionInfo.TOTAL_MAX;
+        }
+        var maxLength = totalMax - totalMin;
+        return $scope.selectedResponseFunction.getResponse(x, $scope.responseFunctionInfo)/maxLength;
     };
 
     var responseFunctionParamsChanged = function() {

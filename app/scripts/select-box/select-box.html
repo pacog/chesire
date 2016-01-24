@@ -1,9 +1,9 @@
 <div class='select-box'>
-    <a class='select-box-value' ng-click='vm.toggleList()'>{{vm.value[attrToShow] || vm.value}}</a>
+    <a class='select-box-value' ng-click='vm.toggleList()'>{{vm.value[vm.attrToShow] || vm.value}}</a>
     <button class='select-box-value-toggle' ng-click='vm.toggleList()'></button>
     <ul class='select-box-list' ng-show='vm.listExpanded'>
         <li class='select-box-list-item' ng-repeat='eachValue in vm.valueList'>
-            <a class='select-box-list-link' ng-click='vm.selectValue(eachValue)'>{{eachValue[attrToShow] || eachValue}}</a>
+            <a class='select-box-list-link' ng-click='vm.selectValue(eachValue)'>{{eachValue[vm.attrToShow] || eachValue}}</a>
         </li>
     </ul>
 </div>

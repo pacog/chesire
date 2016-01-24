@@ -3,9 +3,54 @@
     <h2 class='synthoptions-content-column-title'>Tremolo</h2>
 
     <div class='oscillator-section' ng-hide='vm.synthOptions.isMidiOutput()'>
-        <h4 class='oscillator-section-title'>Tremolo</h4>
+        <h4 class='oscillator-section-title'>Oscillator type</h4>
         <div class='oscillator-section-content'>
-            <select-box value='vm.componentInfo.oscillatorType' value-list='vm.availableOscillators'></select-box>
+            <select-box
+                value='vm.componentInfo.oscillatorType'
+                value-list='vm.availableOscillators'
+                change-callback='vm.notifyOptionsChangedThrottled()'
+            ></select-box>
         </div>
+    </div>
+
+    <div class='oscillator-section'>
+        <h4 class='oscillator-section-title'>Rate</h4>
+        
+        <button class='button' ng-click='vm.toggleRate()'>
+            <span ng-show='vm.componentInfo.controls.rate.enabled'>Disable</span>
+            <span ng-show='!vm.componentInfo.controls.rate.enabled'>Enable</span>
+            gesture control
+        </button>
+
+        <div class='oscillator-section-content' ng-show='vm.componentInfo.controls.rate.enabled'>
+            <gesture-selector gesture-object='vm.componentInfo.controls.rate'></gesture-selector>
+        </div>
+
+        <div class='oscillator-section-content' ng-show='!vm.componentInfo.controls.rate.enabled'>
+            <input ng-change='vm.notifyOptionsChangedThrottled()' ng-model-options="{ debounce: 500 }" type="range" min="{{vm.componentInfo.DEFAULT_MIN_RATE}}" max="{{vm.componentInfo.DEFAULT_MAX_RATE}}" step="0.1" ng-model="vm.componentInfo.rate"/>
+            {{1000/vm.componentInfo.rate | number:3}} ms
+            <!-- TODO create filter for ms and bpm -->
+        </div>
+
+    </div>
+
+    <div class='oscillator-section'>
+        <h4 class='oscillator-section-title'>Depth</h4>
+        
+        <button class='button' ng-click='vm.toggleDepth()'>
+            <span ng-show='vm.componentInfo.controls.depth.enabled'>Disable</span>
+            <span ng-show='!vm.componentInfo.controls.depth.enabled'>Enable</span>
+            gesture control
+        </button>
+
+        <div class='oscillator-section-content' ng-show='vm.componentInfo.controls.depth.enabled'>
+            <gesture-selector gesture-object='vm.componentInfo.controls.depth'></gesture-selector>
+        </div>
+
+        <div class='oscillator-section-content' ng-show='!vm.componentInfo.controls.depth.enabled'>
+            <input ng-change='vm.notifyOptionsChangedThrottled()' ng-model-options="{ debounce: 500 }" type="range" min="0" max="1" step="0.01" ng-model="vm.componentInfo.depth"/>
+            {{vm.componentInfo.depth*100 | number:0}} %
+        </div>
+
     </div>
 </div>

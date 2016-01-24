@@ -12,8 +12,6 @@ angular.module('chesireApp')
 
         TremoloClass.prototype = {
 
-            DEFAULT_RATE: 10,
-
             DEFAULT_DEPTH: 0.2,
 
             init: function(options) {
@@ -35,19 +33,30 @@ angular.module('chesireApp')
                 return this.gainController;
             },
 
-            // updateSound: function() {
             updateSound: function(motionParams) {
-                var newRateValue = this.DEFAULT_RATE;
-                if(!!this.options.controls && !!this.options.controls.rate) {
+                this._updateRate(motionParams);
+                this._updateDepth(motionParams);
+            },
+
+            _updateRate: function(motionParams) {
+                var newRateValue = this.options.rate;
+                if(!!this.options.controls && !!this.options.controls.rate && !!this.options.controls.rate.enabled) {
                     newRateValue = MotionParamsHelper.getParamValue(this.options.controls.rate, motionParams);
+                    newRateValue = this._adjustValue(newRateValue, this.options.minRate, this.options.maxRate);
                 }
                 this._setRateValue(newRateValue);
+            },
 
-                var newDepthValue = this.DEFAULT_DEPTH;
-                if(!!this.options.controls && !!this.options.controls.depth) {
+            _updateDepth: function(motionParams) {
+                var newDepthValue = this.options.depth || this.DEFAULT_DEPTH;
+                if(!!this.options.controls && !!this.options.controls.depth  && !!this.options.controls.depth.enabled) {
                     newDepthValue = MotionParamsHelper.getParamValue(this.options.controls.depth, motionParams);
                 }
                 this._setDepthValue(newDepthValue);
+            },
+
+            _adjustValue: function(value, min, max) {
+                return (value*(max-min)) + min;
             },
 
             _setRateValue: function(value) {
