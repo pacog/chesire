@@ -1,14 +1,18 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('chesireApp')
+    angular.module('chesireApp')
+        .directive('customCheckbox', customCheckbox);
 
-.directive('customCheckbox', function () {
-    return {
-        templateUrl: 'scripts/custom-checkbox/custom-checkbox.html',
-        restrict: 'E',
-        replace: true,
-        scope: {
-            'value': '='
-        }
-    };
-});
+    function customCheckbox() {
+        return {
+            templateUrl: 'scripts/custom-checkbox/custom-checkbox.html',
+            restrict: 'E',
+            replace: true,
+            scope: {
+                'value': '=',
+                'changeCallback': '&'
+            }
+        };
+    }
+})();

@@ -1,34 +1,30 @@
-<!-- TODO: use parameters coming from the info -->
-<!-- <div>
-    <p> Min = {{responseFunctionInfo.min}}</p>
-    <input type="range" min="0" max="{{responseFunctionInfo.max - 0.01}}" step="0.01" ng-model="responseFunctionInfo.min"/>
-</div>
-<div>
-    <p> Max = {{responseFunctionInfo.max}}</p>
-    <input type="range" min="{{responseFunctionInfo.min + 0.01}}" max="1" step="0.01" ng-model="responseFunctionInfo.max"/>
-</div>
-<label>
-    <input type='checkbox' ng-model="responseFunctionInfo.inverse" />
-    Inverse
-</label> -->
-
 <div class='response-function'>
-    <select-box value='selectedResponseFunction' value-list='availableResponseFunctions' attr-to-show='name'></select-box>
+
+    <select-box
+        value='vm.selectedResponseFunction'
+        value-list='vm.availableResponseFunctions'
+        attr-to-show='name'
+        change-callback='vm.responseFunctionChanged()'></select-box>
     <div class='response-function-details'>
         <div class='response-function-graph-container'>
             <ul class='response-function-graph'>
                 <li
-                    ng-repeat='responseValue in responseFunctionValues'
+                    ng-repeat='responseValue in vm.responseFunctionValues'
                     class='response-function-graph-value'
-                    style='width: {{100*responseFunctionIncrement}}%;
+                    style='width: {{100*vm.responseFunctionIncrement}}%;
                            left:  {{100*responseValue.x}}%;
                            height: {{100*responseValue.y}}%;'
                 ></li>
             </ul>
         </div>
         <ul class='response-function-params'>
-            <li ng-repeat='(key, param) in selectedResponseFunction.params'>
-                <response-function-param param-parent-object='responseFunctionInfo' param-key='key' param-info='param'></response-function-param>
+            <li ng-repeat='(key, param) in vm.selectedResponseFunction.params'>
+                <response-function-param
+                    param-parent-object='vm.responseFunctionInfo'
+                    param-key='key'
+                    param-info='param'
+                    change-callback='vm.responseFunctionParamsChanged()'
+                    ></response-function-param>
             </li>
         </ul>
     </div>

@@ -1,25 +1,38 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('chesireApp')
+    angular.module('chesireApp')
+        .controller('ResponseFunctionParamController', ResponseFunctionParamController);
 
-.controller('ResponseFunctionParamCtrl', function ($scope) {
+    function ResponseFunctionParamController($timeout) {
 
-    var init = function() {
-        $scope.$watch('selectedValue', selectedValueChanged);
-        $scope.selectedValue = $scope.paramParentObject[$scope.paramKey] || $scope.paramInfo.value;
-        $scope.isBoolean = _.isBoolean($scope.paramInfo.value);
-        $scope.isNumber = _.isNumber($scope.paramInfo.value);
-    };
+        var vm = this;
 
-    var selectedValueChanged = function(newValue) {
-        if($scope.paramParentObject[$scope.paramKey] !== newValue) {
-            if($scope.isNumber) {
-                newValue = parseFloat(newValue);
-            }
-            $scope.paramParentObject[$scope.paramKey] = newValue;
+        vm.selectedValueChanged = selectedValueChanged;
+
+        init();
+
+        function init() {
+            vm.selectedValue = vm.paramParentObject[vm.paramKey] || vm.paramInfo.value;
+            vm.isBoolean = _.isBoolean(vm.paramInfo.value);
+            vm.isNumber = _.isNumber(vm.paramInfo.value);
         }
-    };
 
-    init();
+        function selectedValueChanged() {
+            var newValue = vm.selectedValue;
+            if(vm.paramParentObject[vm.paramKey] !== newValue) {
+                if(vm.isNumber) {
+                    newValue = parseFloat(newValue);
+                }
+                vm.paramParentObject[vm.paramKey] = newValue;
+                console.log('selectedValueChanged');
+                if(angular.isFunction(vm.changeCallback)) {
+                    $timeout(vm.changeCallback);
+                }
+            }
+        }
 
- });
+    }
+
+})();
+

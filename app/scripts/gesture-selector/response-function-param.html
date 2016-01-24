@@ -1,17 +1,23 @@
 <div class='response-function-param'>
     <div class='response-function-param-name'>
-        {{paramInfo.name}}
+        {{vm.paramInfo.name}}
     </div>
     <div class='response-function-param-value'>
 
-        <input ng-show='isNumber'
-               type="range"
-               min="0"
-               max="1"
-               step="0.01"
-               ng-model="selectedValue"/>
+        <input ng-show='vm.isNumber'
+               type='range'
+               min='0'
+               max='1'
+               step='0.01'
+               ng-model='vm.selectedValue'
+               ng-model-options='{ debounce: 500 }'
+               ng-change='vm.selectedValueChanged()'/>
 
-        <custom-checkbox ng-show='isBoolean' value="selectedValue"></custom-checkbox>
+        <custom-checkbox
+               ng-show='vm.isBoolean'
+               value='vm.selectedValue'
+               change-callback='vm.selectedValueChanged()'
+               ></custom-checkbox>
 
     </div>
 </div>

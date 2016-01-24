@@ -1,12 +1,15 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('chesireApp')
+    angular.module('chesireApp')
+        .controller('GestureSelectorController', GestureSelectorController);
 
-.controller('GestureSelectorCtrl', function ($scope, MotionParamsList) {
+    function GestureSelectorController($scope, MotionParamsList) {
+        var vm = this;
 
-    var init = function() {
-        $scope.availableGestures = MotionParamsList;
-    };
+        vm.availableGestures = MotionParamsList;
+    }
+})();
 
-    init();
-});
+
+

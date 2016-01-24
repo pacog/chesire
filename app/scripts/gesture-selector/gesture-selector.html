@@ -4,7 +4,10 @@
             Gesture:
         </div>
         <div class='gesture-selector-gesture-select'>
-            <select-box value='gestureObject.param' value-list='availableGestures'></select-box>
+            <select-box
+                value='vm.gestureObject.param'
+                value-list='vm.availableGestures'
+                change-callback='vm.changeCallback()'></select-box>
         </div>
     </div>
     <div class='gesture-selector-response'>
@@ -12,7 +15,10 @@
             Response:
         </div>
         <div class='gesture-selector-response-select'>
-            <response-function response-function-info='gestureObject.responseFunction'></response-function>
+            <response-function
+                response-function-info='vm.gestureObject.responseFunction'
+                change-callback='vm.changeCallback()'
+            ></response-function>
         </div>
     </div>
 </div>

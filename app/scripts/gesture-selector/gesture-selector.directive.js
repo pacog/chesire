@@ -1,15 +1,21 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('chesireApp')
+    angular.module('chesireApp')
+        .directive('gestureSelector', gestureSelector);
 
-.directive('gestureSelector', function () {
+    function gestureSelector() {
+        return {
+            templateUrl: 'scripts/gesture-selector/gesture-selector.html',
+            restrict: 'E',
+            controller: 'GestureSelectorController',
+            controllerAs: 'vm',
+            bindToController: true,
+            scope: {
+                gestureObject: '=',
+                changeCallback: '&'
+            }
+        };
+    }
 
-    return {
-        templateUrl: 'scripts/gesture-selector/gesture-selector.html',
-        restrict: 'E',
-        controller: 'GestureSelectorCtrl',
-        scope: {
-            gestureObject: '='
-        }
-    };
-});
+})();

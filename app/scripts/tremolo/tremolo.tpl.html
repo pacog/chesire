@@ -23,11 +23,20 @@
         </button>
 
         <div class='oscillator-section-content' ng-show='vm.componentInfo.controls.rate.enabled'>
-            <gesture-selector gesture-object='vm.componentInfo.controls.rate'></gesture-selector>
+            <gesture-selector
+                gesture-object='vm.componentInfo.controls.rate'
+                change-callback='vm.notifyOptionsChangedThrottled()'></gesture-selector>
         </div>
 
         <div class='oscillator-section-content' ng-show='!vm.componentInfo.controls.rate.enabled'>
-            <input ng-change='vm.notifyOptionsChangedThrottled()' ng-model-options="{ debounce: 500 }" type="range" min="{{vm.componentInfo.DEFAULT_MIN_RATE}}" max="{{vm.componentInfo.DEFAULT_MAX_RATE}}" step="0.1" ng-model="vm.componentInfo.rate"/>
+            <input
+                ng-change='vm.notifyOptionsChangedThrottled()'
+                ng-model-options="{ debounce: 500 }"
+                type="range"
+                min="{{vm.componentInfo.DEFAULT_MIN_RATE}}"
+                max="{{vm.componentInfo.DEFAULT_MAX_RATE}}"
+                step="0.1"
+                ng-model="vm.componentInfo.rate"/>
             {{1000/vm.componentInfo.rate | number:3}} ms
             <!-- TODO create filter for ms and bpm -->
         </div>
@@ -44,11 +53,21 @@
         </button>
 
         <div class='oscillator-section-content' ng-show='vm.componentInfo.controls.depth.enabled'>
-            <gesture-selector gesture-object='vm.componentInfo.controls.depth'></gesture-selector>
+            <gesture-selector
+                gesture-object='vm.componentInfo.controls.depth'
+                change-callback='vm.notifyOptionsChangedThrottled()'
+            ></gesture-selector>
         </div>
 
         <div class='oscillator-section-content' ng-show='!vm.componentInfo.controls.depth.enabled'>
-            <input ng-change='vm.notifyOptionsChangedThrottled()' ng-model-options="{ debounce: 500 }" type="range" min="0" max="1" step="0.01" ng-model="vm.componentInfo.depth"/>
+            <input
+                ng-change='vm.notifyOptionsChangedThrottled()'
+                ng-model-options="{ debounce: 500 }"
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                ng-model="vm.componentInfo.depth"/>
             {{vm.componentInfo.depth*100 | number:0}} %
         </div>
 

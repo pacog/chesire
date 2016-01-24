@@ -1,11 +1,6 @@
-<div>
-    <div class='synthoptions-content-components'>
 
-        <ul>
-            <li ng-repeat='component in vm.synthoptions.getActiveComponents()'>
-                <synthcomponent component-info='component'></synthcomponent>
-            </li>
-        </ul>
-
-    </div>
-</div>
+<ul class='components-container'>
+    <li class='component' ng-repeat='component in vm.synthoptions.getActiveComponents()'>
+        <synthcomponent component-info='component'></synthcomponent>
+    </li>
+</ul>

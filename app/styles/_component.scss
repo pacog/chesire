@@ -1,0 +1,13 @@
+.components-container {
+    @include display-flex();
+    @include align-items(flex-start);
+    overflow: auto;
+}
+
+.component {
+    width: 500px;
+    margin: $grid-m;
+    padding: $grid-m;
+    border: 1px solid lighten($dark-blue, 30);
+    @include flex(0 0 auto);
+}

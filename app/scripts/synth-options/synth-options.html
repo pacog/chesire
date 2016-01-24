@@ -14,14 +14,13 @@
         </div>
         <div class='synthoptions-content-body'>
 
-            <div class='oscillator-section'>
-                <h4 class='oscillator-section-title'>Output mode</h4>
-                <div class='oscillator-section-content'>
-                    <switch-two-values
-                        values='vm.outputModes'
-                        ng-model='vm.synthOptions.outputMode'
-                        change-callback='vm.outputModeChanged()'></switch-two-values>
-                </div>
+            <div class='synthoptions-main-selector'>
+                <span class='synthoptions-main-selector-text'>Output mode</span>
+
+                <switch-two-values
+                    values='vm.outputModes'
+                    ng-model='vm.synthOptions.outputMode'
+                    change-callback='vm.outputModeChanged()'></switch-two-values>
             </div>
 
             <synthoptions-midi synthoptions='vm.synthOptions' ng-if='vm.synthOptions.isMidiOutput()' ></synthoptions-midi>

@@ -1,56 +1,72 @@
-'use strict';
 
-angular.module('chesireApp')
+(function() {
+    'use strict';
 
-.controller('ResponseFunctionCtrl', function ($scope, ResponseFunctions) {
+    angular.module('chesireApp')
+        .controller('ResponseFunctionController', ResponseFunctionController);
 
-    var RESPONSE_VALUES_NUMBER = 20;
+    function ResponseFunctionController($timeout, ResponseFunctions) {
+        var RESPONSE_VALUES_NUMBER = 20;
+        var vm = this;
 
-    var init = function() {
-        $scope.availableResponseFunctions = ResponseFunctions;
-        $scope.$watch('selectedResponseFunction', responseFunctionChanged);
-        $scope.selectedResponseFunction = ResponseFunctions[$scope.responseFunctionInfo.name];
-        $scope.$watch('responseFunctionInfo', responseFunctionParamsChanged, true);
-    };
+        vm.responseFunctionChanged = responseFunctionChanged;
+        vm.responseFunctionParamsChanged = responseFunctionParamsChanged;
 
-    var responseFunctionChanged = function(newValue) {
-        if($scope.responseFunctionInfo.name !== newValue.name) {
-            $scope.responseFunctionInfo.name = newValue.name;
+        init();
+
+        function init() {
+            vm.availableResponseFunctions = ResponseFunctions;
+            vm.selectedResponseFunction = ResponseFunctions[vm.responseFunctionInfo.name];
+            calculateResponseValues();
         }
-    };
 
-    var calculateResponseValues = function() {
-        $scope.responseFunctionValues = [];
-        var newValue;
-        var x;
-        var increment = 1/RESPONSE_VALUES_NUMBER;
-        $scope.responseFunctionIncrement = increment;
-        for(var i=0; i<RESPONSE_VALUES_NUMBER; i++) {
-            x = i*increment;
-            newValue = getYValue(x, $scope.responseFunctionInfo);
-            $scope.responseFunctionValues.push({
-                x: x,
-                y: newValue
-            });
+        function responseFunctionChanged() {
+            if(vm.responseFunctionInfo.name !== vm.selectedResponseFunction.name) {
+                vm.responseFunctionInfo.name = vm.selectedResponseFunction.name;
+                calculateResponseValues();
+                changeCallback();
+            }
         }
-    };
 
-    var getYValue = function(x, responseFunctionInfo) {
-        var totalMin = 0;
-        var totalMax = 1;
-        if(!angular.isUndefined(responseFunctionInfo.TOTAL_MIN)) {
-            totalMin = responseFunctionInfo.TOTAL_MIN;
+        function calculateResponseValues() {
+            vm.responseFunctionValues = [];
+            var newValue;
+            var x;
+            var increment = 1/RESPONSE_VALUES_NUMBER;
+            vm.responseFunctionIncrement = increment;
+            for(var i=0; i<RESPONSE_VALUES_NUMBER; i++) {
+                x = i*increment;
+                newValue = getYValue(x, vm.responseFunctionInfo);
+                vm.responseFunctionValues.push({
+                    x: x,
+                    y: newValue
+                });
+            }
         }
-        if(!angular.isUndefined(responseFunctionInfo.TOTAL_MAX)) {
-            totalMax = responseFunctionInfo.TOTAL_MAX;
+
+        function getYValue(x, responseFunctionInfo) {
+            var totalMin = 0;
+            var totalMax = 1;
+            if(!angular.isUndefined(responseFunctionInfo.TOTAL_MIN)) {
+                totalMin = responseFunctionInfo.TOTAL_MIN;
+            }
+            if(!angular.isUndefined(responseFunctionInfo.TOTAL_MAX)) {
+                totalMax = responseFunctionInfo.TOTAL_MAX;
+            }
+            var maxLength = totalMax - totalMin;
+            return vm.selectedResponseFunction.getResponse(x, vm.responseFunctionInfo)/maxLength;
         }
-        var maxLength = totalMax - totalMin;
-        return $scope.selectedResponseFunction.getResponse(x, $scope.responseFunctionInfo)/maxLength;
-    };
 
-    var responseFunctionParamsChanged = function() {
-        calculateResponseValues();
-    };
+        function responseFunctionParamsChanged() {
+            calculateResponseValues();
+            console.log('responseFunctionParamsChanged');
+            changeCallback();
+        }
 
-    init();
- });
+        function changeCallback() {
+            if(angular.isFunction(vm.changeCallback)) {
+                $timeout(vm.changeCallback);
+            }
+        }
+     }
+})();

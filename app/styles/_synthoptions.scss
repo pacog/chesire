@@ -1,6 +1,16 @@
 .synthoptions {
     background: $dark-blue;
 }
+    .synthoptions-main-selector {
+        padding: $grid-l;
+        padding-left: 2*$grid-l;
+        padding-bottom: $grid-s;
+    }
+        .synthoptions-main-selector-text {
+            display: inline-block;
+            margin-right: $grid-l;
+        }
+
     .synthoptions-content-header {
         height: $header-height - $grid-m;
         padding-bottom: $grid-m;
@@ -10,7 +20,7 @@
         top: $header-height + 2*$grid-m;
         left: $grid-m;
         right: $grid-m;
-        max-height: 90vh;
+        max-height: 80vh;
         overflow: auto;
         background: $dark-blue;
         z-index: 10;
