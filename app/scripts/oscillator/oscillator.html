@@ -1,9 +1,15 @@
 <div class='oscillator'>
+
+    <h2 class='synthoptions-content-column-title'>Note generation</h2>
+
     <div ng-if='!!vm.synthOptions'>
         <div class='oscillator-section' ng-hide='vm.synthOptions.isMidiOutput()'>
             <h4 class='oscillator-section-title'>Oscillator type</h4>
             <div class='oscillator-section-content'>
-                <select-box value='vm.componentInfo.oscillatorType' value-list='vm.availableOscillators'></select-box>
+                <select-box
+                    value='vm.componentInfo.oscillatorType'
+                    value-list='vm.availableOscillators'
+                    change-callback='vm.notifyOscillatorOptionsChangedThrottled()'></select-box>
             </div>
         </div>
 
@@ -13,7 +19,7 @@
                 <switch-two-values
                     values='vm.transitionTypes'
                     ng-model='vm.componentInfo.transitionType'
-                    change-callback=''></switch-two-values>
+                    change-callback='vm.notifyOscillatorOptionsChangedThrottled()'></switch-two-values>
             </div>
         </div>
 

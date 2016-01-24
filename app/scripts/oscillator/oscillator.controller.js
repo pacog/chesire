@@ -11,6 +11,7 @@
         var notifyOscillatorOptionsChangedThrottled = _.throttle(notifyOscillatorOptionsChanged, 500);
 
         vm.oscillatorOptionsChanged = oscillatorOptionsChanged;
+        vm.notifyOscillatorOptionsChangedThrottled = notifyOscillatorOptionsChangedThrottled;
 
         init();
 
@@ -28,6 +29,7 @@
                 SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
                 startWatchingForChanges();
             });
+            $scope.$on('$destroy', onDestroy);
         }
 
         function synthOptionsChanged(newSynthOptions) {
@@ -48,7 +50,6 @@
             $scope.$watch('vm.gainControllerInfo', gainControllerInfoChanged, true);
 
             $scope.$watch('vm.componentInfo.snapDistance', notifyOscillatorOptionsChangedThrottled);
-            $scope.$watch('vm.componentInfo.oscillatorType', notifyOscillatorOptionsChangedThrottled);
         }
 
         function gainControllerInfoChanged(newOptions, oldOptions) {
@@ -58,12 +59,15 @@
         }
 
         function notifyOscillatorOptionsChanged() {
-            //TODO: this is called 4 times at the beginning, find a better way to watch (ng-change?)
             SynthOptions.notifyComponentChanged(vm.componentInfo);
         }
 
         function oscillatorOptionsChanged() {
             notifyOscillatorOptionsChangedThrottled();
+        }
+
+        function onDestroy() {
+            SynthOptions.unsubscribeToChangesInSynthOptions(synthOptionsChanged);
         }
     }
 

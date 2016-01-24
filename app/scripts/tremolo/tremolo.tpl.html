@@ -1,3 +1,11 @@
 <div class='tremolo'>
-    tremolo.tpl.html
+
+    <h2 class='synthoptions-content-column-title'>Tremolo</h2>
+
+    <div class='oscillator-section' ng-hide='vm.synthOptions.isMidiOutput()'>
+        <h4 class='oscillator-section-title'>Tremolo</h4>
+        <div class='oscillator-section-content'>
+            <select-box value='vm.componentInfo.oscillatorType' value-list='vm.availableOscillators'></select-box>
+        </div>
+    </div>
 </div>

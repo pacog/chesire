@@ -1,21 +1,40 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('chesireApp')
+    angular.module('chesireApp')
 
-.controller('SelectBoxCtrl', function ($scope) {
+    .controller('SelectBoxController', SelectBoxController);
 
-    var init = function() {
-        $scope.listExpanded = false;
-    };
+    function SelectBoxController($timeout) {
 
-    $scope.toggleList = function() {
-        $scope.listExpanded = !$scope.listExpanded;
-    };
+        var vm = this;
 
-    $scope.selectValue = function(newValue) {
-        $scope.value = newValue;
-        $scope.listExpanded = false;
-    };
+        vm.toggleList = toggleList;
 
-    init();
-});
+        vm.selectValue = selectValue;
+
+        init();
+
+        function init() {
+            vm.listExpanded = false;
+        }
+
+        function toggleList() {
+            vm.listExpanded = !vm.listExpanded;
+        }
+
+        function selectValue(newValue) {
+            vm.value = newValue;
+            vm.listExpanded = false;
+            if(angular.isFunction(vm.changeCallback)) {
+                $timeout(vm.changeCallback);
+            }
+        }
+    }
+
+})();
+
+
+
+
+

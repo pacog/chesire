@@ -9,8 +9,11 @@ angular.module('chesireApp')
         scope: {
             value: '=',
             valueList: '=',
-            attrToShow: '@'
+            attrToShow: '@',
+            changeCallback: '&'
         },
-        controller: 'SelectBoxCtrl'
+        controller: 'SelectBoxController',
+        controllerAs: 'vm',
+        bindToController: true
     };
 });

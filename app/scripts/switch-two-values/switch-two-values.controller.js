@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('SwitchTwoValuesController', SwitchTwoValuesController);
 
-    function SwitchTwoValuesController() {
+    function SwitchTwoValuesController($timeout) {
         var vm = this;
 
         vm.selectValue = selectValue;
@@ -19,12 +19,11 @@
 
         function selectValue(newValue) {
             if(vm.bindModel !== newValue) {
-                // var oldValue = vm.bindModel;
 
                 vm.bindModel = newValue;
 
                 if(angular.isFunction(vm.changeCallback)) {
-                    vm.changeCallback();
+                    $timeout(vm.changeCallback);
                 }
             }
         }
