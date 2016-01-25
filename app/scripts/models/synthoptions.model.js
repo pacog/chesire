@@ -52,6 +52,10 @@
             return this.outputMode === 'audio';
         };
 
+        SynthoptionsClass.prototype.isCustomOscillator = function() {
+            return this.getOscillatorComponent().oscillatorType === 'custom';
+        };
+
         SynthoptionsClass.prototype.removeControl = function(controlToRemove) {
             if(!this.outputMode || !this[this.outputMode]) {
                 return null;

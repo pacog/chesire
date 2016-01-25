@@ -11,6 +11,11 @@
                     value-list='vm.availableOscillators'
                     change-callback='vm.notifyOscillatorOptionsChangedThrottled()'></select-box>
             </div>
+            <oscillator-wave-selector
+                ng-if='vm.synthOptions.isCustomOscillator()'
+                config='vm.componentInfo'
+                change-callback='vm.notifyOscillatorOptionsChangedThrottled()'
+            ></oscillator-wave-selector>
         </div>
 
         <div class='oscillator-transition oscillator-section' ng-hide='vm.synthOptions.isMidiOutput()'>

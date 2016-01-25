@@ -1,0 +1,37 @@
+<div class='oscillator-wave-selector'>
+
+    <ul class='oscillator-wave-selector-column oscillator-wave-selector-real'>
+        <li class='oscillator-wave-selector-item oscillator-wave-selector-real-item'
+            ng-repeat='item in vm.realPeriodicTableValues track by $index'>
+            <div class='oscillator-wave-selector-index'>{{$index}}:</div>
+            <div class='oscillator-wave-selector-value'>{{item.value | number:2}}</div>
+            <input
+                class='oscillator-wave-selector-range'
+                type='range'
+                ng-model='item.value'
+                min='0'
+                max='1'
+                step='0.01'
+                ng-model-options='{ debounce: 500 }'
+                ng-change='vm.realValueChanged($index)'/>
+            
+        </li>
+    </ul>
+
+    <ul class='oscillator-wave-selector-column oscillator-wave-selector-imaginary'>
+        <li class='oscillator-wave-selector-item oscillator-wave-selector-imaginary-item'
+            ng-repeat='item in vm.imaginaryPeriodicTableValues track by $index'>
+            <div class='oscillator-wave-selector-index'>{{$index}}:</div>
+            <div class='oscillator-wave-selector-value'>{{item.value | number:2}}</div>
+            <input
+                class='oscillator-wave-selector-range'
+                type='range'
+                ng-model='item.value'
+                min='0'
+                max='1'
+                step='0.01'
+                ng-model-options='{ debounce: 500 }'
+                ng-change='vm.imaginaryValueChanged($index)'/>
+        </li>
+    </ul>
+</div>

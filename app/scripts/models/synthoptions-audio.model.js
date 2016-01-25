@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .factory('SynthoptionsAudioModel', SynthoptionsAudioModel);
 
-    function SynthoptionsAudioModel(availableOscillators) {
+    function SynthoptionsAudioModel(availableOscillators, availableSimpleOscillators) {
         var factory = {
             create: create
         };
@@ -17,6 +17,8 @@
                 oscillatorType: availableOscillators[1],
                 snapDistance: 0.35,
                 transitionType: 'glissando',
+                realPeriodicTable: [0, 0.4, 0.4, 1, 1, 1, 0.3, 0.7, 0.6, 0.5, 0.9, 0.8],
+                imaginaryPeriodicTable: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 controls: {
                     'gain': {
                         param: 'y',
@@ -30,7 +32,7 @@
                 }
             }, {
                 type: 'tremolo',
-                oscillatorType: availableOscillators[1],
+                oscillatorType: availableSimpleOscillators[1],
                 enabled: true,
 
                 DEFAULT_MIN_RATE: 1,

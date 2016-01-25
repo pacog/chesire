@@ -4,12 +4,12 @@
     angular.module('chesireApp')
         .controller('TremoloController', TremoloController);
 
-    function TremoloController($scope, availableOscillators, SynthOptions) {
+    function TremoloController($scope, availableSimpleOscillators, SynthOptions) {
         var vm = this;
 
         var notifyOptionsChangedThrottled = _.throttle(notifyOptionsChanged, 500);
 
-        vm.availableOscillators = availableOscillators;
+        vm.availableOscillators = availableSimpleOscillators;
 
         vm.notifyOptionsChangedThrottled = notifyOptionsChangedThrottled;
         vm.toggleRate = toggleRate;

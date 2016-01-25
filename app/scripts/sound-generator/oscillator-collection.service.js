@@ -9,10 +9,8 @@ angular.module('chesireApp')
         var nodes = [];
         var nodesHash = {};
 
-        //Node we are connected to
         var connectedTo = null;
 
-        //TODO make it possible to connect to more than one node
         var connect = function(nodeToConnect) {
 
             connectedTo = nodeToConnect;
@@ -81,8 +79,26 @@ angular.module('chesireApp')
                 }
             }
             angular.forEach(nodes, function(node) {
-                node.oscillator.type = getOscillatorTypeFromOptions(synthConfig);
+                var oscillatorType = getOscillatorTypeFromOptions(synthConfig);
+
+                if(oscillatorType === 'custom') {
+                    assignPeriodicTableFromOptions(node.oscillator, synthConfig);
+                } else {
+                    node.oscillator.type = oscillatorType;
+                }
+
             });
+        };
+
+        var assignPeriodicTableFromOptions = function(oscillator, config) {
+            config.realPeriodicTable = config.realPeriodicTable || [0, 1];
+            config.imaginaryPeriodicTable = config.imaginaryPeriodicTable || [0, 0];
+
+            var realArray = new Float32Array(config.realPeriodicTable);
+            var imaginaryArray = new Float32Array(config.imaginaryPeriodicTable);
+
+            var wave = Audiocontext.createPeriodicWave(realArray, imaginaryArray);
+            oscillator.setPeriodicWave(wave);
         };
 
         var getNodes = function() {

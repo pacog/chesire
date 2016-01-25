@@ -1,0 +1,23 @@
+.oscillator-wave-selector {
+    padding: $grid-l;
+    @include display-flex();
+}
+    .oscillator-wave-selector-column {
+        @include flex(1);
+    }
+    .oscillator-wave-selector-real {
+        margin-right: $grid-m;
+    }
+    .oscillator-wave-selector-imaginary {
+        margin-left: $grid-m;
+    }
+        .oscillator-wave-selector-item {
+            @include display-flex();
+            @include align-items(center);
+        }
+            .oscillator-wave-selector-index, .oscillator-wave-selector-value {
+                width: 3*$grid-m;
+            }
+            .oscillator-wave-selector-value {
+                margin: 0 $grid-m;
+            }
