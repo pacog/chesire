@@ -1,9 +1,16 @@
 <div class='oscillator-snap-info'>
     <div class='oscillator-snap-info-first-note'
-         style='width: {{100*componentInfo.snapDistance}}%;'></div>
+         style='width: {{100*vm.componentInfo.snapDistance}}%;'></div>
     <div class='oscillator-snap-info-middle'
-         style='width: {{100*(1 - 2*componentInfo.snapDistance)}}%; left: {{100*componentInfo.snapDistance}}%'></div>
+         style='width: {{100*(1 - 2*vm.componentInfo.snapDistance)}}%; left: {{100*vm.componentInfo.snapDistance}}%'></div>
     <div class='oscillator-snap-info-second-note'
-         style='width: {{100*componentInfo.snapDistance}}%'></div>
+         style='width: {{100*vm.componentInfo.snapDistance}}%'></div>
 </div>
-<input class='oscillator-snap-range-picker'  id="test" type="range" min="0" max="0.5" step="0.01" ng-model="componentInfo.snapDistance"/>
+<input class='oscillator-snap-range-picker'
+       type="range"
+       min="0"
+       max="0.5"
+       step="0.01"
+       ng-model="vm.componentInfo.snapDistance"
+       ng-model-options="{ debounce: 500 }"
+       ng-change="vm.valueChanged()"/>

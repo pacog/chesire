@@ -1,13 +1,23 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('chesireApp')
+    angular.module('chesireApp')
+        .directive('oscillatorSnap', oscillatorSnap);
 
-.directive('oscillatorSnap', function () {
-    return {
-        templateUrl: 'scripts/oscillator/oscillator-snap.html',
-        restrict: 'E',
-        scope: {
-            componentInfo: '='
-        }
-    };
-});
+    function oscillatorSnap() {
+        return {
+            templateUrl: 'scripts/oscillator/oscillator-snap.html',
+            restrict: 'E',
+            scope: {
+                componentInfo: '=',
+                changeCallback: '&'
+            },
+            controller: 'OscillatorSnapController',
+            controllerAs: 'vm',
+            bindToController: true
+        };
+    }
+
+})();
+
+

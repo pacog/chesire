@@ -28,7 +28,6 @@
 
             SynthOptions.getSynthOptions().then(function() { //This get is just to wait for them to be ready
                 SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
-                startWatchingForChanges();
             });
             $scope.$on('$destroy', onDestroy);
         }
@@ -44,11 +43,6 @@
             if(vm.synthOptions && vm.synthOptions.isMidiOutput()) {
                 vm.componentInfo.transitionType = 'volume';
             }
-        }
-
-        function startWatchingForChanges() {
-            //TODO: all this should be done with ng-change in each of the components
-            $scope.$watch('vm.componentInfo.snapDistance', notifyOscillatorOptionsChangedThrottled);
         }
 
         function gainControllerInfoChanged() {

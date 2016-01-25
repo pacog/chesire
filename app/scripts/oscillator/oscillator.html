@@ -35,7 +35,9 @@
         <div class='oscillator-snap oscillator-section'>
             <h4 class='oscillator-section-title'>Snap to chords</h4>
             <div class='oscillator-section-content'>
-                <oscillator-snap component-info='vm.componentInfo'></oscillator-snap>
+                <oscillator-snap
+                    component-info='vm.componentInfo'
+                    change-callback='vm.notifyOscillatorOptionsChangedThrottled()'></oscillator-snap>
             </div>
         </div>
     </div>
