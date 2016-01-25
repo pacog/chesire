@@ -14,7 +14,7 @@
     </div>
 
     <div class='oscillator-section'>
-        <h4 class='oscillator-section-title'>Rate</h4>
+        <h4 class='oscillator-section-title'>Frequency</h4>
         
         <button class='button' ng-click='vm.toggleRate()'>
             <span ng-show='vm.componentInfo.controls.rate.enabled'>Disable</span>
@@ -23,6 +23,24 @@
         </button>
 
         <div class='oscillator-section-content' ng-show='vm.componentInfo.controls.rate.enabled'>
+            <input
+                ng-change='vm.notifyOptionsChangedThrottled()'
+                ng-model-options="{ debounce: 500 }"
+                type="range"
+                min="{{vm.componentInfo.DEFAULT_MIN_RATE}}"
+                max="{{vm.componentInfo.DEFAULT_MAX_RATE}}"
+                step="0.1"
+                ng-model="vm.componentInfo.minRate"/>
+            {{vm.componentInfo.minRate | toBpm}} ({{vm.componentInfo.minRate | toMs}})
+            <input
+                ng-change='vm.notifyOptionsChangedThrottled()'
+                ng-model-options="{ debounce: 500 }"
+                type="range"
+                min="{{vm.componentInfo.DEFAULT_MIN_RATE}}"
+                max="{{vm.componentInfo.DEFAULT_MAX_RATE}}"
+                step="0.1"
+                ng-model="vm.componentInfo.maxRate"/>
+            {{vm.componentInfo.maxRate | toBpm}} ({{vm.componentInfo.maxRate | toMs}})
             <gesture-selector
                 gesture-object='vm.componentInfo.controls.rate'
                 change-callback='vm.notifyOptionsChangedThrottled()'></gesture-selector>
@@ -37,7 +55,7 @@
                 max="{{vm.componentInfo.DEFAULT_MAX_RATE}}"
                 step="0.1"
                 ng-model="vm.componentInfo.rate"/>
-            {{1000/vm.componentInfo.rate | number:3}} ms
+            {{vm.componentInfo.rate | toBpm}} ({{vm.componentInfo.rate | toMs}})
             <!-- TODO create filter for ms and bpm -->
         </div>
 

@@ -56,6 +56,8 @@ angular.module('chesireApp')
             },
 
             _adjustValue: function(value, min, max) {
+                min = parseFloat(min);
+                max = parseFloat(max);
                 return (value*(max-min)) + min;
             },
 
