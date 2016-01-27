@@ -18,7 +18,7 @@
             ></oscillator-wave-selector>
         </div>
 
-        <div class='oscillator-section'>
+        <div class='oscillator-section' ng-if='!vm.synthOptions.isMidiOutput()'>
             <h4 class='oscillator-section-title'>
                 Freq Modulation
 

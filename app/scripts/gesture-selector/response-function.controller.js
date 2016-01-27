@@ -16,8 +16,10 @@
 
         function init() {
             vm.availableResponseFunctions = ResponseFunctions;
-            vm.selectedResponseFunction = ResponseFunctions[vm.responseFunctionInfo.name];
-            calculateResponseValues();
+            if(vm.responseFunctionInfo) {
+                vm.selectedResponseFunction = ResponseFunctions[vm.responseFunctionInfo.name];
+                calculateResponseValues();
+            }
         }
 
         function responseFunctionChanged() {
