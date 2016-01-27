@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.factory('SynthOptions', function ($q, LastUsedSettingsStore, IdGenerator, SynthoptionsModel) {
+.factory('SynthOptions', function ($q, LastUsedSettingsStore, IdGenerator) {
 
     var synthOptions = null;
     var subscriberCallbacks = [];
@@ -11,7 +11,7 @@ angular.module('chesireApp')
         synthOptions = newSynthOptions;
         addIdsToComponents();
         notifyChangeInSynthOptions(synthOptions);
-//         LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
+        LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
     };
 
     var getSynthOptions = function() {
@@ -20,17 +20,11 @@ angular.module('chesireApp')
         if(synthOptions) {
             willReturnSynthOptions.resolve(synthOptions);
         } else {
-            synthOptions = SynthoptionsModel.create();
-            addIdsToComponents();
-            willReturnSynthOptions.resolve(synthOptions);
-            // // LastUsedSettingsStore.getLastUsedSynth().then(function(lastUsedSynth) {
-            //     if(!lastUsedSynth) {
-            //         lastUsedSynth = DefaultSynth;
-            //     }
-            //     synthOptions = lastUsedSynth;
-            //     addIdsToComponents();
-            //     willReturnSynthOptions.resolve(synthOptions);
-            // });
+            LastUsedSettingsStore.getLastUsedSynth().then(function(lastUsedSynth) {
+                synthOptions = lastUsedSynth;
+                addIdsToComponents();
+                willReturnSynthOptions.resolve(synthOptions);
+            });
         }
 
         return willReturnSynthOptions.promise;
@@ -70,7 +64,7 @@ angular.module('chesireApp')
             }
         }
         notifyChangeInSynthOptions(synthOptions);
-        // LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
+        LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
     };
 
     var notifyControlChanged = function(controlInfo) {
@@ -86,13 +80,13 @@ angular.module('chesireApp')
             }
         }
         notifyChangeInSynthOptions(synthOptions);
-        // LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
+        LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
     };
 
     var notifyControlRemoved = function(controlInfo) {
         synthOptions.removeControl(controlInfo);
         notifyChangeInSynthOptions(synthOptions);
-        // LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
+        LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
     };
 
     return {

@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('chesireApp')
-    .factory('LastUsedSettingsStore', function($q, localStorageService) {
+    .factory('LastUsedSettingsStore', function($q, localStorageService, SynthoptionsModel) {
+        var CURRENT_SYNTH_VERSION = '0.1';
 
         var getLastUsedSong = function() {
             var deferred = $q.defer();
@@ -18,12 +19,20 @@ angular.module('chesireApp')
         var getLastUsedSynth = function() {
             var deferred = $q.defer();
 
-            deferred.resolve(localStorageService.get('lastUsedSynth'));
+            var synthOptions = localStorageService.get('lastUsedSynth');
+            if(!synthOptions || (synthOptions.version !== CURRENT_SYNTH_VERSION)) {
+                synthOptions = null;
+            }
+            var lastUsedSynth = SynthoptionsModel.create(synthOptions);
+            console.log('loading synth');
+            console.log(lastUsedSynth);
+            deferred.resolve(lastUsedSynth);
 
             return deferred.promise;
         };
 
         var notifyLastUsedSynthChanged = function(newLastUsedSynth) {
+            newLastUsedSynth.version = CURRENT_SYNTH_VERSION;
             localStorageService.set('lastUsedSynth', newLastUsedSynth);
         };
 
