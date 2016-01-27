@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('OscillatorController', OscillatorController);
 
-    function OscillatorController($scope, oscillatorTransitionTypes, oscillatorMidiControlModes, availableOscillators, SynthOptions) {
+    function OscillatorController($scope, $timeout, oscillatorTransitionTypes, oscillatorMidiControlModes, availableOscillators, SynthOptions) {
         var vm = this;
 
         var notifyComponentChangedThrottled = _.throttle(SynthOptions.notifyComponentChanged, 500);
@@ -13,6 +13,7 @@
         vm.oscillatorOptionsChanged = oscillatorOptionsChanged;
         vm.notifyOscillatorOptionsChangedThrottled = notifyOscillatorOptionsChangedThrottled;
         vm.gainControllerInfoChanged = gainControllerInfoChanged;
+        vm.fmToggle = fmToggle;
 
         init();
 
@@ -36,17 +37,24 @@
             vm.synthOptions = newSynthOptions;
 
             if(newSynthOptions && newSynthOptions.getActiveComponents()) {
-                var oscillatorInfo = newSynthOptions.getOscillatorComponent();
-                vm.gainControllerInfo = oscillatorInfo.controls.gain;
+                vm.oscillatorInfo = newSynthOptions.getOscillatorComponent();
+                vm.gainControllerInfo = vm.oscillatorInfo.controls.gain;
             }
             
             if(vm.synthOptions && vm.synthOptions.isMidiOutput()) {
                 vm.componentInfo.transitionType = 'volume';
             }
+
         }
 
         function gainControllerInfoChanged() {
             notifyComponentChangedThrottled(vm.componentInfo);
+        }
+
+        function fmToggle() {
+            $timeout(function() { //TODO: ugly timeout, improve change-callbacks everywhere to not need it
+                notifyOscillatorOptionsChanged(vm.componentInfo);
+            });
         }
 
         function notifyOscillatorOptionsChanged() {

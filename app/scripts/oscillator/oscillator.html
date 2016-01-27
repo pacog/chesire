@@ -18,15 +18,22 @@
             ></oscillator-wave-selector>
         </div>
 
-        <div class='oscillator-transition oscillator-section' ng-hide='vm.synthOptions.isMidiOutput()'>
-            <h4 class='oscillator-section-title'>Transition between chords</h4>
-            <div class='oscillator-section-content'>
-                <switch-two-values
-                    values='vm.transitionTypes'
-                    ng-model='vm.componentInfo.transitionType'
-                    change-callback='vm.notifyOscillatorOptionsChangedThrottled()'></switch-two-values>
+        <div class='oscillator-section'>
+            <h4 class='oscillator-section-title'>
+                Freq Modulation
+
+                <custom-checkbox
+                    value='vm.oscillatorInfo.fm.enabled'
+                    change-callback='vm.fmToggle()'></custom-checkbox>
+            </h4>
+            <div class='oscillator-section-content' ng-show='vm.oscillatorInfo.fm.enabled'>
+                <oscillator-fm
+                    component='vm.oscillatorInfo.fm'
+                    change-callback='vm.notifyOscillatorOptionsChangedThrottled()'
+                    ></oscillator-fm>
             </div>
         </div>
+
 
         <div class='oscillator-section'>
             <h4 class='oscillator-section-title'>Volume control</h4>
@@ -34,6 +41,16 @@
                 <gesture-selector
                     gesture-object='vm.gainControllerInfo'
                     change-callback='vm.gainControllerInfoChanged()'></gesture-selector>
+            </div>
+        </div>
+
+        <div class='oscillator-transition oscillator-section' ng-hide='vm.synthOptions.isMidiOutput()'>
+            <h4 class='oscillator-section-title'>Transition between chords</h4>
+            <div class='oscillator-section-content'>
+                <switch-two-values
+                    values='vm.transitionTypes'
+                    ng-model='vm.componentInfo.transitionType'
+                    change-callback='vm.notifyOscillatorOptionsChangedThrottled()'></switch-two-values>
             </div>
         </div>
 
