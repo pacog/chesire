@@ -54,10 +54,13 @@
                 if(this.modulatorOscillator && this._fmFreqRatio) {
                     this.modulatorOscillator.frequency.value = this._fmFreqRatio*this.oscillator.frequency.value;
                 }
-                
+                if(this.preModulatorOscillator && this._preFmFreqRatio) {
+                    this.preModulatorOscillator.frequency.value = this._preFmFreqRatio*this.oscillator.frequency.value;
+                }
             },
 
             destroy: function() {
+                //TODO: disconnect and destroy everything
                 this.oscillator.disconnect(this.gainNode);
                 if(this._connectedTo) {
                     this.gainNode.disconnect(this._connectedTo);
@@ -106,6 +109,21 @@
                 this._fmFreqRatio = options.fm.freq;
                 this.modulatorOscillator.connect(this.modulatorGain);
                 this.modulatorGain.connect(this.gainNode);
+
+                if(options.fm.preModulator) {
+                    this._createPreModulator(options.fm.preModulator);
+                }
+            },
+
+            _createPreModulator: function(options) {
+                this.preModulatorOscillator = Audiocontext.createOscillator();
+                this.preModulatorOscillator.start();
+                this.preModulatorGain = Audiocontext.createGain();
+
+                this.preModulatorGain.gain.value = options.depth;
+                this._preFmFreqRatio = options.freq;
+                this.preModulatorOscillator.connect(this.preModulatorGain);
+                this.preModulatorGain.connect(this.modulatorGain);
             }
         };
 

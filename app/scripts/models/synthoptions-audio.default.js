@@ -36,7 +36,7 @@
                     fm: {
                         enabled: true,
                         depth: 0.7,
-                        freq: 1.5,
+                        freq: 3.5,
                         controls: {
                             'depth': {
                                 enabled: true,
@@ -48,6 +48,11 @@
                                     inverse: false
                                 }
                             }
+                        },
+                        preModulator: {
+                            enabled: true,
+                            depth: 0.3,
+                            freq: 4
                         }
                     }
                 }, {
