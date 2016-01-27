@@ -24,8 +24,6 @@ angular.module('chesireApp')
                 synthOptions = null;
             }
             var lastUsedSynth = SynthoptionsModel.create(synthOptions);
-            console.log('loading synth');
-            console.log(lastUsedSynth);
             deferred.resolve(lastUsedSynth);
 
             return deferred.promise;

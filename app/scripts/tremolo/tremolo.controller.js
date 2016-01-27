@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('TremoloController', TremoloController);
 
-    function TremoloController($scope, availableSimpleOscillators, SynthOptions) {
+    function TremoloController($scope, $timeout, availableSimpleOscillators, SynthOptions) {
         var vm = this;
 
         var notifyOptionsChangedThrottled = _.throttle(notifyOptionsChanged, 500);
@@ -14,6 +14,7 @@
         vm.notifyOptionsChangedThrottled = notifyOptionsChangedThrottled;
         vm.toggleRate = toggleRate;
         vm.toggleDepth = toggleDepth;
+        vm.tremoloToggle = tremoloToggle;
 
         init();
 
@@ -44,6 +45,12 @@
         function toggleDepth() {
             vm.componentInfo.controls.depth.enabled = !vm.componentInfo.controls.depth.enabled;
             vm.notifyOptionsChangedThrottled();
+        }
+
+        function tremoloToggle() {
+            $timeout(function() { //TODO: ugly timeout, improve change-callbacks everywhere to not need it
+                vm.notifyOptionsChangedThrottled();
+            });
         }
 
         function onDestroy() {

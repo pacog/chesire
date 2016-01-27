@@ -1,6 +1,10 @@
 <div class='tremolo'>
 
-    <h2 class='synthoptions-content-column-title'>Tremolo</h2>
+    <h2 class='synthoptions-content-column-title'>Tremolo
+
+    <custom-checkbox
+        value='vm.componentInfo.enabled'
+        change-callback='vm.tremoloToggle()'></custom-checkbox></h2>
 
     <div class='oscillator-section' ng-hide='vm.synthOptions.isMidiOutput()'>
         <h4 class='oscillator-section-title'>Oscillator type</h4>
