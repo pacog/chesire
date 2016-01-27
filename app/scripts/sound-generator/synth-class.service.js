@@ -39,15 +39,16 @@ angular.module('chesireApp')
                 if(this._areOptionsCorrect()) {
                     var self = this;
                     angular.forEach(this.synthOptions.getActiveComponents(), function(synthElementOptions) {
-                        self.synthElements.push(SynthElementFactory.createSynthElement(synthElementOptions));
+                        if(synthElementOptions.enabled || synthElementOptions.type === 'oscillator') {
+                            self.synthElements.push(SynthElementFactory.createSynthElement(synthElementOptions));
+                        }
                     });
 
                     for(var i=0; i<(this.synthElements.length - 1); i++) {
                         this.synthElements[i].connectTo(this.synthElements[i+1]);
                     }
                     _.last(this.synthElements).connectTo(Audiocontext.destination);
-                    //TODO: create the rest of components and connect them
-                    // var lastComponent <- connect this one to the output
+
                 } else {
                     throw 'SynthClass: error creating components, wrong options';
                 }

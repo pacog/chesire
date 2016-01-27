@@ -24,8 +24,8 @@
                     imaginaryPeriodicTable: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                     fm: {
                         enabled: true,
-                        depth: 0.5,
-                        freq: 1
+                        depth: 0.7,
+                        freq: 3.5
                     },
                     controls: {
                         'gain': {
@@ -41,7 +41,7 @@
                 }, {
                     type: 'tremolo',
                     oscillatorType: availableSimpleOscillators[1],
-                    enabled: true,
+                    enabled: false,
 
                     DEFAULT_MIN_RATE: 1,
                     DEFAULT_MAX_RATE: 10,

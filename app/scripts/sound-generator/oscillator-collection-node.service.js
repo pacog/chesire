@@ -20,6 +20,8 @@
                 this.oscillator.start(0);
 
                 this._assignOscillatorType(options);
+
+                this._createFMComponents(options);
             },
 
             connect: function(destination) {
@@ -34,7 +36,15 @@
             setFrequency: function(newFrequency) {
                 if(newFrequency) {
                     this.oscillator.frequency.value = newFrequency;
+                    this._updateFMFrequency();
                 }
+            },
+
+            _updateFMFrequency: function() {
+                if(this.modulatorOscillator && this._fmFreqRatio) {
+                    this.modulatorOscillator.frequency.value = this._fmFreqRatio*this.oscillator.frequency.value;
+                }
+                
             },
 
             destroy: function() {
@@ -72,6 +82,20 @@
 
                 var wave = Audiocontext.createPeriodicWave(realArray, imaginaryArray);
                 this.oscillator.setPeriodicWave(wave);
+            },
+
+            _createFMComponents: function(options) {
+                if(!options || !options.fm || !options.fm.enabled) {
+                    return;
+                }
+                this.modulatorOscillator = Audiocontext.createOscillator();
+                this.modulatorOscillator.start();
+                this.modulatorGain = Audiocontext.createGain();
+
+                this.modulatorGain.gain.value = options.fm.depth;
+                this._fmFreqRatio = options.fm.freq;
+                this.modulatorOscillator.connect(this.modulatorGain);
+                this.modulatorGain.connect(this.gainNode);
             }
         };
 
