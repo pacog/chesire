@@ -58,13 +58,15 @@
             }
 
             function updateNodes(nodesInfo) {
-                var node, freq;
-                angular.forEach(nodesInfo, function(note) {
+                var node, freq, note;
+                for(var i=0; i<nodesInfo.length; i++) {
+                    note = nodesInfo[i];
                     node = nodes[nodesHash[note.name]];
                     freq = note.freqToPlay;
                     node.setGain(note.gain);
                     node.setFrequency(freq);
-                });
+                    node.updateFM(nodesInfo.fmInfo);
+                }
             }
 
             function getNodes() {

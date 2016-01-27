@@ -40,6 +40,16 @@
                 }
             },
 
+            updateFM: function(newFM) {
+                if(!newFM || !newFM.depth || !this.modulatorGain) {
+                    return;
+                }
+                if(this.modulatorGain.gain.value === newFM.depth) {
+                    return;
+                }
+                this.modulatorGain.gain.value = newFM.depth;
+            },
+
             _updateFMFrequency: function() {
                 if(this.modulatorOscillator && this._fmFreqRatio) {
                     this.modulatorOscillator.frequency.value = this._fmFreqRatio*this.oscillator.frequency.value;

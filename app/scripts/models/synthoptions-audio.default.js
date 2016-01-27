@@ -22,11 +22,6 @@
                     transitionType: 'glissando',
                     realPeriodicTable: [0, 0.4, 0.4, 1, 1, 1, 0.3, 0.7, 0.6, 0.5, 0.9, 0.8],
                     imaginaryPeriodicTable: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    fm: {
-                        enabled: true,
-                        depth: 0.7,
-                        freq: 3.5
-                    },
                     controls: {
                         'gain': {
                             param: 'y',
@@ -35,6 +30,23 @@
                                 min: 0.0,
                                 max: 0.9,
                                 inverse: true
+                            }
+                        }
+                    },
+                    fm: {
+                        enabled: true,
+                        depth: 0.7,
+                        freq: 1.5,
+                        controls: {
+                            'depth': {
+                                enabled: true,
+                                param: 'handDirectionY',
+                                responseFunction: {
+                                    name: 'linear',
+                                    min: 0.0,
+                                    max: 0.9,
+                                    inverse: false
+                                }
                             }
                         }
                     }

@@ -15,7 +15,7 @@ angular.module('chesireApp')
                         responseFunction: {
                             name: 'linear',
                             min: 0.0,
-                            max: 0.9,
+                            max: 1,
                             inverse: true
                         }
                     }
@@ -45,7 +45,7 @@ angular.module('chesireApp')
             }*/],
             controls: [{
                 number: 7,
-                param: 'z',
+                param: 'handDirectionY',
                 responseFunction: {
                     name: 'linear',
                     min: 0.0,
