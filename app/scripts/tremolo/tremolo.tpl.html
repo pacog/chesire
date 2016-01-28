@@ -15,6 +15,49 @@
         <div class='oscillator-section'>
             <h4 class='oscillator-section-title'>
                 <div class='oscillator-section-title-full-left'>
+                    Depth
+                </div>
+                <button class='button' ng-click='vm.toggleDepth()'>
+                    <span ng-show='vm.componentInfo.controls.depth.enabled'>Disable</span>
+                    <span ng-show='!vm.componentInfo.controls.depth.enabled'>Enable</span>
+                    gesture control
+                </button>
+            </h4>
+
+            <div class='oscillator-section-content' ng-show='vm.componentInfo.controls.depth.enabled'>
+                <gesture-selector
+                    gesture-object='vm.componentInfo.controls.depth'
+                    change-callback='vm.notifyOptionsChangedThrottled()'
+                ></gesture-selector>
+            </div>
+
+            <div class='oscillator-section-content' ng-show='!vm.componentInfo.controls.depth.enabled'>
+
+                <div class='slider-with-value'>
+                    <input
+                        class='slider-with-value-slider'
+                        ng-change='vm.notifyOptionsChangedThrottled()'
+                    ng-model-options="{ debounce: 500 }"
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    ng-model="vm.componentInfo.depth"/>
+                    <div class='slider-with-value-value'>
+                        {{vm.componentInfo.depth*100 | number:0}} %
+                    </div>
+                </div>
+                
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class='column'>
+        <div class='oscillator-section'>
+            <h4 class='oscillator-section-title'>
+                <div class='oscillator-section-title-full-left'>
                     Frequency
                 </div>
                 <button class='button' ng-click='vm.toggleRate()'>
@@ -85,48 +128,6 @@
                     </div>
                 </div>
 
-            </div>
-
-        </div>
-    </div>
-
-    <div class='column'>
-        <div class='oscillator-section'>
-            <h4 class='oscillator-section-title'>
-                <div class='oscillator-section-title-full-left'>
-                    Depth
-                </div>
-                <button class='button' ng-click='vm.toggleDepth()'>
-                    <span ng-show='vm.componentInfo.controls.depth.enabled'>Disable</span>
-                    <span ng-show='!vm.componentInfo.controls.depth.enabled'>Enable</span>
-                    gesture control
-                </button>
-            </h4>
-
-            <div class='oscillator-section-content' ng-show='vm.componentInfo.controls.depth.enabled'>
-                <gesture-selector
-                    gesture-object='vm.componentInfo.controls.depth'
-                    change-callback='vm.notifyOptionsChangedThrottled()'
-                ></gesture-selector>
-            </div>
-
-            <div class='oscillator-section-content' ng-show='!vm.componentInfo.controls.depth.enabled'>
-
-                <div class='slider-with-value'>
-                    <input
-                        class='slider-with-value-slider'
-                        ng-change='vm.notifyOptionsChangedThrottled()'
-                    ng-model-options="{ debounce: 500 }"
-                    type="range"
-                    min="0"
-                    max="1"
-                    step="0.01"
-                    ng-model="vm.componentInfo.depth"/>
-                    <div class='slider-with-value-value'>
-                        {{vm.componentInfo.depth*100 | number:0}} %
-                    </div>
-                </div>
-                
             </div>
 
         </div>

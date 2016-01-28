@@ -1,7 +1,6 @@
 'use strict';
 
 angular.module('chesireApp')
-    // .factory('TremoloClass', function(Audiocontext) {
     .factory('TremoloClass', function(Audiocontext, MotionParamsHelper) {
 
         var TremoloClass = function(options) {

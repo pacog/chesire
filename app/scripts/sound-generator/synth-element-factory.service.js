@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chesireApp')
-    .factory('SynthElementFactory', function(OscillatorClass, TremoloClass) {
+    .factory('SynthElementFactory', function(OscillatorClass, TremoloClass, EqualizerClass) {
 
         var createSynthElement = function(synthElementOptions) {
             switch(synthElementOptions.type) {
@@ -9,6 +9,8 @@ angular.module('chesireApp')
                     return new OscillatorClass(synthElementOptions);
                 case 'tremolo':
                     return new TremoloClass(synthElementOptions);
+                case 'equalizer':
+                    return new EqualizerClass(synthElementOptions);
                 default:
                     throw 'Error creating SynthElement, wrong type: ' + synthElementOptions.type;
             }

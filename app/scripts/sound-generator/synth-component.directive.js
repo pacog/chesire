@@ -14,6 +14,9 @@ angular.module('chesireApp')
             case 'tremolo':
                 html = '<tremolo/>';
                 break;
+            case 'equalizer':
+                html = '<equalizer/>';
+                break;
         }
 
         var angularDomEl = angular.element(html);
