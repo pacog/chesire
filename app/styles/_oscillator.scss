@@ -10,6 +10,7 @@
             padding: $grid-m;
             background: lighten($dark-blue, 5);
             @include display-flex;
+            @include align-items(center);
         }
             .oscillator-section-title-full-left {
                 @include flex(1);

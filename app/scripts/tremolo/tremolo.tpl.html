@@ -1,91 +1,135 @@
-<div class='tremolo'>
+<div class='tremolo row'>
 
-    <div class='oscillator-section' ng-hide='vm.synthOptions.isMidiOutput()'>
-        <h4 class='oscillator-section-title'>Oscillator type</h4>
-        <div class='oscillator-section-content'>
-            <select-box
-                value='vm.componentInfo.oscillatorType'
-                value-list='vm.availableOscillators'
-                change-callback='vm.notifyOptionsChangedThrottled()'
-            ></select-box>
+    <div class='column'>
+        <div class='oscillator-section' ng-hide='vm.synthOptions.isMidiOutput()'>
+            <h4 class='oscillator-section-title'>Oscillator type</h4>
+            <div class='oscillator-section-content'>
+                <select-box
+                    value='vm.componentInfo.oscillatorType'
+                    value-list='vm.availableOscillators'
+                    change-callback='vm.notifyOptionsChangedThrottled()'
+                ></select-box>
+            </div>
+        </div>
+
+        <div class='oscillator-section'>
+            <h4 class='oscillator-section-title'>
+                <div class='oscillator-section-title-full-left'>
+                    Frequency
+                </div>
+                <button class='button' ng-click='vm.toggleRate()'>
+                    <span ng-show='vm.componentInfo.controls.rate.enabled'>Disable</span>
+                    <span ng-show='!vm.componentInfo.controls.rate.enabled'>Enable</span>
+                    gesture control
+                </button>
+            </h4>
+
+            <div class='oscillator-section-content' ng-show='vm.componentInfo.controls.rate.enabled'>
+
+                <div class='slider-with-value'>
+                    <div class='slider-with-value-label'>Min</div>
+                    <input
+                        class='slider-with-value-slider'
+                        ng-change='vm.notifyOptionsChangedThrottled()'
+                        ng-model-options="{ debounce: 500 }"
+                        type="range"
+                        min="{{vm.componentInfo.DEFAULT_MIN_RATE}}"
+                        max="{{vm.componentInfo.DEFAULT_MAX_RATE}}"
+                        step="0.1"
+                        ng-model="vm.componentInfo.minRate"/>
+                    <div class='slider-with-value-value'>
+                        <div>{{vm.componentInfo.minRate | toBpm}}</div>
+                        <div class='secondary-text'>({{vm.componentInfo.minRate | toMs}})</div>
+                    </div>
+                </div>
+
+                <div class='slider-with-value'>
+                    <div class='slider-with-value-label'>Max</div>
+                    <input
+                        class='slider-with-value-slider'
+                        ng-change='vm.notifyOptionsChangedThrottled()'
+                        ng-model-options="{ debounce: 500 }"
+                        type="range"
+                        min="{{vm.componentInfo.DEFAULT_MIN_RATE}}"
+                        max="{{vm.componentInfo.DEFAULT_MAX_RATE}}"
+                        step="0.1"
+                        ng-model="vm.componentInfo.maxRate"/>
+                    <div class='slider-with-value-value'>
+                        <div>{{vm.componentInfo.maxRate | toBpm}}</div>
+                        <div class='secondary-text'>({{vm.componentInfo.maxRate | toMs}})</div>
+                    </div>
+                </div>
+
+                <br><br>
+
+                <gesture-selector
+                    gesture-object='vm.componentInfo.controls.rate'
+                    change-callback='vm.notifyOptionsChangedThrottled()'></gesture-selector>
+            </div>
+
+            <div class='oscillator-section-content' ng-show='!vm.componentInfo.controls.rate.enabled'>
+
+                <div class='slider-with-value'>
+                    <input
+                        class='slider-with-value-slider'
+                        ng-change='vm.notifyOptionsChangedThrottled()'
+                        ng-model-options="{ debounce: 500 }"
+                        type="range"
+                        min="{{vm.componentInfo.DEFAULT_MIN_RATE}}"
+                        max="{{vm.componentInfo.DEFAULT_MAX_RATE}}"
+                        step="0.1"
+                        ng-model="vm.componentInfo.rate"/>
+                    <div class='slider-with-value-value'>
+                        <div>{{vm.componentInfo.rate | toBpm}}</div>
+                        <div class='secondary-text'>({{vm.componentInfo.rate | toMs}})</div>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
     </div>
 
-    <div class='oscillator-section'>
-        <h4 class='oscillator-section-title'>Frequency</h4>
-        
-        <button class='button' ng-click='vm.toggleRate()'>
-            <span ng-show='vm.componentInfo.controls.rate.enabled'>Disable</span>
-            <span ng-show='!vm.componentInfo.controls.rate.enabled'>Enable</span>
-            gesture control
-        </button>
+    <div class='column'>
+        <div class='oscillator-section'>
+            <h4 class='oscillator-section-title'>
+                <div class='oscillator-section-title-full-left'>
+                    Depth
+                </div>
+                <button class='button' ng-click='vm.toggleDepth()'>
+                    <span ng-show='vm.componentInfo.controls.depth.enabled'>Disable</span>
+                    <span ng-show='!vm.componentInfo.controls.depth.enabled'>Enable</span>
+                    gesture control
+                </button>
+            </h4>
 
-        <div class='oscillator-section-content' ng-show='vm.componentInfo.controls.rate.enabled'>
-            <input
-                ng-change='vm.notifyOptionsChangedThrottled()'
-                ng-model-options="{ debounce: 500 }"
-                type="range"
-                min="{{vm.componentInfo.DEFAULT_MIN_RATE}}"
-                max="{{vm.componentInfo.DEFAULT_MAX_RATE}}"
-                step="0.1"
-                ng-model="vm.componentInfo.minRate"/>
-            {{vm.componentInfo.minRate | toBpm}} ({{vm.componentInfo.minRate | toMs}})
-            <input
-                ng-change='vm.notifyOptionsChangedThrottled()'
-                ng-model-options="{ debounce: 500 }"
-                type="range"
-                min="{{vm.componentInfo.DEFAULT_MIN_RATE}}"
-                max="{{vm.componentInfo.DEFAULT_MAX_RATE}}"
-                step="0.1"
-                ng-model="vm.componentInfo.maxRate"/>
-            {{vm.componentInfo.maxRate | toBpm}} ({{vm.componentInfo.maxRate | toMs}})
-            <gesture-selector
-                gesture-object='vm.componentInfo.controls.rate'
-                change-callback='vm.notifyOptionsChangedThrottled()'></gesture-selector>
+            <div class='oscillator-section-content' ng-show='vm.componentInfo.controls.depth.enabled'>
+                <gesture-selector
+                    gesture-object='vm.componentInfo.controls.depth'
+                    change-callback='vm.notifyOptionsChangedThrottled()'
+                ></gesture-selector>
+            </div>
+
+            <div class='oscillator-section-content' ng-show='!vm.componentInfo.controls.depth.enabled'>
+
+                <div class='slider-with-value'>
+                    <input
+                        class='slider-with-value-slider'
+                        ng-change='vm.notifyOptionsChangedThrottled()'
+                    ng-model-options="{ debounce: 500 }"
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    ng-model="vm.componentInfo.depth"/>
+                    <div class='slider-with-value-value'>
+                        {{vm.componentInfo.depth*100 | number:0}} %
+                    </div>
+                </div>
+                
+            </div>
+
         </div>
-
-        <div class='oscillator-section-content' ng-show='!vm.componentInfo.controls.rate.enabled'>
-            <input
-                ng-change='vm.notifyOptionsChangedThrottled()'
-                ng-model-options="{ debounce: 500 }"
-                type="range"
-                min="{{vm.componentInfo.DEFAULT_MIN_RATE}}"
-                max="{{vm.componentInfo.DEFAULT_MAX_RATE}}"
-                step="0.1"
-                ng-model="vm.componentInfo.rate"/>
-            {{vm.componentInfo.rate | toBpm}} ({{vm.componentInfo.rate | toMs}})
-            <!-- TODO create filter for ms and bpm -->
-        </div>
-
     </div>
 
-    <div class='oscillator-section'>
-        <h4 class='oscillator-section-title'>Depth</h4>
-        
-        <button class='button' ng-click='vm.toggleDepth()'>
-            <span ng-show='vm.componentInfo.controls.depth.enabled'>Disable</span>
-            <span ng-show='!vm.componentInfo.controls.depth.enabled'>Enable</span>
-            gesture control
-        </button>
-
-        <div class='oscillator-section-content' ng-show='vm.componentInfo.controls.depth.enabled'>
-            <gesture-selector
-                gesture-object='vm.componentInfo.controls.depth'
-                change-callback='vm.notifyOptionsChangedThrottled()'
-            ></gesture-selector>
-        </div>
-
-        <div class='oscillator-section-content' ng-show='!vm.componentInfo.controls.depth.enabled'>
-            <input
-                ng-change='vm.notifyOptionsChangedThrottled()'
-                ng-model-options="{ debounce: 500 }"
-                type="range"
-                min="0"
-                max="1"
-                step="0.01"
-                ng-model="vm.componentInfo.depth"/>
-            {{vm.componentInfo.depth*100 | number:0}} %
-        </div>
-
-    </div>
 </div>
