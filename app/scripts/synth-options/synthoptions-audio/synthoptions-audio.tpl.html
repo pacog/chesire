@@ -1,6 +1,24 @@
+<div class='synthoptions-audio'>
+    <ul class='components-selector-list'>
+        <li class='component-selector-icon component-selector-icon-start'></li>
+        <li class='component-selector'
+            ng-repeat='component in vm.components'
+            ng-class='{
+                "is-active": (vm.activeComponent === component)
+            }'>
+            <button
+                class='component-selector-button'
+                ng-click='vm.activateComponent(component)'>{{component.name}}</button>
+        </li>
+        <li class='component-selector-icon component-selector-icon-end'></li>
+    </ul>
 
-<ul class='components-container'>
-    <li class='component' ng-repeat='component in vm.synthoptions.getActiveComponents()'>
-        <synthcomponent component-info='component'></synthcomponent>
-    </li>
-</ul>
+    <div class='components-container'>
+        <div class='component'
+             ng-repeat='component in vm.components'
+             ng-show='vm.activeComponent === component'
+             >
+            <synthcomponent component-info='component'></synthcomponent>
+        </div>
+    </div>
+</div>

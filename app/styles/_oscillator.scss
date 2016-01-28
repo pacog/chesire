@@ -9,7 +9,11 @@
             margin-bottom: $grid-l;
             padding: $grid-m;
             background: lighten($dark-blue, 5);
+            @include display-flex;
         }
+            .oscillator-section-title-full-left {
+                @include flex(1);
+            }
         .oscillator-section-content {
             padding-left: $grid-l;
         }

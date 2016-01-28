@@ -14,18 +14,17 @@
         </div>
         <div class='synthoptions-content-body'>
 
-            <div class='synthoptions-main-selector'>
-                <span class='synthoptions-main-selector-text'>Output mode</span>
+            <switch-two-values
+                class='synthoptions-tab-selector'
+                values='vm.outputModes'
+                ng-model='vm.synthOptions.outputMode'
+                change-callback='vm.outputModeChanged()'></switch-two-values>
 
-                <switch-two-values
-                    values='vm.outputModes'
-                    ng-model='vm.synthOptions.outputMode'
-                    change-callback='vm.outputModeChanged()'></switch-two-values>
+            <div class='synthoptions-tab-inner'>
+                <synthoptions-midi synthoptions='vm.synthOptions' ng-if='vm.synthOptions.isMidiOutput()' ></synthoptions-midi>
+                
+                <synthoptions-audio synthoptions='vm.synthOptions' ng-if='vm.synthOptions.isAudioOutput()' ></synthoptions-audio>
             </div>
-
-            <synthoptions-midi synthoptions='vm.synthOptions' ng-if='vm.synthOptions.isMidiOutput()' ></synthoptions-midi>
-            
-            <synthoptions-audio synthoptions='vm.synthOptions' ng-if='vm.synthOptions.isAudioOutput()' ></synthoptions-audio>
         </div>
     </div>
 </div>

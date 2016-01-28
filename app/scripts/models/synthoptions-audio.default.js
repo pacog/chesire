@@ -15,6 +15,7 @@
         function get() {
             return {
                 components: [{
+                    name: 'Oscillator',
                     type: 'oscillator',
                     midiControlMode: 'soft',
                     oscillatorType: availableOscillators[1],
@@ -56,6 +57,7 @@
                         }
                     }
                 }, {
+                    name: 'Tremolo',
                     type: 'tremolo',
                     oscillatorType: availableSimpleOscillators[1],
                     enabled: false,

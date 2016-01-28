@@ -3,3 +3,14 @@ $grid-base: 5px;
 $grid-s: $grid-base;
 $grid-m: 2*$grid-base;
 $grid-l: 4*$grid-base;
+
+.row {
+    @include display-flex();
+}
+.column {
+    @include flex(1);
+    margin-right: $grid-l;
+    &:last-child {
+        margin-right: 0;
+    }
+}

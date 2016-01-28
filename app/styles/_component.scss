@@ -1,13 +1,82 @@
 .components-container {
     @include display-flex();
-    @include align-items(flex-start);
+    @include justify-content(center);
     overflow: auto;
 }
 
 .component {
-    width: 500px;
-    margin: $grid-m;
     padding: $grid-m;
-    border: 1px solid lighten($dark-blue, 30);
-    @include flex(0 0 auto);
+    width: 100%;
+    max-width: 1000px;
+    min-width: 600px;
 }
+
+$components-selector-list-line-color: $light-blue;
+
+.components-selector-list {
+    @include display-flex();
+    @include align-items(center);
+    @include justify-content(center);
+}
+    .component-selector {
+        padding: 0 $grid-l;
+        position: relative;
+        &:before {
+            content: '';
+            position: absolute;
+            border: 1px solid $components-selector-list-line-color;
+            left: 0;
+            right: 0;
+            top: 50%;
+            z-index: 1;
+        }
+    }
+    .component-selector-icon {
+        color: $components-selector-list-line-color;
+        height: 2*$grid-l;
+        line-height: 2*$grid-l - 4px;
+        width: 2*$grid-l;
+        border: 2px solid $components-selector-list-line-color;
+        border-radius: 50%;
+        text-align: center;
+
+        &:after {
+            font-family: entypo;
+            font-size: 30px;
+        }
+    }
+    .component-selector-icon-start {
+        &:after {
+            content: $icon-user;
+        }
+    }
+    .component-selector-icon-end {
+        &:after {
+            content: $icon-megaphone;
+        }
+    }
+    .component-selector-button {
+        position: relative;
+        z-index: 2;
+        padding: $grid-m $grid-l;
+        border: 0;
+        outline: 0;
+        border-radius: 0;
+        color: white;
+        background: $tile-background;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+
+        .is-active & {
+            cursor: default;
+            background: $ui-element-bg;
+            border-color: $orange;
+            &:hover {
+                background: $ui-element-bg;
+            }
+        }
+
+        &:hover {
+            background: lighten($tile-background, 10);
+        }
+    }

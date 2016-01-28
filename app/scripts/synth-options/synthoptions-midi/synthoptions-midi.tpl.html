@@ -1,29 +1,19 @@
-<div>
-    <div class='synthoptions-content-columns'>
-        <div class='synthoptions-content-components'>
-            <h2 class='synthoptions-content-column-title'>Note generation</h2>
-                <div class='oscillator-section'>
-                    <h4 class='oscillator-section-title'>Output mode</h4>
-                    <div class='oscillator-section-content'>
-                        <midi-output-selector></midi-output-selector>
-                    </div>
-                </div>
-            <ul>
-                <li ng-repeat='component in vm.synthoptions.getActiveComponents()'>
-                    <synthcomponent component-info='component'></synthcomponent>
-                </li>
-            </ul>
-        </div>
-        <div class='synthoptions-content-controls'>
-            <h2 class='synthoptions-content-column-title'>Additional controls</h2>
-            <ul class='synthoptions-midi-controls'>
-                <li ng-repeat='control in vm.synthoptions.getActiveControls()' trackBy>
-                    <control control-info='control'></control>
-                </li>
-            </ul>
-            <div class='synthoptions-content-controls-add-control'>
-                <button class='big-button' ng-click='vm.addControl()'>Add control</button>
-            </div>
-        </div>
+<div class='component'>
+
+    <ul>
+        <li ng-repeat='component in vm.synthoptions.getActiveComponents()'>
+            <synthcomponent component-info='component'></synthcomponent>
+        </li>
+    </ul>
+
+    <h2 class='synthoptions-content-column-title'>Additional controls</h2>
+    <ul class='synthoptions-midi-controls'>
+        <li ng-repeat='control in vm.synthoptions.getActiveControls()' trackBy>
+            <control control-info='control'></control>
+        </li>
+    </ul>
+    <div class='synthoptions-content-controls-add-control'>
+        <button class='big-button' ng-click='vm.addControl()'>Add control</button>
     </div>
+
 </div>

@@ -5,8 +5,8 @@
         ng-model-options="{ debounce: 500 }"
         type="range"
         min="0.25"
-        max="24"
-        step="0.25"
+        max="6"
+        step="0.083"
         ng-model="vm.component.freq"/>
     {{vm.component.freq | number:2}}
 
@@ -57,8 +57,8 @@
             ng-model-options="{ debounce: 500 }"
             type="range"
             min="0.25"
-            max="24"
-            step="0.25"
+            max="6"
+            step="0.083"
             ng-model="vm.component.preModulator.freq"/>
         {{vm.component.preModulator.freq | number:2}}
     </div>

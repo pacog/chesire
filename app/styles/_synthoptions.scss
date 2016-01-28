@@ -1,15 +1,21 @@
 .synthoptions {
     background: $dark-blue;
-}
-    .synthoptions-main-selector {
+}   
+    .synthoptions-content-body {
         padding: $grid-l;
-        padding-left: 2*$grid-l;
-        padding-bottom: $grid-s;
     }
-        .synthoptions-main-selector-text {
-            display: inline-block;
-            margin-right: $grid-l;
+        .synthoptions-tab-selector {
+            .switch-two-values {
+                border-radius: $grid-s $grid-s 0 0;
+            }
+            .switch-two-values-item {
+                padding: $grid-m $grid-l;
+            }
         }
+            .synthoptions-tab-inner {
+                padding: $grid-l;
+                border-top: $grid-s solid $tile-background;
+            }
 
     .synthoptions-content-header {
         height: $header-height - $grid-m;
