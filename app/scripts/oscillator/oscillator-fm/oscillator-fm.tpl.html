@@ -1,66 +1,96 @@
-<div>
-    <h4>Frequency rate</h4>
-    <input
-        ng-change='vm.componentChanged()'
-        ng-model-options="{ debounce: 500 }"
-        type="range"
-        min="0.25"
-        max="6"
-        step="0.083"
-        ng-model="vm.component.freq"/>
-    {{vm.component.freq | number:2}}
+<div class='oscillator-fm'>
 
-    <h4>Depth</h4>
-    <button class='button' ng-click='vm.toggleDepthControl()'>
-        <span ng-show='vm.component.controls.depth.enabled'>Disable</span>
-        <span ng-show='!vm.component.controls.depth.enabled'>Enable</span>
-        gesture control
-    </button>
-
-    <div class='oscillator-section-content' ng-show='vm.component.controls.depth.enabled'>
-        <gesture-selector
-            gesture-object='vm.component.controls.depth'
-            change-callback='vm.componentChanged()'></gesture-selector>
+    <div class='oscillator-sub-section'>
+        <h4 class='oscillator-sub-section-title'>Frequency rate</h4>
+        <div class='oscillator-sub-section-content'>
+            <div class='slider-with-value'>
+                <input
+                    class='slider-with-value-slider'
+                    ng-change='vm.componentChanged()'
+                    ng-model-options="{ debounce: 500 }"
+                    type="range"
+                    min="0.25"
+                    max="6"
+                    step="0.083"
+                    ng-model="vm.component.freq"/>
+                <div class='slider-with-value-value'>{{vm.component.freq | number:2}}</div>
+            </div>
+        </div>
     </div>
-    <div class='oscillator-section-content' ng-show='!vm.component.controls.depth.enabled'>
-        <input
-            ng-change='vm.componentChanged()'
-            ng-model-options="{ debounce: 500 }"
-            type="range"
-            min="0"
-            max="1"
-            step="0.01"
-            ng-model="vm.component.depth"/>
-        {{vm.component.depth | number:2}}
+    
+    <div class='oscillator-sub-section'>
+        <h4 class='oscillator-sub-section-title'>
+            <div class='oscillator-sub-section-title-full-width'>Depth</div>
+            <button class='button' ng-click='vm.toggleDepthControl()'>
+                <span ng-show='vm.component.controls.depth.enabled'>Disable</span>
+                <span ng-show='!vm.component.controls.depth.enabled'>Enable</span>
+                gesture control
+            </button>
+        </h4>
+        <div class='oscillator-sub-section-content'>
+            <div ng-show='vm.component.controls.depth.enabled'>
+                <gesture-selector
+                    gesture-object='vm.component.controls.depth'
+                    change-callback='vm.componentChanged()'></gesture-selector>
+            </div>
+            <div ng-show='!vm.component.controls.depth.enabled'>
+                <div class='slider-with-value'>
+                    <input
+                        class='slider-with-value-slider'
+                        ng-change='vm.componentChanged()'
+                        ng-model-options="{ debounce: 500 }"
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        ng-model="vm.component.depth"/>
+                    
+                    <div class='slider-with-value-value'>{{vm.component.depth | number:2}}</div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <h4>Pre-modulator</h4>
-    <button class='button' ng-click='vm.togglePreModulator()'>
-        <span ng-show='vm.component.preModulator.enabled'>Disable</span>
-        <span ng-show='!vm.component.preModulator.enabled'>Enable</span>
-        pre-modulator
-    </button>
-    <div ng-show='vm.component.preModulator.enabled'>
-        <h5>Depth</h5>
-        <input
-            ng-change='vm.componentChanged()'
-            ng-model-options="{ debounce: 500 }"
-            type="range"
-            min="0"
-            max="1"
-            step="0.01"
-            ng-model="vm.component.preModulator.depth"/>
-        {{vm.component.preModulator.depth | number:2}}
-        <h5>Frequency rate</h5>
-        <input
-            ng-change='vm.componentChanged()'
-            ng-model-options="{ debounce: 500 }"
-            type="range"
-            min="0.25"
-            max="6"
-            step="0.083"
-            ng-model="vm.component.preModulator.freq"/>
-        {{vm.component.preModulator.freq | number:2}}
+    <div class='oscillator-sub-section'>
+        <h4 class='oscillator-sub-section-title'>
+            <div class='oscillator-sub-section-title-full-width'>Pre-modulator</div>
+            <button class='button' ng-click='vm.togglePreModulator()'>
+                <span ng-show='vm.component.preModulator.enabled'>Disable</span>
+                <span ng-show='!vm.component.preModulator.enabled'>Enable</span>
+                pre-modulator
+            </button>
+        </h4>
+        <div class='oscillator-sub-section-content' ng-show='vm.component.preModulator.enabled'>
+
+            <div class='slider-with-value'>
+                <div class='slider-with-value-label'>Depth</div>
+                <input
+                    class='slider-with-value-slider'
+                    ng-change='vm.componentChanged()'
+                    ng-model-options="{ debounce: 500 }"
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    ng-model="vm.component.preModulator.depth"/>
+                <div class='slider-with-value-value'>{{vm.component.preModulator.depth | number:2}}</div>
+            </div>
+
+            <div class='slider-with-value'>
+                <div class='slider-with-value-label'>Freq. rate</div>
+                <input
+                    class='slider-with-value-slider'
+                    ng-change='vm.componentChanged()'
+                    ng-model-options="{ debounce: 500 }"
+                    type="range"
+                    min="0.25"
+                    max="6"
+                    step="0.083"
+                    ng-model="vm.component.preModulator.freq"/>
+                <div class='slider-with-value-value'>{{vm.component.preModulator.freq | number:2}}</div>
+            </div>
+
+        </div>
     </div>
 
 </div>

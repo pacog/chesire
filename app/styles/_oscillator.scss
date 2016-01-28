@@ -63,3 +63,39 @@
             margin-left: -($oscillator-node-width/2);
             bottom: 0;
         }
+
+.oscillator-fm {
+
+}
+    .oscillator-sub-section {
+        margin-bottom: $grid-m;
+    }
+        .oscillator-sub-section-title {
+            background: $ui-element-bg;
+            padding: $grid-m;
+            @include display-flex();
+            @include align-items(center);
+            margin-bottom: $grid-m;
+        }
+            .oscillator-sub-section-title-full-width {
+                @include flex(1);
+
+            }
+        .oscillator-sub-section-content {
+            padding-bottom: $grid-l;
+            // border-bottom: 2px solid $ui-element-bg;
+        }
+
+.slider-with-value {
+    @include display-flex();
+    @include align-items(center);
+}
+    .slider-with-value-slider {
+        @include flex(1);
+    }
+    .slider-with-value-label {
+        margin-right: $grid-m;
+    }
+    .slider-with-value-value {
+        margin-left: $grid-m;
+    }
