@@ -14,7 +14,6 @@
         vm.notifyOptionsChangedThrottled = notifyOptionsChangedThrottled;
         vm.toggleRate = toggleRate;
         vm.toggleDepth = toggleDepth;
-        vm.tremoloToggle = tremoloToggle;
 
         init();
 
@@ -47,11 +46,6 @@
             vm.notifyOptionsChangedThrottled();
         }
 
-        function tremoloToggle() {
-            $timeout(function() { //TODO: ugly timeout, improve change-callbacks everywhere to not need it
-                vm.notifyOptionsChangedThrottled();
-            });
-        }
 
         function onDestroy() {
             SynthOptions.unsubscribeToChangesInSynthOptions(synthOptionsChanged);

@@ -21,6 +21,7 @@ $components-selector-list-line-color: $light-blue;
     .component-selector {
         padding: 0 $grid-l;
         position: relative;
+        @include display-flex();
         &:before {
             content: '';
             position: absolute;
@@ -29,6 +30,27 @@ $components-selector-list-line-color: $light-blue;
             right: 0;
             top: 50%;
             z-index: 1;
+        }
+
+        &.is-first {
+            padding-left: 2*$grid-l;
+        }
+
+        &.is-last {
+            padding-right: 2*$grid-l;
+        }
+    }
+    .component-selector-toggle {
+        position: relative;
+        z-index: 2;
+        label {
+            height: 35px;
+            line-height: 35px;
+            width: 35px;
+            &:after {
+                top: 14px;
+                left: 13px;
+            }
         }
     }
     .component-selector-icon {

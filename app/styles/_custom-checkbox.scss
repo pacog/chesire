@@ -36,6 +36,9 @@
         &:hover::after {
             @include opacity( 0.3 );
         }
+        &.checked:hover::after {
+            @include opacity( 0.6 );
+        }
         input[type=checkbox] {
             visibility: hidden;
             height: 1px;
