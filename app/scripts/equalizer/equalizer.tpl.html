@@ -1,1 +1,245 @@
-<div>TODO: equalizer.tpl.html</div>
+<div>
+    <div ng-if='vm.componentInfo' class='row' >
+        <div class='column'>
+            <div class='oscillator-section'>
+                <h4 class='oscillator-section-title'>EQ type</h4>
+                <div class='oscillator-section-content'>
+                    <select-box
+                        value='vm.componentInfo.eqType'
+                        value-list='vm.availableEqTypes'
+                        attr-to-show='name'
+                        change-callback='vm.eqTypeChanged()'></select-box>
+                </div>
+            </div>
+
+            <div class='oscillator-section' ng-show='vm.componentInfo.eqType.usesGain'>
+                <h4 class='oscillator-section-title'>
+                    <div class='oscillator-section-title-full-left'>
+                        Gain
+                    </div>
+                    <button class='button' ng-click='vm.toggleGain()'>
+                        <span ng-show='vm.componentInfo.controls.gain.enabled'>Disable</span>
+                        <span ng-show='!vm.componentInfo.controls.gain.enabled'>Enable</span>
+                        gesture control
+                    </button>
+                </h4>
+
+                <div class='oscillator-section-content' ng-show='vm.componentInfo.controls.gain.enabled'>
+
+                    <div class='slider-with-value'>
+                        <div class='slider-with-value-label'>Min</div>
+                        <input
+                            class='slider-with-value-slider'
+                            ng-change='vm.notifyOptionsChanged()'
+                            ng-model-options="{ debounce: 500 }"
+                            type="range"
+                            min="{{::vm.componentInfo.DEFAULT_MIN_GAIN}}"
+                            max="{{::vm.componentInfo.DEFAULT_MAX_GAIN}}"
+                            step="{{::vm.GAIN_STEP}}"
+                            ng-model="vm.componentInfo.minGain"/>
+                        <div class='slider-with-value-value'>
+                            {{vm.componentInfo.minGain | number:0}}
+                        </div>
+                    </div>
+
+                    <div class='slider-with-value'>
+                        <div class='slider-with-value-label'>Max</div>
+                        <input
+                            class='slider-with-value-slider'
+                            ng-change='vm.notifyOptionsChanged()'
+                            ng-model-options="{ debounce: 500 }"
+                            type="range"
+                            min="{{::vm.componentInfo.DEFAULT_MIN_GAIN}}"
+                            max="{{::vm.componentInfo.DEFAULT_MAX_GAIN}}"
+                            step="{{::vm.GAIN_STEP}}"
+                            ng-model="vm.componentInfo.maxGain"/>
+                        <div class='slider-with-value-value'>
+                            {{vm.componentInfo.maxGain | number:0}}
+                        </div>
+                    </div>
+
+                    <gesture-selector
+                        gesture-object='vm.componentInfo.controls.gain'
+                        change-callback='vm.notifyOptionsChanged()'
+                    ></gesture-selector>
+                </div>
+
+                <div class='oscillator-section-content'
+                     ng-show='!vm.componentInfo.controls.gain.enabled'>
+
+                    <div class='slider-with-value'>
+                        <input
+                            class='slider-with-value-slider'
+                            ng-change='vm.notifyOptionsChanged()'
+                        ng-model-options="{ debounce: 500 }"
+                        type="range"
+                        min="{{::vm.componentInfo.DEFAULT_MIN_GAIN}}"
+                        max="{{::vm.componentInfo.DEFAULT_MAX_GAIN}}"
+                        step="{{::vm.GAIN_STEP}}"
+                        ng-model="vm.componentInfo.gain"/>
+                        <div class='slider-with-value-value'>
+                            {{vm.componentInfo.gain | number:0}}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class='column'>
+
+            <div class='oscillator-section'>
+                <h4 class='oscillator-section-title'>
+                    <div class='oscillator-section-title-full-left'>
+                        Frequency
+                    </div>
+                    <button class='button' ng-click='vm.toggleFrequency()'>
+                        <span ng-show='vm.componentInfo.controls.freq.enabled'>Disable</span>
+                        <span ng-show='!vm.componentInfo.controls.freq.enabled'>Enable</span>
+                        gesture control
+                    </button>
+                </h4>
+
+                <div class='oscillator-section-content' ng-show='vm.componentInfo.controls.freq.enabled'>
+
+                    <div class='slider-with-value'>
+                        <div class='slider-with-value-label'>Min</div>
+                        <input
+                            class='slider-with-value-slider'
+                            ng-change='vm.notifyOptionsChanged()'
+                            ng-model-options="{ debounce: 500 }"
+                            type="range"
+                            min="{{::vm.componentInfo.DEFAULT_MIN_FREQ}}"
+                            max="{{::vm.componentInfo.DEFAULT_MAX_FREQ}}"
+                            step="{{::vm.FREQ_STEP}}"
+                            ng-model="vm.componentInfo.minFreq"/>
+                        <div class='slider-with-value-value'>
+                            {{vm.componentInfo.minFreq | number:0}} Hz
+                        </div>
+                    </div>
+
+                    <div class='slider-with-value'>
+                        <div class='slider-with-value-label'>Max</div>
+                        <input
+                            class='slider-with-value-slider'
+                            ng-change='vm.notifyOptionsChanged()'
+                            ng-model-options="{ debounce: 500 }"
+                            type="range"
+                            min="{{::vm.componentInfo.DEFAULT_MIN_FREQ}}"
+                            max="{{::vm.componentInfo.DEFAULT_MAX_FREQ}}"
+                            step="{{::vm.FREQ_STEP}}"
+                            ng-model="vm.componentInfo.maxFreq"/>
+                        <div class='slider-with-value-value'>
+                            {{vm.componentInfo.maxFreq | number:0}} Hz
+                        </div>
+                    </div>
+
+                    <gesture-selector
+                        gesture-object='vm.componentInfo.controls.freq'
+                        change-callback='vm.notifyOptionsChanged()'
+                    ></gesture-selector>
+                </div>
+
+                <div class='oscillator-section-content'
+                     ng-show='!vm.componentInfo.controls.freq.enabled'>
+
+                    <div class='slider-with-value'>
+                        <input
+                            class='slider-with-value-slider'
+                            ng-change='vm.notifyOptionsChanged()'
+                        ng-model-options="{ debounce: 500 }"
+                        type="range"
+                        min="{{::vm.componentInfo.DEFAULT_MIN_FREQ}}"
+                        max="{{::vm.componentInfo.DEFAULT_MAX_FREQ}}"
+                        step="{{::vm.FREQ_STEP}}"
+                        ng-model="vm.componentInfo.freq"/>
+                        <div class='slider-with-value-value'>
+                            {{vm.componentInfo.freq | number:0}} Hz
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class='oscillator-section'  ng-show='vm.componentInfo.eqType.usesQ'>
+                <h4 class='oscillator-section-title'>
+                    <div class='oscillator-section-title-full-left'>
+                        Q
+                    </div>
+                    <button class='button' ng-click='vm.toggleQ()'>
+                        <span ng-show='vm.componentInfo.controls.q.enabled'>Disable</span>
+                        <span ng-show='!vm.componentInfo.controls.q.enabled'>Enable</span>
+                        gesture control
+                    </button>
+                </h4>
+
+                <div class='oscillator-section-content' ng-show='vm.componentInfo.controls.q.enabled'>
+
+                    <div class='slider-with-value'>
+                        <div class='slider-with-value-label'>Min</div>
+                        <input
+                            class='slider-with-value-slider'
+                            ng-change='vm.notifyOptionsChanged()'
+                            ng-model-options="{ debounce: 500 }"
+                            type="range"
+                            min="{{::vm.componentInfo.DEFAULT_MIN_Q}}"
+                            max="{{::vm.componentInfo.DEFAULT_MAX_Q}}"
+                            step="{{::vm.Q_STEP}}"
+                            ng-model="vm.componentInfo.minQ"/>
+                        <div class='slider-with-value-value'>
+                            {{vm.componentInfo.minQ | number:0}}
+                        </div>
+                    </div>
+
+                    <div class='slider-with-value'>
+                        <div class='slider-with-value-label'>Max</div>
+                        <input
+                            class='slider-with-value-slider'
+                            ng-change='vm.notifyOptionsChanged()'
+                            ng-model-options="{ debounce: 500 }"
+                            type="range"
+                            min="{{::vm.componentInfo.DEFAULT_MIN_Q}}"
+                            max="{{::vm.componentInfo.DEFAULT_MAX_Q}}"
+                            step="{{::vm.Q_STEP}}"
+                            ng-model="vm.componentInfo.maxQ"/>
+                        <div class='slider-with-value-value'>
+                            {{vm.componentInfo.maxQ | number:0}}
+                        </div>
+                    </div>
+
+                    <gesture-selector
+                        gesture-object='vm.componentInfo.controls.q'
+                        change-callback='vm.notifyOptionsChanged()'
+                    ></gesture-selector>
+                </div>
+
+                <div class='oscillator-section-content'
+                     ng-show='!vm.componentInfo.controls.q.enabled'>
+
+                    <div class='slider-with-value'>
+                        <input
+                            class='slider-with-value-slider'
+                            ng-change='vm.notifyOptionsChanged()'
+                        ng-model-options="{ debounce: 500 }"
+                        type="range"
+                        min="{{::vm.componentInfo.DEFAULT_MIN_Q}}"
+                        max="{{::vm.componentInfo.DEFAULT_MAX_Q}}"
+                        step="{{::vm.Q_STEP}}"
+                        ng-model="vm.componentInfo.q"/>
+                        <div class='slider-with-value-value'>
+                            {{vm.componentInfo.q | number:0}}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>

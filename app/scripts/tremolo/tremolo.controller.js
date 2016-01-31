@@ -22,6 +22,7 @@
             vm.componentInfo = $scope.componentInfo;
             delete $scope.componentInfo;
 
+            //TODO: remove synthOptions?
             SynthOptions.getSynthOptions().then(function() { //This get is just to wait for them to be ready
                 SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
             });

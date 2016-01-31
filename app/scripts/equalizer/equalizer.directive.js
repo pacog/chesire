@@ -9,8 +9,7 @@
             restrict: 'E',
             templateUrl: 'scripts/equalizer/equalizer.tpl.html',
             controller: 'EqualizerController',
-            controllerAs: 'vm',
-            scope: {}
+            controllerAs: 'vm'
         };
     }
 
