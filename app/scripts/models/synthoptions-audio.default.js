@@ -147,6 +147,27 @@
                             }
                         }
                     }
+                }, {
+                    name: 'Distortion',
+                    type: 'distortion',
+                    enabled: true,
+
+                    MIN_AMOUNT: 0,
+                    MAX_AMOUNT: 100,
+                    amount: 10,
+
+                    controls: {
+                        'amount': {
+                            enabled: true,
+                            param: 'z',
+                            responseFunction: {
+                                name: 'linear',
+                                min: 0,
+                                max: 1,
+                                inverse: true
+                            }
+                        }
+                    }
                 }]
             };
         }

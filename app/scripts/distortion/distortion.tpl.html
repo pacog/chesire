@@ -1,0 +1,42 @@
+<div>
+    <div class='oscillator-section'>
+        <h4 class='oscillator-section-title'>
+            <div class='oscillator-section-title-full-left'>
+                Amount
+            </div>
+            <button class='button' ng-click='vm.toggleAmount()'>
+                <span ng-show='vm.componentInfo.controls.amount.enabled'>Disable</span>
+                <span ng-show='!vm.componentInfo.controls.amount.enabled'>Enable</span>
+                gesture control
+            </button>
+        </h4>
+
+        <div class='oscillator-section-content' ng-show='vm.componentInfo.controls.amount.enabled'>
+            <gesture-selector
+                gesture-object='vm.componentInfo.controls.amount'
+                change-callback='vm.notifyOptionsChanged()'
+            ></gesture-selector>
+        </div>
+
+        <div class='oscillator-section-content' ng-show='!vm.componentInfo.controls.amount.enabled'>
+
+            <div class='slider-with-value'>
+                <input
+                    class='slider-with-value-slider'
+                    ng-change='vm.notifyOptionsChanged()'
+                ng-model-options="{ debounce: 500 }"
+                type="range"
+                min="vm.componentInfo.MIN_AMOUNT"
+                max="vm.componentInfo.MAX_AMOUNT"
+                step="0.5"
+                ng-model="vm.componentInfo.amount"/>
+                <div class='slider-with-value-value'>
+                    {{vm.componentInfo.amount | number:1}} %
+                </div>
+            </div>
+            
+        </div>
+
+    </div>
+
+</div>
