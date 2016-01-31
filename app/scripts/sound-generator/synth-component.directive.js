@@ -20,6 +20,9 @@ angular.module('chesireApp')
             case 'distortion':
                 html = '<distortion/>';
                 break;
+            case 'delay':
+                html = '<delay/>';
+                break;
         }
 
         var angularDomEl = angular.element(html);

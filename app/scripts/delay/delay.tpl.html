@@ -1,0 +1,151 @@
+<div ng-if='vm.componentInfo' class='row' >
+    <div class='column'>
+
+        <div class='oscillator-section'>
+            <h4 class='oscillator-section-title'>
+                <div class='oscillator-section-title-full-left'>
+                    Delay time
+                </div>
+                <button class='button' ng-click='vm.toggleDelay()'>
+                    <span ng-show='vm.componentInfo.controls.delay.enabled'>Disable</span>
+                    <span ng-show='!vm.componentInfo.controls.delay.enabled'>Enable</span>
+                    gesture control
+                </button>
+            </h4>
+
+            <div class='oscillator-section-content' ng-show='vm.componentInfo.controls.delay.enabled'>
+
+                <div class='slider-with-value'>
+                    <div class='slider-with-value-label'>Min</div>
+                    <input
+                        class='slider-with-value-slider'
+                        ng-change='vm.notifyOptionsChanged()'
+                        ng-model-options="{ debounce: 500 }"
+                        type="range"
+                        min="{{::vm.componentInfo.MIN_DELAY}}"
+                        max="{{::vm.componentInfo.MAX_DELAY}}"
+                        step="{{::vm.DELAY_STEP}}"
+                        ng-model="vm.componentInfo.minDelay"/>
+                    <div class='slider-with-value-value'>
+                        <div>{{vm.componentInfo.minDelay | sToBpm}}</div>
+                        <div class='secondary-text'>({{vm.componentInfo.minDelay | number: 2}})</div>
+                    </div>
+                </div>
+
+                <div class='slider-with-value'>
+                    <div class='slider-with-value-label'>Max</div>
+                    <input
+                        class='slider-with-value-slider'
+                        ng-change='vm.notifyOptionsChanged()'
+                        ng-model-options="{ debounce: 500 }"
+                        type="range"
+                        min="{{::vm.componentInfo.MIN_DELAY}}"
+                        max="{{::vm.componentInfo.MAX_DELAY}}"
+                        step="{{::vm.DELAY_STEP}}"
+                        ng-model="vm.componentInfo.maxDelay"/>
+                    <div class='slider-with-value-value'>
+                        <div>{{vm.componentInfo.maxDelay | sToBpm}}</div>
+                        <div class='secondary-text'>({{vm.componentInfo.maxDelay | number: 2}})</div>
+                    </div>
+                </div>
+
+                <gesture-selector
+                    gesture-object='vm.componentInfo.controls.delay'
+                    change-callback='vm.notifyOptionsChanged()'
+                ></gesture-selector>
+            </div>
+
+            <div class='oscillator-section-content'
+                 ng-show='!vm.componentInfo.controls.delay.enabled'>
+
+                <div class='slider-with-value'>
+                    <input
+                        class='slider-with-value-slider'
+                        ng-change='vm.notifyOptionsChanged()'
+                        ng-model-options="{ debounce: 500 }"
+                        type="range"
+                        min="{{::vm.componentInfo.MIN_DELAY}}"
+                        max="{{::vm.componentInfo.MAX_DELAY}}"
+                        step="{{::vm.DELAY_STEP}}"
+                        ng-model="vm.componentInfo.delay"/>
+                    <div class='slider-with-value-value'>
+                        <div>{{vm.componentInfo.delay | sToBpm}}</div>
+                        <div class='secondary-text'>({{vm.componentInfo.delay | number: 2}})</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class='column'>
+
+        <div class='oscillator-section'>
+            <h4 class='oscillator-section-title'>
+                <div class='oscillator-section-title-full-left'>
+                    Feedback
+                </div>
+                <button class='button' ng-click='vm.toggleFeedback()'>
+                    <span ng-show='vm.componentInfo.controls.feedback.enabled'>Disable</span>
+                    <span ng-show='!vm.componentInfo.controls.feedback.enabled'>Enable</span>
+                    gesture control
+                </button>
+            </h4>
+
+            <div class='oscillator-section-content' ng-show='vm.componentInfo.controls.feedback.enabled'>
+
+                <gesture-selector
+                    gesture-object='vm.componentInfo.controls.feedback'
+                    change-callback='vm.notifyOptionsChanged()'
+                ></gesture-selector>
+            </div>
+
+            <div class='oscillator-section-content'
+                 ng-show='!vm.componentInfo.controls.feedback.enabled'>
+
+                <div class='slider-with-value'>
+                    <input
+                        class='slider-with-value-slider'
+                        ng-change='vm.notifyOptionsChanged()'
+                        ng-model-options="{ debounce: 500 }"
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        ng-model="vm.componentInfo.feedback"/>
+                    <div class='slider-with-value-value'>
+                        {{vm.componentInfo.feedback*100 | number:0}} %
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class='oscillator-section'>
+            <h4 class='oscillator-section-title'>
+                Cutoff frequency
+            </h4>
+
+            <div class='oscillator-section-content'>
+
+                <div class='slider-with-value'>
+                    <input
+                        class='slider-with-value-slider'
+                        ng-change='vm.notifyOptionsChanged()'
+                        ng-model-options="{ debounce: 500 }"
+                        type="range"
+                        min="20"
+                        max="22000"
+                        step="5"
+                        ng-model="vm.componentInfo.cutoff"/>
+                    <div class='slider-with-value-value'>
+                        {{vm.componentInfo.cutoff | number:0}} Hz
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
