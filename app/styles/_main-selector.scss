@@ -1,8 +1,8 @@
-.song-selector {
+.main-selector {
     background: $dark-blue;
     position: relative;
 
-    &.is-song-editor-open {
+    &.is-main-editor-open {
         &:before {
             content: '';
             display: block;

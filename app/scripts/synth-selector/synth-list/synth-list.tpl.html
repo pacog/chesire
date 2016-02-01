@@ -1,0 +1,6 @@
+<ul class='config-menu-list'>
+    <li class='config-menu-list-item' ng-repeat='synth in vm.synths'>
+        <a class='config-menu-list-item-link' ng-click='vm.selectSynth(synth)'
+            ng-class='{"selected": vm.selectedSynth.name === synth.name}'>{{synth.name}}</a>
+    </li>
+</ul>

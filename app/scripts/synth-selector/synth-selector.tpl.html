@@ -1,0 +1,28 @@
+<div class='main-selector synth-selector' ng-class='{"is-main-editor-open": vm.synthEditorShown}'>
+
+    <div class='config-menu-header' ng-if='vm.loadingFirstSynth'>
+        <button class='big-button config-menu-title'>Loading...</button>
+    </div>
+
+    <div class='config-menu-header' ng-if='!vm.loadingFirstSynth'>
+
+        <button
+            class='big-button config-menu-button config-menu-prev'
+            ng-click='vm.goToPrevSynth()'
+            ng-disabled='!vm.synths || (vm.indexOfSelectedSynth <= 0)'></button>
+
+        <button class='big-button config-menu-title' ng-click='vm.toggleSynthList()'>
+            {{vm.currentSynth.name || 'No name'}}
+        </button>
+
+        <button 
+                class='big-button config-menu-button config-menu-next'
+                ng-click='vm.goToNextSynth()'
+                ng-disabled='!vm.synths || (vm.indexOfSelectedSynth >= (vm.synths.length - 1)) '></button>
+        
+        <button class='big-button config-menu-button config-menu-config' ng-click='vm.toggleSynthEditor()'></button>
+
+        <synth-list ng-show='vm.showSynthList' ng-click='vm.toggleSynthList()' synths='vm.synths' selected-synths='vm.currentSynth'></synth-list>
+    </div>
+    <synth-editor synth='vm.currentSynth' ng-show='vm.synthEditorShown'></synth-editor>
+</div>
