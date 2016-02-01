@@ -16,6 +16,7 @@
 
         function SynthoptionsClass(options) {
             this.init(options);
+            this.$$isSynth = true;
         }
 
         SynthoptionsClass.prototype.init = function(options) {

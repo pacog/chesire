@@ -4,15 +4,29 @@
     angular.module('chesireApp')
         .controller('SynthoptionsAudioController', SynthoptionsAudioController);
 
-    function SynthoptionsAudioController($timeout, SynthOptions) {
-        var vm = this;
+    function SynthoptionsAudioController($timeout, $scope, SynthOptions) {
+        var prevSynthOptions = null;
 
-        vm.components = vm.synthoptions.getActiveComponents();
-        vm.activeComponent = vm.components[0];
+        var vm = this;
 
         vm.activateComponent = activateComponent;
         vm.componentToggled = componentToggled;
         vm.shouldShowOnOffForComponent = shouldShowOnOffForComponent;
+
+        init();
+
+        function init() {
+            SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
+            $scope.$on('$destroy', onDestroy);
+        }
+
+        function synthOptionsChanged() {
+            if(prevSynthOptions !== vm.synthoptions) {
+                prevSynthOptions = vm.synthoptions;
+                vm.components = vm.synthoptions.getActiveComponents();
+                vm.activeComponent = vm.components[0];
+            }
+        }
 
         function activateComponent(component) {
             vm.activeComponent = component;
@@ -29,6 +43,10 @@
                 return true;
             }
             return false;
+        }
+
+        function onDestroy() {
+
         }
     }
 

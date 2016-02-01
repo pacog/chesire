@@ -1,0 +1,37 @@
+<div class='synthoptions-content-body'>
+
+    <div class='synth-editor-tools'>
+        <input ng-model='vm.synthOptions.name' 
+               ng-change='vm.synthModified()'/>
+        <button
+            class='big-button synth-editor-save'
+            ng-click='vm.saveSynth()'
+            ng-disabled='!vm.synthHasBeenModified'>
+            Save
+        </button>
+        <button
+            class='big-button synth-editor-delete'
+            ng-click='vm.askConfirmationDeleteSynth()'
+            ng-show='!vm.confirmingDeleteSynth'
+            >
+            Delete synth
+        </button>
+        <div class='synth-editor-delete-confirm' ng-show='vm.confirmingDeleteSynth'>
+            Are you sure you want to delete this synth?
+            <button class='big button' ng-click='vm.deleteSynth()'>Delete!</button>
+            <button class='big button' ng-click='vm.cancelDeleteSynth()'>Cancel</button>
+        </div>
+    </div>
+
+    <switch-two-values
+        class='synthoptions-tab-selector'
+        values='vm.outputModes'
+        ng-model='vm.synthOptions.outputMode'
+        change-callback='vm.outputModeChanged()'></switch-two-values>
+
+    <div class='synthoptions-tab-inner'>
+        <synthoptions-midi synthoptions='vm.synthOptions' ng-if='vm.synthOptions.isMidiOutput()' ></synthoptions-midi>
+        
+        <synthoptions-audio synthoptions='vm.synthOptions' ng-if='vm.synthOptions.isAudioOutput()' ></synthoptions-audio>
+    </div>
+</div>

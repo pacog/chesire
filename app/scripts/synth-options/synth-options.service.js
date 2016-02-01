@@ -1,100 +1,114 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('chesireApp')
+    angular.module('chesireApp')
+        .factory('SynthOptions', SynthOptions);
 
-.factory('SynthOptions', function ($q, LastUsedSettingsStore, IdGenerator) {
+    function SynthOptions($q, LastUsedSettingsStore, IdGenerator, SynthoptionsModel) {
 
-    var synthOptions = null;
-    var subscriberCallbacks = [];
+        var synthOptions = null;
+        var subscriberCallbacks = [];
 
-    var setSynthOptions = function(newSynthOptions) {
-        synthOptions = newSynthOptions;
-        addIdsToComponents();
-        notifyChangeInSynthOptions(synthOptions);
-        LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
-    };
+        var factory = {
+            init: init,
+            setSynthOptions: setSynthOptions,
+            getSynthOptions: getSynthOptions,
+            subscribeToChangesInSynthOptions: subscribeToChangesInSynthOptions,
+            notifyComponentChanged: notifyComponentChanged,
+            notifyControlChanged: notifyControlChanged,
+            notifyControlRemoved: notifyControlRemoved
+        };
 
-    var getSynthOptions = function() {
-        var willReturnSynthOptions = $q.defer();
+        return factory;
 
-        if(synthOptions) {
-            willReturnSynthOptions.resolve(synthOptions);
-        } else {
-            LastUsedSettingsStore.getLastUsedSynth().then(function(lastUsedSynth) {
-                synthOptions = lastUsedSynth;
-                addIdsToComponents();
+        function init() {
+            getSynthOptions().then(setSynthOptions);
+        }
+
+        function setSynthOptions(newSynthOptions) {
+            if(!newSynthOptions.$$isSynth) {
+                newSynthOptions = SynthoptionsModel.create(newSynthOptions);
+            }
+            synthOptions = newSynthOptions;
+            addIdsToComponents();
+            notifyChangeInSynthOptions(synthOptions);
+            LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
+        }
+
+        function getSynthOptions() {
+            var willReturnSynthOptions = $q.defer();
+
+            if(synthOptions) {
                 willReturnSynthOptions.resolve(synthOptions);
+            } else {
+                LastUsedSettingsStore.getLastUsedSynth().then(function(lastUsedSynth) {
+                    synthOptions = lastUsedSynth;
+                    addIdsToComponents();
+                    willReturnSynthOptions.resolve(synthOptions);
+                });
+            }
+
+            return willReturnSynthOptions.promise;
+        }
+
+        function addIdsToComponents() {
+            angular.forEach(synthOptions.midi.components, addIdToElement);
+            angular.forEach(synthOptions.midi.controls, addIdToElement);
+            angular.forEach(synthOptions.audio.components, addIdToElement);
+            angular.forEach(synthOptions.audio.controls, addIdToElement);
+        }
+
+        function addIdToElement(element) {
+            if(element && !element.uniqueId) {
+                element.uniqueId = IdGenerator.getUniqueId();
+            }
+        }
+
+        function subscribeToChangesInSynthOptions(subscriberCallback) {
+            subscriberCallbacks.push(subscriberCallback);
+            subscriberCallback(synthOptions);
+        }
+
+        function notifyChangeInSynthOptions(newSynthOptions) {
+            angular.forEach(subscriberCallbacks, function(subscriberCallback) {
+                subscriberCallback(newSynthOptions);
             });
         }
 
-        return willReturnSynthOptions.promise;
-    };
+        function notifyComponentChanged(componentInfo) {
+            for(var i=0; i<synthOptions.getActiveComponents().length; i++) {
+                if(synthOptions.getActiveComponents()[i].uniqueId === componentInfo.uniqueId) {
+                    //TODO: check if it really changed
+                    //Problem, right now the object is changed in the controllers, so we don't know when it really changed
+                    synthOptions.getActiveComponents()[i] = componentInfo;
+                    break;
+                }
+            }
+            notifyChangeInSynthOptions(synthOptions);
+            LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
+        }
 
-    var addIdsToComponents = function() {
-        angular.forEach(synthOptions.midi.components, addIdToElement);
-        angular.forEach(synthOptions.midi.controls, addIdToElement);
-        angular.forEach(synthOptions.audio.components, addIdToElement);
-        angular.forEach(synthOptions.audio.controls, addIdToElement);
-    };
+        function notifyControlChanged(controlInfo) {
+            if(!controlInfo.uniqueId) {
+                controlInfo.uniqueId = IdGenerator.getUniqueId();
+            }
+            for(var i=0; i<synthOptions.getActiveControls().length; i++) {
+                if(synthOptions.getActiveControls()[i].uniqueId === controlInfo.uniqueId) {
+                    //TODO: check if it really changed
+                    //Problem, right now the object is changed in the controllers, so we don't know when it really changed
+                    synthOptions.getActiveControls()[i] = controlInfo;
+                    break;
+                }
+            }
+            notifyChangeInSynthOptions(synthOptions);
+            LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
+        }
 
-    function addIdToElement(element) {
-        if(element && !element.uniqueId) {
-            element.uniqueId = IdGenerator.getUniqueId();
+        function notifyControlRemoved(controlInfo) {
+            synthOptions.removeControl(controlInfo);
+            notifyChangeInSynthOptions(synthOptions);
+            LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
         }
     }
+})();
 
-    var subscribeToChangesInSynthOptions = function(subscriberCallback) {
-        subscriberCallbacks.push(subscriberCallback);
-        subscriberCallback(synthOptions);
-    };
-
-    var notifyChangeInSynthOptions = function(newSynthOptions) {
-        angular.forEach(subscriberCallbacks, function(subscriberCallback) {
-            subscriberCallback(newSynthOptions);
-        });
-    };
-
-    var notifyComponentChanged = function(componentInfo) {
-        for(var i=0; i<synthOptions.getActiveComponents().length; i++) {
-            if(synthOptions.getActiveComponents()[i].uniqueId === componentInfo.uniqueId) {
-                //TODO: check if it really changed
-                //Problem, right now the object is changed in the controllers, so we don't know when it really changed
-                synthOptions.getActiveComponents()[i] = componentInfo;
-                break;
-            }
-        }
-        notifyChangeInSynthOptions(synthOptions);
-        LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
-    };
-
-    var notifyControlChanged = function(controlInfo) {
-        if(!controlInfo.uniqueId) {
-            controlInfo.uniqueId = IdGenerator.getUniqueId();
-        }
-        for(var i=0; i<synthOptions.getActiveControls().length; i++) {
-            if(synthOptions.getActiveControls()[i].uniqueId === controlInfo.uniqueId) {
-                //TODO: check if it really changed
-                //Problem, right now the object is changed in the controllers, so we don't know when it really changed
-                synthOptions.getActiveControls()[i] = controlInfo;
-                break;
-            }
-        }
-        notifyChangeInSynthOptions(synthOptions);
-        LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
-    };
-
-    var notifyControlRemoved = function(controlInfo) {
-        synthOptions.removeControl(controlInfo);
-        notifyChangeInSynthOptions(synthOptions);
-        LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
-    };
-
-    return {
-        setSynthOptions: setSynthOptions,
-        getSynthOptions: getSynthOptions,
-        subscribeToChangesInSynthOptions: subscribeToChangesInSynthOptions,
-        notifyComponentChanged: notifyComponentChanged,
-        notifyControlChanged: notifyControlChanged,
-        notifyControlRemoved: notifyControlRemoved
-    };
-});

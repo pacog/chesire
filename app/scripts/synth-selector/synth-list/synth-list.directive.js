@@ -9,7 +9,7 @@
             restrict: 'E',
             templateUrl: 'scripts/synth-selector/synth-list/synth-list.tpl.html',
             scope: {
-                synth: '=',
+                synths: '=',
                 selectedSynth: '='
             },
             controller: 'SynthListController',

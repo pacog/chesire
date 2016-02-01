@@ -23,6 +23,7 @@
             var deferred = $q.defer();
 
             allSynthsCache = localStorageService.get('synths') || [];
+
             deferred.resolve(allSynthsCache);
             onChangeInAllSynths(allSynthsCache);
 
@@ -31,7 +32,7 @@
 
         function saveSynth(synth) {
             var deferred = $q.defer();
-            if(!synth || !synth.name || !synth.chords || !synth.chords.length) {
+            if(!synth || !synth.name) {
                 deferred.reject('Error saving synth, bad config');
             } else {
                 var allSynths = localStorageService.get('synths');
@@ -43,10 +44,11 @@
 
                 var existingSynth = findSynthInList(synth, allSynths);
                 if(existingSynth) {
-                    existingSynth.chords = synth.chords;
+                    debugger;
                 } else {
                     allSynths.push(synth);
                 }
+
                 localStorageService.set('synths', allSynths);
                 allSynthsCache = allSynths;
                 deferred.promise.then(onChangeInAllSynths);

@@ -1,0 +1,28 @@
+.synth-editor-tools {
+        display: flex;
+        justify-content: flex-end;
+
+        .big-button {
+            margin-left: $grid-m;
+            padding: $grid-m;
+            &:before {
+                font-size: 28px;
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: $grid-s;
+            }
+        }
+    }
+        .synth-editor-save {
+            @include icon-before($icon-save);
+        }
+        .synth-editor-delete {
+            @include icon-before($icon-cross);
+        }
+
+        .synth-editor-delete-confirm {
+            line-height: 30px;
+            font-size: 14px;
+            padding: $grid-m;
+            margin-left: $grid-l;
+        }
