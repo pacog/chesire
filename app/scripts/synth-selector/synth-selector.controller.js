@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('SynthSelectorController', SynthSelectorController);
 
-    function SynthSelectorController($scope, SynthOptions, UIService, hotKeys, SynthStore, synthEditor) {
+    function SynthSelectorController($scope, $timeout, SynthOptions, UIService, hotKeys, SynthStore, synthSelector) {
         var vm = this;
 
         var UI_SERVICE_MENU_ID = 'synth-selector';
@@ -20,22 +20,46 @@
 
         function init() {
             vm.loadingFirstSynth = true;
+
+            synthSelector.subscribeToSynthPresetSelected(synthPresetChanged);
+            synthSelector.subscribeToSynthIsModified(synthIsModifiedChanged);
+
             SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
             SynthStore.subscribeToChangeInAllSynths(synthsStoreChanged);
+
             UIService.subscribeToMenuOpening(checkIfShouldCloseMenu);
-            synthEditor.subscribeToSynthChanged(synthModified);
+
             hotKeys.on('NEXT_SYNTH', goToNextSynth);
             hotKeys.on('PREV_SYNTH', goToPrevSynth);
+
             $scope.$on('$destroy', onDestroy);
         }
 
         function synthOptionsChanged(newSynth) {
-            vm.loadingFirstSynth = false;
-            if(newSynth) {
-                vm.currentSynth = angular.copy(newSynth);
-                updateSelectedSynthIndex();
-                synthEditor.notifySynthHasChanged(false);
-            }
+            $timeout(function() { //Timeout to get scope applied
+                if(vm.loadingFirstSynth) {
+                    vm.loadingFirstSynth = false;
+                } else if(vm.synthPresetJustLoaded) {
+                    vm.synthPresetJustLoaded = false;
+                } else {
+                    synthSelector.notifySynthIsModified(true);
+                }
+                
+                if(newSynth) {
+                    vm.currentSynth = angular.copy(newSynth);
+                    updateSelectedSynthIndex();
+                }
+            });
+        }
+
+        function synthPresetChanged(newSynth) {
+            SynthOptions.setSynthOptions(newSynth);
+            vm.synthPresetJustLoaded = true;
+            synthSelector.notifySynthIsModified(false);
+        }
+
+        function synthIsModifiedChanged(isNowModified) {
+            vm.synthHasBeenModified = isNowModified;
         }
 
         function onDeletedSynth() {
@@ -46,14 +70,6 @@
                 vm.indexOfSelectedSynth = vm.synths.length - 1;
             }
             SynthOptions.setSynthOptions(vm.synths[vm.indexOfSelectedSynth]);
-        }
-
-        function synthModified(isSynthModified) {
-            vm.synthHasBeenModified = isSynthModified;
-            if(isSynthModified) {
-                //TODO: this is not needed, right? or maybe only when changing name?
-                // SynthOptions.setSynthOptions(vm.currentSynth);
-            }
         }
 
         function toggleSynthList() {
@@ -113,7 +129,10 @@
         function onDestroy() {
             SynthOptions.unsubscribeToChangesInSynthOptions(synthOptionsChanged);
             SynthStore.unsubscribeToChangeInAllSynths(synthsStoreChanged);
-            synthEditor.unsubscribeToSynthChanged(synthModified);
+
+            synthSelector.unsubscribeToSynthIsModified(synthIsModifiedChanged);
+
+            synthSelector.unsubscribeToSynthPresetSelected(synthPresetChanged);
             hotKeys.off('NEXT_SYNTH', goToNextSynth);
             hotKeys.off('PREV_SYNTH', goToPrevSynth);
         }

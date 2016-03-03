@@ -3,13 +3,13 @@
     angular.module('chesireApp')
         .controller('SynthListController', SynthListController);
 
-    function SynthListController(SynthOptions) {
+    function SynthListController(synthSelector) {
         var vm = this;
 
         vm.selectSynth = selectSynth;
 
         function selectSynth(synth) {
-            SynthOptions.setSynthOptions(angular.copy(synth));
+            synthSelector.notifySynthPresetSelected(angular.copy(synth));
         }
 
     }

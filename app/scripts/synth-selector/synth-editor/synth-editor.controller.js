@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('SynthEditorController', SynthEditorController);
 
-    function SynthEditorController($scope, $timeout, UIService, outputModes, SynthOptions, synthEditor, SynthStore) {
+    function SynthEditorController($scope, $timeout, UIService, synthSelector, outputModes, SynthOptions, SynthStore) {
         var vm = this;
 
         vm.outputModes = outputModes;
@@ -17,7 +17,6 @@
         vm.cancelDeleteSynth = cancelDeleteSynth;
         vm.synthModified = synthModified;
 
-        vm.synthEditor = synthEditor;
         vm.synthHasBeenModified = false;
 
         init();
@@ -25,22 +24,30 @@
         function init() {
             SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
 
+            synthSelector.subscribeToSynthIsModified(synthIsModifiedChanged);
+
             UIService.subscribeToMenuOpening(checkIfShouldCloseMenu);
 
             $scope.$on('$destroy', onDestroy);
         }
 
         function synthModified() {
-            vm.synthHasBeenModified = true;
+            synthSelector.notifySynthIsModified(true);
+        }
+
+        function synthIsModifiedChanged(isNowModified) {
+            vm.synthHasBeenModified = isNowModified;
         }
 
         function saveSynth() {
             SynthStore.saveSynth(vm.synthOptions);
+            synthSelector.notifySynthIsModified(false);
         }
 
         function deleteSynth() {
             SynthStore.deleteSynth(vm.synthOptions);
             vm.confirmingDeleteSynth = false;
+            synthSelector.notifySynthIsModified(false);
         }
 
         function askConfirmationDeleteSynth() {

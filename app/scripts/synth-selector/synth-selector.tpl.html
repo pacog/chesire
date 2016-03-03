@@ -13,6 +13,7 @@
 
         <button class='big-button config-menu-title' ng-click='vm.toggleSynthList()'>
             {{vm.currentSynth.name || 'No name'}}
+            <span ng-show='vm.synthHasBeenModified'>(*)</span>
         </button>
 
         <button 
