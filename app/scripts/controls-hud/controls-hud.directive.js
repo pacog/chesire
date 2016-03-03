@@ -1,14 +1,16 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('chesireApp')
+    angular.module('chesireApp')
+        .directive('controlsHud', controlsHud);
 
-.directive('controlsHud', function () {
-
-    return {
-        templateUrl: 'scripts/controls-hud/controls-hud.html',
-        restrict: 'E',
-        scope: {
-        },
-        controller: 'ControlsHudCtrl'
-    };
-});
+    function controlsHud() {
+        return {
+            templateUrl: 'scripts/controls-hud/controls-hud.html',
+            restrict: 'E',
+            scope: {},
+            controller: 'ControlsHudController',
+            controllerAs: 'vm'
+        };
+    }
+})();

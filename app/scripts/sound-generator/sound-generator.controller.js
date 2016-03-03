@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chesireApp')
-
+//TODO: this shouldn't be a controller, but a service init in app.js
 .controller('SoundgeneratorCtrl', function ($scope, $timeout, $q, Leapmotion, SynthClass, ScaleOptions, SynthOptions, CurrentSynth) {
 
     var synthOptions = null;
@@ -12,6 +12,7 @@ angular.module('chesireApp')
     var init = function() {
         var willGetSynthOptionsAndScale = $q.all([SynthOptions.getSynthOptions(), ScaleOptions.getScaleOptions()]);
         willGetSynthOptionsAndScale.then(initSynth);
+        $scope.$on('$destroy', onDestroy);
     };
 
     var initSynth = function(promiseResults) {
@@ -54,4 +55,10 @@ angular.module('chesireApp')
     };
 
     init();
+
+    function onDestroy() {
+        SynthOptions.unsubscribeToChangesInSynthOptions(synthOptionsChanged);
+        ScaleOptions.unsubscribeToChangesInScaleOptions(notesChanged);
+        // Leapmotion.unsubscribeToFrameChange(frameInfoChanged);
+    }
  });

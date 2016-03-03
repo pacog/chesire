@@ -18,19 +18,8 @@
         init();
 
         function init() {
-
             vm.componentInfo = $scope.componentInfo;
             delete $scope.componentInfo;
-
-            //TODO: remove synthOptions?
-            SynthOptions.getSynthOptions().then(function() { //This get is just to wait for them to be ready
-                SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
-            });
-            $scope.$on('$destroy', onDestroy);
-        }
-
-        function synthOptionsChanged(newSynthOptions) {
-            vm.synthOptions = newSynthOptions;
         }
 
         function notifyOptionsChanged() {
@@ -45,11 +34,6 @@
         function toggleDepth() {
             vm.componentInfo.controls.depth.enabled = !vm.componentInfo.controls.depth.enabled;
             vm.notifyOptionsChangedThrottled();
-        }
-
-
-        function onDestroy() {
-            SynthOptions.unsubscribeToChangesInSynthOptions(synthOptionsChanged);
         }
 
     }

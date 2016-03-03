@@ -1,29 +1,38 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('chesireApp')
+    angular.module('chesireApp')
+        .controller('ControlsHudController', ControlsHudController);
 
-.controller('ControlsHudCtrl', function ($scope, SynthOptions, MidiControlMessages) {
+    function ControlsHudController($scope, SynthOptions, MidiControlMessages) {
+        var vm = this;
+        var oldSynthOptions = null;
 
-    var oldSynthOptions = null;
+        vm.getMidiParamFromOptions = getMidiParamFromOptions;
 
-    var init = function() {
-        SynthOptions.getSynthOptions().then(function(synthOptions) {
+        init();
+
+        function init() {
             SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
-            synthOptionsChanged(synthOptions);
-        });
-    };
-
-    var synthOptionsChanged = function(newSynthOptions) {
-        if(!_.isEqual(newSynthOptions, oldSynthOptions)) {
-            oldSynthOptions = newSynthOptions;
-            $scope.controls = newSynthOptions.getActiveControls();
-            $scope.oscillator = newSynthOptions.getOscillatorComponent();
+            $scope.$on('$destroy', onDestroy);
         }
-    };
 
-    $scope.getMidiParamFromOptions = function(options) {
-        return _.findWhere(MidiControlMessages, {number: options.number});
-    };
+        function synthOptionsChanged(newSynthOptions) {
+            if(newSynthOptions && !_.isEqual(newSynthOptions, oldSynthOptions)) {
+                oldSynthOptions = newSynthOptions;
+                vm.controls = newSynthOptions.getActiveControls();
+                vm.oscillator = newSynthOptions.getOscillatorComponent();
+            }
+        }
 
-    init();
-});
+        function getMidiParamFromOptions(options) {
+            return _.findWhere(MidiControlMessages, {number: options.number});
+        }
+
+        function onDestroy() {
+            SynthOptions.unsubscribeToChangesInSynthOptions(synthOptionsChanged);
+        }
+
+    }
+
+})();

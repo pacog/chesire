@@ -1,11 +1,11 @@
 <div class='controls-hud'>
     <single-control-hud
-        control-info='oscillator.controls.gain'
+        control-info='vm.oscillator.controls.gain'
         related-param='Volume'
     ></single-control-hud>
     <single-control-hud
-        ng-repeat='control in controls'
+        ng-repeat='control in vm.controls'
         control-info='control'
-        related-param='{{getMidiParamFromOptions(control).name}}'
+        related-param='{{vm.getMidiParamFromOptions(control).name}}'
     ></single-control-hud>
 </div>

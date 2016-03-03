@@ -20,8 +20,9 @@
             $scope.$on('$destroy', onDestroy);
         }
 
-        function synthOptionsChanged() {
-            if(prevSynthOptions !== vm.synthoptions) {
+        function synthOptionsChanged(newSynthOptions) {
+            if(prevSynthOptions !== newSynthOptions) {
+                vm.synthoptions = newSynthOptions;
                 prevSynthOptions = vm.synthoptions;
                 vm.components = vm.synthoptions.getActiveComponents();
                 vm.activeComponent = vm.components[0];
@@ -46,7 +47,7 @@
         }
 
         function onDestroy() {
-
+            SynthOptions.unsubscribeToChangesInSynthOptions(synthOptionsChanged);
         }
     }
 

@@ -15,13 +15,13 @@ angular.module('chesireApp')
         var willGetSynthOptions = SynthOptions.getSynthOptions();
         $q.all([MidiApiMediator, willGetSynthOptions]).then(function(promiseResults) {
             var midiAccess = promiseResults[0];
-            var newSynthOptions = promiseResults[1];
 
             $scope.midiOutputs = midiAccess.outputs();
             CurrentMidiOutput.setCurrentOutput($scope.midiOutputs[0]);
 
-            synthOptionsChanged(newSynthOptions);
             SynthOptions.subscribeToChangesInSynthOptions(synthOptionsChanged);
+            $scope.$on('$destroy', onDestroy);
+
             Leapmotion.subscribeToFrameChange(updateGeneratedMidi);
         });
     };
@@ -116,6 +116,12 @@ angular.module('chesireApp')
             notesBeingPlayed = {};
         }
     };
+
+    function onDestroy() {
+        SynthOptions.unsubscribeToChangesInSynthOptions(synthOptionsChanged);
+        //TODO:
+        // Leapmotion.unsubscribeToFrameChange(updateGeneratedMidi);
+    }
 
 
     init();
