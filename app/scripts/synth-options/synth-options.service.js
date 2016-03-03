@@ -25,13 +25,13 @@
             getSynthOptions().then(setSynthOptions);
         }
 
-        function setSynthOptions(newSynthOptions) {
+        function setSynthOptions(newSynthOptions, afterSynthDeleted) {
             if(!newSynthOptions.$$isSynth) {
                 newSynthOptions = SynthoptionsModel.create(newSynthOptions);
             }
             synthOptions = newSynthOptions;
             addIdsToComponents();
-            notifyChangeInSynthOptions(synthOptions);
+            notifyChangeInSynthOptions(synthOptions, afterSynthDeleted);
             LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
         }
 
@@ -69,9 +69,9 @@
             subscriberCallback(synthOptions);
         }
 
-        function notifyChangeInSynthOptions(newSynthOptions) {
+        function notifyChangeInSynthOptions(newSynthOptions, afterSynthDeleted) {
             angular.forEach(subscriberCallbacks, function(subscriberCallback) {
-                subscriberCallback(newSynthOptions);
+                subscriberCallback(newSynthOptions, afterSynthDeleted);
             });
         }
 

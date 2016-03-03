@@ -35,16 +35,16 @@
             $scope.$on('$destroy', onDestroy);
         }
 
-        function synthOptionsChanged(newSynth) {
+        function synthOptionsChanged(newSynth, afterDeletedSynth) {
             $timeout(function() { //Timeout to get scope applied
                 if(vm.loadingFirstSynth) {
                     vm.loadingFirstSynth = false;
                 } else if(vm.synthPresetJustLoaded) {
                     vm.synthPresetJustLoaded = false;
-                } else {
+                } else if(!afterDeletedSynth) {
                     synthSelector.notifySynthIsModified(true);
                 }
-                
+
                 if(newSynth) {
                     vm.currentSynth = angular.copy(newSynth);
                     updateSelectedSynthIndex();
@@ -69,7 +69,7 @@
             if(vm.indexOfSelectedSynth >= vm.synths.length) {
                 vm.indexOfSelectedSynth = vm.synths.length - 1;
             }
-            SynthOptions.setSynthOptions(vm.synths[vm.indexOfSelectedSynth]);
+            SynthOptions.setSynthOptions(vm.synths[vm.indexOfSelectedSynth], true);
         }
 
         function toggleSynthList() {
