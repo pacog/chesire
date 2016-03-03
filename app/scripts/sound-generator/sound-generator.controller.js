@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 //TODO: this shouldn't be a controller, but a service init in app.js
-.controller('SoundgeneratorCtrl', function ($scope, $timeout, $q, Leapmotion, SynthClass, ScaleOptions, SynthOptions, CurrentSynth) {
+.controller('SoundgeneratorCtrl', function ($log, $scope, $timeout, $q, Leapmotion, SynthClass, ScaleOptions, SynthOptions, CurrentSynth) {
 
     var synthOptions = null;
     var scaleOptions = null;
@@ -28,7 +28,7 @@ angular.module('chesireApp')
     };
 
     var synthOptionsChanged = function(newOptions) {
-        //TODO: this function is being called three times at the beginning
+        $log.info('SoundgeneratorCtrl -> synthOptionsChanged');
         synthOptions = newOptions;
         currentSynth.destroy();
         currentSynth = new SynthClass(newOptions, scaleOptions);

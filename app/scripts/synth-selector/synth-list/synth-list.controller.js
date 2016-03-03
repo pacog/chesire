@@ -9,7 +9,7 @@
         vm.selectSynth = selectSynth;
 
         function selectSynth(synth) {
-            SynthOptions.setSynthOptions(synth);
+            SynthOptions.setSynthOptions(angular.copy(synth));
         }
 
     }
