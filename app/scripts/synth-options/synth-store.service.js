@@ -42,9 +42,9 @@
                     allSynths = [];
                 }
 
-                var existingSynth = findSynthInList(synth, allSynths);
-                if(existingSynth) {
-                    debugger;
+                var existingSynthIndex = findSynthIndexInList(synth, allSynths);
+                if(existingSynthIndex > -1) {
+                    allSynths[existingSynthIndex] = synth;
                 } else {
                     allSynths.push(synth);
                 }
@@ -76,12 +76,20 @@
         }
 
         function findSynthInList(synth, synthList) {
+            var index = findSynthIndexInList(synth, synthList);
+            if(index >-1) {
+                return synthList[index];
+            } else {
+                return false;
+            }
+        }
+        function findSynthIndexInList(synth, synthList) {
             for(var i=0; i<synthList.length; i++) {
                 if(synthList[i].name === synth.name) {
-                    return synthList[i];
+                    return i;
                 }
             }
-            return false;
+            return -1;
         }
 
         function subscribeToChangeInAllSynths(callback) {
