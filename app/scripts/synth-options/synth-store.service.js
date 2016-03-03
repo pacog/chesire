@@ -64,13 +64,17 @@
             var allSynths = localStorageService.get('synths');
             var existingSynth = findSynthInList(synthToDelete, allSynths);
 
-            allSynths = _.without(allSynths, existingSynth);
-            allSynthsCache = allSynths;
-            localStorageService.set('synths', allSynths);
-            deferred.promise.then(function(newAllSynths) {
-                onChangeInAllSynths(newAllSynths, true);
-            });
-            deferred.resolve(allSynths);
+            if(allSynths.length > 1) {
+                allSynths = _.without(allSynths, existingSynth);
+                allSynthsCache = allSynths;
+                localStorageService.set('synths', allSynths);
+                deferred.promise.then(function(newAllSynths) {
+                    onChangeInAllSynths(newAllSynths, true);
+                });
+                deferred.resolve(allSynths);
+            } else {
+                deferred.reject('Cannot delete the last synth');
+            }
 
             return deferred.promise;
         }
