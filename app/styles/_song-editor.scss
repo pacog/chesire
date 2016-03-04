@@ -246,9 +246,8 @@
 .song-parts-list-editor {
     @include display-flex();
     @include align-items(center);
-    // @include justify-content(center);
 }
-    .song-parts-list-editor-item-container {
+    .song-parts-list-hud-item-container {
         border-top: 2px solid transparent;
         padding: 2px;
         margin-bottom: 2px;
@@ -256,7 +255,15 @@
             border-color: white;
         }
     }
-    .song-parts-list-editor-item-container-empty {
+    .song-parts-list-editor-item-container {
+        border-left: 2px solid transparent;
+        padding: 2px;
+        margin-left: 2px;
+        &.drag-over-accept {
+            border-color: white;
+        }
+    }
+    .song-parts-list-hud-item-container-empty {
         min-height: 10px;
     }
     .song-parts-list-editor-item {
@@ -290,8 +297,6 @@
         }
 
 .song-parts-list-hud {
-    // @include display-flex();
-    // @include flex-direction(column);
     position: absolute;
     top: 100%;
     background: $dark-blue;
@@ -302,12 +307,10 @@
         display: block;
         margin-bottom: $grid-s;
         text-align: left;
-        // &:last-child {
-        //     margin-top: 0;
-        // }
+        border-left: 2px solid transparent;
+        border-right: 2px solid transparent;
         &.is-active {
-            border-left: 2px solid $orange;
-            border-right: 2px solid $orange;
+            border-color: $orange;
         }
     }
 }
