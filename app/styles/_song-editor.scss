@@ -271,3 +271,32 @@
             cursor: default;
         }
     }
+
+        .song-parts-list-editor-item-number {
+            background: $dark-blue;
+            padding: $grid-s;
+            margin-right: $grid-s;
+        }
+
+.song-parts-list-hud {
+    // @include display-flex();
+    // @include flex-direction(column);
+    position: absolute;
+    top: 100%;
+    background: $dark-blue;
+    padding: $grid-s;
+    padding-bottom: 0;
+
+    .song-parts-list-editor-item {
+        display: block;
+        margin-bottom: $grid-s;
+        text-align: left;
+        // &:last-child {
+        //     margin-top: 0;
+        // }
+        &.is-active {
+            border-left: 2px solid $orange;
+            border-right: 2px solid $orange;
+        }
+    }
+}

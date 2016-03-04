@@ -1,4 +1,4 @@
-<div class='song-parts-list-editor'>
+<div class='song-parts-list-hud'>
     <button ng-repeat='part in vm.song.parts'
          class='song-parts-list-editor-item'
          ng-class='{
@@ -7,11 +7,6 @@
          ng-click='vm.setCurrentPart(part)'>
         <span class='song-parts-list-editor-item-number' ng-bind='part.index + 1'></span>
         {{part.name}}
-    </button>
-
-    <button class='song-parts-list-editor-item'
-            ng-click='vm.addPart()'>
-        + Add part
     </button>
 
 </div>
