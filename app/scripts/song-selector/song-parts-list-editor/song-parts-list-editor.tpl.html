@@ -1,6 +1,16 @@
-<div>
-    <div ng-repeat='part in vm.song.parts'>
-        {{part.index}} - {{part.name}}
-    </div>
+<div class='song-parts-list-editor'>
+    <button ng-repeat='part in vm.song.parts'
+         class='song-parts-list-editor-item'
+         ng-class='{
+             "is-active": vm.song.currentPart === part.index
+         }'
+         ng-click='vm.setCurrentPart(part)'>
+        {{part.index + 1}} - {{part.name}}
+    </button>
+
+    <button class='song-parts-list-editor-item'
+            ng-click='vm.addPart()'>
+        + Add part
+    </button>
 
 </div>

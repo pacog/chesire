@@ -242,3 +242,32 @@
         .song-editor-song-from-scale-button {
             padding: $grid-m;
         }
+
+.song-parts-list-editor {
+    @include display-flex();
+    @include align-items(center);
+    // @include justify-content(center);
+}
+    .song-parts-list-editor-item {
+        background: $tile-background;
+
+        border: 0;
+        color: white;
+        outline: 0;
+        margin: 0;
+        margin-right: $grid-s;
+        padding: $grid-m;
+        cursor: pointer;
+
+        &:hover {
+            background: lighten($tile-background, 10);
+        }
+        &:active {
+            background: darken($tile-background, 10);
+        }
+
+        &.is-active {
+            background: $ui-element-bg;
+            cursor: default;
+        }
+    }

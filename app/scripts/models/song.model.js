@@ -27,9 +27,20 @@
             return this.parts[this.currentPart];
         };
 
+        SongClass.prototype.setCurrentPart = function(part) {
+            this.currentPart = part.index;
+        };
+
         SongClass.prototype.replaceCurrentPart = function(part) {
             part.index = this.currentPart;
             this.parts[this.currentPart] = part;
+        };
+
+        SongClass.prototype.addPart = function() {
+            var newPart = SongPartModel.create();
+            newPart.index = this.parts.length;
+            this.parts.push(newPart);
+            return newPart;
         };
         
 
