@@ -20,7 +20,6 @@ angular.module('chesireApp')
         
         ScaleOptions.getScaleOptions().then(function(newScaleOptions) {
             scaleOptions = newScaleOptions;
-            changeNotes(scaleOptions);
             ScaleOptions.subscribeToChangesInScaleOptions(scaleOptionsChanged);
         });
     };
@@ -42,8 +41,8 @@ angular.module('chesireApp')
         });
     };
 
-    var changeNotes = function(newNotes, newSynthOptions) {
-        if(newNotes && newSynthOptions) {
+    var changeNotes = function(song, newSynthOptions) {
+        if(song && newSynthOptions) {
 
             //Ugly conversion, sometimes synth options include all synth, sometimes only the oscillator
             var oscillatorComponent = newSynthOptions;
@@ -51,12 +50,13 @@ angular.module('chesireApp')
                 oscillatorComponent = newSynthOptions.getOscillatorComponent();
             }
 
+            var partToUse = song.getCurrentPart();
             notesInfo = [];
-            chordsInfo = newNotes;
+            chordsInfo = partToUse;
             if(oscillatorComponent.transitionType==='glissando') {
-                createNotesForGlissandoTransition(newNotes);
+                createNotesForGlissandoTransition(partToUse);
             } else if(oscillatorComponent.transitionType==='volume') {
-                createNotesForVolumeTransition(newNotes);
+                createNotesForVolumeTransition(partToUse);
             }
             silenceAllNotes();
         }

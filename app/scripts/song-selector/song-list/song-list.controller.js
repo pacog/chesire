@@ -9,7 +9,7 @@
         vm.selectSong = selectSong;
 
         function selectSong(song) {
-            ScaleOptions.setScaleOptions(song);
+            ScaleOptions.setScaleOptionsFromPreset(song);
         }
 
     }

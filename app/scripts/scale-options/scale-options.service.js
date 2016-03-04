@@ -3,14 +3,16 @@
     angular.module('chesireApp')
         .factory('ScaleOptions', ScaleOptions);
 
-    function ScaleOptions($q, LastUsedSettingsStore, DefaultScale) {
+    function ScaleOptions($q, LastUsedSettingsStore, SongModel) {
 
         var scaleOptions = null;
         var subscriberCallbacks = [];
+        var willReturnScaleOptions = null;
 
         var factory = {
             init: init,
             setScaleOptions: setScaleOptions,
+            setScaleOptionsFromPreset: setScaleOptionsFromPreset,
             getScaleOptions: getScaleOptions,
             subscribeToChangesInScaleOptions: subscribeToChangesInScaleOptions,
             unsubscribeToChangesInScaleOptions: unsubscribeToChangesInScaleOptions
@@ -27,21 +29,40 @@
             LastUsedSettingsStore.notifyLastUsedSongChanged(newScaleOptions);
         }
 
+        function setScaleOptionsFromPreset(preset) {
+            setScaleOptions(SongModel.create(preset));
+        }
+
         function getScaleOptions() {
-            var willReturnScaleOptions = $q.defer();
-
-            if(scaleOptions) {
-                willReturnScaleOptions.resolve(scaleOptions);
+            if(willReturnScaleOptions) {
+                //Already retrieving it
+                return willReturnScaleOptions.promise;
             } else {
-                LastUsedSettingsStore.getLastUsedSong().then(function(lastUsedSong) {
-                    if(!lastUsedSong) {
-                        lastUsedSong = DefaultScale;
-                    }
-                    scaleOptions = lastUsedSong;
-                    willReturnScaleOptions.resolve(lastUsedSong);
-                });
+                return startRetrievingScaleOptions();
             }
+        }
 
+        function startRetrievingScaleOptions() {
+            if(scaleOptions) {
+                return getCurrentlySavedScaleOptions();
+            } else {
+                return getLastUsedSettings();
+            }
+        }
+
+        function getCurrentlySavedScaleOptions() {
+            var willGetOptions = $q.defer();
+            willGetOptions.resolve(scaleOptions);
+            return willGetOptions.promise;
+        }
+
+        function getLastUsedSettings() {
+            willReturnScaleOptions = $q.defer();
+            LastUsedSettingsStore.getLastUsedSong().then(function(lastUsedSong) {
+                scaleOptions = SongModel.create(lastUsedSong);
+                willReturnScaleOptions.resolve(scaleOptions);
+                willReturnScaleOptions = null;
+            });
             return willReturnScaleOptions.promise;
         }
 

@@ -19,7 +19,6 @@
         init();
 
         function init() {
-            ScaleOptions.getScaleOptions().then(scaleChanged);
             ScaleOptions.subscribeToChangesInScaleOptions(scaleChanged);
             Leapmotion.subscribeToFrameChange(frameChange);
             playerBoundaries.subscribeToChange(changeInBoundaries);
@@ -33,7 +32,7 @@
 
         function scaleChanged(newScale) {
             if(newScale) {
-                vm.chords = angular.copy(newScale.chords);
+                vm.chords = angular.copy(newScale.getCurrentPart().chords);
                 setVolumeTo0();
             }
         }

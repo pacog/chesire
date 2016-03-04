@@ -24,7 +24,7 @@ angular.module('chesireApp')
     };
 
     var notesChanged = function(newValue) {
-        currentSynth.scaleChanged(newValue);
+        currentSynth.scaleChanged(newValue.getCurrentPart());
     };
 
     var synthOptionsChanged = function(newOptions) {
