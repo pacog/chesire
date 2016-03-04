@@ -81,14 +81,14 @@
         function goToNextSong() {
             if(vm.songs && (vm.indexOfSelectedSong < (vm.songs.length - 1))) {
                 vm.indexOfSelectedSong++;
-                ScaleOptions.setScaleOptions(vm.songs[vm.indexOfSelectedSong]);
+                ScaleOptions.setScaleOptionsFromPreset(vm.songs[vm.indexOfSelectedSong]);
             }
         }
 
         function goToPrevSong() {
             if(vm.songs && (vm.indexOfSelectedSong > 0)) {
                 vm.indexOfSelectedSong--;
-                ScaleOptions.setScaleOptions(vm.songs[vm.indexOfSelectedSong]);
+                ScaleOptions.setScaleOptionsFromPreset(vm.songs[vm.indexOfSelectedSong]);
             }
         }
 

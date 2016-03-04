@@ -30,7 +30,6 @@
             vm.confirmingDeleteSong = false;
         }
 
-
         function songModified(isSongModified) {
             vm.songHasBeenModified = isSongModified;
         }

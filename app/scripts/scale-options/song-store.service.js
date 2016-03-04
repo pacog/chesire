@@ -18,7 +18,7 @@ angular.module('chesireApp')
 
         var saveSong = function(song) {
             var deferred = $q.defer();
-            if(!song || !song.name || !song.chords || !song.chords.length) {
+            if(!song || !song.name || !song.parts || !song.parts.length) {
                 deferred.reject('Error saving song, bad config');
             } else {
                 var allSongs = localStorageService.get('songs');
@@ -28,9 +28,9 @@ angular.module('chesireApp')
                     allSongs = [];
                 }
 
-                var existingSong = findSongInList(song, allSongs);
-                if(existingSong) {
-                    existingSong.chords = song.chords;
+                var existingSongIndex = findSongIndexInList(song, allSongs);
+                if(existingSongIndex > -1) {
+                    allSongs[existingSongIndex] = song;
                 } else {
                     allSongs.push(song);
                 }
@@ -61,12 +61,19 @@ angular.module('chesireApp')
         };
 
         var findSongInList = function(song, songList) {
-            for(var i=0; i<songList.length; i++) {
-                if(songList[i].name === song.name) {
-                    return songList[i];
-                }
+            var index = findSongIndexInList(song, songList);
+            if(index > -1) {
+                return songList[index];
             }
             return false;
+        };
+        var findSongIndexInList = function(song, songList) {
+            for(var i=0; i<songList.length; i++) {
+                if(songList[i].name === song.name) {
+                    return i;
+                }
+            }
+            return -1;
         };
 
         var subscribeToChangeInAllSongs = function(callback) {
