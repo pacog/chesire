@@ -21,6 +21,8 @@ angular.module('chesireApp')
             if(!song || !song.name || !song.parts || !song.parts.length) {
                 deferred.reject('Error saving song, bad config');
             } else {
+                song.$isModified = false;
+
                 var allSongs = localStorageService.get('songs');
                 if(allSongs) {
                     allSongs = angular.fromJson(allSongs);
@@ -34,6 +36,7 @@ angular.module('chesireApp')
                 } else {
                     allSongs.push(song);
                 }
+
                 localStorageService.set('songs', allSongs);
                 allSongsCache = allSongs;
                 deferred.promise.then(onChangeInAllSongs);

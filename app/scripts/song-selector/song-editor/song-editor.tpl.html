@@ -6,7 +6,7 @@
             <button
                 class='big-button song-editor-save'
                 ng-click='vm.saveSong()'
-                ng-disabled='!vm.songHasBeenModified'>
+                ng-disabled='!vm.song.$isModified'>
                 Save
             </button>
             <button
@@ -29,7 +29,10 @@
                 Song name
             </h3>
             <div class='generic-section-content'>
-                <input type='text' class='song-editor-song-name' ng-model='vm.song.name' ng-change='vm.songEditor.notifySongHasChanged(true)'>
+                <input type='text' class='song-editor-song-name'
+                       ng-model='vm.song.name'
+                       ng-model-options="{ debounce: 500 }"
+                       ng-change='vm.songNameChanged()'>
             </div>
         </div>
 

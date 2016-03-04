@@ -20,6 +20,7 @@
             options = options || {};
             angular.extend(this, DEFAULT_SONG_OPTIONS, options);
             this._createPartsIfNeeded();
+            this._decorateParts();
             this.currentPart = this.currentPart || 0;
         };
 
@@ -28,18 +29,25 @@
         };
 
         SongClass.prototype.setCurrentPart = function(part) {
-            this.currentPart = part.index;
+            if(this.currentPart !== part.index) {
+                this.currentPart = part.index;
+                this.$isModified = true;
+                return true;
+            }
+            return false;
         };
 
         SongClass.prototype.replaceCurrentPart = function(part) {
             part.index = this.currentPart;
             this.parts[this.currentPart] = part;
+            this.$isModified = true;
         };
 
         SongClass.prototype.addPart = function() {
             var newPart = SongPartModel.create();
             newPart.index = this.parts.length;
             this.parts.push(newPart);
+            this.$isModified = true;
             return newPart;
         };
 
@@ -52,6 +60,7 @@
                 index = this.parts.length - 1;
             }
             this.currentPart = index;
+            this.$isModified = true;
         };
 
         SongClass.prototype.movePart = function(originIndex, destinationIndex) {
@@ -71,6 +80,7 @@
             }
 
             this._updatePartsIndex();
+            this.$isModified = true;
             return true;
         };
 
@@ -81,6 +91,7 @@
                 if(this.currentPart >= this.parts.length) {
                     this.currentPart = this.parts.length - 1;
                 }
+                this.$isModified = true;
                 return true;
             }
             return false;
@@ -91,6 +102,32 @@
             newPart.name += ' (copy)';
             this.parts.push(newPart);
             this._updatePartsIndex();
+            this.$isModified = true;
+            return true;
+        };
+
+        SongClass.prototype.removeChordInPart = function(part, chordIndex) {
+            part.removeChordAtIndex(chordIndex);
+            this.$isModified = true;
+            return true;
+        };
+        
+
+        SongClass.prototype.addChordBefore = function(part, chordIndex) {
+            part.addChordBefore(chordIndex);
+            this.$isModified = true;
+            return true;
+        };
+
+        SongClass.prototype.addChordLast = function(part) {
+            part.addChordLast();
+            this.$isModified = true;
+            return true;
+        };
+
+        SongClass.prototype.replaceChord = function(part, chordIndex, newChord) {
+            part.replaceChord(chordIndex, newChord);
+            this.$isModified = true;
             return true;
         };
 
@@ -99,8 +136,6 @@
                 this.parts[i].index = i;
             }
         };
-        
-        
 
         SongClass.prototype._createPartsIfNeeded = function() {
             if(!this.parts || !this.parts.length) {
@@ -109,6 +144,12 @@
             }
             this._oldChords = undefined;
             this.chords = undefined;
+        };
+
+        SongClass.prototype._decorateParts = function() {
+            for(var i=0; i<this.parts.length; i++) {
+                this.parts[i] = SongPartModel.create(this.parts[i]);
+            }
         };
 
         return factory;

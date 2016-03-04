@@ -9,8 +9,6 @@
 
         var UI_SERVICE_MENU_ID = 'song-selector';
 
-        vm.songHasBeenModified = false;
-
         vm.toggleSongList = toggleSongList;
         vm.toggleSongEditor = toggleSongEditor;
         vm.goToNextSong = goToNextSong;
@@ -59,7 +57,6 @@
         }
 
         function songModified(isSongModified) {
-            vm.songHasBeenModified = isSongModified;
             if(isSongModified) {
                 ScaleOptions.setScaleOptions(vm.currentSong);
             }

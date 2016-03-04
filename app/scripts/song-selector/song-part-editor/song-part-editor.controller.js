@@ -60,14 +60,8 @@
             });
         }
 
-        function removeChord(index, chords) {
-            //TODO: do in song model
-            if(chords.length > 2) {
-                chords.splice(index, 1);
-            } else {
-                chords[index].notes = [];
-                chords[index].name = undefined;
-            }
+        function removeChord(index) {
+            vm.currentSong.removeChordInPart(vm.currentPart, index);
             songEditor.notifySongHasChanged(true);
         }
 
@@ -85,20 +79,18 @@
         }
 
         function addChordBefore(index) {
-            //TODO: do in song model
-            vm.currentPart.chords.splice(index, 0, getEmptyChord());
+            vm.currentSong.addChordBefore(vm.currentPart, index);
             songEditor.notifySongHasChanged(true);
         }
 
         function addChordLast() {
-            //TODO: do in song model
-            vm.currentPart.chords.push(getEmptyChord());
+            vm.currentSong.addChordLast(vm.currentPart);
             songEditor.notifySongHasChanged(true);
         }
 
         function editChord(index, chords) {
             chordEditor.showEditor(chords[index]).then(function(newChord) {
-                chords[index] = newChord;
+                vm.currentSong.replaceChord(vm.currentPart, index, newChord);
                 songEditor.notifySongHasChanged(true);
             });
         }
@@ -109,14 +101,6 @@
 
         function partCreatedFromScale() {
             songEditor.notifySongHasChanged(true);
-        }
-
-        //TODO: do in chord model
-        function getEmptyChord() {
-            return {
-                name: undefined,
-                notes: []
-            };
         }
 
         function onDestroy() {

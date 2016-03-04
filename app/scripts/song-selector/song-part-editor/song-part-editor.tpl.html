@@ -41,7 +41,7 @@
                     <div class='song-editor-chord-tools'>
                         <button class='big-button song-editor-pick-chord' ng-click='vm.pickChord($index, vm.currentPart.chords); $event.stopPropagation();'>Pick chord</button>
                         <button class='big-button song-editor-edit-chord' ng-click='vm.editChord($index, vm.currentPart.chords); $event.stopPropagation();'>Edit chord</button>
-                        <button class='big-button song-editor-remove-chord' ng-click='vm.removeChord($index, vm.currentPart.chords); $event.stopPropagation();'>Remove chord</button>
+                        <button class='big-button song-editor-remove-chord' ng-click='vm.removeChord($index); $event.stopPropagation();'>Remove chord</button>
                     </div>
                 </div>
             </div>

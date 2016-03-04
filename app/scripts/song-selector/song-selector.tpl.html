@@ -13,6 +13,7 @@
 
         <button class='big-button config-menu-title' ng-click='vm.toggleSongList()'>
             {{vm.currentSong.name || 'No name'}}
+            <span ng-show='vm.currentSong.$isModified'>(*)</span>
         </button>
 
         <button 
