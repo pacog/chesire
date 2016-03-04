@@ -20,6 +20,7 @@
         vm.partNameChanged = partNameChanged;
         vm.createPartFromScale = createPartFromScale;
         vm.editChord = editChord;
+        vm.deletePart = deletePart;
 
         init();
 
@@ -59,6 +60,7 @@
         }
 
         function removeChord(index, chords) {
+            //TODO: do in song model
             if(chords.length > 2) {
                 chords.splice(index, 1);
             } else {
@@ -68,12 +70,21 @@
             songEditor.notifySongHasChanged(true);
         }
 
+        function deletePart() {
+            vm.confirmingDelete = false;
+            if(vm.currentSong.deletePart(vm.currentPart)) {
+                songEditor.notifySongHasChanged(true);
+            }
+        }
+
         function addChordBefore(index) {
+            //TODO: do in song model
             vm.currentPart.chords.splice(index, 0, getEmptyChord());
             songEditor.notifySongHasChanged(true);
         }
 
         function addChordLast() {
+            //TODO: do in song model
             vm.currentPart.chords.push(getEmptyChord());
             songEditor.notifySongHasChanged(true);
         }

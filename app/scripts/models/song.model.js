@@ -73,7 +73,18 @@
 
             this._updatePartsIndex();
             return true;
-            
+        };
+
+        SongClass.prototype.deletePart = function(partToRemove) {
+            if (this.parts.length > 1) {
+                this.parts.splice(partToRemove.index, 1);
+                this._updatePartsIndex();
+                if(this.currentPart >= this.parts.length) {
+                    this.currentPart = this.parts.length - 1;
+                }
+                return true;
+            }
+            return false;
         };
 
         SongClass.prototype._updatePartsIndex = function () {

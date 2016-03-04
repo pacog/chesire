@@ -11,7 +11,17 @@
                ng-change='vm.partNameChanged()'/>
 
 
-       <div class='song-editor-chords'>
+        <button class='button'
+                ng-show='!vm.confirmingDelete && (vm.currentSong.parts.length > 1)'
+                ng-click='vm.confirmingDelete = true'>Remove part</button>
+
+        <div ng-show='vm.confirmingDelete  && (vm.currentSong.parts.length > 1)'>
+            Do you really want to delete it?
+            <button class='button' ng-click='vm.confirmingDelete = false'>Cancel</button>
+            <button class='button' ng-click='vm.deletePart()'>Delete!</button>
+        </div>
+
+        <div class='song-editor-chords'>
             <div class='song-editor-chord-container' ng-repeat='chord in vm.currentPart.chords'>
 
                 <button class='song-editor-add-chord' ng-click='vm.addChordBefore($index)'>+
