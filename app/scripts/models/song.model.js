@@ -42,7 +42,17 @@
             this.parts.push(newPart);
             return newPart;
         };
-        
+
+
+        SongClass.prototype.setCurrentPartByIndex = function(index) {
+            if(index < 0) {
+                index = 0;
+            }
+            if(index >= this.parts.length) {
+                index = this.parts.length - 1;
+            }
+            this.currentPart = index;
+        };
 
         SongClass.prototype._createPartsIfNeeded = function() {
             if(!this.parts || !this.parts.length) {

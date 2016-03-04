@@ -26,6 +26,16 @@
             songEditor.subscribeToSongChanged(songModified);
             hotKeys.on('NEXT_SONG', goToNextSong);
             hotKeys.on('PREV_SONG', goToPrevSong);
+            hotKeys.on('PART_1', loadPart1);
+            hotKeys.on('PART_2', loadPart2);
+            hotKeys.on('PART_3', loadPart3);
+            hotKeys.on('PART_4', loadPart4);
+            hotKeys.on('PART_5', loadPart5);
+            hotKeys.on('PART_6', loadPart6);
+            hotKeys.on('PART_7', loadPart7);
+            hotKeys.on('PART_8', loadPart8);
+            hotKeys.on('PART_9', loadPart9);
+            hotKeys.on('PART_10', loadPart10);
             $scope.$on('$destroy', onDestroy);
         }
 
@@ -109,6 +119,54 @@
             }
         }
 
+        //TODO: I know, really ugly, but don't want to over do this for now
+        function loadPart1() {
+            loadPart(0);
+        }
+
+        function loadPart2() {
+            loadPart(1);
+        }
+
+        function loadPart3() {
+            loadPart(2);
+        }
+
+        function loadPart4() {
+            loadPart(3);
+        }
+
+        function loadPart5() {
+            loadPart(4);
+        }
+
+        function loadPart6() {
+            loadPart(5);
+        }
+
+        function loadPart7() {
+            loadPart(6);
+        }
+
+        function loadPart8() {
+            loadPart(7);
+        }
+
+        function loadPart9() {
+            loadPart(8);
+        }
+
+        function loadPart10() {
+            loadPart(9);
+        }
+
+        function loadPart(index) {
+            if(index !== vm.currentSong.currentPart) {
+                vm.currentSong.setCurrentPartByIndex(index);
+                ScaleOptions.setScaleOptions(vm.currentSong);
+            }
+        }
+
         function onDestroy() {
             ScaleOptions.unsubscribeToChangesInScaleOptions(onSongChange);
             SongStore.unsubscribeToChangeInAllSongs(songsStoreChanged);
@@ -116,6 +174,16 @@
             songEditor.unsubscribeToSongDeleted(onDeletedSong);
             hotKeys.off('NEXT_SONG', goToNextSong);
             hotKeys.off('PREV_SONG', goToPrevSong);
+            hotKeys.off('PART_1', loadPart1);
+            hotKeys.off('PART_2', loadPart2);
+            hotKeys.off('PART_3', loadPart3);
+            hotKeys.off('PART_4', loadPart4);
+            hotKeys.off('PART_5', loadPart5);
+            hotKeys.off('PART_6', loadPart6);
+            hotKeys.off('PART_7', loadPart7);
+            hotKeys.off('PART_8', loadPart8);
+            hotKeys.off('PART_9', loadPart9);
+            hotKeys.off('PART_10', loadPart10);
         }
     }
 

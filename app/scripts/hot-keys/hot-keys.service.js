@@ -12,6 +12,36 @@
             },
             PREV_SONG: {
                 keyCode: 37
+            },
+            PART_1: {
+                keyCode: 49
+            },
+            PART_2: {
+                keyCode: 50
+            },
+            PART_3: {
+                keyCode: 51
+            },
+            PART_4: {
+                keyCode: 52
+            },
+            PART_5: {
+                keyCode: 53
+            },
+            PART_6: {
+                keyCode: 54
+            },
+            PART_7: {
+                keyCode: 55
+            },
+            PART_8: {
+                keyCode: 56
+            },
+            PART_9: {
+                keyCode: 57
+            },
+            PART_10: {
+                keyCode: 58
             }
         };
         var subscribers = {};
@@ -44,7 +74,6 @@
         }
 
         function onKeyUp(keyInfo) {
-            
             var action = getActionFromKey(keyInfo);
             if(action) {
                 notifyAction(action);
