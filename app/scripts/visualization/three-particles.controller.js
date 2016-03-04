@@ -26,10 +26,10 @@ angular.module('chesireApp')
     };
 
 
-    var scaleChanged = function(newScale) {
-        if(newScale) {
+    var scaleChanged = function(newSong) {
+        if(newSong) {
             whenSceneIsReady.promise.then(function () {
-                VisualizationKeyHelper.createKeyRanges(newScale);
+                VisualizationKeyHelper.createKeyRanges(newSong.getCurrentPart());
                 if(soundMeshModel) {
                     soundMeshModel.destroy();
                 }

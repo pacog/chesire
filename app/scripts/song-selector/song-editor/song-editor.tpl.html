@@ -37,51 +37,9 @@
             <h3 class='generic-section-title'>
                 Parts
             </h3>
-            <song-parts-list-editor song='vm.song'></song-parts-list-editor>
-            <!-- <h3 class='generic-section-title'>
-                Chords
-            </h3>
-            <div class='generic-section-content'>
-                <div class='song-editor-chords'>
-                    <div class='song-editor-chord-container' ng-repeat='chord in vm.song.chords'>
-
-                        <button class='song-editor-add-chord' ng-click='vm.addChordBefore($index)'>+
-                            <span class='song-editor-add-chord-popover'>Add chord</span>
-                        </button>
-
-                        <div class='song-editor-chord' ng-click='vm.editChord($index, vm.song.chords)'>
-                            <div class='song-editor-chord-name'
-                                 ng-class='{"is-chord-in-second-row": vm.isChordInSecondRow($index)}'
-                                 >
-                                {{vm.getChordName(chord)}}
-                            </div>
-                            <div class='song-editor-chord-tools'>
-                                <button class='big-button song-editor-pick-chord' ng-click='vm.pickChord($index, vm.song.chords); $event.stopPropagation();'>Pick chord</button>
-                                <button class='big-button song-editor-edit-chord' ng-click='vm.editChord($index, vm.song.chords); $event.stopPropagation();'>Edit chord</button>
-                                <button class='big-button song-editor-remove-chord' ng-click='vm.removeChord($index, vm.song.chords); $event.stopPropagation();'>Remove chord</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button class='song-editor-add-chord song-editor-add-chord-last' ng-click='vm.addChordLast()'>
-                        +
-                        <span class='song-editor-add-chord-popover'>Add chord</span>
-                    </button>
-                </div>
-            </div>
         </div>
-
-        <div class='generic-section'>
-            <h3 class='generic-section-title'>
-                Create song from scale
-            </h3>
-            <div class='generic-section-content song-editor-song-from-scale'>
-                <button class='big-button song-editor-song-from-scale-button'
-                        ng-click='vm.createSongFromScale()'>
-                        Create song from scale
-                </button>
-            </div>
-        </div> -->
+        <song-parts-list-editor song='vm.song'></song-parts-list-editor>
+        <song-part-editor></song-part-editor>
 
     </div>
 

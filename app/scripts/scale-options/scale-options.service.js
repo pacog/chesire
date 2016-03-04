@@ -30,7 +30,7 @@
         }
 
         function setScaleOptionsFromPreset(preset) {
-            setScaleOptions(SongModel.create(preset));
+            setScaleOptions(SongModel.create(angular.copy(preset)));
         }
 
         function getScaleOptions() {

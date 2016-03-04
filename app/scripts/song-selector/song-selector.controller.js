@@ -32,7 +32,7 @@
         function onSongChange(newSong) {
             vm.loadingFirstSong = false;
             if(newSong) {
-                vm.currentSong = angular.copy(newSong);
+                vm.currentSong = newSong;
                 updateSelectedSongIndex();
                 songEditor.notifySongHasChanged(false);
             }
