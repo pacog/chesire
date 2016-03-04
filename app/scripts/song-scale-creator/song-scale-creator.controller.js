@@ -36,8 +36,8 @@
         }
 
         function save() {
-            var song = getSongfromParams();
-            ScaleOptions.setScaleOptions(song);
+            var part = getSongfromParams();
+            ScaleOptions.setCurrentPart(part);
             songScaleCreator.notifySongHasBeenCreated();
             vm.close();
         }

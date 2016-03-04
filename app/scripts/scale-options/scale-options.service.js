@@ -12,6 +12,7 @@
         var factory = {
             init: init,
             setScaleOptions: setScaleOptions,
+            setCurrentPart: setCurrentPart,
             setScaleOptionsFromPreset: setScaleOptionsFromPreset,
             getScaleOptions: getScaleOptions,
             subscribeToChangesInScaleOptions: subscribeToChangesInScaleOptions,
@@ -27,6 +28,12 @@
             scaleOptions = newScaleOptions;
             notifyChangeInScaleOptions(newScaleOptions);
             LastUsedSettingsStore.notifyLastUsedSongChanged(newScaleOptions);
+        }
+
+        function setCurrentPart(newPart) {
+            scaleOptions.replaceCurrentPart(newPart);
+            notifyChangeInScaleOptions(scaleOptions);
+            LastUsedSettingsStore.notifyLastUsedSongChanged(scaleOptions);
         }
 
         function setScaleOptionsFromPreset(preset) {

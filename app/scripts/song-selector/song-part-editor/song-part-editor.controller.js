@@ -18,7 +18,7 @@
         vm.addChordBefore = addChordBefore;
         vm.addChordLast = addChordLast;
         vm.partNameChanged = partNameChanged;
-        vm.createSongFromScale = createSongFromScale;
+        vm.createPartFromScale = createPartFromScale;
         vm.editChord = editChord;
 
         init();
@@ -38,7 +38,8 @@
         }
 
         function partNameChanged() {
-            //TODO
+            //TODO: maybe just for a change of name we shouldn't rebuild stuff
+            songEditor.notifySongHasChanged(true);
         }
 
         //TODO: create chord model, do it there
@@ -84,11 +85,11 @@
             });
         }
 
-        function createSongFromScale() {
-            songScaleCreator.show().then(songCreatedFromScale);
+        function createPartFromScale() {
+            songScaleCreator.show().then(partCreatedFromScale);
         }
 
-        function songCreatedFromScale() {
+        function partCreatedFromScale() {
             songEditor.notifySongHasChanged(true);
         }
 
