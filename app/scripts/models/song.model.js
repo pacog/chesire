@@ -107,7 +107,7 @@
                 this.parts = [];
                 this.parts.push(createPartFromSong(this));
             }
-            this._oldChords = this.chords;
+            this._oldChords = undefined;
             this.chords = undefined;
         };
 
