@@ -21,6 +21,7 @@
         vm.createPartFromScale = createPartFromScale;
         vm.editChord = editChord;
         vm.deletePart = deletePart;
+        vm.duplicatePart = duplicatePart;
 
         init();
 
@@ -73,6 +74,12 @@
         function deletePart() {
             vm.confirmingDelete = false;
             if(vm.currentSong.deletePart(vm.currentPart)) {
+                songEditor.notifySongHasChanged(true);
+            }
+        }
+
+        function duplicatePart() {
+            if(vm.currentSong.duplicatePart(vm.currentPart)) {
                 songEditor.notifySongHasChanged(true);
             }
         }

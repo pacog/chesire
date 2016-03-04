@@ -60,9 +60,8 @@
             }
 
             var insertAtEnd = (destinationIndex >= this.parts.length);
-            // var insertBefore = (destinationIndex < originIndex);
-
             var partToMove = this.parts[originIndex];
+
             this.parts.splice(originIndex, 1);
 
             if(insertAtEnd) {
@@ -85,6 +84,14 @@
                 return true;
             }
             return false;
+        };
+
+        SongClass.prototype.duplicatePart = function(partToDuplicate) {
+            var newPart = SongPartModel.create(angular.copy(partToDuplicate));
+            newPart.name += ' (copy)';
+            this.parts.push(newPart);
+            this._updatePartsIndex();
+            return true;
         };
 
         SongClass.prototype._updatePartsIndex = function () {

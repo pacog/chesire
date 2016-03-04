@@ -21,6 +21,10 @@
             <button class='button' ng-click='vm.deletePart()'>Delete!</button>
         </div>
 
+        <button class='button'
+                ng-show='!vm.confirmingDelete'
+                ng-click='vm.duplicatePart()'>Duplicate part</button>
+
         <div class='song-editor-chords'>
             <div class='song-editor-chord-container' ng-repeat='chord in vm.currentPart.chords'>
 
