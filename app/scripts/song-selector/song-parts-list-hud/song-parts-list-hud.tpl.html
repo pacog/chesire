@@ -1,12 +1,34 @@
 <div class='song-parts-list-hud'>
-    <button ng-repeat='part in vm.song.parts'
-         class='song-parts-list-editor-item'
-         ng-class='{
-             "is-active": vm.song.currentPart === part.index
-         }'
-         ng-click='vm.setCurrentPart(part)'>
-        <span class='song-parts-list-editor-item-number' ng-bind='part.index + 1'></span>
-        {{part.name}}
-    </button>
+    <div class='song-parts-list-editor-item-container'
+         ng-repeat='part in vm.song.parts'
+         drop='vm.onDrop($data, $event, $index)'
+         drop-effect='copy'
+         drop-accept="'json/song-part-hud'"
+         drag-over-class='drag-over-accept'
+         >
 
+         <button 
+             class='song-parts-list-editor-item'
+             draggable='true'
+             effect-allowed='copy'
+             draggable-type='song-part-hud'
+             draggable-data="{partIndex: part.index}"
+             ng-class='{
+                 "is-active": vm.song.currentPart === part.index
+             }'
+             ng-click='vm.setCurrentPart(part)'>
+            <span class='song-parts-list-editor-item-number' ng-bind='part.index + 1'></span>
+            {{part.name}}
+        </button>
+    </div>
+
+    
+
+    <div class='song-parts-list-editor-item-container song-parts-list-editor-item-container-empty'
+         drop='vm.onDrop($data, $event, vm.song.parts.length)'
+         drop-effect='copy'
+         drop-accept="'json/song-part-hud'"
+         drag-over-class='drag-over-accept'></div>
 </div>
+
+<!-- drag-over='onDragOver($event)' -->

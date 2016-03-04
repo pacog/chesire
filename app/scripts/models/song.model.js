@@ -54,6 +54,36 @@
             this.currentPart = index;
         };
 
+        SongClass.prototype.movePart = function(originIndex, destinationIndex) {
+            if((originIndex === destinationIndex) || (originIndex === (destinationIndex - 1) )) {
+                return false;
+            }
+
+            var insertAtEnd = (destinationIndex >= this.parts.length);
+            // var insertBefore = (destinationIndex < originIndex);
+
+            var partToMove = this.parts[originIndex];
+            this.parts.splice(originIndex, 1);
+
+            if(insertAtEnd) {
+                this.parts.push(partToMove);
+            } else {
+                this.parts.splice(destinationIndex, 0, partToMove);
+            }
+
+            this._updatePartsIndex();
+            return true;
+            
+        };
+
+        SongClass.prototype._updatePartsIndex = function () {
+            for(var i=0; i<this.parts.length; i++) {
+                this.parts[i].index = i;
+            }
+        };
+        
+        
+
         SongClass.prototype._createPartsIfNeeded = function() {
             if(!this.parts || !this.parts.length) {
                 this.parts = [];

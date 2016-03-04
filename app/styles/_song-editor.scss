@@ -248,6 +248,17 @@
     @include align-items(center);
     // @include justify-content(center);
 }
+    .song-parts-list-editor-item-container {
+        border-top: 2px solid transparent;
+        padding: 2px;
+        margin-bottom: 2px;
+        &.drag-over-accept {
+            border-color: white;
+        }
+    }
+    .song-parts-list-editor-item-container-empty {
+        min-height: 10px;
+    }
     .song-parts-list-editor-item {
         background: $tile-background;
 

@@ -2,7 +2,8 @@
 
 angular.module('chesireApp', [
     'ngRoute',
-    'LocalStorageModule'
+    'LocalStorageModule',
+    'draganddrop'
 ])
 .config(function ($routeProvider) {
     $routeProvider
