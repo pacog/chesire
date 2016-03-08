@@ -60,15 +60,15 @@ angular.module('chesireApp')
             },
 
             _updateGain: function(motionParams) {
-                var newGainValue = this.DEFAULT_GAIN;
-                if(!!this.options.controls && !!this.options.controls.gain) {
+                var newGainValue = this.options.gain;
+                if(angular.isUndefined(newGainValue)) {
+                    newGainValue = this.DEFAULT_GAIN;
+                }
+                if(!!this.options.controls && !!this.options.controls.gain && !!this.options.controls.gain.enabled) {
                     newGainValue = MotionParamsHelper.getParamValue(this.options.controls.gain, motionParams);
                 }
-                this._setGainControllerValue(newGainValue);
-            },
 
-            stopPlaying: function() {
-                this._setGainControllerValue(0);
+                this._setGainControllerValue(newGainValue);
             },
 
             playNote: function(note, duration) {
@@ -94,9 +94,6 @@ angular.module('chesireApp')
             },
 
             connectTo: function(destination) {
-                if(destination.constructor.name !== 'AudioDestinationNode') {
-                    destination = destination.getAudioNode();
-                }
                 this.connectedTo = destination;
                 this.gainController.connect(destination);
             },

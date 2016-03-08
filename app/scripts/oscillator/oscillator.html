@@ -1,73 +1,85 @@
 <div class='oscillator'>
 
-    <div ng-if='!!vm.synthOptions' class='row' >
+    <div ng-if='!!vm.oscillatorConfig' class='row' >
         <div class='column'>
-            <div class='oscillator-section' ng-hide='vm.synthOptions.isMidiOutput()'>
+            <div class='oscillator-section'>
                 <h4 class='oscillator-section-title'>Oscillator type</h4>
                 <div class='oscillator-section-content'>
                     <select-box
-                        value='vm.componentInfo.oscillatorType'
+                        value='vm.oscillatorConfig.oscillatorType'
                         value-list='vm.availableOscillators'
                         change-callback='vm.notifyOscillatorOptionsChangedThrottled()'></select-box>
                 </div>
                 <oscillator-wave-selector
-                    ng-if='vm.synthOptions.isCustomOscillator()'
-                    config='vm.componentInfo'
+                    ng-if='vm.oscillatorConfig.oscillatorType === "custom"'
+                    config='vm.oscillatorConfig'
                     change-callback='vm.notifyOscillatorOptionsChangedThrottled()'
                 ></oscillator-wave-selector>
             </div>
 
-            <div class='oscillator-section' ng-if='!vm.synthOptions.isMidiOutput()'>
+            <div class='oscillator-section'>
                 <h4 class='oscillator-section-title'>
                     <div class='oscillator-section-title-full-left'>
                         Freq Modulation
                     </div>
 
                     <custom-checkbox
-                        value='vm.oscillatorInfo.fm.enabled'
+                        value='vm.oscillatorConfig.fm.enabled'
                         change-callback='vm.fmToggle()'></custom-checkbox>
                 </h4>
-                <div class='oscillator-section-content' ng-show='vm.oscillatorInfo.fm.enabled'>
+                <div class='oscillator-section-content' ng-show='vm.oscillatorConfig.fm.enabled'>
                     <oscillator-fm
-                        component='vm.oscillatorInfo.fm'
+                        component='vm.oscillatorConfig.fm'
                         change-callback='vm.notifyOscillatorOptionsChangedThrottled()'
                         ></oscillator-fm>
-                </div>
-            </div>
-            <div class='oscillator-section' ng-if='vm.synthOptions.isMidiOutput()'>
-                <h4 class='oscillator-section-title'>Output mode</h4>
-                <div class='oscillator-section-content'>
-                    <midi-output-selector></midi-output-selector>
                 </div>
             </div>
         </div>
         <div class='column'>
             <div class='oscillator-section'>
-                <h4 class='oscillator-section-title'>Volume control</h4>
-                <div class='oscillator-section-content'>
+                <div class='oscillator-section-title'>
+                    <h4 class='oscillator-section-title-full-left'>Volume control</h4>
+                    <button class='button'
+                        ng-click='vm.oscillatorConfig.controls.gain.enabled = !vm.oscillatorConfig.controls.gain.enabled'>
+                        <span ng-show='vm.oscillatorConfig.controls.gain.enabled'>Disable</span>
+                        <span ng-show='!vm.oscillatorConfig.controls.gain.enabled'>Enable</span>
+                        gesture control
+                    </button>
+                </div>
+
+                <div class='oscillator-section-content'
+                     ng-show='vm.oscillatorConfig.controls.gain.enabled'>
                     <gesture-selector
-                        gesture-object='vm.gainControllerInfo'
+                        gesture-object='vm.oscillatorConfig.controls.gain'
                         change-callback='vm.gainControllerInfoChanged()'></gesture-selector>
                 </div>
-            </div>
 
-            <div class='oscillator-transition oscillator-section' ng-hide='vm.synthOptions.isMidiOutput()'>
-                <h4 class='oscillator-section-title'>Transition between chords</h4>
-                <div class='oscillator-section-content'>
-                    <switch-two-values
-                        values='vm.transitionTypes'
-                        ng-model='vm.componentInfo.transitionType'
-                        change-callback='vm.notifyOscillatorOptionsChangedThrottled()'></switch-two-values>
-                </div>
-            </div>
+                <div class='oscillator-section-content'
+                     ng-show='!vm.oscillatorConfig.controls.gain.enabled'>
 
-            <div class='oscillator-snap oscillator-section'>
-                <h4 class='oscillator-section-title'>Snap to chords</h4>
-                <div class='oscillator-section-content'>
-                    <oscillator-snap
-                        component-info='vm.componentInfo'
-                        change-callback='vm.notifyOscillatorOptionsChangedThrottled()'></oscillator-snap>
+                    <div class='slider-with-value'>
+                        <input
+                            class='slider-with-value-slider'
+                            ng-change='vm.gainControllerInfoChanged()'
+                            ng-model-options="{ debounce: 500 }"
+                            type="range"
+                            min="0"
+                            max="1"
+                            step="0.01"
+                            ng-model="vm.oscillatorConfig.gain"/>
+                        <div class='slider-with-value-value'>
+                            {{vm.oscillatorConfig.gain*100 | number:0}}%
+                        </div>
+                    </div>
+
                 </div>
+
+
+
+
+
+
+
             </div>
         </div>
     </div>

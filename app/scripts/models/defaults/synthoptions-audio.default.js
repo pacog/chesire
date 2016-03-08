@@ -4,8 +4,7 @@
     angular.module('chesireApp')
         .factory('synthOptionsAudioDefault', synthOptionsAudioDefault);
 
-
-    function synthOptionsAudioDefault(availableOscillators, availableSimpleOscillators, availableEqTypes) {
+    function synthOptionsAudioDefault(availableOscillators, availableSimpleOscillators, availableEqTypes, oscillatorOptionsDefault) {
         var factory = {
             get: get
         };
@@ -14,49 +13,31 @@
 
         function get() {
             return {
-                components: [{
-                    name: 'Oscillator',
-                    type: 'oscillator',
-                    midiControlMode: 'soft',
-                    oscillatorType: availableOscillators[1],
-                    snapDistance: 0.35,
-                    transitionType: 'glissando',
-                    realPeriodicTable: [0, 0.4, 0.4, 1, 1, 1, 0.3, 0.7, 0.6, 0.5, 0.9, 0.8],
-                    imaginaryPeriodicTable: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    controls: {
-                        'gain': {
-                            param: 'y',
-                            responseFunction: {
-                                name: 'linear',
-                                min: 0.0,
-                                max: 0.9,
-                                inverse: true
-                            }
-                        }
-                    },
-                    fm: {
-                        enabled: true,
-                        depth: 0.7,
-                        freq: 3.5,
-                        controls: {
-                            'depth': {
-                                enabled: true,
-                                param: 'handDirectionY',
-                                responseFunction: {
-                                    name: 'linear',
-                                    min: 0.0,
-                                    max: 0.9,
-                                    inverse: false
-                                }
-                            }
-                        },
-                        preModulator: {
-                            enabled: true,
-                            depth: 0.3,
-                            freq: 4
+                snapDistance: 0.35,
+                transitionType: 'glissando',
+                controls: {
+                    'gain': {
+                        param: 'y',
+                        responseFunction: {
+                            name: 'linear',
+                            min: 0.0,
+                            max: 0.9,
+                            inverse: true
                         }
                     }
-                }, {
+                },
+                oscillators: [
+                    oscillatorOptionsDefault.get(),
+                    oscillatorOptionsDefault.get({
+                        enabled: false,
+                        oscillatorType: availableOscillators[2]
+                    }),
+                    oscillatorOptionsDefault.get({
+                        enabled: false,
+                        oscillatorType: availableOscillators[3]
+                    })
+                ],
+                components: [{
                     name: 'Tremolo',
                     type: 'tremolo',
                     oscillatorType: availableSimpleOscillators[1],

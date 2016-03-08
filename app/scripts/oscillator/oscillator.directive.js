@@ -2,14 +2,12 @@
     'use strict';
 
     angular.module('chesireApp')
-        .directive('oscillator', oscillator);
-
-    function oscillator() {
-        return {
+        .component('oscillator', {
             templateUrl: 'scripts/oscillator/oscillator.html',
-            restrict: 'E',
-            controller: 'OscillatorController',
-            controllerAs: 'vm'
-        };
-    }
+            controller: 'OscillatorController as vm',
+            bindings: {
+                'oscillatorConfig': '='
+            }
+        });
+
 })();

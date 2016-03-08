@@ -41,8 +41,8 @@
             return this[this.outputMode].controls;
         };
 
-        SynthoptionsClass.prototype.getOscillatorComponent = function() {
-            return _.findWhere(this.getActiveComponents(), { type: 'oscillator' });
+        SynthoptionsClass.prototype.getOscillators = function() {
+            return this.audio.oscillators;
         };
 
         SynthoptionsClass.prototype.isMidiOutput = function() {
@@ -53,6 +53,7 @@
             return this.outputMode === 'audio';
         };
 
+        //TODO: move to oscillator itself
         SynthoptionsClass.prototype.isCustomOscillator = function() {
             return this.getOscillatorComponent().oscillatorType === 'custom';
         };

@@ -50,7 +50,7 @@ angular.module('chesireApp')
         var notesInfo = [];
         if(frame && frame.hands && frame.hands.length) {
             var motionParams = Leapmotion.getRelativePositions(frame, frame.hands);
-            var oscillatorConfig = synthOptions.getOscillatorComponent();
+            var oscillatorConfig = synthOptions.midi;
             notesInfo = MultiNotesHelper.getNotesInfo(motionParams, oscillatorConfig, frame);
         } else {
             stopPlaying();
@@ -91,7 +91,7 @@ angular.module('chesireApp')
         if(frameInfo && !_.isEmpty(frameInfo.hands)) {
             var motionParams = Leapmotion.getRelativePositions(frameInfo, frameInfo.hands);
             var newGainValue = DEFAULT_VOLUME;
-            var options = synthOptions.getOscillatorComponent();
+            var options = synthOptions.midi;
             if(!!options.controls && !!options.controls.gain) {
                 newGainValue = MotionParamsHelper.getParamValue(options.controls.gain, motionParams);
             }

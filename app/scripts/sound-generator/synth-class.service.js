@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chesireApp')
-    .factory('SynthClass', function(Audiocontext, SynthElementFactory) {
+    .factory('SynthClass', function(Audiocontext, SynthElementFactory, SoundSourceClass) {
 
         var SynthClass = function(synthOptions, scaleOptions) {
             if(synthOptions && scaleOptions) {
@@ -38,8 +38,12 @@ angular.module('chesireApp')
             _createComponents: function() {
                 if(this._areOptionsCorrect()) {
                     var self = this;
+                    this.synthElements = [];
+
+                    this.synthElements.push(this._createSoundSource());
+
                     angular.forEach(this.synthOptions.getActiveComponents(), function(synthElementOptions) {
-                        if(synthElementOptions.enabled || synthElementOptions.type === 'oscillator') {
+                        if(synthElementOptions.enabled) {
                             self.synthElements.push(SynthElementFactory.createSynthElement(synthElementOptions));
                         }
                     });
@@ -54,10 +58,14 @@ angular.module('chesireApp')
                 }
             },
 
+            _createSoundSource: function() {
+                return new SoundSourceClass(this.synthOptions.audio);
+            },
+
             _areOptionsCorrect: function() {
                 if(this.synthOptions) {
-                    var oscillatorOptions = this.synthOptions.getOscillatorComponent();
-                    var thereIsAnOscillator = (oscillatorOptions && oscillatorOptions.type === 'oscillator');
+                    var oscillatorOptions = this.synthOptions.getOscillators();
+                    var thereIsAnOscillator = (oscillatorOptions && oscillatorOptions.length >= 1);
                     return thereIsAnOscillator;
                 }
                 return false;

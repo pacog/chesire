@@ -44,18 +44,12 @@ angular.module('chesireApp')
     var changeNotes = function(song, newSynthOptions) {
         if(song && newSynthOptions) {
 
-            //Ugly conversion, sometimes synth options include all synth, sometimes only the oscillator
-            var oscillatorComponent = newSynthOptions;
-            if(!!newSynthOptions.getOscillatorComponent()) {
-                oscillatorComponent = newSynthOptions.getOscillatorComponent();
-            }
-
             var partToUse = song.getCurrentPart();
             notesInfo = [];
             chordsInfo = partToUse;
-            if(oscillatorComponent.transitionType==='glissando') {
+            if(newSynthOptions.audio.transitionType==='glissando') {
                 createNotesForGlissandoTransition(partToUse);
-            } else if(oscillatorComponent.transitionType==='volume') {
+            } else if(newSynthOptions.audio.transitionType==='volume') {
                 createNotesForVolumeTransition(partToUse);
             }
             silenceAllNotes();
@@ -164,8 +158,7 @@ angular.module('chesireApp')
             firstNote = firstNote-1;
         }
         var distanceInBetween = positionRelativeToNotes - firstNote;
-        var oscillatorOptions = synthoptions.getOscillatorComponent();
-        distanceInBetween = snap(distanceInBetween, oscillatorOptions.snapDistance);
+        distanceInBetween = snap(distanceInBetween, synthoptions.audio.snapDistance);
 
         var firstChord = chordsInfo.chords[firstNote].notes;
         var secondChord = chordsInfo.chords[firstNote + 1].notes;
@@ -260,8 +253,7 @@ angular.module('chesireApp')
             firstNote = firstNote-1;
         }
         var distanceInBetween = positionRelativeToNotes - firstNote;
-        var oscillatorOptions = synthoptions.getOscillatorComponent();
-        distanceInBetween = snap(distanceInBetween, oscillatorOptions.snapDistance);
+        distanceInBetween = snap(distanceInBetween, synthoptions.audio.snapDistance);
 
         var result = [];
         for(var i=0; i<chordsInfo.chords.length; i++) {

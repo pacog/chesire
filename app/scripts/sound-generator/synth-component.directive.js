@@ -8,9 +8,6 @@ angular.module('chesireApp')
 
         var html = 'Error, component directive not found';
         switch(componentInfo.type) {
-            case 'oscillator':
-                html = '<oscillator/>';
-                break;
             case 'tremolo':
                 html = '<tremolo/>';
                 break;

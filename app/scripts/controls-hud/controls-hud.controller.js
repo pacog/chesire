@@ -21,7 +21,7 @@
             if(newSynthOptions && !_.isEqual(newSynthOptions, oldSynthOptions)) {
                 oldSynthOptions = newSynthOptions;
                 vm.controls = newSynthOptions.getActiveControls();
-                vm.oscillator = newSynthOptions.getOscillatorComponent();
+                vm.volumeControl = newSynthOptions.audio.controls.gain;
             }
         }
 

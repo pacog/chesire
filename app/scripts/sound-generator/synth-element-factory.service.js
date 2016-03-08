@@ -1,12 +1,10 @@
 'use strict';
 
 angular.module('chesireApp')
-    .factory('SynthElementFactory', function(OscillatorClass, TremoloClass, EqualizerClass, DistortionClass, DelayClass) {
+    .factory('SynthElementFactory', function(TremoloClass, EqualizerClass, DistortionClass, DelayClass) {
 
         var createSynthElement = function(synthElementOptions) {
             switch(synthElementOptions.type) {
-                case 'oscillator':
-                    return new OscillatorClass(synthElementOptions);
                 case 'tremolo':
                     return new TremoloClass(synthElementOptions);
                 case 'equalizer':

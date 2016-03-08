@@ -110,7 +110,7 @@
                 this.modulatorOscillator.connect(this.modulatorGain);
                 this.modulatorGain.connect(this.gainNode);
 
-                if(options.fm.preModulator) {
+                if(options.fm.preModulator && options.fm.preModulator.enabled) {
                     this._createPreModulator(options.fm.preModulator);
                 }
             },

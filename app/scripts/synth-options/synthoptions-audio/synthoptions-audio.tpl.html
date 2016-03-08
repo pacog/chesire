@@ -1,11 +1,20 @@
 <div class='synthoptions-audio'>
     <ul class='components-selector-list'>
         <li class='component-selector-icon component-selector-icon-start'></li>
+
+        <li class='component-selector is-first'
+            ng-class='{
+                "is-active": !vm.activeComponent
+            }'>
+            <button
+                class='component-selector-button'
+                ng-click='vm.activateOscillator()'>Oscillator + Noise</button>
+        </li>
+
         <li class='component-selector'
             ng-repeat='component in vm.components'
             ng-class='{
                 "is-active": (vm.activeComponent === component),
-                "is-first": $first,
                 "is-last": $last
 
             }'>
@@ -14,7 +23,6 @@
                 ng-click='vm.activateComponent(component)'>{{component.name}}</button>
             <custom-checkbox
                 class='component-selector-toggle'
-                ng-if='vm.shouldShowOnOffForComponent(component)'
                 value='component.enabled'
                 change-callback='vm.componentToggled(component)'></custom-checkbox>
         </li>
@@ -22,6 +30,11 @@
     </ul>
 
     <div class='components-container'>
+
+        <oscillator-audio-options class='component'
+                                  ng-show='!vm.activeComponent'>
+        </oscillator-audio-options>
+
         <div class='component'
              ng-repeat='component in vm.components'
              ng-show='vm.activeComponent === component'

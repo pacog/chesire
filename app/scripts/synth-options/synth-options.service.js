@@ -16,7 +16,8 @@
             subscribeToChangesInSynthOptions: subscribeToChangesInSynthOptions,
             notifyComponentChanged: notifyComponentChanged,
             notifyControlChanged: notifyControlChanged,
-            notifyControlRemoved: notifyControlRemoved
+            notifyControlRemoved: notifyControlRemoved,
+            notifyOscillatorChanged: notifyOscillatorChanged
         };
 
         return factory;
@@ -84,6 +85,11 @@
                     break;
                 }
             }
+            notifyChangeInSynthOptions(synthOptions);
+            LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
+        }
+
+        function notifyOscillatorChanged() {
             notifyChangeInSynthOptions(synthOptions);
             LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
         }

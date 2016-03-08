@@ -11,7 +11,7 @@
 
         vm.activateComponent = activateComponent;
         vm.componentToggled = componentToggled;
-        vm.shouldShowOnOffForComponent = shouldShowOnOffForComponent;
+        vm.activateOscillator = activateOscillator;
 
         init();
 
@@ -25,7 +25,8 @@
                 vm.synthoptions = newSynthOptions;
                 prevSynthOptions = vm.synthoptions;
                 vm.components = vm.synthoptions.getActiveComponents();
-                vm.activeComponent = vm.components[0];
+                vm.audioSynthOptions = vm.synthoptions.audio;
+                vm.activeComponent = null;
             }
         }
 
@@ -33,17 +34,14 @@
             vm.activeComponent = component;
         }
 
+        function activateOscillator() {
+            vm.activeComponent = null;
+        }
+
         function componentToggled(component) {
             $timeout(function() { //TODO: ugly timeout, improve change-callbacks everywhere to not need it
                 SynthOptions.notifyComponentChanged(component);
             });
-        }
-
-        function shouldShowOnOffForComponent(component) {
-            if(component && (component.type !== 'oscillator')) {
-                return true;
-            }
-            return false;
         }
 
         function onDestroy() {

@@ -1,0 +1,57 @@
+<div class='row'>
+    <div class='oscillator-section column'>
+        <h4 class='oscillator-section-title'>Volume control</h4>
+        <div class='oscillator-section-content'>
+            <gesture-selector
+                gesture-object='vm.mainVolumeInfo'
+                change-callback='vm.mainParamsInSynthChanged()'></gesture-selector>
+        </div>
+    </div>
+
+    <div class='oscillator-transition oscillator-section column' ng-hide='vm.synthOptions.isMidiOutput()'>
+        <h4 class='oscillator-section-title'>Transition between chords</h4>
+        <div class='oscillator-section-content'>
+            <switch-two-values
+                values='vm.transitionTypes'
+                ng-model='vm.synthOptions.transitionType'
+                change-callback='vm.mainParamsInSynthChanged()'></switch-two-values>
+        </div>
+    </div>
+
+    <div class='oscillator-snap oscillator-section column'>
+        <h4 class='oscillator-section-title'>Snap to chords</h4>
+        <div class='oscillator-section-content'>
+            <oscillator-snap
+                component-info='vm.synthOptions'
+                change-callback='vm.mainParamsInSynthChanged()'></oscillator-snap>
+        </div>
+    </div>
+</div>
+
+<ul class='components-selector-list'>
+
+    <li class='component-selector is-first'
+        ng-repeat='oscillator in vm.synthOptions.oscillators'
+        ng-class='{
+            "is-active": vm.activeSoundSource === oscillator,
+            "is-first": $first
+        }'>
+        <button
+            class='component-selector-button'
+            ng-click='vm.activateSoundSource(oscillator)'>Oscillator {{$index + 1}}</button>
+
+        <custom-checkbox
+            class='component-selector-toggle'
+            value='oscillator.enabled'
+            change-callback='vm.oscillatorToggled(oscillator)'></custom-checkbox>
+    </li>
+
+</ul>
+
+<div>
+    <div class='component'
+        ng-repeat='oscillator in vm.synthOptions.oscillators'
+        ng-show='vm.activeSoundSource === oscillator'>
+        <oscillator oscillator-config='oscillator'></oscillator>
+    </div>
+</div>
