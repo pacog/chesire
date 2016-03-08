@@ -34,7 +34,7 @@
         }
 
         function notifyOscillatorOptionsChanged() {
-            SynthOptions.notifyOscillatorChanged(vm.oscillatorConfig);
+            SynthOptions.notifyOscillatorChanged();
         }
 
         function oscillatorOptionsChanged() {

@@ -32,11 +32,11 @@
         }
 
         function mainParamsInSynthChanged() {
-            //TODO: notify synthoptions in a correct way
+            SynthOptions.notifyOscillatorChanged();
         }
 
         function oscillatorToggled() {
-            //TODO: notify synthoptions in a correct way
+            SynthOptions.notifyOscillatorChanged();
         }
 
         function onDestroy() {
