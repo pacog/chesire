@@ -8,10 +8,13 @@
         var vm = this;
 
         vm.lastSoundSourceIndex = 0;
+        vm.noiseActive = false;
 
         vm.mainParamsInSynthChanged = mainParamsInSynthChanged;
         vm.activateSoundSource = activateSoundSource;
         vm.oscillatorToggled = oscillatorToggled;
+        vm.activateNoise = activateNoise;
+        vm.noiseGeneratorToggled = noiseGeneratorToggled;
 
         init();
 
@@ -25,13 +28,23 @@
             if(newSynthOptions) {
                 vm.synthOptions = newSynthOptions.audio;
                 vm.mainVolumeInfo = newSynthOptions.audio.controls.gain;
-                vm.activeSoundSource = vm.synthOptions.oscillators[vm.lastSoundSourceIndex];
+                if(vm.noiseActive) {
+                    vm.activeSoundSource = vm.synthOptions.noise;
+                } else {
+                    vm.activeSoundSource = vm.synthOptions.oscillators[vm.lastSoundSourceIndex];
+                }
             }
         }
 
         function activateSoundSource(soundSource, index) {
             vm.activeSoundSource = soundSource;
             vm.lastSoundSourceIndex = index;
+            vm.noiseActive = false;
+        }
+
+        function activateNoise(noise) {
+            vm.noiseActive = true;
+            vm.activeSoundSource = noise;
         }
 
         function mainParamsInSynthChanged() {
@@ -39,6 +52,12 @@
         }
 
         function oscillatorToggled() {
+            $timeout(function() {
+                SynthOptions.notifyOscillatorChanged();
+            });
+        }
+
+        function noiseGeneratorToggled() {
             $timeout(function() {
                 SynthOptions.notifyOscillatorChanged();
             });

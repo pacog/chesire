@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .factory('synthOptionsAudioDefault', synthOptionsAudioDefault);
 
-    function synthOptionsAudioDefault(availableOscillators, availableSimpleOscillators, availableEqTypes, oscillatorOptionsDefault) {
+    function synthOptionsAudioDefault(availableOscillators, availableSimpleOscillators, availableEqTypes, oscillatorOptionsDefault, noiseOptionsDefault) {
         var factory = {
             get: get
         };
@@ -37,6 +37,7 @@
                         oscillatorType: availableOscillators[3]
                     })
                 ],
+                noise: noiseOptionsDefault.get(),
                 components: [{
                     name: 'Tremolo',
                     type: 'tremolo',

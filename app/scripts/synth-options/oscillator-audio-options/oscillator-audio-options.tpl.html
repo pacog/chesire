@@ -30,7 +30,7 @@
 
 <ul class='components-selector-list'>
 
-    <li class='component-selector is-first'
+    <li class='component-selector'
         ng-repeat='oscillator in vm.synthOptions.oscillators'
         ng-class='{
             "is-active": vm.activeSoundSource === oscillator,
@@ -46,12 +46,32 @@
             change-callback='vm.oscillatorToggled(oscillator)'></custom-checkbox>
     </li>
 
+    <li class='component-selector is-last'
+        ng-class='{
+            "is-active": vm.activeSoundSource === vm.synthOptions.noise
+        }'>
+        <button
+            class='component-selector-button'
+            ng-click='vm.activateNoise(vm.synthOptions.noise)'>Noise</button>
+
+        <custom-checkbox
+            class='component-selector-toggle'
+            value='vm.synthOptions.noise.enabled'
+            change-callback='vm.noiseGeneratorToggled()'></custom-checkbox>
+    </li>
+
 </ul>
 
 <div>
+
     <div class='component'
         ng-repeat='oscillator in vm.synthOptions.oscillators'
         ng-show='vm.activeSoundSource === oscillator'>
         <oscillator oscillator-config='oscillator'></oscillator>
+    </div>
+
+    <div class='component'
+        ng-show='vm.activeSoundSource === vm.synthOptions.noise'>
+        <noise-generator noise-config='vm.synthOptions.noise'></noise-generator>
     </div>
 </div>
