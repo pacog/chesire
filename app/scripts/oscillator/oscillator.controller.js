@@ -14,6 +14,7 @@
         vm.notifyOscillatorOptionsChangedThrottled = notifyOscillatorOptionsChangedThrottled;
         vm.gainControllerInfoChanged = gainControllerInfoChanged;
         vm.fmToggle = fmToggle;
+        vm.toggleGainControl = toggleGainControl;
 
         init();
 
@@ -25,6 +26,11 @@
 
         function gainControllerInfoChanged() {
             notifyComponentChangedThrottled(vm.oscillatorConfig);
+        }
+
+        function toggleGainControl() {
+            vm.oscillatorConfig.controls.gain.enabled = !vm.oscillatorConfig.controls.gain.enabled;
+            gainControllerInfoChanged();
         }
 
         function fmToggle() {

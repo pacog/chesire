@@ -40,7 +40,7 @@
                 <div class='oscillator-section-title'>
                     <h4 class='oscillator-section-title-full-left'>Volume control</h4>
                     <button class='button'
-                        ng-click='vm.oscillatorConfig.controls.gain.enabled = !vm.oscillatorConfig.controls.gain.enabled'>
+                        ng-click='vm.toggleGainControl()'>
                         <span ng-show='vm.oscillatorConfig.controls.gain.enabled'>Disable</span>
                         <span ng-show='!vm.oscillatorConfig.controls.gain.enabled'>Enable</span>
                         gesture control
@@ -73,12 +73,6 @@
                     </div>
 
                 </div>
-
-
-
-
-
-
 
             </div>
         </div>

@@ -20,15 +20,15 @@
                 init: function(options) {
                     this.options = options;
                     this._createOscillators();
-                    this.gainController = Audiocontext.createGain();
 
-                    //TODO: do properly
-                    this._oscillators[0].connectTo(this.gainController);
+                    var enabledSources = this._getEnabledSources();
+                    if(enabledSources > 0) {
+                        this.gainController = Audiocontext.createGain();
+                        this.merger = Audiocontext.createChannelMerger(enabledSources);
+                        this.merger.connect(this.gainController);
 
-                    //Create a oscillator class for each one in settings
-                    //Create a gain for each to connect to
-                    //Regulate that in each iteration so the max sum of gains is 1
-                    //create output gain, that is controlled with the gain controller
+                        this._connectAllNodes();
+                    }
                 },
 
                 playNote: function(note, duration) {
@@ -48,10 +48,27 @@
                 updateSound: function(motionParams) {
                     this._updateMainGain(motionParams);
                     this._updateAllSoundSources(motionParams);
+                    this._updatePartialGains();
                 },
 
                 stopPlaying: function() {
                     this._setGainControllerValue(0);
+                },
+
+                _connectAllNodes: function() {
+                    for(var i=0; i<this._oscillatorGains.length; i++) {
+                        this._oscillatorGains[i].connect(this.merger);
+                    }
+                },
+
+                _getEnabledSources: function() {
+                    var sources = 0;
+                    for(var i=0; i<this._oscillators.length; i++) {
+                        if(this._oscillators[i].options.enabled) {
+                            sources++;
+                        }
+                    }
+                    return sources;
                 },
 
                 _setGainControllerValue: function(value) {
@@ -88,13 +105,30 @@
                     }
                 },
 
+                _updatePartialGains: function() {
+                    var totalGain = 0;
+                    for(var i=0; i<this._oscillators.length; i++) {
+                        totalGain += this._oscillators[i].getGain();
+                    }
+                    if(totalGain < 1) {
+                        totalGain = 1;
+                    }
+                    for(i=0; i<this._oscillatorGains.length; i++) {
+                        this._oscillatorGains[i].gain.value = 1/totalGain;
+                    }
+                },
+
                 _createOscillators: function() {
                     this._oscillators = [];
+                    this._oscillatorGains = [];
                     for(var i=0; i<this.options.oscillators.length; i++) {
                         var oscillatorInfo = this.options.oscillators[i];
 
                         if(oscillatorInfo.enabled) {
                             this._oscillators.push(new OscillatorClass(oscillatorInfo));
+                            var newGainNode = Audiocontext.createGain();
+                            this._oscillators[i].connectTo(newGainNode);
+                            this._oscillatorGains.push(newGainNode);
                         }
 
                     }
@@ -104,7 +138,17 @@
                     for(var i=0; i<this._oscillators.length; i++) {
                         this._oscillators[i].destroy();
                     }
+                    for(i=0; i<this._oscillatorGains.length; i++) {
+                        this._oscillatorGains[i].disconnect();
+                    }
+
                     this._oscillators = [];
+                    this._oscillatorGains = [];
+
+                    if(this.merger) {
+                        this.merger.disconnect();
+                        this.merger = null;
+                    }
 
                     if(this.connectedTo && this.gainController) {
                         this.gainController.disconnect();

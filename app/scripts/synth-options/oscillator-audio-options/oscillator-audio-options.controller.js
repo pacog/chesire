@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('OscillatorAudioOptionsController', OscillatorAudioOptionsController);
 
-    function OscillatorAudioOptionsController($scope, SynthOptions, oscillatorTransitionTypes) {
+    function OscillatorAudioOptionsController($timeout, $scope, SynthOptions, oscillatorTransitionTypes) {
         var vm = this;
 
         vm.mainParamsInSynthChanged = mainParamsInSynthChanged;
@@ -36,7 +36,9 @@
         }
 
         function oscillatorToggled() {
-            SynthOptions.notifyOscillatorChanged();
+            $timeout(function() {
+                SynthOptions.notifyOscillatorChanged();
+            });
         }
 
         function onDestroy() {

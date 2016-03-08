@@ -79,6 +79,13 @@ angular.module('chesireApp')
                 });
             },
 
+            getGain: function() {
+                if(!this.options.enabled) {
+                    return 0;
+                }
+                return this.gainController.gain.value;
+            },
+
             _setGainControllerValue: function(value) {
                 var prevValue = this.gainController.gain.value;
                 if(prevValue !== value) {
