@@ -1,0 +1,45 @@
+<div class='row'>
+    <div class='column'>
+    </div>
+    <div class='column'>
+        <div class='oscillator-section'>
+            <div class='oscillator-section-title'>
+                <h4 class='oscillator-section-title-full-left'>Volume control</h4>
+                <button class='button'
+                    ng-click='vm.toggleGainControl()'>
+                    <span ng-show='vm.noiseConfig.controls.gain.enabled'>Disable</span>
+                    <span ng-show='!vm.noiseConfig.controls.gain.enabled'>Enable</span>
+                    gesture control
+                </button>
+            </div>
+
+            <div class='oscillator-section-content'
+                 ng-show='vm.noiseConfig.controls.gain.enabled'>
+                <gesture-selector
+                    gesture-object='vm.noiseConfig.controls.gain'
+                    change-callback='vm.gainControllerInfoChanged()'></gesture-selector>
+            </div>
+
+            <div class='oscillator-section-content'
+                 ng-show='!vm.noiseConfig.controls.gain.enabled'>
+
+                <div class='slider-with-value'>
+                    <input
+                        class='slider-with-value-slider'
+                        ng-change='vm.gainControllerInfoChanged()'
+                        ng-model-options="{ debounce: 500 }"
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        ng-model="vm.noiseConfig.gain"/>
+                    <div class='slider-with-value-value'>
+                        {{vm.noiseConfig.gain*100 | number:0}}%
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
