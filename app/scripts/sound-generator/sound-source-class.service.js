@@ -125,9 +125,10 @@
                         var oscillatorInfo = this.options.oscillators[i];
 
                         if(oscillatorInfo.enabled) {
-                            this._oscillators.push(new OscillatorClass(oscillatorInfo));
+                            var newOscillator = new OscillatorClass(oscillatorInfo);
+                            this._oscillators.push(newOscillator);
                             var newGainNode = Audiocontext.createGain();
-                            this._oscillators[i].connectTo(newGainNode);
+                            newOscillator.connectTo(newGainNode);
                             this._oscillatorGains.push(newGainNode);
                         }
 

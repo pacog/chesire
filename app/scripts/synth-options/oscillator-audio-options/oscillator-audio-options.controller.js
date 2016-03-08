@@ -7,6 +7,8 @@
     function OscillatorAudioOptionsController($timeout, $scope, SynthOptions, oscillatorTransitionTypes) {
         var vm = this;
 
+        vm.lastSoundSourceIndex = 0;
+
         vm.mainParamsInSynthChanged = mainParamsInSynthChanged;
         vm.activateSoundSource = activateSoundSource;
         vm.oscillatorToggled = oscillatorToggled;
@@ -23,12 +25,13 @@
             if(newSynthOptions) {
                 vm.synthOptions = newSynthOptions.audio;
                 vm.mainVolumeInfo = newSynthOptions.audio.controls.gain;
-                vm.activeSoundSource = vm.synthOptions.oscillators[0];
+                vm.activeSoundSource = vm.synthOptions.oscillators[vm.lastSoundSourceIndex];
             }
         }
 
-        function activateSoundSource(soundSource) {
+        function activateSoundSource(soundSource, index) {
             vm.activeSoundSource = soundSource;
+            vm.lastSoundSourceIndex = index;
         }
 
         function mainParamsInSynthChanged() {
