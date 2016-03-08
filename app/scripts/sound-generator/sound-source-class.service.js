@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('chesireApp')
-        .factory('SoundSourceClass', function(OscillatorClass, Audiocontext, MotionParamsHelper) {
+        .factory('SoundSourceClass', function(OscillatorClass, Audiocontext, MotionParamsHelper, NoiseGeneratorClass) {
             var SoundSourceClass = function(options) {
                 if(options) {
                     this.init(options);
@@ -20,6 +20,7 @@
                 init: function(options) {
                     this.options = options;
                     this._createOscillators();
+                    this._createNoiseGenerator();
 
                     var enabledSources = this._getEnabledSources();
                     if(enabledSources > 0) {
@@ -59,6 +60,9 @@
                     for(var i=0; i<this._oscillatorGains.length; i++) {
                         this._oscillatorGains[i].connect(this.merger);
                     }
+                    if(this.noiseGeneratorGain) {
+                        this.noiseGeneratorGain.connect(this.merger);
+                    }
                 },
 
                 _getEnabledSources: function() {
@@ -67,6 +71,10 @@
                         if(this._oscillators[i].options.enabled) {
                             sources++;
                         }
+                    }
+                    if(this.noiseGenerator && this.noiseGenerator.options.enabled) {
+                        sources++;
+                        console.log('noise active!');
                     }
                     return sources;
                 },
@@ -103,6 +111,9 @@
                     for(var i=0; i<this._oscillators.length; i++) {
                         this._oscillators[i].updateSound(motionParams);
                     }
+                    if(this.noiseGenerator && this.noiseGenerator.options.enabled) {
+                        this.noiseGenerator.updateSound(motionParams);
+                    }
                 },
 
                 _updatePartialGains: function() {
@@ -115,6 +126,9 @@
                     }
                     for(i=0; i<this._oscillatorGains.length; i++) {
                         this._oscillatorGains[i].gain.value = 1/totalGain;
+                    }
+                    if(this.noiseGeneratorGain) {
+                        this.noiseGeneratorGain.gain.value = 1/totalGain;
                     }
                 },
 
@@ -135,6 +149,17 @@
                     }
                 },
 
+                _createNoiseGenerator: function() {
+                    this.noiseGenerator = null;
+                    this.noiseGeneratorGain = null;
+
+                    if(this.options.noise && this.options.noise.enabled) {
+                        this.noiseGenerator = new NoiseGeneratorClass(this.options.noise);
+                        this.noiseGeneratorGain = Audiocontext.createGain();
+                        this.noiseGenerator.connectTo(this.noiseGeneratorGain);
+                    }
+                },
+
                 destroy: function() {
                     for(var i=0; i<this._oscillators.length; i++) {
                         this._oscillators[i].destroy();
@@ -150,6 +175,18 @@
                         this.merger.disconnect();
                         this.merger = null;
                     }
+
+                    if(this.noiseGenerator) {
+                        this.noiseGenerator.destroy();
+                    }
+
+                    if(this.noiseGeneratorGain) {
+                        this.noiseGeneratorGain.disconnect();
+                    }
+
+                    this.noiseGenerator = null;
+                    this.noiseGeneratorGain = null;
+
 
                     if(this.connectedTo && this.gainController) {
                         this.gainController.disconnect();
