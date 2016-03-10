@@ -12,7 +12,7 @@ angular.module('chesireApp')
         };
 
         PointerModelClass.prototype._createPointer = function() {
-            var pointerGeometry = new Three.CubeGeometry(POINTER_SIZE, POINTER_SIZE, POINTER_SIZE);
+            var pointerGeometry = new Three.BoxGeometry(POINTER_SIZE, POINTER_SIZE, POINTER_SIZE);
             var pointerMaterial = new Three.MeshLambertMaterial({
                 color: Colorpalette.hex.POINTER,
                 transparent: true,

@@ -28,7 +28,7 @@ angular.module('chesireApp')
     };
 
     var synthOptionsChanged = function(newOptions) {
-        $log.info('SoundgeneratorCtrl -> synthOptionsChanged');
+        // $log.info('SoundgeneratorCtrl -> synthOptionsChanged');
         synthOptions = newOptions;
         currentSynth.destroy();
         currentSynth = new SynthClass(newOptions, scaleOptions);
