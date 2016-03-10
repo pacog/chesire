@@ -98,7 +98,7 @@ angular.module('chesireApp')
     };
 
     var getNotesInfo = function(motionParams, oscillatorInfo, frameInfo) {
-        var transitionType = oscillatorInfo.transitionType;
+        var transitionType = oscillatorInfo.generalSoundSource.options.transitionType;
         var x = motionParams.x;
 
         var notesInfo = null;

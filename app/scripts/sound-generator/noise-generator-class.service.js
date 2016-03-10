@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('chesireApp')
-        .factory('NoiseGeneratorClass', function(Audiocontext, MotionParamsHelper) {
+        .factory('NoiseGeneratorClass', function($timeout, Audiocontext, MotionParamsHelper) {
 
             var SECONDS_OF_NOISE_LOOP = 3;
             //See http://noisehack.com/generate-noise-web-audio-api/
@@ -33,6 +33,7 @@
                 },
 
                 _updateGain: function(motionParams) {
+                    this._cancelGainTimeout();
                     var newGainValue = this.options.gain;
                     if(angular.isUndefined(newGainValue)) {
                         newGainValue = this.DEFAULT_GAIN;
@@ -42,6 +43,13 @@
                     }
 
                     this._setGainControllerValue(newGainValue);
+                },
+
+                _cancelGainTimeout: function() {
+                    if(this.timeoutToRestoreVolume) {
+                        $timeout.cancel(this.timeoutToRestoreVolume);
+                        this.timeoutToRestoreVolume = null;
+                    }
                 },
 
                 getGain: function() {
@@ -66,12 +74,21 @@
                 },
 
                 connectTo: function(destination) {
+                    //Setting volume to zero because the noise would, well, make noise
+                    var oldGain = this.getGain();
+                    this._setGainControllerValue(0);
                     this.connectedTo = destination;
                     this.gainController.connect(destination);
+                    var self = this;
+                    this.timeoutToRestoreVolume = $timeout(function() {
+                        self._setGainControllerValue(oldGain);
+                    }, SECONDS_OF_NOISE_LOOP*1000, false);
+                    
                 },
 
                 destroy: function() {
                     if(this.connectedTo && this.gainController) {
+                        this._cancelGainTimeout();
                         this.noiseGenerator.stop();
                         this.noiseGenerator.disconnect();
                         this.noiseGenerator = null;

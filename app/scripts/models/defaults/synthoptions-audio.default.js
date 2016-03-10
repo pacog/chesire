@@ -17,6 +17,7 @@
                 transitionType: 'glissando',
                 controls: {
                     'gain': {
+                        name: 'Main volume',
                         param: 'y',
                         responseFunction: {
                             name: 'linear',
@@ -55,6 +56,7 @@
 
                     controls: {
                         'rate': {
+                            name: 'Tremolo rate',
                             enabled: true,
                             param: 'z',
                             responseFunction: {
@@ -65,6 +67,7 @@
                             }
                         },
                         'depth': {
+                            name: 'Tremolo depth',
                             enabled: true,
                             param: 'handDirectionY',
                             responseFunction: {
@@ -101,6 +104,7 @@
 
                     controls: {
                         'freq': {
+                            name: 'EQ freq',
                             enabled: true,
                             param: 'z',
                             responseFunction: {
@@ -111,6 +115,7 @@
                             }
                         },
                         'q': {
+                            name: 'EQ Q',
                             enabled: true,
                             param: 'handDirectionY',
                             responseFunction: {
@@ -120,6 +125,7 @@
                             }
                         },
                         'gain': {
+                            name: 'EQ gain',
                             enabled: true,
                             param: 'handDirectionY',
                             responseFunction: {
@@ -140,6 +146,7 @@
 
                     controls: {
                         'amount': {
+                            name: 'Dist Amount',
                             enabled: true,
                             param: 'z',
                             responseFunction: {
@@ -167,6 +174,7 @@
 
                     controls: {
                         'delay': {
+                            name: 'Delay time',
                             enabled: true,
                             param: 'z',
                             responseFunction: {
@@ -177,6 +185,7 @@
                             }
                         },
                         'feedback': {
+                            name: 'Delay feedback',
                             enabled: false,
                             param: 'z',
                             responseFunction: {

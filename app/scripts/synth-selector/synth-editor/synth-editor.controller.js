@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('SynthEditorController', SynthEditorController);
 
-    function SynthEditorController($scope, $timeout, $log, UIService, synthSelector, outputModes, SynthOptions, SynthStore) {
+    function SynthEditorController($scope, $timeout, $log, UIService, synthSelector, outputModes, SynthOptions, SynthStore, SynthoptionsModel) {
         var vm = this;
 
         vm.outputModes = outputModes;
@@ -16,6 +16,7 @@
         vm.askConfirmationDeleteSynth = askConfirmationDeleteSynth;
         vm.cancelDeleteSynth = cancelDeleteSynth;
         vm.synthModified = synthModified;
+        vm.createNewSynth = createNewSynth;
 
         vm.synthHasBeenModified = false;
 
@@ -48,6 +49,13 @@
             SynthStore.deleteSynth(vm.synthOptions)
                 .then(successDeletingSynth, errorDeletingSynth)
                 ['finally'](afterDeletingSynth);
+        }
+
+        function createNewSynth() {
+            var newSynth = SynthoptionsModel.create();
+
+            newSynth.name = 'New synth';
+            SynthOptions.setSynthOptions(newSynth);
         }
 
         function successDeletingSynth() {

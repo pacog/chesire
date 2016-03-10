@@ -1,6 +1,12 @@
 <div class='synthoptions-content-body'>
 
     <div class='synth-editor-tools'>
+        <button
+            class='big-button'
+            ng-click='vm.createNewSynth()'
+            >
+            New synth
+        </button>
         <input ng-model='vm.synthOptions.name' 
                ng-change='vm.synthModified()'/>
         <button

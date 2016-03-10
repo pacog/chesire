@@ -15,12 +15,29 @@
         }
 
         SynthoptionsAudioClass.prototype.init = function(options) {
-            options = options || {};
+            options = angular.extend({}, synthOptionsAudioDefault.get(), options || {});
             removeOscillatorFromComponents(options);
             addOscillatorsIfMissing(options);
             addNoiseIfMissing(options);
             removeExtraOscillators(options);
             angular.extend(this, synthOptionsAudioDefault.get(), options);
+        };
+
+        SynthoptionsAudioClass.prototype.getControls = function() {
+            // debugger;
+            var controls = this._getControlsFromComponents();
+            
+            return controls;
+        };
+
+        SynthoptionsAudioClass.prototype._getControlsFromComponents = function() {
+            var controls = [];
+            for(var i=0; i<this.components.length; i++) {
+                if(this.components[i].enabled) {
+                    controls = controls.concat(getControlsFromComponent(this.components[i]));
+                }
+            }
+            return controls;
         };
 
         return factory;
@@ -63,6 +80,16 @@
             if(!options.noise) {
                 options.noise = noiseOptionsDefault.get();
             }
+        }
+
+        function getControlsFromComponent(component) {
+            var controls = [];
+            angular.forEach(component.controls, function(control) {
+                if(control.enabled) {
+                    controls.push(control);
+                }
+            });
+            return controls;
         }
     }
 

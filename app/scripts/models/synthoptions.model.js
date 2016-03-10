@@ -38,7 +38,7 @@
             if(!this.outputMode || !this[this.outputMode]) {
                 return null;
             }
-            return this[this.outputMode].controls;
+            return this[this.outputMode].getControls();
         };
 
         SynthoptionsClass.prototype.getOscillators = function() {

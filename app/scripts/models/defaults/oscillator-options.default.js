@@ -22,6 +22,7 @@
                 imaginaryPeriodicTable: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 controls: {
                     'gain': {
+                        name: 'Oscillator Gain',
                         param: 'y',
                         responseFunction: {
                             name: 'linear',
@@ -37,6 +38,7 @@
                     freq: 3.5,
                     controls: {
                         'depth': {
+                            name: 'Oscillator FM depth',
                             enabled: true,
                             param: 'handDirectionY',
                             responseFunction: {

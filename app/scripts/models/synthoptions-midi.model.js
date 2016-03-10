@@ -35,6 +35,9 @@
             angular.extend(this, DEFAULT_MIDI_SYNTH_OPTIONS, options);
         };
 
+        SynthoptionsMidiClass.prototype.getControls = function() {
+            return this.controls;
+        };
 
         return factory;
 

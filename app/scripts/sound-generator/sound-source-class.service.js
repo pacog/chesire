@@ -74,7 +74,6 @@
                     }
                     if(this.noiseGenerator && this.noiseGenerator.options.enabled) {
                         sources++;
-                        console.log('noise active!');
                     }
                     return sources;
                 },
@@ -139,6 +138,7 @@
                         var oscillatorInfo = this.options.oscillators[i];
 
                         if(oscillatorInfo.enabled) {
+                            oscillatorInfo.generalSoundSource = this;
                             var newOscillator = new OscillatorClass(oscillatorInfo);
                             this._oscillators.push(newOscillator);
                             var newGainNode = Audiocontext.createGain();

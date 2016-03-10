@@ -1,7 +1,7 @@
 <div class='single-control-hud'>
     <div class='single-control-hud-content'>
         <div class='single-control-hud-param'>
-            {{relatedParam}}
+            {{relatedParam || controlInfo.name || 'Unknown param'}}
         </div>
         <div class='single-control-hud-gesture'>
             {{controlInfo.param}}

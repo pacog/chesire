@@ -20,6 +20,7 @@
                 noiseType: 'white',
                 controls: {
                     'gain': {
+                        name: 'Noise gain',
                         param: 'y',
                         responseFunction: {
                             name: 'linear',
