@@ -24,9 +24,8 @@
         };
 
         SynthoptionsAudioClass.prototype.getControls = function() {
-            // debugger;
             var controls = this._getControlsFromComponents();
-            
+            controls = controls.concat(this._getControlsFromSoundSources());
             return controls;
         };
 
@@ -36,6 +35,23 @@
                 if(this.components[i].enabled) {
                     controls = controls.concat(getControlsFromComponent(this.components[i]));
                 }
+            }
+            return controls;
+        };
+
+        SynthoptionsAudioClass.prototype._getControlsFromSoundSources = function() {
+            var controls = [];
+            for(var i=0; i<this.oscillators.length; i++) {
+                if(this.oscillators[i].enabled) {
+                    controls = controls.concat(getControlsFromComponent(this.oscillators[i]));
+                    var fm = this.oscillators[i].fm;
+                    if(fm && fm.enabled) {
+                        controls = controls.concat(getControlsFromComponent(fm));
+                    }
+                }
+            }
+            if(this.noise && this.noise.enabled) {
+                controls = controls.concat(getControlsFromComponent(this.noise));
             }
             return controls;
         };
