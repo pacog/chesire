@@ -6,7 +6,7 @@
 
     function ControlsHudController($scope, SynthOptions, MidiControlMessages) {
         var vm = this;
-        var oldSynthOptions = null;
+        // var oldSynthOptions = null;
 
         vm.getMidiParamFromOptions = getMidiParamFromOptions;
 
@@ -18,11 +18,11 @@
         }
 
         function synthOptionsChanged(newSynthOptions) {
-            if(newSynthOptions && !_.isEqual(newSynthOptions, oldSynthOptions)) {
-                oldSynthOptions = newSynthOptions;
+            // if(newSynthOptions && !_.isEqual(newSynthOptions, oldSynthOptions)) {
+                // oldSynthOptions = newSynthOptions;
                 vm.controls = newSynthOptions.getActiveControls();
                 vm.volumeControl = newSynthOptions.audio.controls.gain;
-            }
+            // }
         }
 
         function getMidiParamFromOptions(options) {

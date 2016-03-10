@@ -19,6 +19,8 @@
 
                 DEFAULT_GAIN: 1,
 
+                alreadyStarted: false,
+
                 MIN_GAIN_CHANGE: 0.05,
 
                 init: function(options) {
@@ -30,6 +32,14 @@
 
                 updateSound: function(motionParams) {
                     this._updateGain(motionParams);
+                    this._startIfNeeded();
+                },
+
+                _startIfNeeded: function() {
+                    if(!this.alreadyStarted && this.noiseGenerator) {
+                        this.noiseGenerator.start(0);
+                        this.alreadyStarted = true;
+                    }
                 },
 
                 _updateGain: function(motionParams) {
@@ -89,7 +99,10 @@
                 destroy: function() {
                     if(this.connectedTo && this.gainController) {
                         this._cancelGainTimeout();
-                        this.noiseGenerator.stop();
+                        if(this.alreadyStarted) {
+                            this.noiseGenerator.stop();
+                        }
+                        this.alreadyStarted = false;
                         this.noiseGenerator.disconnect();
                         this.noiseGenerator = null;
                         this.gainController.disconnect();
@@ -113,7 +126,6 @@
                     var whiteNoise = Audiocontext.createBufferSource();
                     whiteNoise.buffer = noiseBuffer;
                     whiteNoise.loop = true;
-                    whiteNoise.start(0);
 
                     return whiteNoise;
                 }
