@@ -9,21 +9,23 @@
     .single-control-hud {
         @include inline-block;
         background: $dark-blue;
-        width: 300px;
+        width: 170px;
         position: relative;
         margin: 0 $grid-s;
     }
         .single-control-hud-content {
-            @include display-flex;
+            // @include display-flex;
         }
             .single-control-hud-param {
                 background: $ui-element-bg;
-                @include flex(1);
+                // @include flex(1);
+                display: block;
                 padding: $grid-m;
                 @include ellipsis();
             }
             .single-control-hud-gesture {
-                @include flex(1);
+                // @include flex(1);
+                display: block;
                 padding: $grid-m;
                 @include ellipsis();
             }
