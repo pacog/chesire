@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chesireApp')
-    .factory('SynthClass', function(Audiocontext, SynthElementFactory, SoundSourceClass) {
+    .factory('SynthClass', function(Audiocontext, SynthElementFactory, SoundSourceClass, soundMuter) {
 
         var SynthClass = function(synthOptions, scaleOptions) {
             if(synthOptions && scaleOptions) {
@@ -14,6 +14,9 @@ angular.module('chesireApp')
             synthElements: null,
 
             init: function(synthOptions, scaleOptions) {
+                this.mainGain = Audiocontext.createGain();
+                this.mainGain.gain.value = 1;
+                this.mainGain.connect(Audiocontext.destination);
                 this.synthOptions = angular.copy(synthOptions);
                 this.scaleOptions = angular.copy(scaleOptions);
                 this.synthElements = [];
@@ -51,7 +54,7 @@ angular.module('chesireApp')
                     for(var i=0; i<(this.synthElements.length - 1); i++) {
                         this.synthElements[i].connectTo(this.synthElements[i+1]);
                     }
-                    _.last(this.synthElements).connectTo(Audiocontext.destination);
+                    _.last(this.synthElements).connectTo(this.mainGain);
 
                 } else {
                     throw 'SynthClass: error creating components, wrong options';
@@ -94,12 +97,24 @@ angular.module('chesireApp')
                         synthElement.updateSound(motionParams);
                     }
                 });
+                this._muteMainGainIfNeeded();
+            },
+
+            _muteMainGainIfNeeded: function() {
+                var newGainValue = 1;
+                if(soundMuter.isMuted()) {
+                    newGainValue = 0;
+                }
+                if(this._oldGainValue !== newGainValue) {
+                    this._oldGainValue = newGainValue;
+                    this.mainGain.gain.value = newGainValue;
+                }
             },
 
             disable: function() {
                 //TODO: shouldn't access the gain node from here, best create a disconnect method,
                 // so we can use it in other kinds of components too
-                _.last(this.synthElements).gainController.disconnect(Audiocontext.destination);
+                _.last(this.synthElements).gainController.disconnect(this.mainGain);
             },
 
             destroy: function() {
@@ -107,6 +122,11 @@ angular.module('chesireApp')
                     synthElement.destroy();
                 });
                 this.synthElements = [];
+
+                if(this.mainGain) {
+                    this.mainGain.disconnect();
+                    this.mainGain = null;
+                }
             }
         };
 

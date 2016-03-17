@@ -51,7 +51,7 @@
             },
 
             connectTo: function(destination) {
-                if(destination.constructor.name !== 'AudioDestinationNode') {
+                if((destination.constructor.name !== 'AudioDestinationNode') && (destination.constructor.name !== 'GainNode')) {
                     destination = destination.getAudioNode();
                 }
                 this.connectedTo = destination;

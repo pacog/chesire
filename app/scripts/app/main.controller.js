@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('MainController', MainController);
 
-    function MainController(ScaleOptions, SongStore, SynthOptions, SynthStore, UIService) {
+    function MainController(ScaleOptions, SongStore, SynthOptions, SynthStore, UIService, soundMuter) {
         var vm = this;
 
         vm.closeAllPopopovers = closeAllPopopovers;
@@ -16,6 +16,7 @@
             SongStore.getSongs();
             SynthOptions.init();
             SynthStore.getSynths();
+            soundMuter.init();
         }
 
         function closeAllPopopovers() {

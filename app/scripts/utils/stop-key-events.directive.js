@@ -11,7 +11,6 @@
         };
 
         function link(scope, element) {
-            console.log('link');
             init();
 
             function init() {

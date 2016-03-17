@@ -7,6 +7,9 @@
     function hotKeys($window) {
 
         var actions = {
+            TOGGLE_MUTE: {
+                keyCode: 32
+            },
             NEXT_SONG: {
                 keyCode: 39
             },

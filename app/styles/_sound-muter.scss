@@ -1,0 +1,28 @@
+.sound-muter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+    background: rgba($dark-blue, 0.5);
+    @include display-flex;
+    @include align-items(center);
+    @include justify-content(center);
+}
+    .sound-muter-content {
+        color: white;
+        max-width: 200px;
+        text-align: center;
+        line-height: 22px;
+        font-size: 17px;
+
+        &:before {
+            font-family: entypo;
+            content: $icon-mic;
+            display: block;
+            font-size: 100px;
+            line-height: 80px;
+        }
+    }
