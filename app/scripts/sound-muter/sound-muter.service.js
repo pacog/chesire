@@ -4,27 +4,71 @@
     angular.module('chesireApp')
         .factory('soundMuter', soundMuter);
 
-    function soundMuter(hotKeys) {
-        var isMutedFlag = false;
+    function soundMuter(hotKeys, Leapmotion) {
+        var isSpacePressed;
+        var noHands;
+        var fistGesture;
+        var MIN_GRAB_STRENGTH = 0.9;
+
         var factory = {
             init: init,
-            isMuted: isMuted
+            isMuted: isMuted,
+            getMuteType: getMuteType
         };
 
         return factory;
 
         function init() {
-            isMutedFlag = false;
-            hotKeys.on('TOGGLE_MUTE', toggleMute);
+            noHands = true;
+            isSpacePressed = false;
+            fistGesture = false;
+            hotKeys.on('TOGGLE_MUTE', toggleSpace);
+            Leapmotion.subscribeToFrameChange(leapChanged);
         }
 
         function isMuted() {
-            return isMutedFlag;
+            return isSpacePressed || noHands || fistGesture;
         }
 
-        function toggleMute() {
-            isMutedFlag = !isMutedFlag;
+        function toggleSpace() {
+            isSpacePressed = !isSpacePressed;
         }
+
+        function leapChanged(frameInfo) {
+            if(frameInfo && frameInfo.frame) {
+                noHands =checkNumberOfHands(frameInfo.frame);
+                fistGesture = checkFistGesture(frameInfo.frame);
+            }
+        }
+
+        function checkNumberOfHands(frame) {
+            if(!frame.hands || !frame.hands.length) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function checkFistGesture(frame) {
+            if(frame.hands.length > 0) {
+                if(frame.hands[0].grabStrength >= MIN_GRAB_STRENGTH) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function getMuteType() {
+            if(isSpacePressed) {
+                return 'space';
+            } else if(noHands) {
+                return 'noHands';
+            } else if(fistGesture) {
+                return 'fist';
+            }
+            return false;
+        }
+
     }
 
 })();

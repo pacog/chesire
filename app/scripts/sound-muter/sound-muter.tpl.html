@@ -1,5 +1,13 @@
 <div class='sound-muter' ng-show='vm.soundMuter.isMuted()'>
-    <div class='sound-muter-content'>
+    <div class='sound-muter-content' ng-show='vm.soundMuter.getMuteType() === "space"'>
         Sound muted, press SPACE to unmute
+    </div>
+
+    <div class='sound-muter-content' ng-show='vm.soundMuter.getMuteType() === "noHands"'>
+        Place a hand to start playing
+    </div>
+
+    <div class='sound-muter-content' ng-show='vm.soundMuter.getMuteType() === "fist"'>
+        Open your hand to keep playing
     </div>
 </div>
