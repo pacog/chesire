@@ -7,6 +7,8 @@
             >
             New synth
         </button>
+        <file-loader
+                on-load='vm.synthLoaded'></file-loader>
         <input ng-model='vm.synthOptions.name' 
                ng-change='vm.synthModified()'/>
         <button

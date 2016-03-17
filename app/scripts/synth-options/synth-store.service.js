@@ -13,6 +13,7 @@
             getSynths: getSynths,
             saveSynth: saveSynth,
             deleteSynth: deleteSynth,
+            getUniqueName: getUniqueName,
             subscribeToChangeInAllSynths: subscribeToChangeInAllSynths,
             unsubscribeToChangeInAllSynths: unsubscribeToChangeInAllSynths
         };
@@ -109,6 +110,15 @@
             angular.forEach(changeInAllSynthsSubscribers, function(callback) {
                 callback(newAllSynths, deletedSynth);
             });
+        }
+
+        function getUniqueName(otherName) {
+            var synth = { name: otherName };
+            var allSynths = localStorageService.get('synths') || [];
+            while(findSynthInList(synth, allSynths)) {
+                synth.name += ' (1)';
+            }
+            return synth.name;
         }
 
     }

@@ -19,6 +19,7 @@
         vm.createNewSynth = createNewSynth;
         vm.saveSynthToFile = saveSynthToFile;
         vm.fileSaver = fileSaver;
+        vm.synthLoaded = synthLoaded;
 
         vm.synthHasBeenModified = false;
 
@@ -49,6 +50,22 @@
 
         function saveSynthToFile() {
             fileSaver.save(vm.synthOptions, vm.synthOptions.name || 'synth');
+        }
+
+        function synthLoaded(loadedSynth) {
+            if(checkLoadedSynthIsCorrect(loadedSynth)) {
+                loadedSynth.name = SynthStore.getUniqueName(loadedSynth.name);
+                vm.song = loadedSynth;
+                SynthOptions.setSynthOptions(loadedSynth);
+                synthSelector.notifySynthIsModified(true);
+            }
+        }
+
+        function checkLoadedSynthIsCorrect(synth) {
+            if(synth && synth.audio && synth.audio.components && synth.audio.oscillators) {
+                return true;
+            }
+            return false;
         }
 
         function deleteSynth() {
