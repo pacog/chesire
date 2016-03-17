@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('SongEditorController', SongEditorController);
 
-    function SongEditorController(songEditor, SongStore) {
+    function SongEditorController(songEditor, SongStore, fileSaver) {
         var vm = this;
 
         vm.saveSong = saveSong;
@@ -12,6 +12,8 @@
         vm.askConfirmationDeleteSong = askConfirmationDeleteSong;
         vm.cancelDeleteSong = cancelDeleteSong;
         vm.songNameChanged = songNameChanged;
+        vm.saveSongToFile = saveSongToFile;
+        vm.fileSaver = fileSaver;
 
         vm.songEditor = songEditor;
 
@@ -35,6 +37,10 @@
 
         function saveSong() {
             SongStore.saveSong(vm.song);
+        }
+
+        function saveSongToFile() {
+            fileSaver.save(vm.song, vm.song.name || 'song');
         }
 
         function deleteSong() {

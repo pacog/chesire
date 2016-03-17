@@ -16,6 +16,12 @@
             Save
         </button>
         <button
+            class='big-button synth-editor-save'
+            ng-click='vm.saveSynthToFile()'
+            ng-if='vm.fileSaver.isAvailable()'>
+            Save to file
+        </button>
+        <button
             class='big-button synth-editor-delete'
             ng-click='vm.askConfirmationDeleteSynth()'
             ng-show='!vm.confirmingDeleteSynth'

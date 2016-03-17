@@ -5,6 +5,12 @@
         <div class='song-editor-tools'>
             <button
                 class='big-button song-editor-save'
+                ng-click='vm.saveSongToFile()'
+                ng-if='vm.fileSaver.isAvailable()'>
+                Save to file
+            </button>
+            <button
+                class='big-button song-editor-save'
                 ng-click='vm.saveSong()'
                 ng-disabled='!vm.song.$isModified'>
                 Save
