@@ -9,7 +9,10 @@
         </button>
         <file-loader
                 on-load='vm.synthLoaded'></file-loader>
-        <input ng-model='vm.synthOptions.name' 
+        <input ng-model='vm.synthOptions.name'
+               type='text'
+               stop-key-events
+               class='editor-text-input'
                ng-change='vm.synthModified()'/>
         <button
             class='big-button synth-editor-save'

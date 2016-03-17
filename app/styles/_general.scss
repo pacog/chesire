@@ -34,7 +34,11 @@ input, button, select, textarea {
     font-style: normal;
 }
 
-
+.editor-text-input {
+  height: 48px;
+  line-height: 26px;
+  margin-left: 4px;
+}
 .testmidi {
     position: fixed;
     padding: 50px;

@@ -6,6 +6,7 @@
 
     <div class='generic-section-content'>
         <input type='text'
+               stop-key-events
                ng-model='vm.currentPart.name'
                ng-model-options='{ debounce: 500 }'
                ng-change='vm.partNameChanged()'/>
