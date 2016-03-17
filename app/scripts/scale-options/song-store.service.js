@@ -94,11 +94,21 @@ angular.module('chesireApp')
             });
         };
 
+        var getUniqueName = function(otherName) {
+            var song = { name: otherName };
+            var allSongs = localStorageService.get('songs') || [];
+            while(findSongInList(song, allSongs)) {
+                song.name += ' (1)';
+            }
+            return song.name;
+        };
+
         return {
             getSongs: getSongs,
             saveSong: saveSong,
             deleteSong: deleteSong,
             subscribeToChangeInAllSongs: subscribeToChangeInAllSongs,
-            unsubscribeToChangeInAllSongs: unsubscribeToChangeInAllSongs
+            unsubscribeToChangeInAllSongs: unsubscribeToChangeInAllSongs,
+            getUniqueName: getUniqueName
         };
     });

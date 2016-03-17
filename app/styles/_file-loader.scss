@@ -1,0 +1,13 @@
+.file-loader {
+    position: relative;
+    line-height: 28px;
+    font-size: 11px;
+}
+    .file-loader-input {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+    }

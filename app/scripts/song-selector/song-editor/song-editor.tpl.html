@@ -9,6 +9,8 @@
                 ng-if='vm.fileSaver.isAvailable()'>
                 Save to file
             </button>
+            <file-loader
+                on-load='vm.songLoaded'></file-loader>
             <button
                 class='big-button song-editor-save'
                 ng-click='vm.saveSong()'

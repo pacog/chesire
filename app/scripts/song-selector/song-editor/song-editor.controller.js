@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('SongEditorController', SongEditorController);
 
-    function SongEditorController(songEditor, SongStore, fileSaver) {
+    function SongEditorController(ScaleOptions, songEditor, SongStore, fileSaver) {
         var vm = this;
 
         vm.saveSong = saveSong;
@@ -14,6 +14,7 @@
         vm.songNameChanged = songNameChanged;
         vm.saveSongToFile = saveSongToFile;
         vm.fileSaver = fileSaver;
+        vm.songLoaded = songLoaded;
 
         vm.songEditor = songEditor;
 
@@ -46,6 +47,21 @@
         function deleteSong() {
             SongStore.deleteSong(vm.song);
             vm.confirmingDeleteSong = false;
+        }
+
+        function songLoaded(loadedSong) {
+            if(checkLoadedSongIsCorrect(loadedSong)) {
+                loadedSong.name = SongStore.getUniqueName(loadedSong.name);
+                vm.song = loadedSong;
+                ScaleOptions.setScaleOptionsFromPreset(vm.song);
+                vm.song.$isModified = true;
+                vm.songEditor.notifySongHasChanged(true);
+            }
+
+        }
+
+        function checkLoadedSongIsCorrect(song) {
+            return song && song.parts && song.parts.length;
         }
 
     }
