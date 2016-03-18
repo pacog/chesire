@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.factory('Leapmotion', function Leapmotion($rootScope) {
+.factory('Leapmotion', function Leapmotion($rootScope, closeToChordControl) {
 
     var leapInfo = {
         fingers: 0,
@@ -138,6 +138,10 @@ angular.module('chesireApp')
         result.fingerVelocity = getFingersVelocity(hands[0]);
         result.handAperture = getHandAperture(hands[0]);
         result.fingerDirectionY = getFingerDirectionY(hands[0]);
+
+        result.closeToChord = closeToChordControl.getValue(hands[0], result);
+        result.closeToChordY = result.closeToChord*result.y;
+        result.closeToChordYInverse = result.closeToChord*(1 - result.y);
 
         result.fingersPulsationInfo = getFingersPulsationInfo(hands[0]);
         result.fingersDirectionInfo = getFingersDirectionInfo(hands[0]);

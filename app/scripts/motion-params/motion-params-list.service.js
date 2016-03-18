@@ -12,5 +12,8 @@ angular.module('chesireApp')
         'handDirectionZ',
         'fingerVelocity',
         'handAperture',
-        'fingerDirectionY'
+        'fingerDirectionY',
+        'closeToChord',
+        'closeToChordY',
+        'closeToChordYInverse'
     ]);

@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.factory('MultiNotesHelper', function (SynthOptions, ScaleOptions, pulsateDetector, pulsateDetectorChord) {
+.factory('MultiNotesHelper', function (SynthOptions, ScaleOptions) {
 
     var notesInfo = null;
     var notesVolumeHash = null;
@@ -99,7 +99,7 @@ angular.module('chesireApp')
         return 1;
     };
 
-    var getNotesInfo = function(motionParams, oscillatorInfo, frameInfo) {
+    var getNotesInfo = function(motionParams, oscillatorInfo) {
         var transitionType = oscillatorInfo.generalSoundSource.options.transitionType;
         var x = motionParams.x;
 
@@ -109,12 +109,12 @@ angular.module('chesireApp')
         } else if(transitionType === 'volume') {
             notesInfo = getNotesInfoWithVolumeTransition(x);
         }
-        if(oscillatorInfo.midiControlMode === 'pulsate') {
-            notesInfo = pulsateDetector.applyNotePulsation(notesInfo, getMainChordBeingPlayed(x), motionParams, frameInfo);
-        }
-        if(oscillatorInfo.midiControlMode === 'pulsate_chord') {
-            notesInfo = pulsateDetectorChord.applyNotePulsation(notesInfo, getMainChordBeingPlayed(x), motionParams, frameInfo);
-        }
+        // if(oscillatorInfo.midiControlMode === 'pulsate') {
+        //     notesInfo = pulsateDetector.applyNotePulsation(notesInfo, getMainChordBeingPlayed(x), motionParams, frameInfo);
+        // }
+        // if(oscillatorInfo.midiControlMode === 'pulsate_chord') {
+        //     notesInfo = pulsateDetectorChord.applyNotePulsation(notesInfo, getMainChordBeingPlayed(x), motionParams, frameInfo);
+        // }
         normalizeTotalGainOfNotes(notesInfo);
         return notesInfo;
     };
@@ -202,20 +202,20 @@ angular.module('chesireApp')
         }
     }
 
-    var getMainChordBeingPlayed = function(x) {
-        var chordsInfo = getChordsInvolvedFromXPosition(x);
-        if(chordsInfo.distanceInBetween > 0.5) {
-            return {
-                chord: chordsInfo.secondChord,
-                index: chordsInfo.secondChordIndex
-            };
-        } else {
-            return {
-                chord: chordsInfo.firstChord,
-                index: chordsInfo.firstChordIndex
-            };
-        }
-    };
+    // var getMainChordBeingPlayed = function(x) {
+    //     var chordsInfo = getChordsInvolvedFromXPosition(x);
+    //     if(chordsInfo.distanceInBetween > 0.5) {
+    //         return {
+    //             chord: chordsInfo.secondChord,
+    //             index: chordsInfo.secondChordIndex
+    //         };
+    //     } else {
+    //         return {
+    //             chord: chordsInfo.firstChord,
+    //             index: chordsInfo.firstChordIndex
+    //         };
+    //     }
+    // };
 
 
     var getNotesInfoWithGlissandoTransition = function(x) {
