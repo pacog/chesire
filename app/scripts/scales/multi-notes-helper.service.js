@@ -11,6 +11,7 @@ angular.module('chesireApp')
     var scaleOptions = null;
     var FIRST_CHORD_X = 0.05;
     var LAST_CHORD_X = 0.95;
+    var biggestChordSize;
 
     var init = function() {
         SynthOptions.getSynthOptions().then(function(newSynthOptions) {
@@ -47,6 +48,7 @@ angular.module('chesireApp')
             var partToUse = song.getCurrentPart();
             notesInfo = [];
             chordsInfo = partToUse;
+            biggestChordSize = chordsInfo.getBiggerChordSize();
             if(newSynthOptions.audio.transitionType==='glissando') {
                 createNotesForGlissandoTransition(partToUse);
             } else if(newSynthOptions.audio.transitionType==='volume') {
@@ -173,6 +175,21 @@ angular.module('chesireApp')
     };
 
     var normalizeTotalGainOfNotes = function(notes) {
+        if(biggestChordSize) {
+            normalizeGainUsingBiggerChord(notes);
+        } else {
+            normalizeGainUsingTotalGain(notes);
+        }
+    };
+
+    function normalizeGainUsingBiggerChord(notes) {
+        for(var i=0; i< notes.length; i++) {
+            notes[i].unnormalizedGain = notes[i].gain;
+            notes[i].gain = notes[i].gain/biggestChordSize;
+        }
+    }
+
+    function normalizeGainUsingTotalGain(notes) {
         var totalGain = 0;
         for(var i=0; i< notes.length; i++) {
             totalGain += notes[i].gain;
@@ -183,7 +200,7 @@ angular.module('chesireApp')
                 notes[i].gain = notes[i].gain/totalGain;
             }
         }
-    };
+    }
 
     var getMainChordBeingPlayed = function(x) {
         var chordsInfo = getChordsInvolvedFromXPosition(x);

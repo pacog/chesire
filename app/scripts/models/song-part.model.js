@@ -30,6 +30,18 @@
             }
         };
 
+        SongPartClass.prototype.getBiggerChordSize = function() {
+            var biggestSize = 0;
+
+            for(var i=0; i<this.chords.length; i++) {
+                if(this.chords[i].notes && (this.chords[i].notes.length > biggestSize)) {
+                    biggestSize = this.chords[i].notes.length;
+                }
+            }
+            return biggestSize;
+        };
+        
+
         SongPartClass.prototype.addChordBefore = function(chordIndex) {
             this.chords.splice(chordIndex, 0, getEmptyChord());
         };
