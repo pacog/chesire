@@ -45,6 +45,12 @@
             },
             PART_10: {
                 keyCode: 58
+            },
+            PREV_SYNTH: {
+                keyCode: 38
+            },
+            NEXT_SYNTH: {
+                keyCode: 40
             }
         };
         var subscribers = {};
