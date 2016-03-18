@@ -8,16 +8,6 @@
         </div>
     </div>
 
-    <div class='oscillator-transition oscillator-section column' ng-hide='vm.synthOptions.isMidiOutput()'>
-        <h4 class='oscillator-section-title'>Transition between chords</h4>
-        <div class='oscillator-section-content'>
-            <switch-two-values
-                values='vm.transitionTypes'
-                ng-model='vm.synthOptions.transitionType'
-                change-callback='vm.mainParamsInSynthChanged()'></switch-two-values>
-        </div>
-    </div>
-
     <div class='oscillator-snap oscillator-section column'>
         <h4 class='oscillator-section-title'>Snap to chords</h4>
         <div class='oscillator-section-content'>
@@ -25,6 +15,15 @@
                 component-info='vm.synthOptions'
                 change-callback='vm.mainParamsInSynthChanged()'></oscillator-snap>
         </div>
+    </div>
+</div>
+<div class='oscillator-transition oscillator-section' ng-hide='vm.synthOptions.isMidiOutput()'>
+    <h4 class='oscillator-section-title'>Transition between chords</h4>
+    <div class='oscillator-section-content'>
+        <switch-two-values
+            values='vm.transitionTypes'
+            ng-model='vm.synthOptions.transitionType'
+            change-callback='vm.mainParamsInSynthChanged()'></switch-two-values>
     </div>
 </div>
 

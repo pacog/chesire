@@ -4,11 +4,19 @@ angular.module('chesireApp')
     .factory('ResponseFunctions', function() {
         var defaultLinearParams = {
             min: {
-                name: 'Minimum',
+                name: 'Min Y',
                 value: 0
             },
             max: {
-                name: 'Maximum',
+                name: 'Max Y',
+                value: 1
+            },
+            minX: {
+                name: 'Min X',
+                value: 0
+            },
+            maxX: {
+                name: 'Max X',
                 value: 1
             },
             inverse: {
@@ -22,12 +30,26 @@ angular.module('chesireApp')
             getResponse: function(input, userParams) {
                 var max = userParams.max || defaultLinearParams.max.value;
                 var min = userParams.min || defaultLinearParams.min.value;
+                var maxX = userParams.maxX || defaultLinearParams.maxX.value;
+                var minX = userParams.minX || defaultLinearParams.minX.value;
                 var inverse = userParams.inverse || defaultLinearParams.inverse.value;
 
-                var result = min + input*(max-min);
+                var range = maxX - minX;
+                var inputInRange = input;
+
+                if(input <= minX) {
+                    inputInRange = 0;
+                } else if(input >= maxX) {
+                    inputInRange = 1;
+                } else if(range > 0) {
+                    inputInRange = (input- minX)/range;
+                }
+
+
+                var result = min + inputInRange*(max-min);
 
                 if(inverse) {
-                    result = max - input*(max-min);
+                    result = max - inputInRange*(max-min);
                 }
                 if(result<min) {
                     result = min;
