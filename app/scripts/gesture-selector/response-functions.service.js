@@ -28,36 +28,16 @@ angular.module('chesireApp')
             name: 'linear',
             params: defaultLinearParams,
             getResponse: function(input, userParams) {
-                var max = userParams.max || defaultLinearParams.max.value;
-                var min = userParams.min || defaultLinearParams.min.value;
-                var maxX = userParams.maxX || defaultLinearParams.maxX.value;
-                var minX = userParams.minX || defaultLinearParams.minX.value;
-                var inverse = userParams.inverse || defaultLinearParams.inverse.value;
 
-                var range = maxX - minX;
-                var inputInRange = input;
+                var currentParams = {
+                    maxY: userParams.max || defaultLinearParams.max.value,
+                    minY: userParams.min || defaultLinearParams.min.value,
+                    maxX: userParams.maxX || defaultLinearParams.maxX.value,
+                    minX: userParams.minX || defaultLinearParams.minX.value,
+                    inverse: userParams.inverse || defaultLinearParams.inverse.value
+                };
 
-                if(input <= minX) {
-                    inputInRange = 0;
-                } else if(input >= maxX) {
-                    inputInRange = 1;
-                } else if(range > 0) {
-                    inputInRange = (input- minX)/range;
-                }
-
-
-                var result = min + inputInRange*(max-min);
-
-                if(inverse) {
-                    result = max - inputInRange*(max-min);
-                }
-                if(result<min) {
-                    result = min;
-                }
-                if(result>max) {
-                    result = max;
-                }
-                return result;
+                return linearResponse(input, currentParams);
             }
         };
 
@@ -104,8 +84,92 @@ angular.module('chesireApp')
             }
         };
 
+        var defaultMiddleParams = {
+            minY: {
+                name: 'Min Y',
+                value: 0
+            },
+            maxY: {
+                name: 'Max Y',
+                value: 1
+            },
+            minX: {
+                name: 'Min X',
+                value: 0
+            },
+            maxX: {
+                name: 'Max X',
+                value: 1
+            },
+            center: {
+                name: 'Center',
+                value: 0.5
+            },
+            inverse: {
+                name: 'Inverse',
+                value: false
+            }
+        };
+        var middle = {
+            name: 'middle',
+            params: defaultMiddleParams,
+            getResponse: function(input, userParams) {
+                var center = userParams.center || defaultMiddleParams.center.value;
+
+                var maxX = userParams.maxX || defaultMiddleParams.maxX.value;
+                var minX = userParams.minX || defaultMiddleParams.minX.value;
+                var inverse = userParams.inverse || defaultMiddleParams.inverse.value;
+
+                var params = {
+                    minY: userParams.minY || defaultMiddleParams.minY.value,
+                    maxY: userParams.maxY || defaultMiddleParams.maxY.value
+                };
+
+                if(input <= center) {
+                    params.minX = Math.min(minX, center);
+                    params.maxX = center;
+                    params.inverse = inverse;
+                } else {
+                    params.minX = center;
+                    params.maxX = Math.max(maxX, center);
+                    params.inverse = !inverse;
+                }
+
+                return linearResponse(input, params);
+            }
+        };
+
         return {
             linear: linear,
-            step: step
+            step: step,
+            middle: middle
         };
+
+        function linearResponse(input, params) {
+            var range = params.maxX - params.minX;
+            var inputInRange = input;
+
+            if(input <= params.minX) {
+                inputInRange = 0;
+            } else if(input >= params.maxX) {
+                inputInRange = 1;
+            } else if(range > 0) {
+                inputInRange = (input- params.minX)/range;
+            }
+
+
+            var result = params.minY + inputInRange*(params.maxY - params.minY);
+
+            if(params.inverse) {
+                result = params.maxY - inputInRange*(params.maxY - params.minY);
+            }
+            if(result < params.minY) {
+                result = params.minY;
+            }
+            if(result > params.maxY) {
+                result = params.maxY;
+            }
+
+            return result;
+        }
     });
