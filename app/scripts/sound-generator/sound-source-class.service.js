@@ -20,7 +20,7 @@
                 init: function(options) {
                     this.options = options;
                     this._createOscillators();
-                    this._createNoiseGenerator();
+                    this._createNoiseGenerators();
 
                     var enabledSources = this._getEnabledSources();
                     if(enabledSources > 0) {
@@ -60,8 +60,8 @@
                     for(var i=0; i<this._oscillatorGains.length; i++) {
                         this._oscillatorGains[i].connect(this.merger);
                     }
-                    if(this.noiseGeneratorGain) {
-                        this.noiseGeneratorGain.connect(this.merger);
+                    for(i=0; i<this._noiseGeneratorGains.length; i++) {
+                        this._noiseGeneratorGains[i].connect(this.merger);
                     }
                 },
 
@@ -149,18 +149,42 @@
                     }
                 },
 
-                _createNoiseGenerator: function() {
-                    this.noiseGenerator = null;
-                    this.noiseGeneratorGain = null;
+                _createNoiseGenerators: function() {
 
-                    if(this.options.noise && this.options.noise.enabled) {
-                        this.noiseGenerator = new NoiseGeneratorClass(this.options.noise);
-                        this.noiseGeneratorGain = Audiocontext.createGain();
-                        this.noiseGenerator.connectTo(this.noiseGeneratorGain);
+                    this._noiseGenerators = [];
+                    this._noiseGeneratorGains = [];
+                    for(var i=0; i<this.options.noises.length; i++) {
+                        var noiseInfo = this.options.noises[i];
+
+                        if(noiseInfo.enabled) {
+                            noiseInfo.generalSoundSource = this;
+                            var newNoiseGenerator = new NoiseGeneratorClass(noiseInfo);
+                            this._noiseGenerators.push(newNoiseGenerator);
+                            var newGainNode = Audiocontext.createGain();
+                            newNoiseGenerator.connectTo(newGainNode);
+                            this._noiseGeneratorGains.push(newGainNode);
+                        }
+
                     }
+
                 },
 
                 destroy: function() {
+                    this._destroyOscillators();
+                    this._destroyNoises();
+
+                    if(this.merger) {
+                        this.merger.disconnect();
+                        this.merger = null;
+                    }
+
+                    if(this.connectedTo && this.gainController) {
+                        this.gainController.disconnect();
+                        this.connectedTo = null;
+                    }
+                },
+
+                _destroyOscillators: function() {
                     for(var i=0; i<this._oscillators.length; i++) {
                         this._oscillators[i].destroy();
                     }
@@ -170,28 +194,18 @@
 
                     this._oscillators = [];
                     this._oscillatorGains = [];
+                },
 
-                    if(this.merger) {
-                        this.merger.disconnect();
-                        this.merger = null;
+                _destroyNoises: function() {
+                    for(var i=0; i<this._noiseGenerators.length; i++) {
+                        this._noiseGenerators[i].destroy();
+                    }
+                    for(i=0; i<this._noiseGeneratorGains.length; i++) {
+                        this._noiseGeneratorGains[i].disconnect();
                     }
 
-                    if(this.noiseGenerator) {
-                        this.noiseGenerator.destroy();
-                    }
-
-                    if(this.noiseGeneratorGain) {
-                        this.noiseGeneratorGain.disconnect();
-                    }
-
-                    this.noiseGenerator = null;
-                    this.noiseGeneratorGain = null;
-
-
-                    if(this.connectedTo && this.gainController) {
-                        this.gainController.disconnect();
-                        this.connectedTo = null;
-                    }
+                    this._noiseGenerators = [];
+                    this._noiseGeneratorGains = [];
                 }
             };
 

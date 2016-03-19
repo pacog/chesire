@@ -12,6 +12,7 @@
         vm.activateComponent = activateComponent;
         vm.componentToggled = componentToggled;
         vm.activateOscillator = activateOscillator;
+        vm.activateMain = activateMain;
 
         init();
 
@@ -35,6 +36,10 @@
         }
 
         function activateOscillator() {
+            vm.activeComponent = null;
+        }
+
+        function activateMain() {
             vm.activeComponent = null;
         }
 

@@ -1,12 +1,13 @@
-<div class='row'>
-    <div class='oscillator-section column'>
-        <h4 class='oscillator-section-title'>Volume control</h4>
-        <div class='oscillator-section-content'>
-            <gesture-selector
-                gesture-object='vm.mainVolumeInfo'
-                change-callback='vm.mainParamsInSynthChanged()'></gesture-selector>
-        </div>
+<div class='oscillator-section column'>
+    <h4 class='oscillator-section-title'>Volume control</h4>
+    <div class='oscillator-section-content'>
+        <gesture-selector
+            gesture-object='vm.mainVolumeInfo'
+            change-callback='vm.mainParamsInSynthChanged()'></gesture-selector>
     </div>
+</div>
+
+<div class='row'>
 
     <div class='oscillator-snap oscillator-section column'>
         <h4 class='oscillator-section-title'>Snap to chords</h4>
@@ -16,61 +17,15 @@
                 change-callback='vm.mainParamsInSynthChanged()'></oscillator-snap>
         </div>
     </div>
-</div>
-<div class='oscillator-transition oscillator-section' ng-hide='vm.synthOptions.isMidiOutput()'>
-    <h4 class='oscillator-section-title'>Transition between chords</h4>
-    <div class='oscillator-section-content'>
-        <switch-two-values
-            values='vm.transitionTypes'
-            ng-model='vm.synthOptions.transitionType'
-            change-callback='vm.mainParamsInSynthChanged()'></switch-two-values>
-    </div>
-</div>
 
-<ul class='components-selector-list'>
-
-    <li class='component-selector'
-        ng-repeat='oscillator in vm.synthOptions.oscillators'
-        ng-class='{
-            "is-active": vm.activeSoundSource === oscillator,
-            "is-first": $first
-        }'>
-        <button
-            class='component-selector-button'
-            ng-click='vm.activateSoundSource(oscillator, $index)'>Oscillator {{$index + 1}}</button>
-
-        <custom-checkbox
-            class='component-selector-toggle'
-            value='oscillator.enabled'
-            change-callback='vm.oscillatorToggled(oscillator)'></custom-checkbox>
-    </li>
-
-    <li class='component-selector is-last'
-        ng-class='{
-            "is-active": vm.activeSoundSource === vm.synthOptions.noise
-        }'>
-        <button
-            class='component-selector-button'
-            ng-click='vm.activateNoise(vm.synthOptions.noise)'>Noise</button>
-
-        <custom-checkbox
-            class='component-selector-toggle'
-            value='vm.synthOptions.noise.enabled'
-            change-callback='vm.noiseGeneratorToggled()'></custom-checkbox>
-    </li>
-
-</ul>
-
-<div>
-
-    <div class='component'
-        ng-repeat='oscillator in vm.synthOptions.oscillators'
-        ng-show='vm.activeSoundSource === oscillator'>
-        <oscillator oscillator-config='oscillator'></oscillator>
+    <div class='oscillator-transition oscillator-section' ng-hide='vm.synthOptions.isMidiOutput()'>
+        <h4 class='oscillator-section-title'>Transition between chords</h4>
+        <div class='oscillator-section-content'>
+            <switch-two-values
+                values='vm.transitionTypes'
+                ng-model='vm.synthOptions.transitionType'
+                change-callback='vm.mainParamsInSynthChanged()'></switch-two-values>
+        </div>
     </div>
 
-    <div class='component'
-        ng-show='vm.activeSoundSource === vm.synthOptions.noise'>
-        <noise-generator noise-config='vm.synthOptions.noise'></noise-generator>
-    </div>
 </div>

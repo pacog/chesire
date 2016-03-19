@@ -1,5 +1,7 @@
 <div class='synthoptions-audio'>
+
     <ul class='components-selector-list'>
+
         <li class='component-selector-icon component-selector-icon-start'></li>
 
         <li class='component-selector is-first'
@@ -8,7 +10,45 @@
             }'>
             <button
                 class='component-selector-button'
-                ng-click='vm.activateOscillator()'>Oscillator + Noise</button>
+                ng-click='vm.activateMain()'>Main settings</button>
+        </li>
+
+        <li class='component-selector-stack'>
+            <ul class='component-selector-vertical-stack'>
+
+                <li class='component-selector component-selector-vertical'
+                    ng-repeat='component in vm.audioSynthOptions.oscillators'
+                    ng-class='{
+                        "is-active": (vm.activeComponent === component),
+                        "is-last": $last
+
+                    }'>
+                    <button
+                        class='component-selector-button'
+                        ng-click='vm.activateComponent(component)'>{{component.name}}</button>
+                    <custom-checkbox
+                        class='component-selector-toggle'
+                        value='component.enabled'
+                        change-callback='vm.componentToggled(component)'></custom-checkbox>
+                </li>
+
+                <li class='component-selector component-selector-vertical'
+                    ng-repeat='component in vm.audioSynthOptions.noises'
+                    ng-class='{
+                        "is-active": (vm.activeComponent === component),
+                        "is-last": $last
+
+                    }'>
+                    <button
+                        class='component-selector-button'
+                        ng-click='vm.activateComponent(component)'>{{component.name}}</button>
+                    <custom-checkbox
+                        class='component-selector-toggle'
+                        value='component.enabled'
+                        change-callback='vm.componentToggled(component)'></custom-checkbox>
+                </li>
+
+            </ul>
         </li>
 
         <li class='component-selector'
@@ -41,5 +81,20 @@
              >
             <synthcomponent component-info='component'></synthcomponent>
         </div>
+
+
+        <div class='component'
+            ng-repeat='oscillator in vm.audioSynthOptions.oscillators'
+            ng-show='vm.activeComponent === oscillator'>
+            <oscillator oscillator-config='oscillator'></oscillator>
+        </div>
+
+        <div class='component'
+            ng-repeat='noise in vm.audioSynthOptions.noises'
+            ng-show='vm.activeComponent === noise'>
+            <noise-generator noise-config='noise'></noise-generator>
+        </div>
+
+
     </div>
 </div>
