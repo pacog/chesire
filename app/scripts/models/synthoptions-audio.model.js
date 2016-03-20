@@ -30,6 +30,17 @@
             return newOscillator;
         };
 
+        SynthoptionsAudioClass.prototype.removeOscillator = function(oscillatorInfo) {
+            var oscillatorIndex = _.findIndex(this.oscillators, function(otherOscillator) {
+                return oscillatorInfo.uniqueId === otherOscillator.uniqueId;
+            });
+            if(oscillatorIndex > -1) {
+                this.oscillators.splice(oscillatorIndex, 1);
+            }
+        };
+
+        
+
         SynthoptionsAudioClass.prototype.addNoise = function() {
             var newNoise = angular.copy(noiseOptionsDefault.get());
             this.noises.push(newNoise);

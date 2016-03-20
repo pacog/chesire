@@ -15,6 +15,7 @@
         vm.gainControllerInfoChanged = gainControllerInfoChanged;
         vm.fmToggle = fmToggle;
         vm.toggleGainControl = toggleGainControl;
+        vm.removeOscillator = removeOscillator;
 
         init();
 
@@ -45,6 +46,11 @@
 
         function oscillatorOptionsChanged() {
             notifyOscillatorOptionsChangedThrottled();
+        }
+
+        function removeOscillator(oscillator) {
+            SynthOptions.removeOscillator(oscillator);
+            SynthOptions.notifyOscillatorChanged();
         }
     }
 

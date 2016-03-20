@@ -17,7 +17,8 @@
             notifyComponentChanged: notifyComponentChanged,
             notifyControlChanged: notifyControlChanged,
             notifyControlRemoved: notifyControlRemoved,
-            notifyOscillatorChanged: notifyOscillatorChanged
+            notifyOscillatorChanged: notifyOscillatorChanged,
+            removeOscillator: removeOscillator
         };
 
         return factory;
@@ -56,6 +57,8 @@
             angular.forEach(synthOptions.midi.components, addIdToElement);
             angular.forEach(synthOptions.midi.controls, addIdToElement);
             angular.forEach(synthOptions.audio.components, addIdToElement);
+            angular.forEach(synthOptions.audio.oscillators, addIdToElement);
+            angular.forEach(synthOptions.audio.noises, addIdToElement);
             angular.forEach(synthOptions.audio.controls, addIdToElement);
         }
 
@@ -108,6 +111,12 @@
             }
             notifyChangeInSynthOptions(synthOptions);
             LastUsedSettingsStore.notifyLastUsedSynthChanged(synthOptions);
+        }
+
+        function removeOscillator(oscillatorInfo) {
+            if(synthOptions && synthOptions.audio) {
+                synthOptions.audio.removeOscillator(oscillatorInfo);
+            }
         }
 
         function notifyControlRemoved(controlInfo) {

@@ -54,13 +54,13 @@
         function addOscillator() {
             var newOscillator = vm.audioSynthOptions.addOscillator();
             vm.activeComponent = newOscillator;
-            SynthOptions.notifyComponentChanged(newOscillator);
+            SynthOptions.notifyOscillatorChanged();
         }
 
         function addNoise() {
             var newNoise = vm.audioSynthOptions.addNoise();
             vm.activeComponent = newNoise;
-            SynthOptions.notifyComponentChanged(newNoise);
+            SynthOptions.notifyOscillatorChanged();
         }
 
         function onDestroy() {
