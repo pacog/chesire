@@ -11,6 +11,12 @@
 
         vm.toggleGainControl = toggleGainControl;
         vm.gainControllerInfoChanged = gainControllerInfoChanged;
+        vm.removeNoise = removeNoise;
+
+        function removeNoise(noise) {
+            SynthOptions.removeNoise(noise);
+            SynthOptions.notifyOscillatorChanged();
+        }
 
         function toggleGainControl() {
             vm.noiseConfig.controls.gain.enabled = !vm.noiseConfig.controls.gain.enabled;

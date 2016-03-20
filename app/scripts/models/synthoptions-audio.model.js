@@ -39,7 +39,14 @@
             }
         };
 
-        
+        SynthoptionsAudioClass.prototype.removeNoise = function(noiseInfo) {
+            var noiseIndex = _.findIndex(this.noises, function(otherNoise) {
+                return noiseInfo.uniqueId === otherNoise.uniqueId;
+            });
+            if(noiseIndex > -1) {
+                this.noises.splice(noiseIndex, 1);
+            }
+        };
 
         SynthoptionsAudioClass.prototype.addNoise = function() {
             var newNoise = angular.copy(noiseOptionsDefault.get());
