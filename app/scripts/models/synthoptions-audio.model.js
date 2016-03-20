@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .factory('SynthoptionsAudioModel', SynthoptionsAudioModel);
 
-    function SynthoptionsAudioModel(synthOptionsAudioDefault) {
+    function SynthoptionsAudioModel(synthOptionsAudioDefault, oscillatorOptionsDefault, noiseOptionsDefault) {
         var factory = {
             create: create
         };
@@ -22,6 +22,18 @@
             var controls = this._getControlsFromComponents();
             controls = controls.concat(this._getControlsFromSoundSources());
             return controls;
+        };
+
+        SynthoptionsAudioClass.prototype.addOscillator = function() {
+            var newOscillator = angular.copy(oscillatorOptionsDefault.get());
+            this.oscillators.push(newOscillator);
+            return newOscillator;
+        };
+
+        SynthoptionsAudioClass.prototype.addNoise = function() {
+            var newNoise = angular.copy(noiseOptionsDefault.get());
+            this.noises.push(newNoise);
+            return newNoise;
         };
 
         SynthoptionsAudioClass.prototype._getControlsFromComponents = function() {

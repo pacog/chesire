@@ -23,13 +23,12 @@
                     this._createNoiseGenerators();
 
                     var enabledSources = this._getEnabledSources();
+                    this.gainController = Audiocontext.createGain();
                     if(enabledSources > 0) {
-                        this.gainController = Audiocontext.createGain();
                         this.merger = Audiocontext.createChannelMerger(enabledSources);
                         this.merger.connect(this.gainController);
-
-                        this._connectAllNodes();
                     }
+                    this._connectAllNodes();
                 },
 
                 playNote: function(note, duration) {

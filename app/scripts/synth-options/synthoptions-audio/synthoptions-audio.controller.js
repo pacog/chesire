@@ -13,6 +13,8 @@
         vm.componentToggled = componentToggled;
         vm.activateOscillator = activateOscillator;
         vm.activateMain = activateMain;
+        vm.addOscillator = addOscillator;
+        vm.addNoise = addNoise;
 
         init();
 
@@ -47,6 +49,18 @@
             $timeout(function() { //TODO: ugly timeout, improve change-callbacks everywhere to not need it
                 SynthOptions.notifyComponentChanged(component);
             });
+        }
+
+        function addOscillator() {
+            var newOscillator = vm.audioSynthOptions.addOscillator();
+            vm.activeComponent = newOscillator;
+            SynthOptions.notifyComponentChanged(newOscillator);
+        }
+
+        function addNoise() {
+            var newNoise = vm.audioSynthOptions.addNoise();
+            vm.activeComponent = newNoise;
+            SynthOptions.notifyComponentChanged(newNoise);
         }
 
         function onDestroy() {
