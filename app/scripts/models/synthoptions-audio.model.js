@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .factory('SynthoptionsAudioModel', SynthoptionsAudioModel);
 
-    function SynthoptionsAudioModel(synthOptionsAudioDefault, oscillatorOptionsDefault, noiseOptionsDefault) {
+    function SynthoptionsAudioModel(synthOptionsAudioDefault, oscillatorOptionsDefault, noiseOptionsDefault, distortionOptionsDefault, tremoloOptionsDefault, delayOptionsDefault, eqOptionsDefault) {
         var factory = {
             create: create
         };
@@ -52,6 +52,32 @@
             var newNoise = angular.copy(noiseOptionsDefault.get());
             this.noises.push(newNoise);
             return newNoise;
+        };
+
+        SynthoptionsAudioClass.prototype.addComponent = function(componentInfo) {
+            this.components = this.components || [];
+
+            var newComponent;
+
+            switch(componentInfo.value) {
+                case 'eq':
+                    newComponent = angular.copy(eqOptionsDefault.get());
+                    break;
+                case 'tremolo':
+                    newComponent = angular.copy(tremoloOptionsDefault.get());
+                    break;
+                case 'delay':
+                    newComponent = angular.copy(delayOptionsDefault.get());
+                    break;
+                case 'distortion':
+                    newComponent = angular.copy(distortionOptionsDefault.get());
+                    break;
+            }
+
+            if(newComponent) {
+                this.components.push(newComponent);
+                return newComponent;
+            }
         };
 
         SynthoptionsAudioClass.prototype._getControlsFromComponents = function() {

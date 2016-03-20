@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('SynthoptionsAudioController', SynthoptionsAudioController);
 
-    function SynthoptionsAudioController($timeout, $scope, SynthOptions) {
+    function SynthoptionsAudioController($timeout, $scope, SynthOptions, availableComponents) {
         var prevSynthOptions = null;
 
         var vm = this;
@@ -15,6 +15,9 @@
         vm.activateMain = activateMain;
         vm.addOscillator = addOscillator;
         vm.addNoise = addNoise;
+        vm.addComponent = addComponent;
+
+        vm.availableComponents = availableComponents;
 
         init();
 
@@ -60,6 +63,12 @@
         function addNoise() {
             var newNoise = vm.audioSynthOptions.addNoise();
             vm.activeComponent = newNoise;
+            SynthOptions.notifyOscillatorChanged();
+        }
+
+        function addComponent(typeOfComponent) {
+            var newComponent = vm.audioSynthOptions.addComponent(typeOfComponent);
+            vm.activeComponent = newComponent;
             SynthOptions.notifyOscillatorChanged();
         }
 

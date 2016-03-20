@@ -4,15 +4,6 @@
 
         <li class='component-selector-icon component-selector-icon-start'></li>
 
-        <li class='component-selector is-first'
-            ng-class='{
-                "is-active": !vm.activeComponent
-            }'>
-            <button
-                class='component-selector-button'
-                ng-click='vm.activateMain()'>Main settings</button>
-        </li>
-
         <li class='component-selector-stack'>
             <ul class='component-selector-vertical-stack'>
 
@@ -80,6 +71,24 @@
         </li>
         <li class='component-selector-icon component-selector-icon-end'></li>
     </ul>
+
+    <div ng-class='{
+            "is-active": !vm.activeComponent
+        }'>
+        <button
+            class='component-selector-button'
+            ng-click='vm.activateMain()'>Main settings</button>
+    </div>
+
+    <div class='add-component-container'>
+        <div class='component-selector-button component-selector-button-trigger'>Add component</div>
+        <div class='component-selector-button-hover'>
+            <button class='component-selector-button'
+                ng-repeat='component in vm.availableComponents'
+                ng-click='vm.addComponent(component)'
+                >{{component.name}}</button>
+        </div>
+    </div>
 
     <div class='components-container'>
 

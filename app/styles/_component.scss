@@ -102,3 +102,20 @@ $components-selector-list-line-color: $light-blue;
             background: lighten($tile-background, 10);
         }
     }
+
+    .add-component-container {
+        position: relative;
+    }
+        .component-selector-button-trigger {
+            display: inline-block;
+        }
+        .component-selector-button-hover {
+            position: absolute;
+            left: 0;
+            top: 30px;
+            display: none;
+
+            .add-component-container:hover & {
+                display: block;
+            }
+        }
