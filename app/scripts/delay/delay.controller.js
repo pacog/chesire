@@ -12,6 +12,7 @@
         vm.toggleDelay = toggleDelay;
         vm.toggleFeedback = toggleFeedback;
         vm.notifyOptionsChanged = notifyOptionsChanged;
+        vm.removeComponent = removeComponent;
 
         init();
 
@@ -33,6 +34,11 @@
 
         function notifyOptionsChanged() {
             SynthOptions.notifyComponentChanged(vm.componentInfo);
+        }
+
+        function removeComponent() {
+            SynthOptions.removeComponent(vm.componentInfo);
+            SynthOptions.notifyOscillatorChanged();
         }
 
     }

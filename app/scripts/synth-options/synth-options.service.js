@@ -19,7 +19,8 @@
             notifyControlRemoved: notifyControlRemoved,
             notifyOscillatorChanged: notifyOscillatorChanged,
             removeOscillator: removeOscillator,
-            removeNoise: removeNoise
+            removeNoise: removeNoise,
+            removeComponent: removeComponent
         };
 
         return factory;
@@ -123,6 +124,12 @@
         function removeNoise(noiseInfo) {
             if(synthOptions && synthOptions.audio) {
                 synthOptions.audio.removeNoise(noiseInfo);
+            }
+        }
+
+        function removeComponent(componentInfo) {
+            if(synthOptions && synthOptions.audio) {
+                synthOptions.audio.removeComponent(componentInfo);
             }
         }
 

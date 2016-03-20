@@ -48,6 +48,15 @@
             }
         };
 
+        SynthoptionsAudioClass.prototype.removeComponent = function(componentInfo) {
+            var componentIndex = _.findIndex(this.components, function(otherComponent) {
+                return componentInfo.uniqueId === otherComponent.uniqueId;
+            });
+            if(componentIndex > -1) {
+                this.components.splice(componentIndex, 1);
+            }
+        };
+
         SynthoptionsAudioClass.prototype.addNoise = function() {
             var newNoise = angular.copy(noiseOptionsDefault.get());
             this.noises.push(newNoise);

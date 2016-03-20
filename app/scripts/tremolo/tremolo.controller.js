@@ -14,6 +14,7 @@
         vm.notifyOptionsChangedThrottled = notifyOptionsChangedThrottled;
         vm.toggleRate = toggleRate;
         vm.toggleDepth = toggleDepth;
+        vm.removeComponent = removeComponent;
 
         init();
 
@@ -34,6 +35,11 @@
         function toggleDepth() {
             vm.componentInfo.controls.depth.enabled = !vm.componentInfo.controls.depth.enabled;
             vm.notifyOptionsChangedThrottled();
+        }
+
+        function removeComponent() {
+            SynthOptions.removeComponent(vm.componentInfo);
+            SynthOptions.notifyOscillatorChanged();
         }
 
     }
