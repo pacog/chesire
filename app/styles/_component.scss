@@ -22,6 +22,11 @@ $components-selector-list-line-color: $light-blue;
         padding: 0 $grid-l;
         position: relative;
         @include display-flex();
+
+        &.drag-over-accept {
+            border-right: 2px solid $orange;
+        }
+
         &:before {
             content: '';
             position: absolute;

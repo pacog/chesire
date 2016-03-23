@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .factory('SynthoptionsAudioModel', SynthoptionsAudioModel);
 
-    function SynthoptionsAudioModel(synthOptionsAudioDefault, oscillatorOptionsDefault, noiseOptionsDefault, distortionOptionsDefault, tremoloOptionsDefault, delayOptionsDefault, eqOptionsDefault) {
+    function SynthoptionsAudioModel(synthOptionsAudioDefault, oscillatorOptionsDefault, noiseOptionsDefault, distortionOptionsDefault, tremoloOptionsDefault, delayOptionsDefault, eqOptionsDefault, IdGenerator) {
         var factory = {
             create: create
         };
@@ -26,6 +26,7 @@
 
         SynthoptionsAudioClass.prototype.addOscillator = function() {
             var newOscillator = angular.copy(oscillatorOptionsDefault.get());
+            addIdToElement(newOscillator);
             this.oscillators.push(newOscillator);
             return newOscillator;
         };
@@ -59,6 +60,7 @@
 
         SynthoptionsAudioClass.prototype.addNoise = function() {
             var newNoise = angular.copy(noiseOptionsDefault.get());
+            addIdToElement(newNoise);
             this.noises.push(newNoise);
             return newNoise;
         };
@@ -84,9 +86,28 @@
             }
 
             if(newComponent) {
+                addIdToElement(newComponent);
                 this.components.push(newComponent);
                 return newComponent;
             }
+        };
+
+        SynthoptionsAudioClass.prototype.moveComponentAfterComponent = function(origin, destination) {
+            //Removing origin if it was already there
+            var originIndex = this._getIndexOfComponent(origin);
+            if(originIndex > -1) {
+                this.components.splice(originIndex, 1);
+            }
+
+            //Adding after destination component, or at beginning if no destination
+            var destinationIndex = this._getIndexOfComponent(destination);
+            this.components.splice(destinationIndex + 1, 0, origin);
+        };
+
+        SynthoptionsAudioClass.prototype._getIndexOfComponent = function(component) {
+            return _.findIndex(this.components, function(eachComponent) {
+                return eachComponent.uniqueId === component.uniqueId;
+            });
         };
 
         SynthoptionsAudioClass.prototype._getControlsFromComponents = function() {
@@ -133,6 +154,12 @@
                 }
             });
             return controls;
+        }
+
+        function addIdToElement(element) {
+            if(element && !element.uniqueId) {
+                element.uniqueId = IdGenerator.getUniqueId();
+            }
         }
     }
 

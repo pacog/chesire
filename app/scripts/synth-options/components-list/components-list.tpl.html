@@ -57,7 +57,12 @@
         draggable='true'
         effect-allowed='copy'
         draggable-type='component'
-        draggable-data="{componentInfo: component}">
+        draggable-data="{componentInfo: component}"
+        drop='vm.componentDroppedOverComponent($data, $event, component)'
+        drop-effect='copy'
+        drop-accept="'json/component'"
+        drag-over-class='drag-over-accept'
+        >
         <button
             class='component-selector-button'
             ng-click='vm.componentsList.setActiveItem(component)'>{{component.name}}</button>
