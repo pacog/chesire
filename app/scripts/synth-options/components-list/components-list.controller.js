@@ -14,6 +14,7 @@
         vm.addOscillator = addOscillator;
         vm.addNoise = addNoise;
         vm.componentDroppedOverComponent = componentDroppedOverComponent;
+        vm.componentDroppedOverMerger = componentDroppedOverMerger;
 
         init();
 
@@ -52,6 +53,12 @@
             var origin = data['json/component'].componentInfo;
             vm.audioSynthOptions.moveComponentAfterComponent(origin, destinationComponent);
             SynthOptions.notifyOscillatorChanged();
+            vm.componentsList.setActiveItem(origin);
+        }
+
+        function componentDroppedOverMerger(data) {
+            var origin = data['json/component'].componentInfo;
+            vm.audioSynthOptions.moveComponentToBeginning(origin);
             vm.componentsList.setActiveItem(origin);
         }
 

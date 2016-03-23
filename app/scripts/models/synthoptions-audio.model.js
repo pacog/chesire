@@ -93,15 +93,25 @@
         };
 
         SynthoptionsAudioClass.prototype.moveComponentAfterComponent = function(origin, destination) {
-            //Removing origin if it was already there
-            var originIndex = this._getIndexOfComponent(origin);
-            if(originIndex > -1) {
-                this.components.splice(originIndex, 1);
+            if(origin.uniqueId === destination.uniqueId) {
+                return;
             }
-
+            this._removeComponent(origin);
             //Adding after destination component, or at beginning if no destination
             var destinationIndex = this._getIndexOfComponent(destination);
             this.components.splice(destinationIndex + 1, 0, origin);
+        };
+
+        SynthoptionsAudioClass.prototype.moveComponentToBeginning = function(component) {
+            this._removeComponent(component);
+            this.components.splice(0, 0, component);
+        };
+
+        SynthoptionsAudioClass.prototype._removeComponent = function(component) {
+            var componentIndex = this._getIndexOfComponent(component);
+            if(componentIndex > -1) {
+                this.components.splice(componentIndex, 1);
+            }
         };
 
         SynthoptionsAudioClass.prototype._getIndexOfComponent = function(component) {

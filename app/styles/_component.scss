@@ -124,3 +124,16 @@ $components-selector-list-line-color: $light-blue;
                 display: block;
             }
         }
+.component-selector-stack {
+    @include display-flex();
+    @include align-items(strecht);
+    @include justify-content(center);
+}
+    .component-selector-vertical-merge {
+        width: 20px;
+        background: $tile-background;
+
+        &.drag-over-accept {
+            border-right: 2px solid $orange;
+        }
+    }
