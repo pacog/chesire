@@ -49,15 +49,6 @@
             }
         };
 
-        SynthoptionsAudioClass.prototype.removeComponent = function(componentInfo) {
-            var componentIndex = _.findIndex(this.components, function(otherComponent) {
-                return componentInfo.uniqueId === otherComponent.uniqueId;
-            });
-            if(componentIndex > -1) {
-                this.components.splice(componentIndex, 1);
-            }
-        };
-
         SynthoptionsAudioClass.prototype.addNoise = function() {
             var newNoise = angular.copy(noiseOptionsDefault.get());
             addIdToElement(newNoise);
@@ -96,28 +87,43 @@
             if(origin.uniqueId === destination.uniqueId) {
                 return;
             }
-            this._removeComponent(origin);
+            this.removeComponent(origin);
             //Adding after destination component, or at beginning if no destination
             var destinationIndex = this._getIndexOfComponent(destination);
             this.components.splice(destinationIndex + 1, 0, origin);
         };
 
         SynthoptionsAudioClass.prototype.moveComponentToBeginning = function(component) {
-            this._removeComponent(component);
+            this.removeComponent(component);
             this.components.splice(0, 0, component);
         };
 
-        SynthoptionsAudioClass.prototype._removeComponent = function(component) {
-            var componentIndex = this._getIndexOfComponent(component);
-            if(componentIndex > -1) {
-                this.components.splice(componentIndex, 1);
+        SynthoptionsAudioClass.prototype.moveComponentAfterSoundSource = function(origin, soundSource) {
+            this.removeComponent(origin);
+            soundSource.components = soundSource.components || [];
+            soundSource.components.splice(0, 0, origin);
+        };
+
+        SynthoptionsAudioClass.prototype.moveComponentAfterSoundSourceComponent = function(origin, soundSource, component) {
+            this.removeComponent(origin);
+            soundSource.components = soundSource.components || [];
+            var index = getIndexOfComponent(component, soundSource.components);
+            soundSource.components.splice(index + 1, 0, origin);
+        };
+        
+
+        SynthoptionsAudioClass.prototype.removeComponent = function(component) {
+            removeComponentFromList(component, this.components);
+            for(var i=0; i<this.noises.length; i++) {
+                removeComponentFromList(component, this.noises[i].components);
+            }
+            for(i=0; i<this.oscillators.length; i++) {
+                removeComponentFromList(component, this.oscillators[i].components);
             }
         };
 
         SynthoptionsAudioClass.prototype._getIndexOfComponent = function(component) {
-            return _.findIndex(this.components, function(eachComponent) {
-                return eachComponent.uniqueId === component.uniqueId;
-            });
+            getIndexOfComponent(component, this.components);
         };
 
         SynthoptionsAudioClass.prototype._getControlsFromComponents = function() {
@@ -151,6 +157,22 @@
         };
 
         return factory;
+
+        function removeComponentFromList(component, list) {
+            var componentIndex = getIndexOfComponent(component, list);
+            if(componentIndex > -1) {
+                list.splice(componentIndex, 1);
+            }
+        }
+
+        function getIndexOfComponent(component, list) {
+            if(!list) {
+                return -1;
+            }
+            return _.findIndex(list, function(eachComponent) {
+                return eachComponent.uniqueId === component.uniqueId;
+            });
+        }
 
         function create(options) {
             return new SynthoptionsAudioClass(options);

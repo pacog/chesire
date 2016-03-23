@@ -4,34 +4,12 @@
 
     <li class='component-selector-stack'>
         <ul class='component-selector-vertical-stack'>
-
-            <li class='component-selector component-selector-vertical'
-                ng-repeat='component in vm.audioSynthOptions.oscillators'
-                ng-class='{
-                    "is-active": (vm.componentsList.getActiveItem() === component)
-
-                }'>
-                <button
-                    class='component-selector-button'
-                    ng-click='vm.componentsList.setActiveItem(component)'>{{component.name}}</button>
-                <custom-checkbox
-                    class='component-selector-toggle'
-                    value='component.enabled'
-                    change-callback='vm.componentToggled(component)'></custom-checkbox>
+            <li ng-repeat='component in vm.audioSynthOptions.oscillators'>
+                <sound-source-selector component='component'></sound-source-selector>
             </li>
 
-            <li class='component-selector component-selector-vertical'
-                ng-repeat='component in vm.audioSynthOptions.noises'
-                ng-class='{
-                    "is-active": (vm.componentsList.getActiveItem() === component)
-                }'>
-                <button
-                    class='component-selector-button'
-                    ng-click='vm.componentsList.setActiveItem(component)'>{{component.name}}</button>
-                <custom-checkbox
-                    class='component-selector-toggle'
-                    value='component.enabled'
-                    change-callback='vm.componentToggled(component)'></custom-checkbox>
+            <li ng-repeat='component in vm.audioSynthOptions.noises'>
+                <sound-source-selector component='component'></sound-source-selector>
             </li>
 
             <li class='component-selector component-selector-vertical'>
@@ -77,5 +55,7 @@
             value='component.enabled'
             change-callback='vm.componentToggled(component)'></custom-checkbox>
     </li>
+
     <li class='component-selector-icon component-selector-icon-end'></li>
+
 </ul>

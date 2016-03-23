@@ -1,0 +1,47 @@
+<ul class='components-selector-list'>
+
+    <li class='component-selector'
+        ng-class='{
+            "is-active": (vm.componentsList.getActiveItem() === vm.component)
+        }'
+        drop='vm.componentDroppedOverComponent($data, $event, vm.component)'
+        drop-effect='copy'
+        drop-accept="'json/component'"
+        drag-over-class='drag-over-accept'
+        >
+
+        <button
+            class='component-selector-button'
+            ng-click='vm.componentsList.setActiveItem(vm.component)'>{{vm.component.name}}</button>
+
+        <custom-checkbox
+            class='component-selector-toggle'
+            value='vm.component.enabled'
+            change-callback='vm.componentToggled(vm.component)'></custom-checkbox>
+    </li>
+
+    <li class='component-selector'
+        ng-repeat='subComponent in vm.component.components'
+        ng-class='{
+            "is-active": (vm.componentsList.getActiveItem() === subComponent)
+        }'
+        draggable='true'
+        effect-allowed='copy'
+        draggable-type='component'
+        draggable-data="{
+            componentInfo: subComponent
+        }"
+        drop='vm.componentDroppedOverSubComponent($data, vm.component, subComponent)'
+        drop-effect='copy'
+        drop-accept="'json/component'"
+        drag-over-class='drag-over-accept'
+        >
+        <button
+            class='component-selector-button'
+            ng-click='vm.componentsList.setActiveItem(subComponent)'>{{subComponent.name}}</button>
+        <custom-checkbox
+            class='component-selector-toggle'
+            value='subComponent.enabled'
+            change-callback='vm.componentToggled(subComponent)'></custom-checkbox>
+    </li>
+</ul>

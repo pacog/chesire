@@ -2,17 +2,15 @@
     'use strict';
 
     angular.module('chesireApp')
-        .controller('ComponentsListController', ComponentsListController);
+        .controller('SoundSourceSelector', SoundSourceSelector);
 
-    function ComponentsListController($scope, $timeout, SynthOptions, componentsList) {
+    function SoundSourceSelector($scope, $timeout, componentsList, SynthOptions) {
         var vm = this;
 
         vm.componentsList = componentsList;
         vm.componentToggled = componentToggled;
-        vm.addOscillator = addOscillator;
-        vm.addNoise = addNoise;
+        vm.componentDroppedOverSubComponent = componentDroppedOverSubComponent;
         vm.componentDroppedOverComponent = componentDroppedOverComponent;
-        vm.componentDroppedOverMerger = componentDroppedOverMerger;
 
         init();
 
@@ -23,7 +21,6 @@
 
         function synthOptionsChanged(newSynthOptions) {
             if(newSynthOptions) {
-                vm.components = newSynthOptions.getActiveComponents();
                 vm.audioSynthOptions = newSynthOptions.audio;
             }
         }
@@ -34,28 +31,17 @@
             });
         }
 
-        function addOscillator() {
-            var newOscillator = vm.audioSynthOptions.addOscillator();
-            vm.componentsList.setActiveItem(newOscillator);
-            SynthOptions.notifyOscillatorChanged();
-        }
-
-        function addNoise() {
-            var newNoise = vm.audioSynthOptions.addNoise();
-            vm.componentsList.setActiveItem(newNoise);
-            SynthOptions.notifyOscillatorChanged();
-        }
-
-        function componentDroppedOverComponent(data, event, destinationComponent) {
+        function componentDroppedOverSubComponent(data, soundSource, subComponentDestination) {
             var origin = data['json/component'].componentInfo;
-            vm.audioSynthOptions.moveComponentAfterComponent(origin, destinationComponent);
+            vm.audioSynthOptions.moveComponentAfterSoundSourceComponent(origin, soundSource, subComponentDestination);
             SynthOptions.notifyOscillatorChanged();
             vm.componentsList.setActiveItem(origin);
         }
 
-        function componentDroppedOverMerger(data) {
+        function componentDroppedOverComponent(data, event, componentDestination) {
             var origin = data['json/component'].componentInfo;
-            vm.audioSynthOptions.moveComponentToBeginning(origin);
+            vm.audioSynthOptions.moveComponentAfterSoundSource(origin, componentDestination);
+            SynthOptions.notifyOscillatorChanged();
             vm.componentsList.setActiveItem(origin);
         }
 

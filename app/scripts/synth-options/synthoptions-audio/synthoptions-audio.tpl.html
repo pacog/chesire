@@ -33,17 +33,32 @@
             <synthcomponent component-info='component'></synthcomponent>
         </div>
 
-
         <div class='component'
             ng-repeat='oscillator in vm.audioSynthOptions.oscillators'
             ng-show='vm.componentsList.getActiveItem() === oscillator'>
             <oscillator oscillator-config='oscillator'></oscillator>
         </div>
 
+        <div ng-repeat='oscillator in vm.audioSynthOptions.oscillators'>
+            <div class='component'
+                 ng-repeat='component in oscillator.components'
+                 ng-show='vm.componentsList.getActiveItem() === component'>
+                <synthcomponent component-info='component'></synthcomponent>
+            </div>
+        </div>
+
         <div class='component'
             ng-repeat='noise in vm.audioSynthOptions.noises'
             ng-show='vm.componentsList.getActiveItem() === noise'>
             <noise-generator noise-config='noise'></noise-generator>
+        </div>
+
+        <div ng-repeat='noise in vm.audioSynthOptions.noises'>
+            <div class='component'
+                 ng-repeat='component in noise.components'
+                 ng-show='vm.componentsList.getActiveItem() === component'>
+                <synthcomponent component-info='component'></synthcomponent>
+            </div>
         </div>
 
 
