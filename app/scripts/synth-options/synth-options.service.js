@@ -14,6 +14,7 @@
             setSynthOptions: setSynthOptions,
             getSynthOptions: getSynthOptions,
             subscribeToChangesInSynthOptions: subscribeToChangesInSynthOptions,
+            unsubscribeToChangesInSynthOptions: unsubscribeToChangesInSynthOptions,
             notifyComponentChanged: notifyComponentChanged,
             notifyControlChanged: notifyControlChanged,
             notifyControlRemoved: notifyControlRemoved,
@@ -73,6 +74,10 @@
         function subscribeToChangesInSynthOptions(subscriberCallback) {
             subscriberCallbacks.push(subscriberCallback);
             subscriberCallback(synthOptions);
+        }
+
+        function unsubscribeToChangesInSynthOptions(subscriberCallback) {
+            subscriberCallbacks = _.without(subscriberCallbacks, subscriberCallback);
         }
 
         function notifyChangeInSynthOptions(newSynthOptions, afterSynthDeleted) {
