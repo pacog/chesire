@@ -35,6 +35,8 @@
                     this._startIfNeeded();
                 },
 
+                changeScale: function() {},
+
                 _startIfNeeded: function() {
                     if(!this.alreadyStarted && this.noiseGenerator) {
                         this.noiseGenerator.start(0);
