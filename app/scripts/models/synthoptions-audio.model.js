@@ -89,7 +89,7 @@
             }
             this.removeComponent(origin);
             //Adding after destination component, or at beginning if no destination
-            var destinationIndex = this._getIndexOfComponent(destination);
+            var destinationIndex = getIndexOfComponent(destination, this.components);
             this.components.splice(destinationIndex + 1, 0, origin);
         };
 
@@ -120,10 +120,6 @@
             for(i=0; i<this.oscillators.length; i++) {
                 removeComponentFromList(component, this.oscillators[i].components);
             }
-        };
-
-        SynthoptionsAudioClass.prototype._getIndexOfComponent = function(component) {
-            getIndexOfComponent(component, this.components);
         };
 
         SynthoptionsAudioClass.prototype._getControlsFromComponents = function() {
