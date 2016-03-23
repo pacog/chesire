@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('chesireApp')
-        .factory('NoiseGeneratorClass', function($timeout, Audiocontext, MotionParamsHelper) {
+        .factory('NoiseGeneratorClass', function($timeout, Audiocontext, MotionParamsHelper, SynthElementsSetClass) {
 
             var SECONDS_OF_NOISE_LOOP = 3;
             //See http://noisehack.com/generate-noise-web-audio-api/
@@ -25,14 +25,18 @@
 
                 init: function(options) {
                     this.options = options;
+
+                    this.destroy();
+                    this.noiseGenerator = new BasicNoiseGeneratorClass(this.options);
+                    this.synthElementsSet = new SynthElementsSetClass(this.noiseGenerator, this.options.components);
                     this.gainController = Audiocontext.createGain();
-                    this.noiseGenerator = createNoiseSource(this.options.noiseType);
-                    this.noiseGenerator.connect(this.gainController);
+                    this.synthElementsSet.connectTo(this.gainController);
                 },
 
                 updateSound: function(motionParams) {
                     this._updateGain(motionParams);
                     this._startIfNeeded();
+                    this.synthElementsSet.updateSound(motionParams);
                 },
 
                 changeScale: function() {},
@@ -99,17 +103,63 @@
                 },
 
                 destroy: function() {
+                    if(this.synthElementsSet) {
+                        this.synthElementsSet.destroy();
+                        this.synthElementsSet = null;
+                    }
+
                     if(this.connectedTo && this.gainController) {
                         this._cancelGainTimeout();
                         if(this.alreadyStarted) {
                             this.noiseGenerator.stop();
                         }
                         this.alreadyStarted = false;
-                        this.noiseGenerator.disconnect();
-                        this.noiseGenerator = null;
                         this.gainController.disconnect();
                         this.connectedTo = null;
                     }
+
+                    if(this.noiseGenerator) {
+                        this.noiseGenerator.destroy();
+                        this.noiseGenerator = null;
+                    }
+
+                }
+            };
+
+            var BasicNoiseGeneratorClass = function(options) {
+                if(options) {
+                    this.init(options);
+                }
+            };
+
+            BasicNoiseGeneratorClass.prototype = {
+                init: function(options) {
+                    this.options = options;
+                    this.noiseNode = createNoiseSource(this.options.noiseType);
+                },
+                connectTo: function(destination) {
+                    if(!destination.connect && destination.getAudioNode) {
+                        destination = destination.getAudioNode();
+                    }
+                    this.connectedTo = destination;
+                    this.noiseNode.connect(destination);
+                },
+                start: function(param) {
+                    if(this.noiseNode) {
+                        this.noiseNode.start(param);
+                    }
+                },
+                stop: function() {
+                    if(this.noiseNode) {
+                        this.noiseNode.stop();
+                    }
+                },
+                destroy: function() {
+                    if(this.connectedTo) {
+                        this.noiseNode.disconnect();
+                        this.connectedTo = null;
+                    }
+                    this.noiseNode = null;
                 }
             };
 
@@ -132,5 +182,6 @@
                     return whiteNoise;
                 }
             }
+
         });
 })();
