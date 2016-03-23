@@ -14,7 +14,7 @@
             var connectedTo = null;
 
             var object = {
-                connect:                connect,
+                connectTo:                connectTo,
                 updateNodes:            updateNodes,
                 destroy:                destroy,
                 init:                   init,
@@ -41,18 +41,22 @@
                     }
 
                     if(connectedTo) {
-                        connect(connectedTo);
+                        connectTo(connectedTo);
                     }
                 }
             }
 
 
-            function connect(nodeToConnect) {
+            function connectTo(destination) {
 
-                connectedTo = nodeToConnect;
+                if(!destination.connect && destination.getAudioNode) {
+                    destination = destination.getAudioNode();
+                }
+
+                connectedTo = destination;
 
                 for(var i=0; i<nodes.length; i++) {
-                    nodes[i].connect(nodeToConnect);
+                    nodes[i].connect(destination);
                 }
 
             }

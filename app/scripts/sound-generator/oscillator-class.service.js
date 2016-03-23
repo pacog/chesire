@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chesireApp')
-    .factory('OscillatorClass', function(MultiNotesHelper, OscillatorCollection, Audiocontext, MotionParamsHelper) {
+    .factory('OscillatorClass', function(MultiNotesHelper, OscillatorCollection, Audiocontext, MotionParamsHelper, SynthElementsSetClass) {
 
         var OscillatorClass = function(options) {
             if(options) {
@@ -19,12 +19,12 @@ angular.module('chesireApp')
 
             init: function(options) {
                 this.options = options;
-                if(this.oscillatorCollection) {
-                    this.oscillatorCollection.destroy();
-                }
+
+                this.destroy();
                 this.oscillatorCollection = new OscillatorCollection(options);
+                this.synthElementsSet = new SynthElementsSetClass(this.oscillatorCollection, this.options.components);
                 this.gainController = Audiocontext.createGain();
-                this.oscillatorCollection.connect(this.gainController);
+                this.synthElementsSet.connectTo(this.gainController);
             },
 
             changeScale: function(newScale) {
@@ -37,6 +37,7 @@ angular.module('chesireApp')
             updateSound: function(motionParams) {
                 this._updateNotesBeingPlayed(motionParams);
                 this._updateGain(motionParams);
+                this.synthElementsSet.updateSound(motionParams);
             },
 
             _updateNotesBeingPlayed: function(motionParams) {
@@ -108,7 +109,14 @@ angular.module('chesireApp')
             destroy: function() {
                 if(this.oscillatorCollection) {
                     this.oscillatorCollection.destroy();
+                    this.oscillatorCollection = null;
                 }
+
+                if(this.synthElementsSet) {
+                    this.synthElementsSet.destroy();
+                    this.synthElementsSet = null;
+                }
+
                 if(this.connectedTo && this.gainController) {
                     this.gainController.disconnect();
                     this.connectedTo = null;
