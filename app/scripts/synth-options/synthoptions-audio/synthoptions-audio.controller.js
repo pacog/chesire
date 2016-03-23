@@ -4,20 +4,15 @@
     angular.module('chesireApp')
         .controller('SynthoptionsAudioController', SynthoptionsAudioController);
 
-    function SynthoptionsAudioController($timeout, $scope, SynthOptions, availableComponents) {
+    function SynthoptionsAudioController($scope, SynthOptions, availableComponents, componentsList) {
         var prevSynthOptions = null;
 
         var vm = this;
 
-        vm.activateComponent = activateComponent;
-        vm.componentToggled = componentToggled;
-        vm.activateOscillator = activateOscillator;
-        vm.activateMain = activateMain;
-        vm.addOscillator = addOscillator;
-        vm.addNoise = addNoise;
         vm.addComponent = addComponent;
 
         vm.availableComponents = availableComponents;
+        vm.componentsList = componentsList;
 
         init();
 
@@ -32,43 +27,13 @@
                 prevSynthOptions = vm.synthoptions;
                 vm.components = vm.synthoptions.getActiveComponents();
                 vm.audioSynthOptions = vm.synthoptions.audio;
-                vm.activeComponent = null;
+                vm.componentsList.setActiveItem(null);
             }
-        }
-
-        function activateComponent(component) {
-            vm.activeComponent = component;
-        }
-
-        function activateOscillator() {
-            vm.activeComponent = null;
-        }
-
-        function activateMain() {
-            vm.activeComponent = null;
-        }
-
-        function componentToggled(component) {
-            $timeout(function() { //TODO: ugly timeout, improve change-callbacks everywhere to not need it
-                SynthOptions.notifyComponentChanged(component);
-            });
-        }
-
-        function addOscillator() {
-            var newOscillator = vm.audioSynthOptions.addOscillator();
-            vm.activeComponent = newOscillator;
-            SynthOptions.notifyOscillatorChanged();
-        }
-
-        function addNoise() {
-            var newNoise = vm.audioSynthOptions.addNoise();
-            vm.activeComponent = newNoise;
-            SynthOptions.notifyOscillatorChanged();
         }
 
         function addComponent(typeOfComponent) {
             var newComponent = vm.audioSynthOptions.addComponent(typeOfComponent);
-            vm.activeComponent = newComponent;
+            vm.componentsList.setActiveItem(newComponent);
             SynthOptions.notifyOscillatorChanged();
         }
 

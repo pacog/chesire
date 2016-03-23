@@ -1,0 +1,70 @@
+<ul class='components-selector-list'>
+
+    <li class='component-selector-icon component-selector-icon-start'></li>
+
+    <li class='component-selector-stack'>
+        <ul class='component-selector-vertical-stack'>
+
+            <li class='component-selector component-selector-vertical'
+                ng-repeat='component in vm.audioSynthOptions.oscillators'
+                ng-class='{
+                    "is-active": (vm.componentsList.getActiveItem() === component)
+
+                }'>
+                <button
+                    class='component-selector-button'
+                    ng-click='vm.componentsList.setActiveItem(component)'>{{component.name}}</button>
+                <custom-checkbox
+                    class='component-selector-toggle'
+                    value='component.enabled'
+                    change-callback='vm.componentToggled(component)'></custom-checkbox>
+            </li>
+
+            <li class='component-selector component-selector-vertical'
+                ng-repeat='component in vm.audioSynthOptions.noises'
+                ng-class='{
+                    "is-active": (vm.componentsList.getActiveItem() === component)
+                }'>
+                <button
+                    class='component-selector-button'
+                    ng-click='vm.componentsList.setActiveItem(component)'>{{component.name}}</button>
+                <custom-checkbox
+                    class='component-selector-toggle'
+                    value='component.enabled'
+                    change-callback='vm.componentToggled(component)'></custom-checkbox>
+            </li>
+
+            <li class='component-selector component-selector-vertical'>
+                <button
+                    class='component-selector-button'
+                    ng-click='vm.addOscillator()'>Add oscillator</button>
+            </li>
+
+            <li class='component-selector component-selector-vertical'>
+                <button
+                    class='component-selector-button'
+                    ng-click='vm.addNoise()'>Add noise</button>
+            </li>
+
+        </ul>
+    </li>
+
+    <li class='component-selector'
+        ng-repeat='component in vm.components'
+        ng-class='{
+            "is-active": (vm.componentsList.getActiveItem() === component)
+        }'
+        draggable='true'
+        effect-allowed='copy'
+        draggable-type='component'
+        draggable-data="{componentInfo: component}">
+        <button
+            class='component-selector-button'
+            ng-click='vm.componentsList.setActiveItem(component)'>{{component.name}}</button>
+        <custom-checkbox
+            class='component-selector-toggle'
+            value='component.enabled'
+            change-callback='vm.componentToggled(component)'></custom-checkbox>
+    </li>
+    <li class='component-selector-icon component-selector-icon-end'></li>
+</ul>
