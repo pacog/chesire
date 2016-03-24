@@ -2,7 +2,7 @@
 
 angular.module('chesireApp')
 
-.controller('ThreeparticlesCtrl', function ($scope, $timeout, $q, Three, Leapmotion, Colorpalette, ScaleOptions, SpaceConverter, HandModel, BoundariesModel, PointerModel, SoundMeshModel, VisualizationKeyHelper, Camera, ChordsHelperModel, playerBoundaries) {
+.controller('ThreeparticlesCtrl', function ($scope, $timeout, $q, windowResize, Three, Leapmotion, Colorpalette, ScaleOptions, SpaceConverter, HandModel, BoundariesModel, PointerModel, SoundMeshModel, VisualizationKeyHelper, Camera, ChordsHelperModel, playerBoundaries) {
 
     var whenSceneIsReady = $q.defer();
 
@@ -12,8 +12,11 @@ angular.module('chesireApp')
     var soundMeshModel = null;
     var chordsHelperModel = null;
     var camera = null;
+    var myElement = null;
+    var lastSong = null;
 
     $scope.init = function(element) {
+        myElement = element;
         //Timeout to make sure DOM is created for the directive
         $timeout(function() {
             createScene(element);
@@ -23,27 +26,40 @@ angular.module('chesireApp')
             whenSceneIsReady.resolve(true);
         });
         ScaleOptions.subscribeToChangesInScaleOptions(scaleChanged);
+        windowResize.observer.subscribe(windowResized);
     };
+
+    function windowResized() {
+        if(myElement) {
+            createScene(myElement);
+            createMeshes(lastSong);
+        }
+    }
 
 
     var scaleChanged = function(newSong) {
         if(newSong) {
+            lastSong = newSong;
             whenSceneIsReady.promise.then(function () {
-                VisualizationKeyHelper.createKeyRanges(newSong.getCurrentPart());
-                if(soundMeshModel) {
-                    soundMeshModel.destroy();
-                }
-                if(chordsHelperModel){
-                    chordsHelperModel.destroy();
-                }
-                // soundMeshModel = new SoundMeshModel($scope.scene);
-                chordsHelperModel = new ChordsHelperModel($scope.scene);
+                createMeshes(newSong);
             });
         }
     };
 
-    var createScene = function(element) {
+    function createMeshes(song) {
+        VisualizationKeyHelper.createKeyRanges(song.getCurrentPart());
+        if(soundMeshModel) {
+            soundMeshModel.destroy();
+        }
+        if(chordsHelperModel){
+            chordsHelperModel.destroy();
+        }
+        // soundMeshModel = new SoundMeshModel($scope.scene);
+        chordsHelperModel = new ChordsHelperModel($scope.scene);
+    }
 
+    var createScene = function(element) {
+        element.html('');
         element.addClass('chesirecanvas');
         var height = element[0].offsetHeight,
             width = element[0].offsetWidth;
