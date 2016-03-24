@@ -136,16 +136,17 @@
             var controls = [];
             for(var i=0; i<this.oscillators.length; i++) {
                 if(this.oscillators[i].enabled) {
-                    controls = controls.concat(getControlsFromComponent(this.oscillators[i]));
+                    controls = controls.concat(getControlsFromSoundSource(this.oscillators[i]));
                     var fm = this.oscillators[i].fm;
                     if(fm && fm.enabled) {
                         controls = controls.concat(getControlsFromComponent(fm));
                     }
+
                 }
             }
             for(i=0; i<this.noises.length; i++) {
                 if(this.noises[i].enabled) {
-                    controls = controls.concat(getControlsFromComponent(this.noises[i]));
+                    controls = controls.concat(getControlsFromSoundSource(this.noises[i]));
                 }
             }
 
@@ -153,6 +154,19 @@
         };
 
         return factory;
+
+        function getControlsFromSoundSource(soundSource) {
+            var controls = [];
+            controls = controls.concat(getControlsFromComponent(soundSource));
+            if(soundSource.components && soundSource.components.length) {
+                for(var i=0; i<soundSource.components.length; i++) {
+                    if(soundSource.components[i].enabled) {
+                        controls = controls.concat(getControlsFromComponent(soundSource.components[i]));
+                    }
+                }
+            }
+            return controls;
+        }
 
         function removeComponentFromList(component, list) {
             var componentIndex = getIndexOfComponent(component, list);
