@@ -15,15 +15,19 @@ angular.module('chesireApp')
 
             init: function(options) {
                 this.options = options;
+                this.mainGainController = Audiocontext.createGain();
                 this.gainController = Audiocontext.createGain();
 
                 this.oscillatorGain = Audiocontext.createGain();
 
                 this.oscillator = Audiocontext.createOscillator();
                 this.oscillator.connect(this.oscillatorGain);
+
                 this.oscillatorGain.connect(this.gainController.gain);
-                
+
+                this.gainController.connect(this.mainGainController);
                 this.oscillator.type = options.oscillatorType;
+
                 this.oscillator.frequency.value = 3;
                 this.oscillator.start();
             },
@@ -68,6 +72,8 @@ angular.module('chesireApp')
             },
 
             _setDepthValue: function(value) {
+                var realValue = value/2;
+                this.mainGainController.gain.value = 1 - realValue;
                 this.oscillatorGain.gain.value = value;
             },
 
@@ -76,13 +82,13 @@ angular.module('chesireApp')
                     destination = destination.getAudioNode();
                 }
                 this.connectedTo = destination;
-                this.gainController.connect(destination);
+                this.mainGainController.connect(destination);
             },
 
             destroy: function() {
-                if(this.connectedTo && this.gainController) {
+                if(this.connectedTo && this.mainGainController) {
                     this.gainController.disconnect();
-                    this.connectedTo = null;
+                    this.mainGainController = null;
                 }
             }
         };
