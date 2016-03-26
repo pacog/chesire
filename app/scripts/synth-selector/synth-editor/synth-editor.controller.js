@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('SynthEditorController', SynthEditorController);
 
-    function SynthEditorController($scope, $timeout, $log, UIService, synthSelector, outputModes, SynthOptions, SynthStore, SynthoptionsModel, fileSaver) {
+    function SynthEditorController($scope, $timeout, $log, UIService, synthSelector, outputModes, SynthOptions, SynthStore, SynthoptionsModel, fileSaver, modalFactory) {
         var vm = this;
 
         vm.outputModes = outputModes;
@@ -75,10 +75,18 @@
         }
 
         function createNewSynth() {
-            var newSynth = SynthoptionsModel.create();
+            var modal = modalFactory.open({
+                modalTitle: 'New synth',
+                showCloseButton: true,
+                templateUrl: 'scripts/synth-selector/add-synth/add-synth.tpl.html',
+                controller: 'AddSynthController'
+            });
+            modal.result.then(function(synthName) {
+                var newSynth = SynthoptionsModel.create();
 
-            newSynth.name = 'New synth';
-            SynthOptions.setSynthOptions(newSynth);
+                newSynth.name = synthName || 'New synth';
+                SynthOptions.setSynthOptions(newSynth);
+            });
         }
 
         function successDeletingSynth() {

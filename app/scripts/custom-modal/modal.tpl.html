@@ -1,0 +1,7 @@
+<div class='modal-container'>
+    <div class="modal {{windowClass}} {{fadeClass}}" ng-class="{'modal-with-title': !!modalTitle}">
+        <div ng-if='showCloseButton' class="modal-close-button js-modal-close-button" ng-click="closeModal()"></div>
+        <h3 ng-if='modalTitle' ng-bind='modalTitle' class='modal-title'></h3>
+        <div class="modal-content" ng-transclude></div>
+    </div>
+</div>

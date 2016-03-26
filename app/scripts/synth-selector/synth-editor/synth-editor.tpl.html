@@ -1,44 +1,48 @@
 <div class='synthoptions-content-body'>
 
-    <div class='synth-editor-tools'>
-        <button
-            class='big-button'
-            ng-click='vm.createNewSynth()'
-            >
-            New synth
-        </button>
-        <file-loader
-                on-load='vm.synthLoaded'></file-loader>
-        <input ng-model='vm.synthOptions.name'
-               type='text'
-               stop-key-events
-               class='editor-text-input'
-               ng-change='vm.synthModified()'/>
-        <button
-            class='big-button synth-editor-save'
-            ng-click='vm.saveSynth()'
-            ng-disabled='!vm.synthHasBeenModified'>
-            Save
-        </button>
-        <button
-            class='big-button synth-editor-save'
-            ng-click='vm.saveSynthToFile()'
-            ng-if='vm.fileSaver.isAvailable()'>
-            Save to file
-        </button>
-        <button
-            class='big-button synth-editor-delete'
-            ng-click='vm.askConfirmationDeleteSynth()'
-            ng-show='!vm.confirmingDeleteSynth'
-            >
-            Delete synth
-        </button>
+    <div class='line-left'>
+        <div class='dropdown-menu'>
+            <div class='dropdown-menu-toggle'>Preset options</div>
+            <div class='dropdown-menu-content'>
+                <button class='dropdown-menu-item'
+                        ng-click='vm.createNewSynth()'>
+                    New synth...
+                </button>
+                <button class='dropdown-menu-item'
+                        ng-click='vm.saveSynth()'
+                        ng-disabled='!vm.synthHasBeenModified'>
+                    Save synth
+                </button>
+                <button class='dropdown-menu-item'
+                        ng-click='vm.createNewSynth()'>
+                    Save synth as...
+                </button>
+                <button class='dropdown-menu-item'
+                        ng-click='vm.askConfirmationDeleteSynth()'>
+                    Delete synth...
+                </button>
+                <button class='dropdown-menu-item'
+                        ng-click='vm.saveSynthToFile()'
+                        ng-if='vm.fileSaver.isAvailable()'>
+                    Save synth to file
+                </button>
+                <div class='dropdown-menu-item'
+                        ng-click='vm.createNewSynth()'>
+                    <file-loader
+                        on-load='vm.synthLoaded'>Load synth from file</file-loader>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- <div class='synth-editor-tools'>
         <div class='synth-editor-delete-confirm' ng-show='vm.confirmingDeleteSynth'>
             Are you sure you want to delete this synth?
             <button class='big button' ng-click='vm.deleteSynth()'>Delete!</button>
             <button class='big button' ng-click='vm.cancelDeleteSynth()'>Cancel</button>
         </div>
-    </div>
+    </div> -->
 
     <!-- <switch-two-values
         class='synthoptions-tab-selector'

@@ -1,0 +1,100 @@
+$modal-default-width: 500px;
+$modal-radius: 5px;
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    background: rgba($dark-blue, 0.85);
+
+    opacity: 0;
+    @include transition(opacity 0.1s ease-in-out);
+
+    &.is-shown {
+        opacity: 1;
+    }
+}
+
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    @include display-flex;
+    @include align-items(center);
+    @include justify-content(center);
+    z-index: 20;
+    pointer-events: none;
+
+    opacity: 0;
+    @include transition(opacity 0.2s ease-in-out);
+    &.is-shown {
+        opacity: 1;
+    }
+}
+    .modal {
+        position: relative;
+        min-width: $modal-default-width;
+        width: $modal-default-width;
+        pointer-events: auto;
+    }
+        .modal-close-button {
+            position: absolute;
+            z-index: 3;
+            top: 0;
+            right: 0;
+            padding: $grid-s;
+            cursor: pointer;
+            color: $orange;
+            &:hover {
+                opacity: 0.75;
+            }
+            &:before {
+                content: 'x';
+                display: block;
+                font-size: 16px;
+            }
+            .modal-with-title & {
+                color: white;
+            }
+        }
+
+        .modal-title {
+            position: relative;
+            z-index: 2;
+            background: $ui-element-bg;
+            padding: $grid-m;
+            line-height: $grid-l;
+            font-size: 16px;
+            color: white;
+            text-align: center;
+            border-radius: $modal-radius $modal-radius 0 0;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-content {
+            background: white;
+            position: relative;
+            max-height: 90vh;
+            overflow: auto;
+            z-index: 1;
+            border-radius: $modal-radius;
+
+            .modal-with-title & {
+                border-radius: 0 0 $modal-radius $modal-radius;
+                max-height: calc(90vh - 40px);
+            }
+
+            .modal-custom-header & {
+                border-radius: $modal-radius;
+                max-height: 100vh;
+                overflow: hidden;
+            }
+        }
+    .modal-footer {
+        padding: $grid-m 0;
+    }

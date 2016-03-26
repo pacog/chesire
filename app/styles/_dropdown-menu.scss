@@ -1,0 +1,42 @@
+.dropdown-menu {
+    position: relative;
+    width: 200px;
+    background: $tile-background;
+    padding: $grid-m $grid-m;
+    text-align: left;
+    cursor: pointer;
+}
+
+    .dropdown-menu-content {
+        position: absolute;
+        z-index: 4;
+        right: 0;
+        top: 100%;
+        min-width: 100%;
+        display: none;
+        @include align-items(stretch);
+        @include flex-direction(column);
+
+        .dropdown-menu:hover & {
+            @include display-flex();
+        }
+    }
+        .dropdown-menu-item {
+            text-align: left;
+            border: 0;
+            border-top: 1px solid $dark-blue;
+            outline: 0;
+            padding: $grid-m $grid-m;
+            background: $tile-background;
+            display: block;
+            cursor: pointer;
+
+            &:hover {
+                background: lighten($tile-background, 10);
+            }
+
+            &[disabled] {
+                background: $tile-background;
+                cursor: default;
+            }
+        }
