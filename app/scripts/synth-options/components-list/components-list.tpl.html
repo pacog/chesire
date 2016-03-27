@@ -2,7 +2,18 @@
 
     <li class='component-selector-icon component-selector-icon-start'></li>
 
+    <li class='component-selector'
+        ng-class='{
+            "is-active": !vm.componentsList.getActiveItem()
+        }'>
+        <button
+            class='component-selector-button'
+            ng-click='vm.componentsList.setActiveItem(null)'>Main settings</button>
+    </li>
+
+
     <li class='component-selector-stack'>
+        <div class='component-selector-vertical-merge component-selector-vertical-merge-start'></div>
         <ul class='component-selector-vertical-stack'>
             <li ng-repeat='component in vm.audioSynthOptions.oscillators'>
                 <sound-source-selector component='component'></sound-source-selector>
@@ -11,21 +22,8 @@
             <li ng-repeat='component in vm.audioSynthOptions.noises'>
                 <sound-source-selector component='component'></sound-source-selector>
             </li>
-
-            <li class='component-selector component-selector-vertical'>
-                <button
-                    class='component-selector-button'
-                    ng-click='vm.addOscillator()'>Add oscillator</button>
-            </li>
-
-            <li class='component-selector component-selector-vertical'>
-                <button
-                    class='component-selector-button'
-                    ng-click='vm.addNoise()'>Add noise</button>
-            </li>
-
         </ul>
-        <div class='component-selector-vertical-merge'
+        <div class='component-selector-vertical-merge component-selector-vertical-merge-end'
             drop='vm.componentDroppedOverMerger($data)'
             drop-effect='copy'
             drop-accept="'json/component'"

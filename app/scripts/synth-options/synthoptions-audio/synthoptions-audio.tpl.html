@@ -2,21 +2,24 @@
 
     <components-list></components-list>
 
-    <div ng-class='{
-            "is-active": !vm.componentsList.getActiveItem()
-        }'>
-        <button
-            class='component-selector-button'
-            ng-click='vm.componentsList.setActiveItem(null)'>Main settings</button>
-    </div>
-
-    <div class='add-component-container'>
-        <div class='component-selector-button component-selector-button-trigger'>Add component</div>
-        <div class='component-selector-button-hover'>
-            <button class='component-selector-button'
-                ng-repeat='component in vm.availableComponents'
-                ng-click='vm.addComponent(component)'
-                >{{component.name}}</button>
+    <div class='line-right'>
+        <div class='dropdown-menu'>
+            <div class='dropdown-menu-toggle'>Add component</div>
+            <div class='dropdown-menu-content'>
+                <button class='dropdown-menu-item'
+                        ng-click='vm.addOscillator()'>
+                    Add oscillator
+                </button>
+                <button class='dropdown-menu-item'
+                        ng-click='vm.addNoise()'>
+                    Add noise
+                </button>
+                <button class='dropdown-menu-item'
+                        ng-repeat='component in vm.availableComponents'
+                        ng-click='vm.addComponent(component)'>
+                    Add {{component.name}}
+                </button>
+            </div>
         </div>
     </div>
 

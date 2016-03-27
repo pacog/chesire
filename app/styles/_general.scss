@@ -52,7 +52,7 @@ input, button, select, textarea {
     color: $light-blue;
 }
 
-.line-left {
+.line-right {
     @include display-flex();
     @include justify-content(flex-end);
 }

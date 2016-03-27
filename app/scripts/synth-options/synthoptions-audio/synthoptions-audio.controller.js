@@ -10,9 +10,12 @@
         var vm = this;
 
         vm.addComponent = addComponent;
+        vm.addOscillator = addOscillator;
+        vm.addNoise = addNoise;
 
         vm.availableComponents = availableComponents;
         vm.componentsList = componentsList;
+
 
         init();
 
@@ -34,6 +37,18 @@
         function addComponent(typeOfComponent) {
             var newComponent = vm.audioSynthOptions.addComponent(typeOfComponent);
             vm.componentsList.setActiveItem(newComponent);
+            SynthOptions.notifyOscillatorChanged();
+        }
+
+        function addOscillator() {
+            var newOscillator = vm.audioSynthOptions.addOscillator();
+            vm.componentsList.setActiveItem(newOscillator);
+            SynthOptions.notifyOscillatorChanged();
+        }
+
+        function addNoise() {
+            var newNoise = vm.audioSynthOptions.addNoise();
+            vm.componentsList.setActiveItem(newNoise);
             SynthOptions.notifyOscillatorChanged();
         }
 

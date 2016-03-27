@@ -9,8 +9,6 @@
 
         vm.componentsList = componentsList;
         vm.componentToggled = componentToggled;
-        vm.addOscillator = addOscillator;
-        vm.addNoise = addNoise;
         vm.componentDroppedOverComponent = componentDroppedOverComponent;
         vm.componentDroppedOverMerger = componentDroppedOverMerger;
 
@@ -32,18 +30,6 @@
             $timeout(function() { //TODO: ugly timeout, improve change-callbacks everywhere to not need it
                 SynthOptions.notifyComponentChanged(component);
             });
-        }
-
-        function addOscillator() {
-            var newOscillator = vm.audioSynthOptions.addOscillator();
-            vm.componentsList.setActiveItem(newOscillator);
-            SynthOptions.notifyOscillatorChanged();
-        }
-
-        function addNoise() {
-            var newNoise = vm.audioSynthOptions.addNoise();
-            vm.componentsList.setActiveItem(newNoise);
-            SynthOptions.notifyOscillatorChanged();
         }
 
         function componentDroppedOverComponent(data, event, destinationComponent) {
