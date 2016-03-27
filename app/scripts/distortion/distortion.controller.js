@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('DistortionController', DistortionController);
 
-    function DistortionController($scope, SynthOptions) {
+    function DistortionController($scope, SynthOptions, componentsList) {
         var vm = this;
 
         vm.toggleAmount = toggleAmount;
@@ -30,6 +30,7 @@
         function removeComponent() {
             SynthOptions.removeComponent(vm.componentInfo);
             SynthOptions.notifyOscillatorChanged();
+            componentsList.setActiveItem(null);
         }
     }
 

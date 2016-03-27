@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('OscillatorController', OscillatorController);
 
-    function OscillatorController($scope, $timeout, oscillatorTransitionTypes, availableOscillators, SynthOptions) {
+    function OscillatorController($scope, $timeout, oscillatorTransitionTypes, availableOscillators, SynthOptions, componentsList) {
         var vm = this;
 
         var notifyComponentChangedThrottled = _.throttle(SynthOptions.notifyOscillatorChanged, 500);
@@ -51,6 +51,7 @@
         function removeOscillator(oscillator) {
             SynthOptions.removeOscillator(oscillator);
             SynthOptions.notifyOscillatorChanged();
+            componentsList.setActiveItem(null);
         }
     }
 

@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('DelayController', DelayController);
 
-    function DelayController($scope, SynthOptions) {
+    function DelayController($scope, SynthOptions, componentsList) {
         var vm = this;
 
         vm.DELAY_STEP = 0.01;
@@ -39,6 +39,7 @@
         function removeComponent() {
             SynthOptions.removeComponent(vm.componentInfo);
             SynthOptions.notifyOscillatorChanged();
+            componentsList.setActiveItem(null);
         }
 
     }

@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('EqualizerController', EqualizerController);
 
-    function EqualizerController($scope, availableEqTypes, SynthOptions) {
+    function EqualizerController($scope, availableEqTypes, SynthOptions, componentsList) {
         var vm = this;
 
         vm.FREQ_STEP = 5;
@@ -52,6 +52,7 @@
         function removeComponent() {
             SynthOptions.removeComponent(vm.componentInfo);
             SynthOptions.notifyOscillatorChanged();
+            componentsList.setActiveItem(null);
         }
 
     }

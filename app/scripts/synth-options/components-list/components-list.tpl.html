@@ -15,7 +15,8 @@
     <li class='component-selector-stack'>
         <div class='component-selector-vertical-merge component-selector-vertical-merge-start'></div>
         <ul class='component-selector-vertical-stack'>
-            <li ng-repeat='component in vm.audioSynthOptions.oscillators'>
+            <li class='component-selector-vertical-stack-item'
+                ng-repeat='component in vm.audioSynthOptions.oscillators'>
                 <sound-source-selector component='component'></sound-source-selector>
             </li>
 

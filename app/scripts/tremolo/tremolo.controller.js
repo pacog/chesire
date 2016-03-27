@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('TremoloController', TremoloController);
 
-    function TremoloController($scope, $timeout, availableSimpleOscillators, SynthOptions) {
+    function TremoloController($scope, $timeout, availableSimpleOscillators, SynthOptions, componentsList) {
         var vm = this;
 
         var notifyOptionsChangedThrottled = _.throttle(notifyOptionsChanged, 500);
@@ -40,6 +40,7 @@
         function removeComponent() {
             SynthOptions.removeComponent(vm.componentInfo);
             SynthOptions.notifyOscillatorChanged();
+            componentsList.setActiveItem(null);
         }
 
     }

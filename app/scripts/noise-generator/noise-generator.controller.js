@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .controller('NoiseGeneratorController', NoiseGeneratorController);
 
-    function NoiseGeneratorController(SynthOptions) {
+    function NoiseGeneratorController(SynthOptions, componentsList) {
         var vm = this;
 
         var notifyComponentChangedThrottled = _.throttle(SynthOptions.notifyOscillatorChanged, 500);
@@ -16,6 +16,7 @@
         function removeNoise(noise) {
             SynthOptions.removeNoise(noise);
             SynthOptions.notifyOscillatorChanged();
+            componentsList.setActiveItem(null);
         }
 
         function toggleGainControl() {

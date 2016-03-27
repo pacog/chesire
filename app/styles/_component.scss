@@ -17,6 +17,7 @@ $components-selector-list-line-color: $light-blue;
     @include display-flex();
     @include align-items(center);
     @include justify-content(center);
+    margin: $grid-l 0;
 }
     .component-selector {
         padding: 0 $grid-l;
@@ -129,11 +130,35 @@ $components-selector-list-line-color: $light-blue;
     @include align-items(strecht);
     @include justify-content(center);
 }
+    $component-selector-vertical-merge-width: 20px;
     .component-selector-vertical-merge {
-        width: 20px;
+        width: $component-selector-vertical-merge-width;
         background: $tile-background;
 
         &.drag-over-accept {
             border-right: 2px solid $orange;
         }
     }
+    .component-selector-vertical-merge-start {
+        border-radius: $component-selector-vertical-merge-width 0 0 $component-selector-vertical-merge-width;
+    }
+
+    .component-selector-vertical-merge-end {
+        border-radius: 0 $component-selector-vertical-merge-width $component-selector-vertical-merge-width 0;
+    }
+
+.component-selector-vertical-stack-item {
+    margin-bottom: $grid-m;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+.sound-source-components-selector-list {
+    width: 100%;
+    @include justify-content(space-between);
+
+    .component-selector {
+        width: 100%;
+    }
+}
