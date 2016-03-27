@@ -20,7 +20,7 @@
                 eqType: availableEqTypes[0],
 
                 DEFAULT_MIN_Q: 1,
-                DEFAULT_MAX_Q: 30,
+                DEFAULT_MAX_Q: 50,
                 minQ: 1,
                 maxQ: 10,
                 q: 5,
