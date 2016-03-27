@@ -14,7 +14,7 @@
                     Save synth
                 </button>
                 <button class='dropdown-menu-item'
-                        ng-click='vm.createNewSynth()'>
+                        ng-click='vm.saveSynthAs()'>
                     Save synth as...
                 </button>
                 <button class='dropdown-menu-item'
@@ -26,11 +26,9 @@
                         ng-if='vm.fileSaver.isAvailable()'>
                     Save synth to file
                 </button>
-                <div class='dropdown-menu-item'
-                        ng-click='vm.createNewSynth()'>
-                    <file-loader
-                        on-load='vm.synthLoaded'>Load synth from file</file-loader>
-                </div>
+                <file-loader
+                    class='dropdown-menu-item'
+                    on-load='vm.synthLoaded'>Load synth from file</file-loader>
             </div>
         </div>
     </div>

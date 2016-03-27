@@ -8,7 +8,7 @@
 
         var body;
         var SHOWN_CLASS = 'is-shown';
-        var HIDE_DELAY = 200;
+        var HIDE_DELAY = 0;
 
         var ModalClass = function(options) {
             this._init(options);

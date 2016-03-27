@@ -1,0 +1,10 @@
+<div class='save-synth-as'>
+    <div>New name:</div>
+    <p>
+        <input ng-model='vm.newName'/>
+    </p>
+    <button
+        class='button big-button'
+        ng-click='vm.saveSynthAs()'
+        ng-disabled='!vm.newName'>Save synth as</button>
+</div>

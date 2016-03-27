@@ -1,1 +1,10 @@
-add-synth.tpl.html
+<div class='add-synth'>
+    <div>New synth name:</div>
+    <p>
+        <input ng-model='vm.newSynthName'/>
+    </p>
+    <button
+        class='button big-button'
+        ng-click='vm.createSynth()'
+        ng-disabled='!vm.newSynthName'>Create new synth</button>
+</div>

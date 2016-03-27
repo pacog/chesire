@@ -12,11 +12,10 @@
         vm.toggle = toggle;
         vm.outputModeChanged = outputModeChanged;
         vm.saveSynth = saveSynth;
-        vm.deleteSynth = deleteSynth;
         vm.askConfirmationDeleteSynth = askConfirmationDeleteSynth;
-        vm.cancelDeleteSynth = cancelDeleteSynth;
         vm.synthModified = synthModified;
         vm.createNewSynth = createNewSynth;
+        vm.saveSynthAs = saveSynthAs;
         vm.saveSynthToFile = saveSynthToFile;
         vm.fileSaver = fileSaver;
         vm.synthLoaded = synthLoaded;
@@ -70,8 +69,7 @@
 
         function deleteSynth() {
             SynthStore.deleteSynth(vm.synthOptions)
-                .then(successDeletingSynth, errorDeletingSynth)
-                ['finally'](afterDeletingSynth);
+                .then(successDeletingSynth, errorDeletingSynth);
         }
 
         function createNewSynth() {
@@ -89,6 +87,25 @@
             });
         }
 
+        function saveSynthAs() {
+            var modal = modalFactory.open({
+                modalTitle: 'Save synth as',
+                showCloseButton: true,
+                templateUrl: 'scripts/synth-selector/save-synth-as/save-synth-as.tpl.html',
+                controller: 'SaveSynthAsController',
+                resolve: {
+                    'oldName': function() {
+                        return vm.synthOptions.name;
+                    }
+                }
+            });
+            modal.result.then(function(synthName) {
+                vm.synthOptions.name = synthName || vm.synthOptions.name;
+                SynthStore.saveSynth(vm.synthOptions);
+                synthSelector.notifySynthIsModified(false);
+            });
+        }
+
         function successDeletingSynth() {
             synthSelector.notifySynthIsModified(false);
         }
@@ -97,18 +114,19 @@
             $log.error(error);
         }
 
-        function afterDeletingSynth() {
-            vm.confirmingDeleteSynth = false;
-        }
-
         function askConfirmationDeleteSynth() {
             vm.confirmingDeleteSynth = true;
-        }
-
-
-
-        function cancelDeleteSynth() {
-            vm.confirmingDeleteSynth = false;
+            var modal = modalFactory.open({
+                modalTitle: 'Do you really want to delete it?',
+                showCloseButton: true,
+                templateUrl: 'scripts/synth-selector/delete-synth/delete-synth.tpl.html',
+                controller: 'DeleteSynthController'
+            });
+            modal.result.then(function(canDelete) {
+                if(canDelete) {
+                    deleteSynth();
+                }
+            });
         }
 
         function outputModeChanged() {
