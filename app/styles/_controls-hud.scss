@@ -31,8 +31,18 @@
             }
         .single-control-hud-value {
             height: 3px;
-            background: $orange;
             position: absolute;
             top: 100%;
             left: 0;
+            right: 0;
+            overflow: hidden;
         }
+            .single-control-hud-value-inner {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: $orange;
+                @include translate3d(-100%, 0, 0);
+            }

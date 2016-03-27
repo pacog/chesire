@@ -59,25 +59,25 @@ angular.module('chesireApp')
 
     var animationFrameHandler = function(frame) {
 
-        $rootScope.$apply(function() {
+        // $rootScope.$apply(function() {
             leapInfo.iterations++;
             leapInfo.fingers = frame.fingers.length;
             leapInfo.hands = frame.hands.length;
             frameInfo.frame = frame;
             frameInfo.id = frame.id;
             notifySubscribersToFrameChange(frameInfo);
-        });
+        // });
     };
 
     var deviceFrameHandler = function(frame) {
         var info = {};
-        $rootScope.$apply(function() {
+        // $rootScope.$apply(function() {
             info.fingers = frame.fingers.length;
             info.hands = frame.hands.length;
             info.frame = frame;
             info.id = frame.id;
             notifySubscribersToDeviceFrameChange(info);
-        });
+        // });
     };
 
     var notifySubscribersToFrameChange = function(newFrameInfo) {

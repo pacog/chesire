@@ -21,7 +21,7 @@ angular.module('chesireApp')
         $timeout(function() {
             createScene(element);
             $scope.frameInfo = Leapmotion.getFrameInfo();
-            $scope.$watch('frameInfo.id', $scope.frameInfoChanged); //TODO: use leap onFrame
+            Leapmotion.subscribeToFrameChange(frameInfoChanged);
             $scope.renderer.render($scope.scene, camera.getCamera());
             whenSceneIsReady.resolve(true);
         });
@@ -88,7 +88,7 @@ angular.module('chesireApp')
         playerBoundaries.setRenderer($scope.renderer);
     };
 
-    $scope.frameInfoChanged = function() {
+    function frameInfoChanged() {
 
         var frame = Leapmotion.getFrameInfo().frame;
         if(frame) {
@@ -104,5 +104,5 @@ angular.module('chesireApp')
             }
             $scope.renderer.render($scope.scene, camera.getCamera());
         }
-    };
+    }
 });
