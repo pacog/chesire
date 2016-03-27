@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .directive('singleControlHud', singleControlHud);
 
-    function singleControlHud() {
+    function singleControlHud(requestanimationframe) {
         return {
             templateUrl: 'scripts/controls-hud/single-control-hud.html',
             restrict: 'E',
@@ -22,12 +22,14 @@
             var bar = angular.element(element[0].querySelector('.js-single-control-hud-value-inner'));
 
             scope.vm.updateOutputValue = function(newValue) {
-                var translateValue = 'translate3d(' + (newValue - 100) + '%, 0, 0)';
-                bar.css({
-                    '-webkit-transform': translateValue,
-                    '-moz-transform': translateValue,
-                    'msTransform': translateValue,
-                    'transform': translateValue
+                requestanimationframe(function() {
+                    var translateValue = 'translate3d(' + (newValue - 100) + '%, 0, 0)';
+                    bar.css({
+                        '-webkit-transform': translateValue,
+                        '-moz-transform': translateValue,
+                        'msTransform': translateValue,
+                        'transform': translateValue
+                    });
                 });
             };
         }

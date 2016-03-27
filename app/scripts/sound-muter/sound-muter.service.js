@@ -4,7 +4,7 @@
     angular.module('chesireApp')
         .factory('soundMuter', soundMuter);
 
-    function soundMuter(hotKeys, Leapmotion) {
+    function soundMuter($timeout, hotKeys, Leapmotion) {
         var isSpacePressed;
         var noHands;
         var fistGesture;
@@ -36,8 +36,15 @@
 
         function leapChanged(frameInfo) {
             if(frameInfo && frameInfo.frame) {
-                noHands =checkNumberOfHands(frameInfo.frame);
-                fistGesture = checkFistGesture(frameInfo.frame);
+                var newNoHands = checkNumberOfHands(frameInfo.frame);
+                var newFistgesture = checkFistGesture(frameInfo.frame);
+                
+                if((noHands !== newNoHands) || (fistGesture !== newFistgesture)) {
+                    $timeout(function() { //To apply scope
+                        noHands = newNoHands;
+                        fistGesture = newFistgesture;
+                    });
+                }
             }
         }
 
